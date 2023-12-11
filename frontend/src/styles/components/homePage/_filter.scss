@@ -1,0 +1,17 @@
+@media screen and (max-width: 360px) {
+  .container-filter {
+    min-width: 100%;
+    margin: 10px 0;
+    display: flex;
+    overflow-x: hidden;
+
+    button {
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 0.8rem;
+    }
+  }
+  .boxFilter {
+    margin: 10px;
+  }
+}

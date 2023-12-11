@@ -1,0 +1,14 @@
+@media screen and (max-width: 360px) {
+  .slide-container {
+    margin: 30px 0 30px 10px;
+
+    p {
+      font-size: 1.5rem;
+    }
+    .container-img {
+      min-width: 100%;
+      min-height: 10rem;
+      @include center;
+    }
+  }
+}
