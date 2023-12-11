@@ -3,15 +3,20 @@
     min-width: 100%;
     margin: 10px 0;
     display: flex;
-    overflow-x: hidden;
 
-    button {
-      text-align: center;
-      padding: 10px 20px;
-      font-size: 0.8rem;
+    .scroll-bar {
+      display: flex;
+      max-height: 50px;
+      overflow-x: auto;
+
+      button {
+        text-align: center;
+        padding: 10px 20px;
+        font-size: 0.8rem;
+      }
     }
-  }
-  .boxFilter {
-    margin: 10px;
+    .boxFilter {
+      margin: 10px;
+    }
   }
 }
