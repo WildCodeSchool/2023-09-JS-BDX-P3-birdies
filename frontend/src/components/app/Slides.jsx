@@ -1,6 +1,6 @@
-import SlideBestOne from "./slide-Container/SlideBestOne";
-import SlideBestTwo from "./slide-Container/SlideBestTwo";
-import SlideBestThree from "./slide-Container/SlideBestThree";
+import SlideBestOne from "../slide-Container/SlideBestOne";
+import SlideBestTwo from "../slide-Container/SlideBestTwo";
+import SlideBestThree from "../slide-Container/SlideBestThree";
 
 function Slides() {
   return (

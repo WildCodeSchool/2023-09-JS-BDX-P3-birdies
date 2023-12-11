@@ -1,4 +1,4 @@
-import blocFiltre from "../styles/icons/Bloc lien filtres.png";
+import blocFiltre from "../../styles/icons/Bloc lien filtres.png";
 
 function Filter() {
   return (
