@@ -6,7 +6,7 @@ function SlideTwo() {
     <div className="container-img">
       <img className="img-slide" src={slidetwo} alt="Lasagne" />
       <div className="logo-container-slide">
-        <img className="text-slide" src={logo} alt="Logo" />
+        <img className="logo-slide" src={logo} alt="Logo" />
       </div>
       <div className="text-container-slide">
         <p>
