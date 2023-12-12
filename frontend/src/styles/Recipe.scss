@@ -116,4 +116,37 @@
       padding-bottom: 1rem;
     }
   }
+
+  .leave-comments-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .leave-comments-picture-area {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .leave-comment-notes-area {
+    &.inactive {
+      display: none;
+    }
+    .comment-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .comment-notes-area-footer {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .comments-bloc {
+    &.inactive {
+      display: none;
+    }
+  }
 }
