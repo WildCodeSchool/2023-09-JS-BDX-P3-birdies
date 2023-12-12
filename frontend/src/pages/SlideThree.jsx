@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../styles/icons/logo 3.png";
 import slidethree from "../styles/img/slideThree.png";
 
@@ -14,7 +15,11 @@ function SlideThree() {
           droite si vous avez des recommandations !
         </p>
       </div>
-      <button type="button">Accéder au site</button>
+      <Link to="/login">
+        <button className="btn" type="button">
+          Accéder au site
+        </button>
+      </Link>
     </div>
   );
 }

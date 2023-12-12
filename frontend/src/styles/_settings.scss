@@ -1,3 +1,14 @@
+@font-face {
+  font-family: "font-light";
+  src: url("./fonts/Roboto-Light.ttf");
+}
+
+@font-face {
+  font-family: "font-bold";
+  src: url("./fonts/Poppins-Bold.ttf");
+}
+
+$colorprimary: #97bf0d;
 @mixin center {
   display: flex;
   align-items: center;
