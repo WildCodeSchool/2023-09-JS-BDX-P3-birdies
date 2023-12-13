@@ -70,6 +70,10 @@ button {
   align-items: center;
 }
 
+.not-member {
+  margin-top: 1rem;
+}
+
 .lost-password {
   margin-bottom: 0.2rem;
 }
@@ -82,4 +86,8 @@ p {
 
 span {
   color: blue;
+}
+
+.link {
+  text-decoration: none;
 }
