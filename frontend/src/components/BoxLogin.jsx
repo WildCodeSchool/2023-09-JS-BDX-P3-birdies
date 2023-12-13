@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 
 function BoxLogin() {
   return (
-    <div className="">
-      <Link to="/login">
+    <div className="box-login">
+      <Link to="/userpage">
         <li>Mon Compte</li>
       </Link>
-      <Link to="/">
+      <Link to="/login">
         <li>Déconnexion</li>
       </Link>
     </div>

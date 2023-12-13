@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import blocFiltre from "../styles/icons/Bloc lien filtres.png";
 import FilterPage from "./FilterPage";
@@ -6,6 +6,20 @@ import FilterPage from "./FilterPage";
 function Filter() {
   const [foodFilter, setFoodFilter] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
+
+  const menuRef = useRef();
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (!menuRef.current.contains(e.target)) {
+        setDisplayFilter(false);
+      }
+    };
+    document.addEventListener("click", handler);
+    return () => {
+      document.removeEventListener("click", handler);
+    };
+  }, []);
 
   function filterListModify(e) {
     const targetedFilter = e.target.innerText;
@@ -15,24 +29,6 @@ function Filter() {
       setFoodFilter([...foodFilter, targetedFilter]);
     }
   }
-  console.info(foodFilter);
-  // const veryEasy =  [
-  //   {
-  //     name: "salade",
-  //     img: "https://tse1.mm.bing.net/th?id=OIP.-4IT7-YxVYgn9blc4EUGBwHaFj&pid=Api&P=0&h=180",
-  //     note: 6.7,
-  //   },
-  //   {
-  //     name: "salade césar",
-  //     img: "https://tse3.mm.bing.net/th?id=OIP.JcnzN8g7HNkwlXsBuWgwfAHaE7&pid=Api&P=0&h=180",
-  //     "note": 8,
-  //   },
-  //   {
-  //     "name": "salade niçoise",
-  //     "img": "https://tse2.mm.bing.net/th?id=OIP.l_3XrxYx9gilx7QwGSUecQHaHa&pid=Api&P=0&h=180",
-  //     "note": 5.8,
-  //   },
-  // ];
 
   return (
     <>
@@ -84,8 +80,9 @@ function Filter() {
         className="boxFilter"
         type="button"
         onClick={() => setDisplayFilter(!displayFilter)}
+        ref={menuRef}
       >
-        <img className="" src={blocFiltre} alt="Icon Filtre" />
+        <img src={blocFiltre} alt="Icon Filtre" />
       </button>
       {displayFilter && <FilterPage />}
     </>

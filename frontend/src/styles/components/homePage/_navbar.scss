@@ -13,6 +13,8 @@
     .burger-logo {
       @include center;
       min-width: 33%;
+      border: none;
+      background: none;
     }
   }
 }
