@@ -9,34 +9,32 @@ function Login() {
         <img className="logo" src={logo} alt="" />
       </div>
       <div className="login-container">
-        <div className="header">
-          <div className="text">Connexion</div>
-        </div>
         <div className="inputs">
-          <div className="input">
-            <input type="text" placeholder="pseudo" />
+          <div className="header">
+            <div className="text">Connexion</div>
           </div>
           <div className="input">
-            <input type="email" placeholder="email" />
+            <input type="email" placeholder="Email" />
           </div>
           <div className="input">
-            <input type="password" placeholder="mot de passe" />
+            <input type="password" placeholder="Mot de passe" />
           </div>
         </div>
-        <button type="submit" className="submit">
-          Se connecter
-        </button>
+        <div className="submit">
+          <button type="submit">Se connecter</button>
+        </div>
+
         <div className="not-connected">
           <div className="lost-password">
-            Mot de passe oublié? <br />
-            <span>Cliquez ici</span>
+            Mot de passe oublié?
+            <span> Cliquez ici </span>
           </div>
           <div className="not-member">
-            Toujours pas membre? <br />
-            <span>S'enregistrer</span>
+            Toujours pas membre?
+            <span> S'enregistrer </span>
           </div>
+          <p>Conditions générales d'utilisation</p>
         </div>
-        <p>Conditions générales d'utilisation</p>
       </div>
     </div>
   );

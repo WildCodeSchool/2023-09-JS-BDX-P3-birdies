@@ -15,7 +15,7 @@ body {
   width: 100%;
   z-index: 1;
   position: absolute;
-  margin-bottom: 4rem;
+  margin-bottom: 7rem;
 }
 
 .cookies {
@@ -32,10 +32,23 @@ body {
   padding: 0.2rem 0;
 }
 
+.inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
 input {
   border: none;
   border-radius: 15px;
   padding: 0.3rem;
+  width: 100%;
+}
+
+.submit {
+  display: flex;
+  justify-content: center;
 }
 
 button {
@@ -49,7 +62,16 @@ button {
 }
 
 .not-connected {
-  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  margin: 4rem 0 1rem 0;
+  font-size: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.lost-password {
+  margin-bottom: 0.2rem;
 }
 
 p {
