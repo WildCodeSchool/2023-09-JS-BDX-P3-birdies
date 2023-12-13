@@ -313,9 +313,11 @@ function Recipe() {
               <button type="button">Publier mon avis</button>
             </div>
           </div>
-          <button type="button" onClick={toggleArea}>
-            X
-          </button>
+          <div className="open-close-btn">
+            <button type="button" onClick={toggleArea}>
+              X
+            </button>
+          </div>
           <div className="all-comments-area">
             <div className="all-comments-title">
               <h2>Commentaires</h2>
@@ -340,9 +342,11 @@ function Recipe() {
                 </div>
               </div>
             </div>
-            <button type="button" onClick={toggleArea2}>
-              X
-            </button>
+            <div className="open-close-btn">
+              <button type="button" onClick={toggleArea2}>
+                X
+              </button>
+            </div>
           </div>
         </div>
       </div>
