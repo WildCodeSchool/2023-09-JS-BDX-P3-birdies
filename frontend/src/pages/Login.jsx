@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
@@ -30,12 +30,14 @@ const users = [
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const handleSubmit = () => {
     const user = users.find(
       (person) => person.email === email && person.password === password
     );
     if (user) {
       alert("Connecté!"); // eslint-disable-line no-alert
+      navigate("/");
     } else {
       alert("Mot de passe ou email incorrect"); // eslint-disable-line no-alert
     }
