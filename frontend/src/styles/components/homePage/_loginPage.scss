@@ -7,6 +7,7 @@ body {
   flex-direction: column;
   justify-content: center;
   padding: 0;
+  background-color: #ece8da;
 }
 
 .img-container {
@@ -16,7 +17,15 @@ body {
   z-index: 1;
   position: absolute;
   margin-bottom: 10rem;
-  background: none;
+}
+
+.img-container-registration {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 1;
+  position: absolute;
+  margin-bottom: 9.8rem;
 }
 
 .logo {
@@ -45,7 +54,8 @@ body {
 }
 
 .input-email,
-.input-password {
+.input-password,
+.input-pseudo {
   border: none;
   border-radius: 15px;
   padding: 0.3rem;
@@ -70,6 +80,15 @@ body {
   display: flex;
   flex-direction: column;
   margin-top: 4rem;
+  font-size: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-connected-registration {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
   font-size: 12px;
   justify-content: center;
   align-items: center;

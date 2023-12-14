@@ -166,6 +166,29 @@ export function InfoContextProvider({ children }) {
       word: "Amaaazing !",
     },
   ];
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      pseudo: "Rikiki",
+      name: "Victor",
+      email: "vivi@outlook.com",
+      password: "123soleil",
+    },
+    {
+      id: 2,
+      pseudo: "Davidou",
+      name: "David",
+      email: "davidou@outlook.com",
+      password: "123lune",
+    },
+    {
+      id: 3,
+      pseudo: "Sysy",
+      name: "Sylvain",
+      email: "sysylimperatrice@outlook.com",
+      password: "123princesse",
+    },
+  ]);
 
   function HandleRecipeNote(e) {
     console.info(e.target);
@@ -184,10 +207,13 @@ export function InfoContextProvider({ children }) {
       HandleRecipeNote,
       recipeNote,
       setRecipeNote,
+      users,
+      setUsers,
     }),
-    [recipes, evaluations, HandleRecipeNote]
+    [recipes, evaluations, HandleRecipeNote, users]
   );
   console.info(recipeNote);
+
   return (
     <InfoContext.Provider value={contextValues}>
       {children}

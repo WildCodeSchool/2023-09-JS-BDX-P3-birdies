@@ -2,32 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
-
-const users = [
-  {
-    id: 1,
-    pseudo: "Rikiki",
-    name: "Victor",
-    email: "vivi@outlook.com",
-    password: "123soleil",
-  },
-  {
-    id: 2,
-    pseudo: "Davidou",
-    name: "David",
-    email: "davidou@outlook.com",
-    password: "123lune",
-  },
-  {
-    id: 3,
-    pseudo: "Sysy",
-    name: "Sylvain",
-    email: "sysylimperatrice@outlook.com",
-    password: "123princesse",
-  },
-];
+import { Useinfo } from "../context/InfoContext";
 
 function Login() {
+  const { users } = Useinfo();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
