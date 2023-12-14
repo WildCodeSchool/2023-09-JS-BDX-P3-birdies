@@ -68,6 +68,8 @@
     button {
       padding: 0.2rem;
       border-radius: 50%;
+      width: 25px;
+      height: 25px;
     }
 
     .ingredients-title-pdf-container {
@@ -89,7 +91,10 @@
       display: flex;
 
       .people-number {
-        padding: 0 20px;
+        padding: 3px 20px;
+      }
+      button {
+        line-height: 10px;
       }
     }
 
