@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ReactDOM from "react-dom/client";
-
+import "./styles/app.scss";
 import App from "./App";
 import Login from "./pages/Login";
 import Recipe from "./pages/Recipe";
@@ -11,6 +11,7 @@ import SlideOne from "./pages/SlideOne";
 import SlideTwo from "./pages/SlideTwo";
 import SlideThree from "./pages/SlideThree";
 import { InfoContextProvider } from "./context/InfoContext";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "/recipe/:id",
