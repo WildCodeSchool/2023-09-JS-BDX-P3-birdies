@@ -1,4 +1,7 @@
 @import "./components/RecipePage/recipeHeader";
+@import "../styles/components/textInput";
+@import "../styles/components/ValidateButton.scss";
+@import "../styles/components/commentCard";
 
 * {
   background-color: #ece8da;
@@ -12,6 +15,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
   min-width: 100%;
   height: 20vh;
   background-color: lightgray;
@@ -61,12 +65,18 @@
   .all-ingredients-container {
     margin: 10px 15%;
 
+    button {
+      padding: 0.2rem;
+      border-radius: 50%;
+    }
+
     .ingredients-title-pdf-container {
       display: flex;
       justify-content: space-between;
 
       .ingredients-title {
         font-size: 1.2rem;
+        font-weight: bold;
         padding: 0.5rem 0;
       }
       .printer-img-container {
@@ -104,6 +114,7 @@
 
       .steps-title {
         font-size: 1.2rem;
+        font-weight: bold;
         padding: 0.5rem 0;
       }
       .printer-img-container {
@@ -116,7 +127,13 @@
       padding-bottom: 1rem;
     }
   }
-
+  .chevron-btn {
+    border: none;
+    .chevron {
+      width: 20px;
+      height: 20px;
+    }
+  }
   .leave-comments-header {
     display: flex;
     flex-direction: column;
@@ -132,10 +149,37 @@
     &.inactive {
       display: none;
     }
+
+    .all-notes-area {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+      gap: 10px;
+
+      .notes-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 5px;
+        min-width: 40%;
+        padding: 10px 0;
+
+        &.clicked {
+          background-color: #d56c06;
+        }
+      }
+    }
     .comment-area {
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 100%;
+      p {
+        padding: 20px;
+        font-size: 1.1rem;
+        font-weight: bold;
+      }
     }
   }
   .open-close-btn {
@@ -147,5 +191,14 @@
     &.inactive {
       display: none;
     }
+  }
+
+  .all-comments-title {
+    text-align: center;
+  }
+  .comments-bloc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
