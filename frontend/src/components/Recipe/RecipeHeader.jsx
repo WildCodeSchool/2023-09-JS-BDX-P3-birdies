@@ -1,5 +1,5 @@
 import replyArrow from "../../styles/icons/Reply Arrow.png";
-import logo from "../../styles/icons/logo 3.png";
+import logo from "../../styles/icons/logo.png";
 
 function RecipeHeader() {
   return (
