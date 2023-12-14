@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import burger from "../styles/icons/burger.png";
-
 import logo from "../styles/icons/logo.png";
 import BoxLogin from "./BoxLogin";
 

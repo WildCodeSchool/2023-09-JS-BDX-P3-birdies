@@ -56,6 +56,7 @@ function Login() {
           </div>
           <div className="input">
             <input
+              className="input-email"
               type="email"
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
@@ -63,6 +64,7 @@ function Login() {
           </div>
           <div className="input">
             <input
+              className="input-password"
               type="password"
               placeholder="Mot de passe"
               onChange={(e) => setPassword(e.target.value)}
@@ -70,7 +72,7 @@ function Login() {
           </div>
         </div>
         <div className="submit">
-          <button type="submit" onClick={handleSubmit}>
+          <button className="submit-form" type="submit" onClick={handleSubmit}>
             Se connecter
           </button>
         </div>
@@ -78,15 +80,15 @@ function Login() {
         <div className="not-connected">
           <div className="lost-password">
             Mot de passe oublié?
-            <span> Cliquez ici </span>
+            <span className="click-here"> Cliquez ici </span>
           </div>
           <div className="not-member">
             Toujours pas membre?
             <Link to="/register" className="link">
-              <span> S'enregistrer </span>
+              <span className="click-here"> S'enregistrer </span>
             </Link>
           </div>
-          <p>Conditions générales d'utilisation</p>
+          <p className="CGV">Conditions générales d'utilisation</p>
         </div>
       </div>
     </div>

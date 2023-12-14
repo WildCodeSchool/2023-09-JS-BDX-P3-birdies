@@ -1,12 +1,12 @@
 body {
   margin-top: 0;
-  background-color: #ece8da;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 0;
 }
 
 .img-container {
@@ -15,7 +15,12 @@ body {
   width: 100%;
   z-index: 1;
   position: absolute;
-  margin-bottom: 7rem;
+  margin-bottom: 10rem;
+  background: none;
+}
+
+.logo {
+  border-radius: 25px;
 }
 
 .cookies {
@@ -39,7 +44,8 @@ body {
   margin-top: 1rem;
 }
 
-input {
+.input-email,
+.input-password {
   border: none;
   border-radius: 15px;
   padding: 0.3rem;
@@ -51,20 +57,19 @@ input {
   justify-content: center;
 }
 
-button {
+.submit-form {
   margin-top: 0.2rem;
-  width: 6rem;
   border-radius: 20px;
   border: none;
   background-color: #d56c06;
   color: white;
-  padding: 0.2rem;
+  padding: 0 1rem 0 1rem;
 }
 
 .not-connected {
   display: flex;
   flex-direction: column;
-  margin: 4rem 0 1rem 0;
+  margin-top: 4rem;
   font-size: 12px;
   justify-content: center;
   align-items: center;
@@ -72,19 +77,21 @@ button {
 
 .not-member {
   margin-top: 1rem;
+  display: flex;
+  justify-content: center;
 }
 
 .lost-password {
   margin-bottom: 0.2rem;
 }
 
-p {
+.CGV {
   font-size: 12px;
   text-decoration: underline;
   color: #d56c06;
 }
 
-span {
+.click-here {
   color: blue;
 }
 
