@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
@@ -17,7 +16,6 @@ function Register() {
       alert("Les mots de passe ne sont pas identiques"); // eslint-disable-line no-alert
     } else {
       const newUser = {
-        id: uuidv4(),
         pseudo,
         email,
         password,
