@@ -1,13 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import burger from "../styles/icons/burger.png";
 import logo from "../styles/icons/logo 3.png";
-import search from "../styles/icons/Search.png";
 import BoxLogin from "./BoxLogin";
-import SearchInputPagePrincipale from "./SearchInputPagePrincipale";
 
 function Navigation() {
   const [login, setLogin] = useState(false);
-  const [getSearch, setGetSearch] = useState(false);
 
   const menuRef = useRef();
 
@@ -35,14 +32,6 @@ function Navigation() {
       <div className="logo">
         <img src={logo} alt="Lodo appli" />
       </div>
-      <button
-        type="button"
-        className="search-logo"
-        onClick={() => setGetSearch(!getSearch)}
-      >
-        {getSearch && <SearchInputPagePrincipale />}
-        <img className="logo" src={search} alt="icon search" />
-      </button>
     </div>
   );
 }
