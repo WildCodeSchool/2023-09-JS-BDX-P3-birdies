@@ -1,0 +1,14 @@
+.box-login {
+  position: absolute;
+  left: 0;
+  top: 111px;
+  background: white;
+  width: 33%;
+  height: 100px;
+  @include center;
+  flex-direction: column;
+  li {
+    margin-top: 20px;
+    color: black;
+  }
+}
