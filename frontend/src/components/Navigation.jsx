@@ -1,6 +1,6 @@
 import React from "react";
 import burger from "../styles/icons/burger.png";
-import logo from "../styles/icons/logo 3.png";
+import logo from "../styles/icons/logo.png";
 import search from "../styles/icons/Search.png";
 
 function Navigation() {
