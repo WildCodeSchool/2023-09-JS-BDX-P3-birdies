@@ -12,9 +12,10 @@
 
     .button-filter {
       text-align: center;
-      padding: 10px 20px;
+      padding: 5px 10px;
       font-size: 0.8rem;
       width: 20%;
+      min-width: 200px;
 
       &.active {
         background: black;
