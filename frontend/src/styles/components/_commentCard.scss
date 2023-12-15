@@ -4,12 +4,11 @@
   width: 70%;
   border-radius: 15px;
   padding: 10px;
-  background-color: white;
+  background-color: #97bf0d;
   margin: 20px;
 
   .comment-header {
     display: flex;
-    background-color: white;
 
     .user-picture {
       width: 40px;
@@ -20,20 +19,14 @@
       flex-direction: column;
       flex-grow: 1;
       padding-left: 0.5rem;
-      background-color: white;
       .commenter-name {
-        background-color: white;
-      }
-      .date-heure-area {
-        background-color: white;
+        font-weight: bold;
       }
     }
   }
   .comment-text {
-    background-color: white;
     .the-comment {
       padding: 0.5rem;
-      background-color: white;
     }
   }
 }

@@ -6,6 +6,13 @@ import ActionButton from "../components/action-button";
 import "../styles/Recipe.scss";
 import chevron from "../styles/icons/chevron-down 2.png";
 import lasagnes from "../styles/icons/lasagnes.jpg";
+import paella from "../styles/icons/paella-traditionnelle.jpeg";
+import chefHat from "../styles/icons/Chef Hat.png";
+import star from "../styles/icons/Star.png";
+import pdf from "../styles/icons/Downloads Folder.png";
+import deliveryTime from "../styles/icons/Delivery Time.png";
+import blocNutri from "../styles/icons/Bloc nutriscore.png";
+import logo from "../styles/icons/logo.png";
 import { Useinfo } from "../context/InfoContext";
 import CommentCard from "../components/CommentCard";
 
@@ -41,10 +48,12 @@ function Recipe() {
 
   function toggleArea() {
     setAddCommentVisible(!addCommentVisible);
+    setShowComments(false);
   }
 
   function toggleArea2() {
     setShowComments(!showComments);
+    setAddCommentVisible(false);
   }
 
   return (
@@ -54,15 +63,15 @@ function Recipe() {
         <p>{chosenRecipe.name}</p>
       </div>
       <div className="recipe-img-container">
-        <img src={id !== 1 ? lasagnes : ""} alt="recipe-img" />
+        <img src={id === "1" ? lasagnes : paella} alt="recipe-img" />
       </div>
 
       <div className="recipe-body-container">
         <div className="rate-nutri-container">
-          <div className="nutriscore">Nutriscore</div>
+          <img src={blocNutri} alt="bloc-nutri" />
           <div className="rate-container">
             <div className="stars">
-              <img src="" alt="star-img" />
+              <img src={star} alt="star-img" />
               <div>{averageNote}/5</div>
             </div>
             <div className="votes">
@@ -72,11 +81,11 @@ function Recipe() {
         </div>
         <div className="time-difficulty-container">
           <div className="prep-time-container">
-            <img src="" alt="chefs-hat" />
+            <img src={chefHat} alt="chefs-hat" />
             <div className="difficulty">{chosenRecipe.difficulty}</div>
           </div>
           <div className="difficulty-container">
-            <img src="" alt="chronometer" />
+            <img src={deliveryTime} alt="chronometer" />
             <div className="prep-time">{chosenRecipe.prepTime}</div>
           </div>
         </div>
@@ -84,7 +93,7 @@ function Recipe() {
           <div className="ingredients-title-pdf-container">
             <div className="ingredients-title">Ingrédients</div>
             <div className="printer-img-container">
-              <img src="" alt="printer" />
+              <img className="printer" src={pdf} alt="printer" />
             </div>
           </div>
           <div className="people-number-selection">
@@ -116,7 +125,7 @@ function Recipe() {
           <div className="steps-title-pdf-container">
             <div className="steps-title">Etapes</div>
             <div className="printer-img-container">
-              <img src="" alt="printer" />
+              <img className="printer" src={pdf} alt="printer" />
             </div>
           </div>
           {chosenRecipe.steps.map((step, index) => (
@@ -132,7 +141,7 @@ function Recipe() {
         <div className="leave-comments-container">
           <div className="leave-comments-header">
             <div className="leave-comments-picture-area">
-              <img src="" alt="logo" />
+              <img src={logo} alt="logo" />
             </div>
             <div className="leave-comments-title-area">
               <h2 className="leave-comments-title">Partagez votre avis !</h2>
@@ -148,20 +157,21 @@ function Recipe() {
             <div className="all-notes-area">
               {evaluations.map((evaluation) => (
                 <button
-                  key={evaluation.word}
+                  key={evaluation.value}
                   type="button"
+                  value={evaluation.value}
                   className={
-                    evaluation.word === recipeNote
+                    evaluation.value === parseInt(recipeNote, 10)
                       ? "notes-area clicked"
                       : "notes-area"
                   }
                   onClick={HandleRecipeNote}
                 >
-                  <div className="stars-area">
-                    <p>{evaluation.image}</p>
+                  <div className="stars-area" value={evaluation.value}>
+                    <p value={evaluation.value}>{evaluation.image}</p>
                   </div>
                   <div>
-                    <p>{evaluation.word}</p>
+                    <p value={evaluation.value}>{evaluation.word}</p>
                   </div>
                 </button>
               ))}

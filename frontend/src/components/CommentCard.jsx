@@ -1,8 +1,10 @@
+import undefinedUser from "../styles/icons/pfppr3-removebg-preview 2.png";
+
 function CommentCard() {
   return (
     <div className="comment">
       <div className="comment-header">
-        <img className="user-picture" src="" alt="user" />
+        <img className="user-picture" src={undefinedUser} alt="user" />
         <div className="comment-title">
           <p className="commenter-name">Firstname Lastname</p>
           <div className="date-heure-area">date heure</div>
