@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import burger from "../styles/icons/burger.png";
 import logo from "../styles/icons/logo.png";
 import BoxLogin from "./BoxLogin";
+import search from "../styles/icons/Search.png";
 
 function Navigation() {
   const [login, setLogin] = useState(false);
@@ -29,8 +30,11 @@ function Navigation() {
         <img className="logo" src={burger} alt="icon Burger" />
       </button>
       {login && <BoxLogin />}
-      <div className="logo">
+      <div className="logo-appli-main">
         <img src={logo} alt="Lodo appli" />
+      </div>
+      <div className="search-logo">
+        <img src={search} alt="" />
       </div>
     </div>
   );

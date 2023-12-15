@@ -1,20 +1,19 @@
-@media screen and (max-width: 360px) {
-  body {
-    margin-top: 20px;
-  }
-  .navbar-container {
-    max-width: 100%;
-    display: flex;
+.navbar-container {
+  margin: 20px 20%;
+  max-width: 100%;
+  display: flex;
 
-    .logo {
-      min-width: 33%;
-    }
-    .search-logo,
-    .burger-logo {
-      @include center;
-      min-width: 33%;
-      border: none;
-      background: none;
-    }
+  .search-logo,
+  .burger-logo,
+  .logo-appli-main {
+    @include center;
+    min-width: 33%;
+    background: none;
+    border: none;
+  }
+}
+@media screen and (max-width: 550px) {
+  .navbar-container {
+    margin: 20px 0;
   }
 }
