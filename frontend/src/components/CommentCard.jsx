@@ -1,23 +1,25 @@
+import PropTypes from "prop-types";
 import undefinedUser from "../styles/icons/pfppr3-removebg-preview 2.png";
 
-function CommentCard() {
+function CommentCard({ comment }) {
+  console.info(comment);
   return (
     <div className="comment">
       <div className="comment-header">
         <img className="user-picture" src={undefinedUser} alt="user" />
         <div className="comment-title">
-          <p className="commenter-name">Firstname Lastname</p>
-          <div className="date-heure-area">date heure</div>
+          <p className="commenter-name">{comment.userName}</p>
+          <div className="date-heure-area">{comment.messageDate}</div>
         </div>
       </div>
       <div className="comment-text">
-        <p className="the-comment">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Lorem, ipsum
-          dolor sit amet consectetur adipisicing elit.
-        </p>
+        <p className="the-comment">{comment.message}</p>
       </div>
     </div>
   );
 }
-
+CommentCard.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  comment: PropTypes.object.isRequired,
+};
 export default CommentCard;
