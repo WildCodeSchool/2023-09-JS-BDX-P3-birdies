@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import undefinedUser from "../styles/icons/pfppr3-removebg-preview 2.png";
 
 function CommentCard({ comment }) {
-  console.info(comment);
   return (
     <div className="comment">
       <div className="comment-header">
