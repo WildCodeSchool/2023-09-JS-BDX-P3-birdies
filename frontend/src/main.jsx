@@ -12,6 +12,8 @@ import SlideTwo from "./pages/SlideTwo";
 import SlideThree from "./pages/SlideThree";
 import { InfoContextProvider } from "./context/InfoContext";
 import Register from "./pages/Register";
+import Admin from "./pages/Admin";
+import { AdminContextProvider } from "./context/AdminContext";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,14 @@ const router = createBrowserRouter([
   {
     path: "/slidethree",
     element: <SlideThree />,
+  },
+  {
+    path: "/admin",
+    element: (
+      <AdminContextProvider>
+        <Admin />
+      </AdminContextProvider>
+    ),
   },
 ]);
 
