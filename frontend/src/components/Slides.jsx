@@ -14,7 +14,7 @@ function Slides() {
         </div>
       </div>
       <div className="slide-container">
-        <p>Les mieux notées</p>
+        <p>Les petites nouvelles</p>
         <div>
           <div className="container-img">
             <SlideBestTwo />
@@ -22,7 +22,7 @@ function Slides() {
         </div>
       </div>
       <div className="slide-container">
-        <p>Les mieux notées</p>
+        <p>Les coups de coeur</p>
         <div>
           <div className="container-img">
             <SlideBestThree />
