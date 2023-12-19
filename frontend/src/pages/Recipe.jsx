@@ -17,19 +17,12 @@ import { Useinfo } from "../context/InfoContext";
 import CommentCard from "../components/CommentCard";
 
 function Recipe() {
-  const { recipes, evaluations, recipeNote, HandleRecipeNote } = Useinfo();
-
-  function average(array) {
-    const iniVal = 0;
-    const NoteSum = array.reduce((acc, value) => value + acc, iniVal);
-    const avNote = NoteSum / array.length;
-    const roundedNote = avNote.toFixed(1);
-    return roundedNote;
-  }
+  const { recipes, evaluations, recipeNote, HandleRecipeNote, Average } =
+    Useinfo();
 
   const { id } = useParams();
   const chosenRecipe = recipes[id];
-  const averageNote = average(chosenRecipe.notes);
+  const averageNote = Average(chosenRecipe.notes);
   const totalVotes = chosenRecipe.notes.length;
   const recipeQuantities = chosenRecipe.ingredients;
 
@@ -196,9 +189,9 @@ function Recipe() {
                 showComments ? "comments-bloc" : "comments-bloc inactive"
               }
             >
-              <CommentCard />
-              <CommentCard />
-              <CommentCard />
+              {chosenRecipe.comments.map((comment) => (
+                <CommentCard comment={comment} />
+              ))}
             </div>
             <div className="open-close-btn">
               <button

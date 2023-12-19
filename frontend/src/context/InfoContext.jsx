@@ -12,7 +12,7 @@ export function InfoContextProvider({ children }) {
       name: "Paella",
       picture: "",
       prepTime: "1h30",
-      notes: [3, 5, 2, 5, 4],
+      notes: [3, 5, 2, 4],
       difficulty: "facile",
       peopleNumber: 4,
       ingredients: [
@@ -64,6 +64,24 @@ export function InfoContextProvider({ children }) {
         },
         {
           description: "tout mélanger et c'est pret",
+        },
+      ],
+      comments: [
+        {
+          userName: "Lily Jean",
+          messageDate: "25 juillet 2023, 12:30",
+          message: "Wow, vriment délicieux !",
+        },
+        {
+          userName: "John Doe",
+          messageDate: "12 février 2023, 11:45",
+          message: "Ma fille à adoré, je recommande vraiment cette recette !",
+        },
+        {
+          userName: "Marie Josée",
+          messageDate: "15 janvier 2021, 11:45",
+          message:
+            "Quantité un peu juste pour 4 personnes mais sinon très bonne recette !",
         },
       ],
     },
@@ -142,6 +160,23 @@ export function InfoContextProvider({ children }) {
             "rajouter le fromage on top qui n'est pas dans les ingrédients sa mère.",
         },
       ],
+      comments: [
+        {
+          userName: "Damien Jean",
+          messageDate: "25 juillet 2023, 12:30",
+          message: "Wow, vriment délicieux !",
+        },
+        {
+          userName: "John Doe",
+          messageDate: "12 février 2023, 11:45",
+          message: "Dégueu !",
+        },
+        {
+          userName: "Marie Josée",
+          messageDate: "15 janvier 2021, 11:45",
+          message: "Ouais bof !",
+        },
+      ],
     },
   ];
   const evaluations = [
@@ -205,6 +240,14 @@ export function InfoContextProvider({ children }) {
     }
   }
 
+  function Average(array) {
+    const iniVal = 0;
+    const NoteSum = array.reduce((acc, value) => value + acc, iniVal);
+    const avNote = NoteSum / array.length;
+    const roundedNote = avNote.toFixed(1);
+    return roundedNote;
+  }
+
   const contextValues = useMemo(
     () => ({
       recipes,
@@ -214,8 +257,9 @@ export function InfoContextProvider({ children }) {
       setRecipeNote,
       users,
       setUsers,
+      Average,
     }),
-    [recipes, evaluations, HandleRecipeNote, users]
+    [recipes, evaluations, HandleRecipeNote, users, Average]
   );
   console.info(recipeNote);
 
