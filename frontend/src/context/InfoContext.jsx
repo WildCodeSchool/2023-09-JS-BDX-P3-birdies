@@ -4,6 +4,14 @@ import PropTypes from "prop-types";
 
 const InfoContext = createContext();
 
+function Average(array) {
+  const iniVal = 0;
+  const NoteSum = array.reduce((acc, value) => value + acc, iniVal);
+  const avNote = NoteSum / array.length;
+  const roundedNote = avNote.toFixed(1);
+  return roundedNote;
+}
+
 export function InfoContextProvider({ children }) {
   const [recipeNote, setRecipeNote] = useState("");
   const recipes = [
@@ -601,14 +609,6 @@ export function InfoContextProvider({ children }) {
     } else {
       setRecipeNote(avis);
     }
-  }
-
-  function Average(array) {
-    const iniVal = 0;
-    const NoteSum = array.reduce((acc, value) => value + acc, iniVal);
-    const avNote = NoteSum / array.length;
-    const roundedNote = avNote.toFixed(1);
-    return roundedNote;
   }
 
   const contextValues = useMemo(
