@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { DebounceInput } from "react-debounce-input";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
 
@@ -11,6 +13,7 @@ function NewRecipe() {
   ]);
   const [image, setImage] = useState({ file: null });
   const [ingredientSearch, setIngredientSearch] = useState("");
+  // const [ingredientsFound, setIngredientsFound] = useState([]);
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]);
 
@@ -63,8 +66,21 @@ function NewRecipe() {
     setIngreds(deleteIngredient);
   };
 
-  // console.info(inputs);
-  // console.info(ingreds);
+  console.info(inputs);
+  console.info(ingreds);
+  const apiCall = () => {
+    axios
+      .get(
+        `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredientSearch}&fields=product_name_fr,nutrition_grades`
+      )
+      .then((response) => {
+        console.info(response.data.products);
+      });
+  };
+
+  useEffect(() => {
+    apiCall();
+  }, [ingredientSearch]);
 
   return (
     <div className="page">
@@ -103,10 +119,11 @@ function NewRecipe() {
           <h2>Ingrédients</h2>
           <div className="search-area">
             {/*  */}
-            <input
+            <DebounceInput
               type="text"
               onChange={searchIngredient}
               value={ingredientSearch}
+              debounceTimeout={350}
             />
             <button type="button" onClick={createIngredientLine}>
               Ajouter
@@ -114,7 +131,7 @@ function NewRecipe() {
           </div>
           <div className="ingredients-list">
             {ingreds.map((ing, i) => (
-              <div className="ingredient-line">
+              <div key={ing.name} className="ingredient-line">
                 <div className="ingredient-line-name">- {ing.name}</div>
                 <div className="quantity_unite-area">
                   <input type="number" className="ingredient-line-quantity" />
