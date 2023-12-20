@@ -3,6 +3,7 @@ import axios from "axios";
 import { DebounceInput } from "react-debounce-input";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
+import IngredientsList from "../components/NewRecice/Ingredients-list";
 
 function NewRecipe() {
   const [ingreds, setIngreds] = useState([
@@ -41,7 +42,7 @@ function NewRecipe() {
     setIngreds([...ingreds, { name: ingredientSearch }]);
     setIngredientSearch("");
   };
-
+  // ajoute une ligne d'étape de la recette
   const handleAdd = () => {
     const text = [...inputs, []];
     setInputs(text);
@@ -66,8 +67,8 @@ function NewRecipe() {
     setIngreds(deleteIngredient);
   };
 
-  console.info(inputs);
-  console.info(ingreds);
+  // console.info(inputs);
+  // console.info(ingreds);
   const apiCall = () => {
     axios
       .get(
@@ -75,13 +76,16 @@ function NewRecipe() {
       )
       .then((response) => {
         console.info(response.data.products);
+      })
+      .catch((err) => {
+        console.info(err.message);
       });
   };
 
   useEffect(() => {
     apiCall();
   }, [ingredientSearch]);
-
+  console.info(ingreds);
   return (
     <div className="page">
       <RecipeHeader />
@@ -129,24 +133,10 @@ function NewRecipe() {
               Ajouter
             </button>
           </div>
-          <div className="ingredients-list">
-            {ingreds.map((ing, i) => (
-              <div key={ing.name} className="ingredient-line">
-                <div className="ingredient-line-name">- {ing.name}</div>
-                <div className="quantity_unite-area">
-                  <input type="number" className="ingredient-line-quantity" />
-                  <select name="unite" id="0" className="ingredient-line-unite">
-                    <option value="gr">gr</option>
-                    <option value="cl">cl</option>
-                    <option value="piece">piece</option>
-                  </select>
-                </div>
-                <button type="button" onClick={() => handleDeleteIngredient(i)}>
-                  x
-                </button>
-              </div>
-            ))}
-          </div>
+          <IngredientsList
+            ingreds={ingreds}
+            handleDeleteIngredient={handleDeleteIngredient}
+          />
         </div>
         <div className="new-steps-container">
           <h2>Étapes</h2>
