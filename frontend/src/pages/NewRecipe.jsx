@@ -14,22 +14,26 @@ function NewRecipe() {
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]);
 
+  // affiche l'image choisie
   const handleChangeImage = (e) => {
     setImage({ file: URL.createObjectURL(e.target.files[0]) });
   };
+
+  // change le nombre de personnes pour lequel est prévue la recette
   function changeGuestsNumber(e) {
     if (e.target.innerHTML === "+") {
       setGuestsNumber(guestsNumber + 1);
-      // increasQuantity(e);
     } else if (e.target.innerHTML === "-" && guestsNumber > 1) {
       setGuestsNumber(guestsNumber - 1);
     }
   }
 
+  // utilise le texte de recherche pour rechercher un ingrédient
   const searchIngredient = (e) => {
     setIngredientSearch(e.target.value);
   };
 
+  // crée la ligne de l'ingrédient et stock celui-ci
   const createIngredientLine = () => {
     setIngreds([...ingreds, { name: ingredientSearch }]);
     setIngredientSearch("");
@@ -52,7 +56,7 @@ function NewRecipe() {
     deleteInput.splice(i, 1);
     setInputs(deleteInput);
   };
-
+  // supprime l'ingrédient de notre choix
   const handleDeleteIngredient = (i) => {
     const deleteIngredient = [...ingreds];
     deleteIngredient.splice(i, 1);
@@ -61,6 +65,7 @@ function NewRecipe() {
 
   // console.info(inputs);
   // console.info(ingreds);
+
   return (
     <div className="page">
       <RecipeHeader />
