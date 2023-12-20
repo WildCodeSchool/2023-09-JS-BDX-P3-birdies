@@ -1,0 +1,58 @@
+#root {
+  min-height: 100vh;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.new-recipe-form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  .new-recipe-image-container {
+    display: flex;
+    justify-content: center;
+    .new-recipe-image {
+      width: 80%;
+    }
+  }
+  .new-recipe-title {
+    text-align: center;
+  }
+  .people-number-selection {
+    display: flex;
+
+    .people-number {
+      padding: 1px 10px;
+    }
+    button {
+      line-height: 10px;
+      padding: 0.2rem;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+    }
+  }
+  .new-ingredients-container {
+    height: 100%;
+    .ingredients-list {
+      .ingredient-line {
+        width: 75%;
+        margin: 5px 0;
+        display: flex;
+        justify-content: space-between;
+      }
+      .ingredient-line-quantity {
+        width: 4rem;
+      }
+
+      .ingredient-line-unite {
+        width: 3rem;
+        margin-left: 5px;
+      } /* Firefox */
+    }
+  }
+}
