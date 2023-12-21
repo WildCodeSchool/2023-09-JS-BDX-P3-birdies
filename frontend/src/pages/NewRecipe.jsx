@@ -26,7 +26,9 @@ function NewRecipe() {
       `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriscore_data`
     );
 
-    const productsList = response.data.products;
+    const productsList = response.data.products.filter(
+      (products) => products.nutriscore_data !== undefined
+    );
     console.info(productsList); // renvoie un tableau
     setIngredientsFound(productsList);
   };
@@ -48,15 +50,6 @@ function NewRecipe() {
   const testIngredient = () => {
     // console.info(ingredientsFound);
   };
-  // utilise le texte de recherche pour rechercher un ingrédient
-  // crée la ligne de l'ingrédient et stock celui-ci
-  // const ingredientForm = async () => {
-  //   const response = await axios.get(
-  //     `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredientSelected}&fields=product_name_fr,nutriscore_data,energy`
-  //   );
-  //   const productsList = response.data.products;
-  //   console.info(productsList);
-  // };
 
   const createIngredientLine = () => {
     console.info(ingredientSelected);
@@ -65,11 +58,6 @@ function NewRecipe() {
       (element) => element.product_name_fr === ingredientSelected
     );
     console.info(filteredTry[0].nutriscore_data.energy);
-    // const onlyOne = ingredientSelected.find(
-    //   (element) => element.product_name_fr === essai
-    // );
-    // console.info(onlyOne);
-    // ingredientForm();
     testIngredient();
     setIngreds([...ingreds, { name: ingredientSearch }]);
     // setRecipeIngredients([...recipeIngredients, productsList]);
