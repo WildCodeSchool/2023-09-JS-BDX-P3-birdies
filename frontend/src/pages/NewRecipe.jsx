@@ -17,19 +17,24 @@ function NewRecipe() {
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
+  const [recipeIngredients, setRecipeIngredients] = useState([]); // ---> INGREDIENTS A RECUPERER
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(0);
-  const [inputs, setInputs] = useState([[]]);
+  const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
 
+  // Appel de l'API selon l'ingrédient et filtrer si contient un nutritin grade
   const apiCall = async (ingredient) => {
     const response = await axios.get(
       `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriscore_data`
     );
-
     const productsList = response.data.products.filter(
       (products) => products.nutriscore_data !== undefined
     );
-    console.info(productsList); // renvoie un tableau
+    console.info(productsList);
+    const withEnergyPdct = productsList.filter(
+      (product) => product.nutriscore_data.energy !== undefined
+    );
+    console.info(withEnergyPdct);
     setIngredientsFound(productsList);
   };
 
@@ -47,20 +52,18 @@ function NewRecipe() {
     }
   }
 
-  const testIngredient = () => {
-    // console.info(ingredientsFound);
-  };
-
   const createIngredientLine = () => {
-    console.info(ingredientSelected);
-    console.info(typeof essai);
     const filteredTry = essai.filter(
       (element) => element.product_name_fr === ingredientSelected
     );
-    console.info(filteredTry[0].nutriscore_data.energy);
-    testIngredient();
+    const newIngredient = {
+      name: filteredTry[0].product_name_fr,
+      nutritionValue: filteredTry[0].nutriscore_data.energy,
+    };
+    console.info(newIngredient);
+    setRecipeIngredients([...ingreds, newIngredient]);
     setIngreds([...ingreds, { name: ingredientSearch }]);
-    // setRecipeIngredients([...recipeIngredients, productsList]);
+    // setRecipeIngredients([...recipeIngredients, filteredTry]);
     setIngredientSearch("");
   };
 
@@ -102,6 +105,7 @@ function NewRecipe() {
     apiCall(ingredientSearch);
   }, [ingredientSearch]);
 
+  console.info(recipeIngredients);
   return (
     <div className="page">
       <RecipeHeader />
