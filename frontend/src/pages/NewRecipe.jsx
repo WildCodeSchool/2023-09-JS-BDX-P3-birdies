@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 // import { DebounceInput } from "react-debounce-input";
 import { MDBAutocomplete } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
@@ -13,7 +14,8 @@ function NewRecipe() {
       quantity: 100,
     },
   ]);
-  const [image, setImage] = useState({ file: null });
+  const [recipeName, setRecipeName] = useState("");
+  const [image, setImage] = useState({ file: null }); // ---> IMAGE A RECUPERER
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
@@ -38,6 +40,10 @@ function NewRecipe() {
     setIngredientsFound(productsList);
   };
 
+  // création du nom de la recette
+  const handleNameChange = (e) => {
+    setRecipeName(e.target.value);
+  };
   // affiche l'image choisie
   const handleChangeImage = (e) => {
     setImage({ file: URL.createObjectURL(e.target.files[0]) });
@@ -86,9 +92,13 @@ function NewRecipe() {
   };
   // supprime l'ingrédient de notre choix
   const handleDeleteIngredient = (i) => {
-    const deleteIngredient = [...ingreds];
-    deleteIngredient.splice(i, 1);
-    setIngreds(deleteIngredient);
+    const deleteIngreds = [...ingreds];
+    deleteIngreds.splice(i, 1);
+
+    const deleteRecipeIngredients = [...recipeIngredients];
+    deleteRecipeIngredients.splice(i, 1);
+    setIngreds(deleteIngreds);
+    setRecipeIngredients(deleteRecipeIngredients);
   };
 
   const searchIngredient = (value) => {
@@ -97,7 +107,6 @@ function NewRecipe() {
 
   const handleSelect = (value) => {
     setIngredientSelected(value);
-    // console.info(ingredientsFound);
     setEssai(ingredientsFound);
   };
 
@@ -105,7 +114,17 @@ function NewRecipe() {
     apiCall(ingredientSearch);
   }, [ingredientSearch]);
 
-  console.info(recipeIngredients);
+  const showAll = () => {
+    const recipe = {
+      name: recipeName,
+      picture: image,
+      peopleNumber: guestsNumber,
+      ingredients: recipeIngredients,
+      steps: inputs,
+    };
+    console.info(recipe);
+  };
+
   return (
     <div className="page">
       <RecipeHeader />
@@ -114,6 +133,8 @@ function NewRecipe() {
           type="text"
           className="new-recipe-title"
           placeholder="Votre titre de recette"
+          value={recipeName}
+          onChange={handleNameChange}
         />
         <label>
           <h2>Votre Image</h2>
@@ -180,10 +201,11 @@ function NewRecipe() {
             </div>
           ))}
         </div>
-
-        {/* <button className="send-recipe-btn" type="submit">
-          ENVOYER
-        </button> */}
+        <Link to="/">
+          <button className="send-recipe-btn" type="button" onClick={showAll}>
+            ENVOYER
+          </button>
+        </Link>
       </form>
     </div>
   );
