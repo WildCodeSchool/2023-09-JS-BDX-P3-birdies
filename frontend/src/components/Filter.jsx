@@ -119,8 +119,8 @@ function Filter() {
       {displayFilter && (
         <div className="container-filter-page">
           <img className="flowerFiltre" src={imgflower} alt="" />
-          <div className="container-filter-main">
-            <div className="particularity-container">
+          <div className="container-filter-main" id="filter-main">
+            <div className="particularity-container " id="particularity">
               <h1>Particularités</h1>
               <button
                 className="button-filter-page"
@@ -189,7 +189,7 @@ function Filter() {
                 Boissons
               </button>
             </div>
-            <div className="style-container">
+            <div className="style-container" id="style">
               <h1>Style</h1>
               <button
                 className="button-filter-page"

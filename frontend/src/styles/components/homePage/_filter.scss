@@ -80,6 +80,7 @@
       text-align: center;
       line-height: 25px;
       display: flex;
+      justify-content: center;
       flex-direction: column;
 
       .button-filter-page {
@@ -89,25 +90,18 @@
     }
   }
 }
-
-.switch {
-  width: 160px;
-  height: 100px;
-  background-color: rgba(255, 255, 255, 0.4);
-  display: flex;
-  justify-content: flex-start;
-  border-radius: 50px;
-  padding: 10px;
-  cursor: pointer;
+@media screen and (max-width: 800px) {
+  #particularity {
+    grid-column: 2;
+  }
+  #style {
+    grid-column: 2;
+  }
 }
-
-.switch[data-isOn="true"] {
-  justify-content: flex-end;
-}
-
-.handle {
-  width: 40px;
-  height: 40px;
-  background-color: red;
-  border-radius: 40px;
+@media screen and (max-width: 600px) {
+  #filter-main {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
 }
