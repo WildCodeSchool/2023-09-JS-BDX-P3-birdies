@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { DebounceInput } from "react-debounce-input";
+// import { DebounceInput } from "react-debounce-input";
+import { MDBAutocomplete } from "mdb-react-ui-kit";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
@@ -13,10 +14,22 @@ function NewRecipe() {
     },
   ]);
   const [image, setImage] = useState({ file: null });
-  const [ingredientSearch, setIngredientSearch] = useState("");
-  // const [ingredientsFound, setIngredientsFound] = useState([]);
+  const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
+  const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
+  const [ingredientsFound, setIngredientsFound] = useState([]);
+  const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]);
+
+  const apiCall = async (ingredient) => {
+    const response = await axios.get(
+      `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriscore_data`
+    );
+
+    const productsList = response.data.products;
+    console.info(productsList); // renvoie un tableau
+    setIngredientsFound(productsList);
+  };
 
   // affiche l'image choisie
   const handleChangeImage = (e) => {
@@ -32,16 +45,37 @@ function NewRecipe() {
     }
   }
 
-  // utilise le texte de recherche pour rechercher un ingrédient
-  const searchIngredient = (e) => {
-    setIngredientSearch(e.target.value);
+  const testIngredient = () => {
+    // console.info(ingredientsFound);
   };
-
+  // utilise le texte de recherche pour rechercher un ingrédient
   // crée la ligne de l'ingrédient et stock celui-ci
+  // const ingredientForm = async () => {
+  //   const response = await axios.get(
+  //     `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredientSelected}&fields=product_name_fr,nutriscore_data,energy`
+  //   );
+  //   const productsList = response.data.products;
+  //   console.info(productsList);
+  // };
+
   const createIngredientLine = () => {
+    console.info(ingredientSelected);
+    console.info(typeof essai);
+    const filteredTry = essai.filter(
+      (element) => element.product_name_fr === ingredientSelected
+    );
+    console.info(filteredTry[0].nutriscore_data.energy);
+    // const onlyOne = ingredientSelected.find(
+    //   (element) => element.product_name_fr === essai
+    // );
+    // console.info(onlyOne);
+    // ingredientForm();
+    testIngredient();
     setIngreds([...ingreds, { name: ingredientSearch }]);
+    // setRecipeIngredients([...recipeIngredients, productsList]);
     setIngredientSearch("");
   };
+
   // ajoute une ligne d'étape de la recette
   const handleAdd = () => {
     const text = [...inputs, []];
@@ -49,7 +83,6 @@ function NewRecipe() {
   };
   // set l'array du state de l'étape qui est remplie avec le texte écrit
   const handleChange = (onChangeValue, i) => {
-    console.info(i);
     const inputData = [...inputs];
     inputData[i] = onChangeValue.target.value;
     setInputs(inputData);
@@ -67,25 +100,20 @@ function NewRecipe() {
     setIngreds(deleteIngredient);
   };
 
-  // console.info(inputs);
-  // console.info(ingreds);
-  const apiCall = () => {
-    axios
-      .get(
-        `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredientSearch}&fields=product_name_fr,nutrition_grades`
-      )
-      .then((response) => {
-        console.info(response.data.products);
-      })
-      .catch((err) => {
-        console.info(err.message);
-      });
+  const searchIngredient = (value) => {
+    setIngredientSearch(value);
+  };
+
+  const handleSelect = (value) => {
+    setIngredientSelected(value);
+    // console.info(ingredientsFound);
+    setEssai(ingredientsFound);
   };
 
   useEffect(() => {
-    apiCall();
+    apiCall(ingredientSearch);
   }, [ingredientSearch]);
-  console.info(ingreds);
+
   return (
     <div className="page">
       <RecipeHeader />
@@ -117,17 +145,17 @@ function NewRecipe() {
               +
             </button>
           </div>
-          {/*  */}
         </label>
         <div className="new-ingredients-container">
           <h2>Ingrédients</h2>
           <div className="search-area">
-            {/*  */}
-            <DebounceInput
-              type="text"
-              onChange={searchIngredient}
-              value={ingredientSearch}
-              debounceTimeout={350}
+            <MDBAutocomplete
+              data={ingredientsFound} // valeur retour de l'appel d'API utiliséé pour le display value
+              label="Ingrédient"
+              value={ingredientSearch} // affiche le texte écrit dans onSearch
+              onSearch={searchIngredient} // lance l'appel d'api a chaque changement
+              displayValue={(ingredient) => `${ingredient.product_name_fr}`} // affiche les différents ingrédient possibles
+              onSelect={handleSelect} // stock le nom de l'ingredient dans <ingredientSelected>
             />
             <button type="button" onClick={createIngredientLine}>
               Ajouter
@@ -160,6 +188,10 @@ function NewRecipe() {
             </div>
           ))}
         </div>
+
+        {/* <button className="send-recipe-btn" type="submit">
+          ENVOYER
+        </button> */}
       </form>
     </div>
   );
