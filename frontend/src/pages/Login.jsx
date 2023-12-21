@@ -1,25 +1,29 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Useinfo } from "../context/InfoContext";
+import "reactjs-popup/dist/index.css";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
-import { Useinfo } from "../context/InfoContext";
+import Popup from "../components/alerts/ConnectionPopup";
 
 function Login() {
-  const { users } = Useinfo();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { users, email, setEmail, password, setPassword, setPopupContent } =
+    Useinfo();
   const navigate = useNavigate();
-  const handleSubmit = () => {
-    const user = users.find(
-      (person) => person.email === email && person.password === password
+
+  function handleLoginSubmit() {
+    const findUser = users.find(
+      (e) => password === e.password && email === e.email
     );
-    if (user) {
-      alert("Connecté!"); // eslint-disable-line no-alert
-      navigate("/");
+    if (findUser) {
+      setPopupContent("Connecté!");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } else {
-      alert("Mot de passe ou email incorrect"); // eslint-disable-line no-alert
+      setPopupContent("Echec");
     }
-  };
+  }
 
   return (
     <div className="container">
@@ -37,7 +41,7 @@ function Login() {
               className="input-email"
               type="email"
               placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              onBlur={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="input">
@@ -45,16 +49,20 @@ function Login() {
               className="input-password"
               type="password"
               placeholder="Mot de passe"
-              onChange={(e) => setPassword(e.target.value)}
+              onBlur={(e) => setPassword(e.target.value)}
             />
           </div>
         </div>
         <div className="submit">
-          <button className="submit-form" type="submit" onClick={handleSubmit}>
+          <button
+            className="submit-form"
+            type="button"
+            onClick={handleLoginSubmit}
+          >
             Se connecter
           </button>
         </div>
-
+        <Popup />
         <div className="not-connected">
           <div className="lost-password">
             Mot de passe oublié?

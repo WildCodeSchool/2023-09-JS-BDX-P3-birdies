@@ -1,7 +1,5 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import PropTypes from "prop-types";
-// TODO: remove this dependency
-import bcrypt from "bcryptjs";
 
 const InfoContext = createContext();
 
@@ -17,6 +15,8 @@ export function InfoContextProvider({ children }) {
   const [recipeNote, setRecipeNote] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [popupContent, setPopupContent] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   const recipes = [
     {
@@ -605,13 +605,6 @@ export function InfoContextProvider({ children }) {
     },
   ];
 
-  const secureUsers = [];
-  for (const user of users) {
-    const hash = bcrypt.hashSync(user.password, 3);
-    user.password = hash;
-    secureUsers.push(user);
-  }
-
   function HandleRecipeNote(e) {
     console.info(e.target);
     const avis = e.target.value;
@@ -637,6 +630,10 @@ export function InfoContextProvider({ children }) {
       setPassword,
       Average,
       recipesPepites,
+      popupContent,
+      setPopupContent,
+      showPopup,
+      setShowPopup,
     }),
     [
       recipes,
@@ -649,9 +646,12 @@ export function InfoContextProvider({ children }) {
       setPassword,
       Average,
       recipesPepites,
+      popupContent,
+      setPopupContent,
+      showPopup,
+      setShowPopup,
     ]
   );
-  console.info(recipeNote);
 
   return (
     <InfoContext.Provider value={contextValues}>
