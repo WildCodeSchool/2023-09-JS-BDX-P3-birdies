@@ -1,6 +1,5 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import PropTypes from "prop-types";
-// import lasagnes from "../styles/icons/lasagnes.jpg";
 
 const InfoContext = createContext();
 
@@ -14,6 +13,11 @@ function Average(array) {
 
 export function InfoContextProvider({ children }) {
   const [recipeNote, setRecipeNote] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [popupContent, setPopupContent] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
   const recipes = [
     {
       id: 1,
@@ -316,21 +320,21 @@ export function InfoContextProvider({ children }) {
       pseudo: "Rikiki",
       name: "Victor",
       email: "vivi@outlook.com",
-      password: "123soleil",
+      password: "blablabla",
     },
     {
       id: 2,
       pseudo: "Davidou",
       name: "David",
       email: "davidou@outlook.com",
-      password: "123lune",
+      password: "blobloblo",
     },
     {
       id: 3,
       pseudo: "Sysy",
       name: "Sylvain",
       email: "sysylimperatrice@outlook.com",
-      password: "123princesse",
+      password: "bliblibli",
     },
   ]);
   const recipesPepites = [
@@ -620,12 +624,34 @@ export function InfoContextProvider({ children }) {
       setRecipeNote,
       users,
       setUsers,
+      email,
+      setEmail,
+      password,
+      setPassword,
       Average,
       recipesPepites,
+      popupContent,
+      setPopupContent,
+      showPopup,
+      setShowPopup,
     }),
-    [recipes, evaluations, HandleRecipeNote, users, Average, recipesPepites]
+    [
+      recipes,
+      evaluations,
+      HandleRecipeNote,
+      users,
+      email,
+      setEmail,
+      password,
+      setPassword,
+      Average,
+      recipesPepites,
+      popupContent,
+      setPopupContent,
+      showPopup,
+      setShowPopup,
+    ]
   );
-  console.info(recipeNote);
 
   return (
     <InfoContext.Provider value={contextValues}>
