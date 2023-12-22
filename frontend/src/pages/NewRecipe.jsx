@@ -9,13 +9,13 @@ import IngredientsList from "../components/NewRecice/Ingredients-list";
 
 function NewRecipe() {
   const [ingreds, setIngreds] = useState([
-    {
-      name: "patate",
-      quantity: 100,
-    },
+    // {
+    //   name: "patate",
+    //   quantity: 100,
+    // },
   ]);
-  const [recipeName, setRecipeName] = useState("");
-  // const [image, setImage] = useState({ file: null }); // ---> IMAGE A RECUPERER
+  const [recipeName, setRecipeName] = useState(null);
+  const [image, setImage] = useState({ file: null }); // ---> IMAGE A RECUPERER
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
@@ -39,7 +39,6 @@ function NewRecipe() {
     console.info(withEnergyPdct);
     setIngredientsFound(productsList);
   };
-
   // création du nom de la recette
   const handleNameChange = (e) => {
     setRecipeName(e.target.value);
@@ -53,7 +52,7 @@ function NewRecipe() {
       setGuestsNumber(guestsNumber - 1);
     }
   }
-
+  // rajoute la ligne de l'ingredient choisi
   const createIngredientLine = () => {
     const filteredTry = essai.filter(
       (element) => element.product_name_fr === ingredientSelected
@@ -113,7 +112,7 @@ function NewRecipe() {
   const showAll = () => {
     const recipe = {
       name: recipeName,
-      // picture: image,
+      picture: image[0],
       peopleNumber: guestsNumber,
       ingredients: recipeIngredients,
       steps: inputs,
@@ -132,7 +131,7 @@ function NewRecipe() {
           value={recipeName}
           onChange={handleNameChange}
         />
-        <MDBFileUpload />
+        <MDBFileUpload getInputFiles={(file) => setImage(file)} />
         <label>
           Nombre de personnes :{/*  */}
           <div className="people-number-selection">
