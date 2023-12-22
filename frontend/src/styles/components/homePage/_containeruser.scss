@@ -1,14 +1,37 @@
 .box-login {
   position: absolute;
-  left: 0;
+  padding: 5px;
+  left: 20%;
   top: 111px;
   background: white;
-  width: 33%;
+  max-width: 15%;
   height: 100px;
   @include center;
   flex-direction: column;
+  border-radius: 5px;
   li {
-    margin-top: 20px;
+    margin-top: 10px;
     color: black;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .box-login {
+    left: 20%;
+    .box-login,
+    li {
+      font-size: 0.8rem;
+      text-align: center;
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  #login-box {
+    left: 5%;
+    padding: 0 50px;
+
+    #box-login {
+      font-size: 0.8rem;
+      text-align: center;
+    }
   }
 }
