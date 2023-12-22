@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { DebounceInput } from "react-debounce-input";
+import { MDBAutocomplete } from "mdb-react-ui-kit";
+import { MDBFileUpload } from "mdb-react-file-upload";
+import { Link } from "react-router-dom";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
+import IngredientsList from "../components/NewRecice/Ingredients-list";
 
 function NewRecipe() {
   const [ingreds, setIngreds] = useState([
@@ -11,15 +14,35 @@ function NewRecipe() {
       quantity: 100,
     },
   ]);
-  const [image, setImage] = useState({ file: null });
-  const [ingredientSearch, setIngredientSearch] = useState("");
-  // const [ingredientsFound, setIngredientsFound] = useState([]);
+  const [recipeName, setRecipeName] = useState("");
+  // const [image, setImage] = useState({ file: null }); // ---> IMAGE A RECUPERER
+  const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
+  const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
+  const [ingredientsFound, setIngredientsFound] = useState([]);
+  const [recipeIngredients, setRecipeIngredients] = useState([]); // ---> INGREDIENTS A RECUPERER
+  const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(0);
-  const [inputs, setInputs] = useState([[]]);
+  const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
 
-  // affiche l'image choisie
-  const handleChangeImage = (e) => {
-    setImage({ file: URL.createObjectURL(e.target.files[0]) });
+  // Appel de l'API selon l'ingrédient et filtrer si contient un nutritin grade
+  const apiCall = async (ingredient) => {
+    const response = await axios.get(
+      `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriscore_data`
+    );
+    const productsList = response.data.products.filter(
+      (products) => products.nutriscore_data !== undefined
+    );
+    console.info(productsList);
+    const withEnergyPdct = productsList.filter(
+      (product) => product.nutriscore_data.energy !== undefined
+    );
+    console.info(withEnergyPdct);
+    setIngredientsFound(productsList);
+  };
+
+  // création du nom de la recette
+  const handleNameChange = (e) => {
+    setRecipeName(e.target.value);
   };
 
   // change le nombre de personnes pour lequel est prévue la recette
@@ -31,24 +54,28 @@ function NewRecipe() {
     }
   }
 
-  // utilise le texte de recherche pour rechercher un ingrédient
-  const searchIngredient = (e) => {
-    setIngredientSearch(e.target.value);
-  };
-
-  // crée la ligne de l'ingrédient et stock celui-ci
   const createIngredientLine = () => {
+    const filteredTry = essai.filter(
+      (element) => element.product_name_fr === ingredientSelected
+    );
+    const newIngredient = {
+      name: filteredTry[0].product_name_fr,
+      nutritionValue: filteredTry[0].nutriscore_data.energy,
+    };
+    console.info(newIngredient);
+    setRecipeIngredients([...ingreds, newIngredient]);
     setIngreds([...ingreds, { name: ingredientSearch }]);
+    // setRecipeIngredients([...recipeIngredients, filteredTry]);
     setIngredientSearch("");
   };
 
+  // ajoute une ligne d'étape de la recette
   const handleAdd = () => {
     const text = [...inputs, []];
     setInputs(text);
   };
   // set l'array du state de l'étape qui est remplie avec le texte écrit
   const handleChange = (onChangeValue, i) => {
-    console.info(i);
     const inputData = [...inputs];
     inputData[i] = onChangeValue.target.value;
     setInputs(inputData);
@@ -61,26 +88,38 @@ function NewRecipe() {
   };
   // supprime l'ingrédient de notre choix
   const handleDeleteIngredient = (i) => {
-    const deleteIngredient = [...ingreds];
-    deleteIngredient.splice(i, 1);
-    setIngreds(deleteIngredient);
+    const deleteIngreds = [...ingreds];
+    deleteIngreds.splice(i, 1);
+
+    const deleteRecipeIngredients = [...recipeIngredients];
+    deleteRecipeIngredients.splice(i, 1);
+    setIngreds(deleteIngreds);
+    setRecipeIngredients(deleteRecipeIngredients);
   };
 
-  console.info(inputs);
-  console.info(ingreds);
-  const apiCall = () => {
-    axios
-      .get(
-        `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredientSearch}&fields=product_name_fr,nutrition_grades`
-      )
-      .then((response) => {
-        console.info(response.data.products);
-      });
+  const searchIngredient = (value) => {
+    setIngredientSearch(value);
+  };
+
+  const handleSelect = (value) => {
+    setIngredientSelected(value);
+    setEssai(ingredientsFound);
   };
 
   useEffect(() => {
-    apiCall();
+    apiCall(ingredientSearch);
   }, [ingredientSearch]);
+
+  const showAll = () => {
+    const recipe = {
+      name: recipeName,
+      // picture: image,
+      peopleNumber: guestsNumber,
+      ingredients: recipeIngredients,
+      steps: inputs,
+    };
+    console.info(recipe);
+  };
 
   return (
     <div className="page">
@@ -90,18 +129,10 @@ function NewRecipe() {
           type="text"
           className="new-recipe-title"
           placeholder="Votre titre de recette"
+          value={recipeName}
+          onChange={handleNameChange}
         />
-        <label>
-          <h2>Votre Image</h2>
-          <input
-            type="file"
-            name="Ajouter"
-            onClick={(e) => handleChangeImage(e)}
-          />
-          <div className="new-recipe-image-container">
-            <img className="new-recipe-image" src={image.file} alt="your pic" />
-          </div>
-        </label>
+        <MDBFileUpload />
         <label>
           Nombre de personnes :{/*  */}
           <div className="people-number-selection">
@@ -113,48 +144,42 @@ function NewRecipe() {
               +
             </button>
           </div>
-          {/*  */}
         </label>
         <div className="new-ingredients-container">
-          <h2>Ingrédients</h2>
+          <h2 className="recipe-part">Ingrédients</h2>
           <div className="search-area">
-            {/*  */}
-            <DebounceInput
-              type="text"
-              onChange={searchIngredient}
-              value={ingredientSearch}
-              debounceTimeout={350}
+            <MDBAutocomplete
+              data={ingredientsFound} // valeur retour de l'appel d'API utiliséé pour le display value
+              label="Ingrédient"
+              value={ingredientSearch} // affiche le texte écrit dans onSearch
+              onSearch={searchIngredient} // lance l'appel d'api a chaque changement
+              displayValue={(ingredient) => `${ingredient.product_name_fr}`} // affiche les différents ingrédient possibles
+              onSelect={handleSelect} // stock le nom de l'ingredient dans <ingredientSelected>
             />
-            <button type="button" onClick={createIngredientLine}>
-              Ajouter
+            <button
+              className="add-remove-button"
+              type="button"
+              onClick={createIngredientLine}
+            >
+              +
             </button>
           </div>
-          <div className="ingredients-list">
-            {ingreds.map((ing, i) => (
-              <div key={ing.name} className="ingredient-line">
-                <div className="ingredient-line-name">- {ing.name}</div>
-                <div className="quantity_unite-area">
-                  <input type="number" className="ingredient-line-quantity" />
-                  <select name="unite" id="0" className="ingredient-line-unite">
-                    <option value="gr">gr</option>
-                    <option value="cl">cl</option>
-                    <option value="piece">piece</option>
-                  </select>
-                </div>
-                <button type="button" onClick={() => handleDeleteIngredient(i)}>
-                  x
-                </button>
-              </div>
-            ))}
-          </div>
+          <IngredientsList
+            ingreds={ingreds}
+            handleDeleteIngredient={handleDeleteIngredient}
+          />
         </div>
         <div className="new-steps-container">
-          <h2>Étapes</h2>
-          <button type="button" onClick={() => handleAdd()}>
+          <h2 className="recipe-part step3">Étapes</h2>
+          <button
+            className="add-remove-button"
+            type="button"
+            onClick={() => handleAdd()}
+          >
             +
           </button>
           {inputs.map((input, i) => (
-            <div>
+            <div className="recipe-step">
               <h5>Etape {i + 1}</h5>
               <textarea
                 name=""
@@ -164,12 +189,21 @@ function NewRecipe() {
                 value={input}
                 onChange={(e) => handleChange(e, i)}
               />
-              <button type="button" onClick={() => handleDelete(i)}>
+              <button
+                className="delete-button"
+                type="button"
+                onClick={() => handleDelete(i)}
+              >
                 supprimer
               </button>
             </div>
           ))}
         </div>
+        <Link to="/">
+          <button className="send-recipe-btn" type="button" onClick={showAll}>
+            ENVOYER
+          </button>
+        </Link>
       </form>
     </div>
   );
