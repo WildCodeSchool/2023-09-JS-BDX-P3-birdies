@@ -1,6 +1,28 @@
 #root {
   min-height: 100vh;
 }
+.add-remove-button {
+  line-height: 10px;
+  padding: 0.2rem;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+}
+.recipe-part {
+  margin-top: 20px;
+
+  &.step3 {
+    margin-bottom: 0px;
+  }
+}
+
+.recipe-step {
+  margin-top: 15px;
+
+  .delete-button {
+    border-radius: 50px;
+  }
+}
 
 .page {
   display: flex;
@@ -41,7 +63,7 @@
     .ingredients-list {
       .ingredient-line {
         width: 75%;
-        margin: 5px 0;
+        margin: 10px 0 0 0;
         display: flex;
         justify-content: space-between;
       }
@@ -54,5 +76,8 @@
         margin-left: 5px;
       } /* Firefox */
     }
+  }
+  .send-recipe-btn {
+    border-radius: 50px;
   }
 }

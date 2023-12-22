@@ -14,7 +14,11 @@ function IngredientsList({ ingreds, handleDeleteIngredient }) {
               <option value="piece">piece</option>
             </select>
           </div>
-          <button type="button" onClick={() => handleDeleteIngredient(i)}>
+          <button
+            className="remove-button"
+            type="button"
+            onClick={() => handleDeleteIngredient(i)}
+          >
             x
           </button>
         </div>

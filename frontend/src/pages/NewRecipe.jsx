@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { DebounceInput } from "react-debounce-input";
 import { MDBAutocomplete } from "mdb-react-ui-kit";
+import { MDBFileUpload } from "mdb-react-file-upload";
 import { Link } from "react-router-dom";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
@@ -15,7 +15,7 @@ function NewRecipe() {
     },
   ]);
   const [recipeName, setRecipeName] = useState("");
-  const [image, setImage] = useState({ file: null }); // ---> IMAGE A RECUPERER
+  // const [image, setImage] = useState({ file: null }); // ---> IMAGE A RECUPERER
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
@@ -43,10 +43,6 @@ function NewRecipe() {
   // création du nom de la recette
   const handleNameChange = (e) => {
     setRecipeName(e.target.value);
-  };
-  // affiche l'image choisie
-  const handleChangeImage = (e) => {
-    setImage({ file: URL.createObjectURL(e.target.files[0]) });
   };
 
   // change le nombre de personnes pour lequel est prévue la recette
@@ -117,7 +113,7 @@ function NewRecipe() {
   const showAll = () => {
     const recipe = {
       name: recipeName,
-      picture: image,
+      // picture: image,
       peopleNumber: guestsNumber,
       ingredients: recipeIngredients,
       steps: inputs,
@@ -136,17 +132,7 @@ function NewRecipe() {
           value={recipeName}
           onChange={handleNameChange}
         />
-        <label>
-          <h2>Votre Image</h2>
-          <input
-            type="file"
-            name="Ajouter"
-            onClick={(e) => handleChangeImage(e)}
-          />
-          <div className="new-recipe-image-container">
-            <img className="new-recipe-image" src={image.file} alt="your pic" />
-          </div>
-        </label>
+        <MDBFileUpload />
         <label>
           Nombre de personnes :{/*  */}
           <div className="people-number-selection">
@@ -160,7 +146,7 @@ function NewRecipe() {
           </div>
         </label>
         <div className="new-ingredients-container">
-          <h2>Ingrédients</h2>
+          <h2 className="recipe-part">Ingrédients</h2>
           <div className="search-area">
             <MDBAutocomplete
               data={ingredientsFound} // valeur retour de l'appel d'API utiliséé pour le display value
@@ -170,8 +156,12 @@ function NewRecipe() {
               displayValue={(ingredient) => `${ingredient.product_name_fr}`} // affiche les différents ingrédient possibles
               onSelect={handleSelect} // stock le nom de l'ingredient dans <ingredientSelected>
             />
-            <button type="button" onClick={createIngredientLine}>
-              Ajouter
+            <button
+              className="add-remove-button"
+              type="button"
+              onClick={createIngredientLine}
+            >
+              +
             </button>
           </div>
           <IngredientsList
@@ -180,12 +170,16 @@ function NewRecipe() {
           />
         </div>
         <div className="new-steps-container">
-          <h2>Étapes</h2>
-          <button type="button" onClick={() => handleAdd()}>
+          <h2 className="recipe-part step3">Étapes</h2>
+          <button
+            className="add-remove-button"
+            type="button"
+            onClick={() => handleAdd()}
+          >
             +
           </button>
           {inputs.map((input, i) => (
-            <div>
+            <div className="recipe-step">
               <h5>Etape {i + 1}</h5>
               <textarea
                 name=""
@@ -195,7 +189,11 @@ function NewRecipe() {
                 value={input}
                 onChange={(e) => handleChange(e, i)}
               />
-              <button type="button" onClick={() => handleDelete(i)}>
+              <button
+                className="delete-button"
+                type="button"
+                onClick={() => handleDelete(i)}
+              >
                 supprimer
               </button>
             </div>
