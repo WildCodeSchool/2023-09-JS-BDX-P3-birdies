@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 import Recipe from "./pages/Recipe";
 import UserPage from "./pages/UserPage";
 import NewRecipe from "./pages/NewRecipe";
-import SlideOne from "./pages/SlideOne";
+import SlideOne from "./pages/slideOne page/SlideOne";
 import SlideTwo from "./pages/SlideTwo";
 import SlideThree from "./pages/SlideThree";
 import { InfoContextProvider } from "./context/InfoContext";

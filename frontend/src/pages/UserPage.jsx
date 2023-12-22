@@ -2,8 +2,16 @@ import { Link } from "react-router-dom";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
+import Filter from "../components/Filter";
+import Slides from "../components/Slides";
 
 function UserPage() {
+  const handleUserRecipes = () => {
+    console.info("Affiche les recettes postées par l'utilisateur");
+  };
+  const handleUserFavs = () => {
+    console.info("Affiche les recettes favorites de l'utilisateur");
+  };
   return (
     <>
       <div className="userPage-header">
@@ -18,12 +26,37 @@ function UserPage() {
           />
           <img src={settingsWheel} alt="Paramètres" className="setting-wheel" />
         </div>
-        <div className="evals-recipes">evaluations/recettes</div>
-        <div className="recipes-favs">recettes-favorites</div>
+        <div className="evals-recipes">
+          <p>
+            Evaluations <br />0
+          </p>
+          <p>
+            Recettes <br />0
+          </p>
+        </div>
+        <div className="recipes-favs">
+          <button
+            type="button"
+            className="mes-recettes"
+            onClick={handleUserRecipes}
+          >
+            Mes recettes
+          </button>
+          <button
+            type="button"
+            className="coups-de-coeur"
+            onClick={handleUserFavs}
+          >
+            Mes coup de coeur
+          </button>
+        </div>
       </div>
-      <div className="filters-slide">slides-filtres</div>
-      <div className="others-filter">filtres"autres"</div>
-      <div className="userPage-recipes">userPages-recipes</div>
+      <div className="filters-slide">
+        <Filter />
+      </div>
+      <div className="userPage-recipes">
+        <Slides />
+      </div>
     </>
   );
 }
