@@ -3,11 +3,10 @@ import { Useinfo } from "../context/InfoContext";
 import "reactjs-popup/dist/index.css";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
-import Popup from "../components/alerts/ConnectionPopup";
+import Popup from "../components/alerts/Popup";
 
 function Login() {
-  const { users, email, setEmail, password, setPassword, setPopupContent } =
-    Useinfo();
+  const { users, email, setEmail, password, setPassword, setPopup } = Useinfo();
   const navigate = useNavigate();
 
   function handleLoginSubmit() {
@@ -15,13 +14,14 @@ function Login() {
       (e) => password === e.password && email === e.email
     );
     if (findUser) {
-      setPopupContent("Connecté!");
+      setPopup("Connecté!");
 
       setTimeout(() => {
         navigate("/");
       }, 1000);
     } else {
-      setPopupContent("Echec");
+      setPopup("Identifiant ou mot de passe incorrect");
+      setTimeout(() => window.location.reload(false), 1000);
     }
   }
 
@@ -61,8 +61,8 @@ function Login() {
           >
             Se connecter
           </button>
+          <Popup />
         </div>
-        <Popup />
         <div className="not-connected">
           <div className="lost-password">
             Mot de passe oublié?
