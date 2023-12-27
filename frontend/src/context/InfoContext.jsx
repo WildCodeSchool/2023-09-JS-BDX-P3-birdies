@@ -15,8 +15,6 @@ export function InfoContextProvider({ children }) {
   const [recipeNote, setRecipeNote] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [popupContent, setPopupContent] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
 
   const recipes = [
     {
@@ -615,6 +613,8 @@ export function InfoContextProvider({ children }) {
     }
   }
 
+  const [popup, setPopup] = useState();
+
   const contextValues = useMemo(
     () => ({
       recipes,
@@ -628,12 +628,10 @@ export function InfoContextProvider({ children }) {
       setEmail,
       password,
       setPassword,
+      popup,
+      setPopup,
       Average,
       recipesPepites,
-      popupContent,
-      setPopupContent,
-      showPopup,
-      setShowPopup,
     }),
     [
       recipes,
@@ -644,12 +642,10 @@ export function InfoContextProvider({ children }) {
       setEmail,
       password,
       setPassword,
+      popup,
+      setPopup,
       Average,
       recipesPepites,
-      popupContent,
-      setPopupContent,
-      showPopup,
-      setShowPopup,
     ]
   );
 
