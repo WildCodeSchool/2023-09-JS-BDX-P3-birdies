@@ -128,14 +128,26 @@ function NewRecipe() {
   }, [ingredientSearch]);
 
   const showAll = () => {
+    const ingredientsInfos = [];
+
+    // créer les objets ingrédients : nom, quantité, mesure
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < recipeIngredients.length; i++) {
+      const ingredientLine = {
+        name: recipeIngredients[i].name,
+        // energy: recipeIngredients[i].energy,
+        quantity: quantityValues[i],
+        mesure: uniteValues[i],
+      };
+      ingredientsInfos.push(ingredientLine);
+    }
+
     const recipe = {
       name: recipeName,
       picture: image[0],
       peopleNumber: guestsNumber,
-      ingredients: recipeIngredients,
+      ingredients: ingredientsInfos,
       steps: inputs,
-      quantite: quantityValues,
-      values: uniteValues,
     };
     console.info(recipe);
   };
