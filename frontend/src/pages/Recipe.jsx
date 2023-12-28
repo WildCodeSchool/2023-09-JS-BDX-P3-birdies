@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MDBStepper, MDBStepperStep } from "mdb-react-ui-kit";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import TextInput from "../components/Text-input";
@@ -28,6 +28,8 @@ function Recipe() {
   const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
   const [addCommentVisible, setAddCommentVisible] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const swiperElRef = useRef(null);
+
   // const [mode, setMode] =
   //   useState < "horizontal" | "vertical" | ("mobile" > "horizontal");
 
@@ -102,64 +104,69 @@ function Recipe() {
             <div className="prep-time">{chosenRecipe.prepTime}</div>
           </div>
         </div>
-        {/* <MDBStepper type="horizontal">
-          <MDBStepperStep headText="Ingrédients" itemId={1}> */}
-        <div className="all-ingredients-container">
-          <div className="ingredients-title-pdf-container">
-            <div className="ingredients-title">Ingrédients</div>
-            <div className="printer-img-container">
-              <img className="printer" src={pdf} alt="printer" />
-            </div>
-          </div>
-          <div className="people-number-selection">
-            <button type="button" onClick={changeGuestsNumber}>
-              -
-            </button>
-            <p className="people-number">{guestsNumber}</p>
-            <button type="button" onClick={changeGuestsNumber}>
-              +
-            </button>
-          </div>
-
-          {recipeQuantities.map((quantity) => (
-            <div key={quantity.name} className="ingredient-container">
-              <div className="ingredient-name">{quantity.name}</div>
-              <div className="ingred-qtty-mesure-container">
-                <div className="ingredient-qtty">
-                  {Math.round(
-                    (quantity.quantity / chosenRecipe.peopleNumber) *
-                      guestsNumber
-                  )}
+        <MDBStepper type="horizontal">
+          <MDBStepperStep headText="Ingrédients" itemId={1}>
+            <div className="all-ingredients-container">
+              <div className="ingredients-title-pdf-container">
+                <div className="ingredients-title">Ingrédients</div>
+                <div className="printer-img-container">
+                  <img className="printer" src={pdf} alt="printer" />
                 </div>
-                <div className="ingredient-mesure">{quantity.mesure}</div>
               </div>
-            </div>
-          ))}
-        </div>
-        {/* </MDBStepperStep>
-          <MDBStepperStep headText="Etapes" itemId={2}> */}
+              <div className="people-number-selection">
+                <button type="button" onClick={changeGuestsNumber}>
+                  -
+                </button>
+                <p className="people-number">{guestsNumber}</p>
+                <button type="button" onClick={changeGuestsNumber}>
+                  +
+                </button>
+              </div>
 
-        <div className="all-steps-container">
-          <div className="steps-title-pdf-container">
-            <div className="steps-title">Etapes</div>
-            <div className="printer-img-container">
-              <img className="printer" src={pdf} alt="printer" />
+              {recipeQuantities.map((quantity) => (
+                <div key={quantity.name} className="ingredient-container">
+                  <div className="ingredient-name">{quantity.name}</div>
+                  <div className="ingred-qtty-mesure-container">
+                    <div className="ingredient-qtty">
+                      {Math.round(
+                        (quantity.quantity / chosenRecipe.peopleNumber) *
+                          guestsNumber
+                      )}
+                    </div>
+                    <div className="ingredient-mesure">{quantity.mesure}</div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-          <MDBStepper type="vertical">
-            {chosenRecipe.steps.map((step, index) => (
-              <MDBStepperStep
-                headIcon={index + 1}
-                headText="Etape"
-                itemId={index + 1}
+          </MDBStepperStep>
+          <MDBStepperStep headText="Etapes" itemId={2}>
+            <div className="all-steps-container">
+              <div className="steps-title-pdf-container">
+                <div className="steps-title">Etapes</div>
+                <div className="printer-img-container">
+                  <img className="printer" src={pdf} alt="printer" />
+                </div>
+              </div>
+              <swiper-container
+                ref={swiperElRef}
+                slides-per-view="1"
+                navigation="true"
+                pagination="true"
               >
-                {step.description}
-              </MDBStepperStep>
-            ))}
-          </MDBStepper>
-        </div>
-        {/* </MDBStepperStep>
-        </MDBStepper> */}
+                {chosenRecipe.steps.map((step, index) => (
+                  <swiper-slide autoHeight="true">
+                    <div key={step.index} className="step-container">
+                      <div className="step-title">{index + 1}.</div>
+                      <div className="step-text">
+                        <p>{step.description}</p>
+                      </div>
+                    </div>
+                  </swiper-slide>
+                ))}
+              </swiper-container>
+            </div>
+          </MDBStepperStep>
+        </MDBStepper>
         <div className="leave-comments-container">
           <div className="leave-comments-header">
             <div className="leave-comments-picture-area">

@@ -119,7 +119,6 @@ body {
         line-height: 10px;
       }
     }
-
     .ingredient-container {
       display: flex;
       justify-content: space-between;
@@ -133,6 +132,7 @@ body {
   }
 
   .all-steps-container {
+    display: block;
     margin: 10px 15%;
 
     .steps-title-pdf-container {
@@ -156,6 +156,13 @@ body {
     }
     .step-container {
       padding-bottom: 1rem;
+      min-height: 300px;
+
+      .step-text {
+        display: flex;
+        justify-content: center;
+        min-height: 300px;
+      }
     }
   }
   .chevron-btn {
