@@ -20,6 +20,8 @@ function NewRecipe() {
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
   const [recipeIngredients, setRecipeIngredients] = useState([]); // ---> INGREDIENTS A RECUPERER
+  const [quantityValues, setQuantityValues] = useState([]);
+  const [uniteValues, setUniteValues] = useState([]);
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
@@ -58,19 +60,36 @@ function NewRecipe() {
       (element) => element.product_name_fr === ingredientSelected
     );
     const newIngredient = {
-      name: filteredTry[0].product_name_fr,
-      nutritionValue: filteredTry[0].nutriscore_data.energy,
+      name: filteredTry[0] === undefined ? "" : filteredTry[0].product_name_fr,
+      nutritionValue:
+        filteredTry[0] === undefined
+          ? ""
+          : filteredTry[0].nutriscore_data.energy,
     };
     console.info(newIngredient);
     setRecipeIngredients([...ingreds, newIngredient]);
     setIngreds([...ingreds, { name: ingredientSearch }]);
     setIngredientSearch("");
   };
+  // modifie l'array de quantité des aliments
+  const handleChangeQuantity = (e, i) => {
+    const quantityData = [...quantityValues];
+    quantityData[i] = e.target.value;
+    setQuantityValues(quantityData);
+  };
+  // modifie l'array d'unité de mesure ds aliments
+  const handleChangeUnite = (e, i) => {
+    const uniteData = [...uniteValues];
+    uniteData[i] = e.target.value;
+    setUniteValues(uniteData);
+  };
 
   // ajoute une ligne d'étape de la recette
   const handleAdd = () => {
     const text = [...inputs, []];
     setInputs(text);
+    const quant = [...quantityValues, []];
+    setQuantityValues(quant);
   };
   // set l'array du state de l'étape qui est remplie avec le texte écrit
   const handleChange = (onChangeValue, i) => {
@@ -115,6 +134,8 @@ function NewRecipe() {
       peopleNumber: guestsNumber,
       ingredients: recipeIngredients,
       steps: inputs,
+      quantite: quantityValues,
+      values: uniteValues,
     };
     console.info(recipe);
   };
@@ -165,6 +186,8 @@ function NewRecipe() {
           <IngredientsList
             ingreds={ingreds}
             handleDeleteIngredient={handleDeleteIngredient}
+            handleChangeQuantity={handleChangeQuantity}
+            handleChangeUnite={handleChangeUnite}
           />
         </div>
         <div className="new-steps-container">
