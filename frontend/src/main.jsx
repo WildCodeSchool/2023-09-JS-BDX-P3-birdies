@@ -14,6 +14,7 @@ import { InfoContextProvider } from "./context/InfoContext";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 import { AdminContextProvider } from "./context/AdminContext";
+import ModifyRecipe from "./pages/ModifyRecipe";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/newrecipe",
     element: <NewRecipe />,
+  },
+  {
+    path: "/modifyrecipe/:id",
+    element: <ModifyRecipe />,
   },
   {
     path: "/slideone",
