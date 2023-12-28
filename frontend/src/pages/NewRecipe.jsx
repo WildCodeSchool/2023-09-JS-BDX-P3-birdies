@@ -64,7 +64,6 @@ function NewRecipe() {
     console.info(newIngredient);
     setRecipeIngredients([...ingreds, newIngredient]);
     setIngreds([...ingreds, { name: ingredientSearch }]);
-    // setRecipeIngredients([...recipeIngredients, filteredTry]);
     setIngredientSearch("");
   };
 

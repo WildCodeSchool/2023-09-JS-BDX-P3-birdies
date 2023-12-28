@@ -11,8 +11,17 @@ import { Useinfo } from "../context/InfoContext";
 function ModifyRecipe() {
   const { recipes } = Useinfo();
   const { id } = useParams();
+
+  // Récupération de la recette à modifier
   const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
-  const [ingreds, setIngreds] = useState([]);
+  console.info(chosenRecipe);
+  // Récupération des étapes originales de la recette
+  const originalStepsList = [];
+  for (const step of chosenRecipe.steps) {
+    originalStepsList.push(step.description);
+  }
+
+  const [ingreds, setIngreds] = useState(chosenRecipe.ingredients);
   const [recipeName, setRecipeName] = useState(chosenRecipe.name);
   const [image, setImage] = useState({ file: chosenRecipe.picture }); // ---> IMAGE A RECUPERER
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
@@ -21,7 +30,7 @@ function ModifyRecipe() {
   const [recipeIngredients, setRecipeIngredients] = useState([]); // ---> INGREDIENTS A RECUPERER
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
-  const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
+  const [inputs, setInputs] = useState(originalStepsList); // ---> ETAPES A RECUPERER
 
   // Appel de l'API selon l'ingrédient et filtrer si contient un nutritin grade
   const apiCall = async (ingredient) => {
@@ -60,10 +69,8 @@ function ModifyRecipe() {
       name: filteredTry[0].product_name_fr,
       nutritionValue: filteredTry[0].nutriscore_data.energy,
     };
-    console.info(newIngredient);
     setRecipeIngredients([...ingreds, newIngredient]);
     setIngreds([...ingreds, { name: ingredientSearch }]);
-    // setRecipeIngredients([...recipeIngredients, filteredTry]);
     setIngredientSearch("");
   };
 
@@ -130,7 +137,10 @@ function ModifyRecipe() {
           value={recipeName}
           onChange={handleNameChange}
         />
-        <MDBFileUpload getInputFiles={(file) => setImage(file)} />
+        <MDBFileUpload
+          getInputFiles={(file) => setImage(file)}
+          defaultFile={chosenRecipe.picture}
+        />
         <label>
           Nombre de personnes :{/*  */}
           <div className="people-number-selection">

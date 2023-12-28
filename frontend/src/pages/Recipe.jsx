@@ -1,12 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { MDBStepper, MDBStepperStep } from "mdb-react-ui-kit";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import TextInput from "../components/Text-input";
 import ActionButton from "../components/action-button";
 import "../styles/Recipe.scss";
 import chevron from "../styles/icons/chevron-down 2.png";
-import lasagnes from "../styles/icons/lasagnes.jpg";
-import paella from "../styles/icons/paella-traditionnelle.jpeg";
 import chefHat from "../styles/icons/Chef Hat.png";
 import star from "../styles/icons/Star.png";
 import pdf from "../styles/icons/Downloads Folder.png";
@@ -29,11 +28,32 @@ function Recipe() {
   const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
   const [addCommentVisible, setAddCommentVisible] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  // const [mode, setMode] =
+  //   useState < "horizontal" | "vertical" | ("mobile" > "horizontal");
+
+  // const handleResize = useCallback(() => {
+  //   const width = window.innerWidth;
+
+  //   if (width > 768) {
+  //     setMode("horizontal");
+  //   } else if (width <= 768 && width > 400) {
+  //     setMode("vertical");
+  //   } else {
+  //     setMode("mobile");
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   window.addEventListener("resize", handleResize);
+
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, [handleResize]);
 
   function changeGuestsNumber(e) {
     if (e.target.innerHTML === "+") {
       setGuestsNumber(guestsNumber + 1);
-      // increasQuantity(e);
     } else if (e.target.innerHTML === "-" && guestsNumber > 1) {
       setGuestsNumber(guestsNumber - 1);
     }
@@ -56,7 +76,7 @@ function Recipe() {
         <p>{chosenRecipe.name}</p>
       </div>
       <div className="recipe-img-container">
-        <img src={id === "1" ? lasagnes : paella} alt="recipe-img" />
+        <img src={chosenRecipe.picture} alt="recipe-img" />
       </div>
 
       <div className="recipe-body-container">
@@ -121,16 +141,18 @@ function Recipe() {
               <img className="printer" src={pdf} alt="printer" />
             </div>
           </div>
-          {chosenRecipe.steps.map((step, index) => (
-            <div key={step.index} className="step-container">
-              <div className="step-title">Etape {index + 1}</div>
-              <div className="step-text">
-                <p>{step.description}</p>
-              </div>
-            </div>
-          ))}
+          <MDBStepper type="vertical">
+            {chosenRecipe.steps.map((step, index) => (
+              <MDBStepperStep
+                headIcon={index + 1}
+                headText="Etape"
+                itemId={index + 1}
+              >
+                {step.description}
+              </MDBStepperStep>
+            ))}
+          </MDBStepper>
         </div>
-
         <div className="leave-comments-container">
           <div className="leave-comments-header">
             <div className="leave-comments-picture-area">
