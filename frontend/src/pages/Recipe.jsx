@@ -21,7 +21,8 @@ function Recipe() {
     Useinfo();
 
   const { id } = useParams();
-  const chosenRecipe = recipes[id];
+  const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
+  console.info(typeof id);
   const averageNote = Average(chosenRecipe.notes);
   const totalVotes = chosenRecipe.notes.length;
   const recipeQuantities = chosenRecipe.ingredients;
