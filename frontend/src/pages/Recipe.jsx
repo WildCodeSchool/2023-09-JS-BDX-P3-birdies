@@ -102,6 +102,8 @@ function Recipe() {
             <div className="prep-time">{chosenRecipe.prepTime}</div>
           </div>
         </div>
+        {/* <MDBStepper type="horizontal">
+          <MDBStepperStep headText="Ingrédients" itemId={1}> */}
         <div className="all-ingredients-container">
           <div className="ingredients-title-pdf-container">
             <div className="ingredients-title">Ingrédients</div>
@@ -134,6 +136,9 @@ function Recipe() {
             </div>
           ))}
         </div>
+        {/* </MDBStepperStep>
+          <MDBStepperStep headText="Etapes" itemId={2}> */}
+
         <div className="all-steps-container">
           <div className="steps-title-pdf-container">
             <div className="steps-title">Etapes</div>
@@ -153,6 +158,8 @@ function Recipe() {
             ))}
           </MDBStepper>
         </div>
+        {/* </MDBStepperStep>
+        </MDBStepper> */}
         <div className="leave-comments-container">
           <div className="leave-comments-header">
             <div className="leave-comments-picture-area">
