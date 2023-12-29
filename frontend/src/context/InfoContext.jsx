@@ -606,8 +606,10 @@ export function InfoContextProvider({ children }) {
   ];
 
   function HandleRecipeNote(e) {
-    console.info(e.target);
-    const avis = e.target.value;
+    const avis =
+      e.target.value === undefined
+        ? e.target.getAttribute("data-value")
+        : e.target.value;
     if (recipeNote === avis) {
       setRecipeNote("");
     } else {

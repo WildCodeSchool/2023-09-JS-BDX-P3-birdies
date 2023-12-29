@@ -30,29 +30,6 @@ function Recipe() {
   const [showComments, setShowComments] = useState(false);
   const swiperElRef = useRef(null);
 
-  // const [mode, setMode] =
-  //   useState < "horizontal" | "vertical" | ("mobile" > "horizontal");
-
-  // const handleResize = useCallback(() => {
-  //   const width = window.innerWidth;
-
-  //   if (width > 768) {
-  //     setMode("horizontal");
-  //   } else if (width <= 768 && width > 400) {
-  //     setMode("vertical");
-  //   } else {
-  //     setMode("mobile");
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   window.addEventListener("resize", handleResize);
-
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, [handleResize]);
-
   function changeGuestsNumber(e) {
     if (e.target.innerHTML === "+") {
       setGuestsNumber(guestsNumber + 1);
@@ -196,11 +173,11 @@ function Recipe() {
                   }
                   onClick={HandleRecipeNote}
                 >
-                  <div className="stars-area" value={evaluation.value}>
-                    <p value={evaluation.value}>{evaluation.image}</p>
+                  <div className="stars-area" data-value={evaluation.value}>
+                    <p data-value={evaluation.value}>{evaluation.image}</p>
                   </div>
-                  <div>
-                    <p value={evaluation.value}>{evaluation.word}</p>
+                  <div data-value={evaluation.value}>
+                    <p data-value={evaluation.value}>{evaluation.word}</p>
                   </div>
                 </button>
               ))}
