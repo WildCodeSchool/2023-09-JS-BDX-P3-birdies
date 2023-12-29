@@ -15,6 +15,7 @@ import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 import { AdminContextProvider } from "./context/AdminContext";
 import ModifyRecipe from "./pages/ModifyRecipe";
+import ErrorPage from "./pages/errorPage";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
   {
     path: "/recipes/:id",
     element: <Recipe />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/userpage",
@@ -44,6 +46,7 @@ const router = createBrowserRouter([
   {
     path: "/modifyrecipes/:id",
     element: <ModifyRecipe />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/slideone",

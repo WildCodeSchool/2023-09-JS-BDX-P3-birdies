@@ -131,8 +131,8 @@ function Recipe() {
                 pagination="true"
               >
                 {chosenRecipe.steps.map((step, index) => (
-                  <swiper-slide autoHeight="true">
-                    <div key={step.index} className="step-container">
+                  <swiper-slide autoHeight="true" key={step.description}>
+                    <div className="step-container">
                       <div className="step-title">{index + 1}.</div>
                       <div className="step-text">
                         <p>{step.description}</p>
@@ -203,7 +203,7 @@ function Recipe() {
               }
             >
               {chosenRecipe.comments.map((comment) => (
-                <CommentCard comment={comment} />
+                <CommentCard comment={comment} key={comment} />
               ))}
             </div>
             <div className="open-close-btn">

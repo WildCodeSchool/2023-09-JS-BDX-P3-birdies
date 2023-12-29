@@ -26,7 +26,7 @@ export function InfoContextProvider({ children }) {
         "https://cdn.pixabay.com/photo/2014/02/13/18/52/wok-265566_1280.jpg",
       prepTime: "1h30",
       notes: [3, 5, 2, 4],
-      difficulty: "facile",
+      difficulty: "Facile",
       peopleNumber: 4,
       ingredients: [
         {
@@ -105,7 +105,7 @@ export function InfoContextProvider({ children }) {
         "https://cdn.pixabay.com/photo/2017/02/15/15/17/meal-2069021_1280.jpg",
       prepTime: "2h00",
       notes: [5, 5, 1, 3, 2, 4, 5],
-      difficulty: "Moyen",
+      difficulty: "Moyenne",
       peopleNumber: 6,
       ingredients: [
         {
@@ -314,6 +314,25 @@ export function InfoContextProvider({ children }) {
       word: "Amaaazing !",
     },
   ];
+  const difficulties = [
+    {
+      id: 1,
+      name: "Très facile",
+    },
+    {
+      id: 2,
+      name: "Facile",
+    },
+    {
+      id: 3,
+      name: "Moyenne",
+    },
+    {
+      id: 4,
+      name: "Difficile",
+    },
+  ];
+
   const [users, setUsers] = useState([
     {
       id: 1,
@@ -643,10 +662,10 @@ export function InfoContextProvider({ children }) {
     setRecipeComment("");
     setRecipeNote("");
   }
-  console.info(recipeComment);
   const contextValues = useMemo(
     () => ({
       recipes,
+      difficulties,
       evaluations,
       HandleRecipeNote,
       recipeNote,
@@ -670,6 +689,7 @@ export function InfoContextProvider({ children }) {
     }),
     [
       recipes,
+      difficulties,
       evaluations,
       HandleRecipeNote,
       handleChangeComment,

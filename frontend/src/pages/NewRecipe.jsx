@@ -6,17 +6,19 @@ import { Link } from "react-router-dom";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
+import DifficultiesList from "../components/NewRecice/DificultiesList";
 
 function NewRecipe() {
   const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
   const [image, setImage] = useState({}); // ---> IMAGE A RECUPERER
+  const [difficultyEvaluation, setDifficultyEvaluation] = useState([]); // ---> DIFFICULTE A RECUPERER
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
   const [recipeIngredients, setRecipeIngredients] = useState([]); // ---> INGREDIENTS A RECUPERER
   const [quantityValues, setQuantityValues] = useState([]);
-  const [uniteValues, setUniteValues] = useState([]);
+  const [uniteValues, setUniteValues] = useState([]); // --- > UNITES A RECUPERER
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
@@ -49,6 +51,17 @@ function NewRecipe() {
       setGuestsNumber(guestsNumber - 1);
     }
   }
+
+  // Définie la difficulté de la recette
+  const handleChangeDifficulty = (e) => {
+    const difficultySelected = e.target.value;
+    if (difficultyEvaluation === difficultySelected) {
+      setDifficultyEvaluation("");
+    } else {
+      setDifficultyEvaluation(difficultySelected);
+    }
+  };
+
   // rajoute la ligne de l'ingredient choisi
   const createIngredientLine = () => {
     const filteredTry = essai.filter(
@@ -61,7 +74,7 @@ function NewRecipe() {
           : filteredTry[0].product_name_fr,
       nutritionValue:
         filteredTry[0] === undefined
-          ? ""
+          ? 0
           : filteredTry[0].nutriscore_data.energy,
     };
     console.info(newIngredient);
@@ -127,7 +140,6 @@ function NewRecipe() {
 
   const showAll = () => {
     const ingredientsInfos = [];
-
     // créer les objets ingrédients : nom, quantité, mesure
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < recipeIngredients.length; i++) {
@@ -141,15 +153,17 @@ function NewRecipe() {
     }
 
     const recipe = {
+      user: "???",
+      commentDate: new Date().getDate(),
       name: recipeName,
       picture: image[0],
       peopleNumber: guestsNumber,
+      difficulty: difficultyEvaluation,
       ingredients: ingredientsInfos,
       steps: inputs,
     };
     console.info(recipe);
   };
-
   return (
     <div className="page">
       <RecipeHeader />
@@ -174,6 +188,10 @@ function NewRecipe() {
             </button>
           </div>
         </label>
+        <DifficultiesList
+          handleChangeDifficulty={handleChangeDifficulty}
+          difficultyEvaluation={difficultyEvaluation}
+        />
         <div className="new-ingredients-container">
           <h2 className="recipe-part">Ingrédients</h2>
           <div className="search-area">
@@ -198,6 +216,8 @@ function NewRecipe() {
             handleDeleteIngredient={handleDeleteIngredient}
             handleChangeQuantity={handleChangeQuantity}
             handleChangeUnite={handleChangeUnite}
+            quantityValues={quantityValues}
+            uniteValues={uniteValues}
           />
         </div>
         <div className="new-steps-container">

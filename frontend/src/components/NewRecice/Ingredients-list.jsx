@@ -5,6 +5,8 @@ function IngredientsList({
   handleDeleteIngredient,
   handleChangeQuantity,
   handleChangeUnite,
+  quantityValues,
+  uniteValues,
 }) {
   return (
     <div className="ingredients-list">
@@ -15,12 +17,14 @@ function IngredientsList({
             <input
               type="text"
               className="ingredient-line-quantity"
+              value={quantityValues[i]}
               onChange={(e) => handleChangeQuantity(e, i)}
             />
             <select
               name="unite"
               id="0"
               className="ingredient-line-unite"
+              value={uniteValues[i]}
               onChange={(e) => handleChangeUnite(e, i)}
             >
               <option value="-">-</option>
@@ -46,6 +50,8 @@ IngredientsList.propTypes = {
   handleDeleteIngredient: PropTypes.func.isRequired,
   handleChangeQuantity: PropTypes.func.isRequired,
   handleChangeUnite: PropTypes.func.isRequired,
+  quantityValues: PropTypes.arrayOf.isRequired,
+  uniteValues: PropTypes.arrayOf.isRequired,
 };
 
 export default IngredientsList;

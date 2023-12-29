@@ -7,6 +7,7 @@ import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
 import { Useinfo } from "../context/InfoContext";
+import DifficultiesList from "../components/NewRecice/DificultiesList";
 
 function ModifyRecipe() {
   const { recipes } = Useinfo();
@@ -15,20 +16,26 @@ function ModifyRecipe() {
   // Récupération de la recete à modifier
   const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
   console.info(chosenRecipe);
+
   // Récupération des étapes originales de la recette
   const originalStepsList = [];
   for (const step of chosenRecipe.steps) {
     originalStepsList.push(step.description.toString());
   }
-  // Récupération des quantités originales
+  // Récupération des quantités et mesures originales
   const originalQuantities = [];
+  const originalUnites = [];
   for (const ingredient of chosenRecipe.ingredients) {
     originalQuantities.push(ingredient.quantity);
+    originalUnites.push(ingredient.mesure);
   }
 
   const [ingreds, setIngreds] = useState(chosenRecipe.ingredients);
   const [recipeName, setRecipeName] = useState(chosenRecipe.name);
   const [image, setImage] = useState(chosenRecipe.picture); // ---> IMAGE A RECUPERER
+  const [difficultyEvaluation, setDifficultyEvaluation] = useState(
+    chosenRecipe.difficulty
+  );
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
@@ -36,7 +43,7 @@ function ModifyRecipe() {
     chosenRecipe.ingredients
   ); // ---> INGREDIENTS A RECUPERER
   const [quantityValues, setQuantityValues] = useState(originalQuantities);
-  const [uniteValues, setUniteValues] = useState([]);
+  const [uniteValues, setUniteValues] = useState(originalUnites);
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
   const [inputs, setInputs] = useState(originalStepsList); // ---> ETAPES A RECUPERER
@@ -69,6 +76,17 @@ function ModifyRecipe() {
       setGuestsNumber(guestsNumber - 1);
     }
   }
+
+  // Définie la difficulté de la recette
+  const handleChangeDifficulty = (e) => {
+    const difficultySelected = e.target.value;
+    if (difficultyEvaluation === difficultySelected) {
+      setDifficultyEvaluation("");
+    } else {
+      setDifficultyEvaluation(difficultySelected);
+    }
+  };
+
   // rajoute la ligne de l'ingredient choisi
   const createIngredientLine = () => {
     const filteredTry = essai.filter(
@@ -81,7 +99,7 @@ function ModifyRecipe() {
           : filteredTry[0].product_name_fr,
       nutritionValue:
         filteredTry[0] === undefined
-          ? ""
+          ? 0
           : filteredTry[0].nutriscore_data.energy,
     };
     console.info(newIngredient);
@@ -161,9 +179,11 @@ function ModifyRecipe() {
     }
 
     const recipe = {
+      id,
       name: recipeName,
       picture: image[0],
       peopleNumber: guestsNumber,
+      difficulty: difficultyEvaluation,
       ingredients: ingredientsInfos,
       steps: inputs,
     };
@@ -197,6 +217,11 @@ function ModifyRecipe() {
             </button>
           </div>
         </label>
+        <DifficultiesList
+          handleChangeDifficulty={handleChangeDifficulty}
+          difficultyEvaluation={difficultyEvaluation}
+        />
+
         <div className="new-ingredients-container">
           <h2 className="recipe-part">Ingrédients</h2>
           <div className="search-area">
@@ -221,6 +246,8 @@ function ModifyRecipe() {
             handleDeleteIngredient={handleDeleteIngredient}
             handleChangeQuantity={handleChangeQuantity}
             handleChangeUnite={handleChangeUnite}
+            quantityValues={quantityValues}
+            uniteValues={uniteValues}
           />
         </div>
         <div className="new-steps-container">
