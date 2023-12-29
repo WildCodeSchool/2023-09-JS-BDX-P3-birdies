@@ -27,7 +27,9 @@ function ModifyRecipe() {
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
-  const [recipeIngredients, setRecipeIngredients] = useState([]); // ---> INGREDIENTS A RECUPERER
+  const [recipeIngredients, setRecipeIngredients] = useState(
+    chosenRecipe.ingredients
+  ); // ---> INGREDIENTS A RECUPERER
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
   const [inputs, setInputs] = useState(originalStepsList); // ---> ETAPES A RECUPERER
