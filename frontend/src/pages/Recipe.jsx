@@ -185,7 +185,7 @@ function Recipe() {
             <div className="comment-area">
               <p>Un petit commentaire à partager ?</p>
               <TextInput />
-              <ActionButton />
+              <ActionButton id={chosenRecipe.id} />
             </div>
           </div>
           <div className="open-close-btn">

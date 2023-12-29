@@ -12,12 +12,12 @@ function Average(array) {
 }
 
 export function InfoContextProvider({ children }) {
-  const [recipeNote, setRecipeNote] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [popupContent, setPopupContent] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-
+  const [recipeNote, setRecipeNote] = useState("");
+  const [recipeComment, setRecipeComment] = useState("");
   const recipes = [
     {
       id: 1,
@@ -617,6 +617,33 @@ export function InfoContextProvider({ children }) {
     }
   }
 
+  function handleChangeComment(e) {
+    setRecipeComment(e.target.value);
+  }
+  function sendComment(e) {
+    const commentId = e.target.getAttribute("data-value");
+    const commentContent = [
+      {
+        userId: "????",
+      },
+      {
+        commentDate: new Date().getDate(),
+      },
+      {
+        RecipeId: commentId,
+      },
+      {
+        commentMessage: recipeComment,
+      },
+      {
+        CommentNote: recipeNote,
+      },
+    ];
+    console.info(commentContent);
+    setRecipeComment("");
+    setRecipeNote("");
+  }
+  console.info(recipeComment);
   const contextValues = useMemo(
     () => ({
       recipes,
@@ -624,6 +651,10 @@ export function InfoContextProvider({ children }) {
       HandleRecipeNote,
       recipeNote,
       setRecipeNote,
+      handleChangeComment,
+      recipeComment,
+      setRecipeComment,
+      sendComment,
       users,
       setUsers,
       email,
@@ -641,6 +672,9 @@ export function InfoContextProvider({ children }) {
       recipes,
       evaluations,
       HandleRecipeNote,
+      handleChangeComment,
+      recipeComment,
+      sendComment,
       users,
       email,
       setEmail,
