@@ -13,7 +13,7 @@ function IngredientsList({
           <div className="ingredient-line-name">- {ing.name}</div>
           <div className="quantity_unite-area">
             <input
-              type="number"
+              type="text"
               className="ingredient-line-quantity"
               onChange={(e) => handleChangeQuantity(e, i)}
             />

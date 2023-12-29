@@ -8,14 +8,9 @@ import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
 
 function NewRecipe() {
-  const [ingreds, setIngreds] = useState([
-    // {
-    //   name: "patate",
-    //   quantity: 100,
-    // },
-  ]);
+  const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
-  const [image, setImage] = useState({ file: null }); // ---> IMAGE A RECUPERER
+  const [image, setImage] = useState({}); // ---> IMAGE A RECUPERER
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
@@ -60,7 +55,10 @@ function NewRecipe() {
       (element) => element.product_name_fr === ingredientSelected
     );
     const newIngredient = {
-      name: filteredTry[0] === undefined ? "" : filteredTry[0].product_name_fr,
+      name:
+        filteredTry[0] === undefined
+          ? ingredientSearch
+          : filteredTry[0].product_name_fr,
       nutritionValue:
         filteredTry[0] === undefined
           ? ""
@@ -74,7 +72,7 @@ function NewRecipe() {
   // modifie l'array de quantité des aliments
   const handleChangeQuantity = (e, i) => {
     const quantityData = [...quantityValues];
-    quantityData[i] = e.target.value;
+    quantityData[i] = parseFloat(e.target.value);
     setQuantityValues(quantityData);
   };
   // modifie l'array d'unité de mesure ds aliments

@@ -12,24 +12,31 @@ function ModifyRecipe() {
   const { recipes } = Useinfo();
   const { id } = useParams();
 
-  // Récupération de la recette à modifier
+  // Récupération de la recete à modifier
   const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
   console.info(chosenRecipe);
   // Récupération des étapes originales de la recette
   const originalStepsList = [];
   for (const step of chosenRecipe.steps) {
-    originalStepsList.push(step.description);
+    originalStepsList.push(step.description.toString());
+  }
+  // Récupération des quantités originales
+  const originalQuantities = [];
+  for (const ingredient of chosenRecipe.ingredients) {
+    originalQuantities.push(ingredient.quantity);
   }
 
   const [ingreds, setIngreds] = useState(chosenRecipe.ingredients);
   const [recipeName, setRecipeName] = useState(chosenRecipe.name);
-  const [image, setImage] = useState({ file: chosenRecipe.picture }); // ---> IMAGE A RECUPERER
+  const [image, setImage] = useState(chosenRecipe.picture); // ---> IMAGE A RECUPERER
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
   const [recipeIngredients, setRecipeIngredients] = useState(
     chosenRecipe.ingredients
   ); // ---> INGREDIENTS A RECUPERER
+  const [quantityValues, setQuantityValues] = useState(originalQuantities);
+  const [uniteValues, setUniteValues] = useState([]);
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
   const [inputs, setInputs] = useState(originalStepsList); // ---> ETAPES A RECUPERER
@@ -68,18 +75,39 @@ function ModifyRecipe() {
       (element) => element.product_name_fr === ingredientSelected
     );
     const newIngredient = {
-      name: filteredTry[0].product_name_fr,
-      nutritionValue: filteredTry[0].nutriscore_data.energy,
+      name:
+        filteredTry[0] === undefined
+          ? ingredientSearch
+          : filteredTry[0].product_name_fr,
+      nutritionValue:
+        filteredTry[0] === undefined
+          ? ""
+          : filteredTry[0].nutriscore_data.energy,
     };
+    console.info(newIngredient);
     setRecipeIngredients([...ingreds, newIngredient]);
     setIngreds([...ingreds, { name: ingredientSearch }]);
     setIngredientSearch("");
+  };
+  // modifie l'array de quantité des aliments
+  const handleChangeQuantity = (e, i) => {
+    const quantityData = [...quantityValues];
+    quantityData[i] = parseFloat(e.target.value);
+    setQuantityValues(quantityData);
+  };
+  // modifie l'array d'unité de mesure ds aliments
+  const handleChangeUnite = (e, i) => {
+    const uniteData = [...uniteValues];
+    uniteData[i] = e.target.value;
+    setUniteValues(uniteData);
   };
 
   // ajoute une ligne d'étape de la recette
   const handleAdd = () => {
     const text = [...inputs, []];
     setInputs(text);
+    const quant = [...quantityValues, []];
+    setQuantityValues(quant);
   };
   // set l'array du state de l'étape qui est remplie avec le texte écrit
   const handleChange = (onChangeValue, i) => {
@@ -118,16 +146,30 @@ function ModifyRecipe() {
   }, [ingredientSearch]);
 
   const showAll = () => {
+    const ingredientsInfos = [];
+
+    // créer les objets ingrédients : nom, quantité, mesure
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < recipeIngredients.length; i++) {
+      const ingredientLine = {
+        name: recipeIngredients[i].name,
+        // energy: recipeIngredients[i].energy,
+        quantity: quantityValues[i],
+        mesure: uniteValues[i],
+      };
+      ingredientsInfos.push(ingredientLine);
+    }
+
     const recipe = {
       name: recipeName,
       picture: image[0],
       peopleNumber: guestsNumber,
-      ingredients: recipeIngredients,
+      ingredients: ingredientsInfos,
       steps: inputs,
     };
     console.info(recipe);
   };
-
+  console.info(image);
   return (
     <div className="page">
       <RecipeHeader />
@@ -177,6 +219,8 @@ function ModifyRecipe() {
           <IngredientsList
             ingreds={ingreds}
             handleDeleteIngredient={handleDeleteIngredient}
+            handleChangeQuantity={handleChangeQuantity}
+            handleChangeUnite={handleChangeUnite}
           />
         </div>
         <div className="new-steps-container">
