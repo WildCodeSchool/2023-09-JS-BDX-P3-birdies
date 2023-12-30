@@ -16,8 +16,13 @@ export function InfoContextProvider({ children }) {
   const [password, setPassword] = useState("");
   const [popupContent, setPopupContent] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
   const [recipeComment, setRecipeComment] = useState("");
+  // ou l'on stock le texte de recherche de recette
+  const [inputSearchValue, setInputSearchValue] = useState("");
+  // ou l'on stock les id des recettes favorites
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const recipes = [
     {
       id: 1,
@@ -624,6 +629,11 @@ export function InfoContextProvider({ children }) {
     },
   ];
 
+  // modifie la valeur de la recherche de la barre de recherche
+  function handleChangeSearch(e) {
+    setInputSearchValue(e.target.value);
+  }
+  // ajoute la note lors de l'évaluation d'une recette
   function HandleRecipeNote(e) {
     const avis =
       e.target.value === undefined
@@ -635,12 +645,22 @@ export function InfoContextProvider({ children }) {
       setRecipeNote(avis);
     }
   }
-
+  // stock le texte du commentaire d'une recette
   function handleChangeComment(e) {
     setRecipeComment(e.target.value);
   }
 
-  // Définit la date au format JJ/MM/AAAA H:MN
+  // ajoute ou enlève une recette des favoris
+  const handleChangeFavorite = (e) => {
+    if (favoriteRecipes.includes(e.target.value)) {
+      setFavoriteRecipes(
+        favoriteRecipes.filter((recipe) => recipe !== e.target.value)
+      );
+    } else {
+      setFavoriteRecipes([...favoriteRecipes, e.target.value]);
+    }
+  };
+  // Définit la date au format JJ/MM/AAAA H:MM
   const displayDate = () => {
     const date = new Date().getDate();
     const month = new Date().getMonth() + 1;
@@ -682,11 +702,17 @@ export function InfoContextProvider({ children }) {
       recipes,
       difficulties,
       evaluations,
+      handleChangeSearch,
       HandleRecipeNote,
       recipeNote,
       setRecipeNote,
       handleChangeComment,
+      handleChangeFavorite,
       recipeComment,
+      inputSearchValue,
+      setInputSearchValue,
+      favoriteRecipes,
+      setFavoriteRecipes,
       setRecipeComment,
       sendComment,
       displayDate,
@@ -707,9 +733,15 @@ export function InfoContextProvider({ children }) {
       recipes,
       difficulties,
       evaluations,
+      handleChangeSearch,
       HandleRecipeNote,
       handleChangeComment,
+      handleChangeFavorite,
       recipeComment,
+      inputSearchValue,
+      setInputSearchValue,
+      favoriteRecipes,
+      setFavoriteRecipes,
       sendComment,
       displayDate,
       users,

@@ -16,8 +16,15 @@ import { Useinfo } from "../context/InfoContext";
 import CommentCard from "../components/CommentCard";
 
 function Recipe() {
-  const { recipes, evaluations, recipeNote, HandleRecipeNote, Average } =
-    Useinfo();
+  const {
+    recipes,
+    evaluations,
+    recipeNote,
+    HandleRecipeNote,
+    Average,
+    favoriteRecipes,
+    handleChangeFavorite,
+  } = Useinfo();
 
   const { id } = useParams();
   const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
@@ -47,7 +54,7 @@ function Recipe() {
     setShowComments(!showComments);
     setAddCommentVisible(false);
   }
-
+  console.info(favoriteRecipes);
   return (
     <>
       <RecipeHeader />
@@ -55,6 +62,15 @@ function Recipe() {
         <p>{chosenRecipe.name}</p>
       </div>
       <div className="recipe-img-container">
+        <button
+          className="like-btn"
+          type="button"
+          value={id}
+          onClick={handleChangeFavorite}
+        >
+          {favoriteRecipes.includes(id) ? "❤️" : "🤍"}
+        </button>
+
         <img src={chosenRecipe.picture} alt="recipe-img" />
       </div>
 

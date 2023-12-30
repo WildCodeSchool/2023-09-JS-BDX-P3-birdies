@@ -4,8 +4,10 @@ import burger from "../styles/icons/burger.png";
 import logo from "../styles/icons/logo.png";
 import BoxLogin from "./BoxLogin";
 import search from "../styles/icons/Search.png";
+import { Useinfo } from "../context/InfoContext";
 
 function Navigation() {
+  const { inputSearchValue, handleChangeSearch } = Useinfo();
   const [login, setLogin] = useState(false);
   const [getToggleSearch, setGetToggleSearch] = useState(false);
 
@@ -48,6 +50,8 @@ function Navigation() {
             className="input-search"
             type="text"
             placeholder="Rechercher"
+            value={inputSearchValue}
+            onChange={handleChangeSearch}
           />
         )}
       </div>
