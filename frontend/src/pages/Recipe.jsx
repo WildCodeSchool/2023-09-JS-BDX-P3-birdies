@@ -203,7 +203,7 @@ function Recipe() {
               }
             >
               {chosenRecipe.comments.map((comment) => (
-                <CommentCard comment={comment} key={comment} />
+                <CommentCard comment={comment} key={comment.message} />
               ))}
             </div>
             <div className="open-close-btn">

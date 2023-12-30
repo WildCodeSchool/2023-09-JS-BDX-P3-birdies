@@ -639,6 +639,20 @@ export function InfoContextProvider({ children }) {
   function handleChangeComment(e) {
     setRecipeComment(e.target.value);
   }
+
+  // Définit la date au format JJ/MM/AAAA H:MN
+  const displayDate = () => {
+    const date = new Date().getDate();
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getFullYear();
+    const hours = new Date().getHours();
+    const min =
+      new Date().getMinutes() < 10
+        ? `0${new Date().getMinutes()}`
+        : new Date().getMinutes();
+    return `${date}/${month}/${year}  ${hours}:${min}`;
+  };
+
   function sendComment(e) {
     const commentId = e.target.getAttribute("data-value");
     const commentContent = [
@@ -646,7 +660,7 @@ export function InfoContextProvider({ children }) {
         userId: "????",
       },
       {
-        commentDate: new Date().getDate(),
+        commentDate: displayDate(),
       },
       {
         RecipeId: commentId,
@@ -662,6 +676,7 @@ export function InfoContextProvider({ children }) {
     setRecipeComment("");
     setRecipeNote("");
   }
+
   const contextValues = useMemo(
     () => ({
       recipes,
@@ -674,6 +689,7 @@ export function InfoContextProvider({ children }) {
       recipeComment,
       setRecipeComment,
       sendComment,
+      displayDate,
       users,
       setUsers,
       email,
@@ -695,6 +711,7 @@ export function InfoContextProvider({ children }) {
       handleChangeComment,
       recipeComment,
       sendComment,
+      displayDate,
       users,
       email,
       setEmail,

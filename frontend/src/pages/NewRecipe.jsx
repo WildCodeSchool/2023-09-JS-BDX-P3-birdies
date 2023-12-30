@@ -7,8 +7,11 @@ import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
 import DifficultiesList from "../components/NewRecice/DificultiesList";
+import { Useinfo } from "../context/InfoContext";
 
 function NewRecipe() {
+  const { displayDate } = Useinfo();
+
   const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
   const [image, setImage] = useState({}); // ---> IMAGE A RECUPERER
@@ -154,7 +157,7 @@ function NewRecipe() {
 
     const recipe = {
       user: "???",
-      commentDate: new Date().getDate(),
+      commentDate: displayDate(),
       name: recipeName,
       picture: image[0],
       peopleNumber: guestsNumber,
