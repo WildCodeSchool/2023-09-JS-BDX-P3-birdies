@@ -22,6 +22,7 @@ function NewRecipe() {
   const [recipeIngredients, setRecipeIngredients] = useState([]); // ---> INGREDIENTS A RECUPERER
   const [quantityValues, setQuantityValues] = useState([]);
   const [uniteValues, setUniteValues] = useState([]); // --- > UNITES A RECUPERER
+  const [recipeEnergyValue, setRecipeEnergyValue] = useState([]);
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
@@ -141,6 +142,18 @@ function NewRecipe() {
     apiCall(ingredientSearch);
   }, [ingredientSearch]);
 
+  // calcule la valeur energétique à partir d'un tableau d'ingrédients
+  function getEnergeticValuePerPerson(array) {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < array.length; i++) {
+      const energyForQuantity =
+        (array[i].nutritionValue / 100) * quantityValues[i];
+      setRecipeEnergyValue([...recipeEnergyValue, energyForQuantity]);
+    }
+    const energyPerPerson = recipeEnergyValue.concat() / guestsNumber;
+    return energyPerPerson;
+  }
+
   const showAll = () => {
     const ingredientsInfos = [];
     // créer les objets ingrédients : nom, quantité, mesure
@@ -161,6 +174,7 @@ function NewRecipe() {
       name: recipeName,
       picture: image[0],
       peopleNumber: guestsNumber,
+      energyPerPerson: getEnergeticValuePerPerson(recipeIngredients),
       difficulty: difficultyEvaluation,
       ingredients: ingredientsInfos,
       steps: inputs,
