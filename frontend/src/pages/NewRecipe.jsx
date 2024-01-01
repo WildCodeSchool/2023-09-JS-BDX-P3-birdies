@@ -10,7 +10,7 @@ import DifficultiesList from "../components/NewRecice/DificultiesList";
 import { Useinfo } from "../context/InfoContext";
 
 function NewRecipe() {
-  const { displayDate } = Useinfo();
+  const { displayDate, setBasicSuccess } = Useinfo();
 
   const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
@@ -179,6 +179,7 @@ function NewRecipe() {
       ingredients: ingredientsInfos,
       steps: inputs,
     };
+    setBasicSuccess((prev) => !prev);
     console.info(recipe);
   };
   return (

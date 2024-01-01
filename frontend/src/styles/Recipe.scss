@@ -40,6 +40,9 @@ body {
 .recipe-body-container {
   flex-flow: column;
   margin: 0 15px;
+  ul {
+    min-height: 500px; // PROBLEME !!!!!!!!!!!!!!!!!!!!!!!!
+  }
 
   .rate-nutri-container {
     min-width: 100%;

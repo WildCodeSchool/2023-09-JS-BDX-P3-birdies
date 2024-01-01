@@ -23,6 +23,9 @@ export function InfoContextProvider({ children }) {
   const [inputSearchValue, setInputSearchValue] = useState("");
   // ou l'on stock les id des recettes favorites
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  // valeur de l'alerte pour post de commentaire
+  const [basicSuccess, setBasicSuccess] = useState(false);
+  const [infoSuccess, setInfoSuccess] = useState(false);
   const recipes = [
     {
       id: 1,
@@ -695,6 +698,7 @@ export function InfoContextProvider({ children }) {
     console.info(commentContent);
     setRecipeComment("");
     setRecipeNote("");
+    setBasicSuccess((prev) => !prev);
   }
 
   const contextValues = useMemo(
@@ -713,6 +717,10 @@ export function InfoContextProvider({ children }) {
       setInputSearchValue,
       favoriteRecipes,
       setFavoriteRecipes,
+      basicSuccess,
+      setBasicSuccess,
+      infoSuccess,
+      setInfoSuccess,
       setRecipeComment,
       sendComment,
       displayDate,
@@ -742,6 +750,10 @@ export function InfoContextProvider({ children }) {
       setInputSearchValue,
       favoriteRecipes,
       setFavoriteRecipes,
+      basicSuccess,
+      setBasicSuccess,
+      infoSuccess,
+      setInfoSuccess,
       sendComment,
       displayDate,
       users,

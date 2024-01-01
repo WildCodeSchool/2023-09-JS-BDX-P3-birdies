@@ -10,7 +10,7 @@ import { Useinfo } from "../context/InfoContext";
 import DifficultiesList from "../components/NewRecice/DificultiesList";
 
 function ModifyRecipe() {
-  const { recipes } = Useinfo();
+  const { recipes, setInfoSuccess } = Useinfo();
   const { id } = useParams();
 
   // Récupération de la recete à modifier
@@ -187,6 +187,7 @@ function ModifyRecipe() {
       ingredients: ingredientsInfos,
       steps: inputs,
     };
+    setInfoSuccess((prev) => !prev);
     console.info(recipe);
   };
   console.info(image);

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useRef, useState } from "react";
-import { MDBStepper, MDBStepperStep } from "mdb-react-ui-kit";
+import { MDBStepper, MDBStepperStep, MDBAlert } from "mdb-react-ui-kit";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import TextInput from "../components/Text-input";
 import ActionButton from "../components/action-button";
@@ -24,6 +24,8 @@ function Recipe() {
     Average,
     favoriteRecipes,
     handleChangeFavorite,
+    basicSuccess,
+    setBasicSuccess,
   } = Useinfo();
 
   const { id } = useParams();
@@ -37,6 +39,7 @@ function Recipe() {
   const [showComments, setShowComments] = useState(false);
   const swiperElRef = useRef(null);
 
+  // Modie le nombre de personnes pour la recete
   function changeGuestsNumber(e) {
     if (e.target.innerHTML === "+") {
       setGuestsNumber(guestsNumber + 1);
@@ -44,20 +47,33 @@ function Recipe() {
       setGuestsNumber(guestsNumber - 1);
     }
   }
-
-  function toggleArea() {
-    setAddCommentVisible(!addCommentVisible);
-    setShowComments(false);
+  // ouvre l'espace ajout de commentaire ou voir les commentaires
+  function toggleArea(e) {
+    const btnValue = e.target.getAttribute("data-value");
+    if (btnValue === "1") {
+      setAddCommentVisible(!addCommentVisible);
+      setShowComments(false);
+    } else {
+      setShowComments(!showComments);
+      setAddCommentVisible(false);
+    }
   }
 
-  function toggleArea2() {
-    setShowComments(!showComments);
-    setAddCommentVisible(false);
-  }
   console.info(favoriteRecipes);
   return (
     <>
       <RecipeHeader />
+      <MDBAlert
+        color="success"
+        autohide
+        position="top-right"
+        delay={2000}
+        appendToBody
+        open={basicSuccess}
+        onClose={() => setBasicSuccess(false)}
+      >
+        Merci pour votre participation !
+      </MDBAlert>
       <div className="recipe-title">
         <p>{chosenRecipe.name}</p>
       </div>
@@ -115,7 +131,7 @@ function Recipe() {
                   +
                 </button>
               </div>
-
+              {/* <div className="ingredients-list"> */}
               {recipeQuantities.map((quantity) => (
                 <div key={quantity.name} className="ingredient-container">
                   <div className="ingredient-name">{quantity.name}</div>
@@ -130,6 +146,7 @@ function Recipe() {
                   </div>
                 </div>
               ))}
+              {/* </div> */}
             </div>
           </MDBStepperStep>
           <MDBStepperStep headText="Etapes" itemId={2}>
@@ -205,8 +222,18 @@ function Recipe() {
             </div>
           </div>
           <div className="open-close-btn">
-            <button className="chevron-btn" type="button" onClick={toggleArea}>
-              <img className="chevron" src={chevron} alt="chevron" />
+            <button
+              className="chevron-btn"
+              data-value="1"
+              type="button"
+              onClick={toggleArea}
+            >
+              <img
+                className="chevron"
+                src={chevron}
+                alt="chevron"
+                data-value="1"
+              />
             </button>
           </div>
           <div className="all-comments-area">
@@ -226,7 +253,7 @@ function Recipe() {
               <button
                 className="chevron-btn"
                 type="button"
-                onClick={toggleArea2}
+                onClick={toggleArea}
               >
                 <img className="chevron" src={chevron} alt="chevron" />
               </button>
