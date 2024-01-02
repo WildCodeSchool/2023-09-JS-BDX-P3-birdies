@@ -15,11 +15,8 @@ export function InfoContextProvider({ children }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [popupContent, setPopupContent] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [recipeComment, setRecipeComment] = useState("");
   // ou l'on stock le texte de recherche de recette
   const [inputSearchValue, setInputSearchValue] = useState("");
@@ -703,8 +700,6 @@ export function InfoContextProvider({ children }) {
     setBasicSuccess((prev) => !prev);
   }
 
-  const [popup, setPopup] = useState();
-
   const contextValues = useMemo(
     () => ({
       recipes,
@@ -734,14 +729,10 @@ export function InfoContextProvider({ children }) {
       setEmail,
       password,
       setPassword,
-      popup,
-      setPopup,
+      setPopupContent,
       Average,
       recipesPepites,
       popupContent,
-      setPopupContent,
-      showPopup,
-      setShowPopup,
     }),
     [
       recipes,
@@ -769,16 +760,12 @@ export function InfoContextProvider({ children }) {
       setEmail,
       password,
       setPassword,
-      popup,
-      setPopup,
-      Average,
-      recipesPepites,
-      Average,
-      recipesPepites,
       popupContent,
+      Average,
+      recipesPepites,
+      Average,
+      recipesPepites,
       setPopupContent,
-      showPopup,
-      setShowPopup,
     ]
   );
 

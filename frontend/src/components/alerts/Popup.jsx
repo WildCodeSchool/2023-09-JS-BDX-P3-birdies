@@ -1,8 +1,8 @@
 import { Useinfo } from "../../context/InfoContext";
 
 function Popup() {
-  const { popup } = Useinfo();
-  return <div className="popup-container">{popup}</div>;
+  const { popupContent } = Useinfo();
+  return <div className="popup-container">{popupContent}</div>;
 }
 
 export default Popup;

@@ -6,11 +6,6 @@ import logo from "../styles/icons/logo.png";
 import Popup from "../components/alerts/Popup";
 
 function Login() {
-  const { users, email, setEmail, password, setPassword, setPopup } = Useinfo();
-=======
-import Popup from "../components/alerts/ConnectionPopup";
-
-function Login() {
   const { users, email, setEmail, password, setPassword, setPopupContent } =
     Useinfo();
   const navigate = useNavigate();
@@ -20,16 +15,14 @@ function Login() {
       (e) => password === e.password && email === e.email
     );
     if (findUser) {
-      setPopup("Connecté!");
       setPopupContent("Connecté!");
 
       setTimeout(() => {
         navigate("/");
       }, 1000);
     } else {
-      setPopup("Identifiant ou mot de passe incorrect");
       setTimeout(() => window.location.reload(false), 1000);
-      setPopupContent("Echec");
+      setPopupContent("Identifiant ou mot de passe incorrect");
     }
   }
 
@@ -71,7 +64,6 @@ function Login() {
           </button>
           <Popup />
         </div>
-        <Popup />
         <div className="not-connected">
           <div className="lost-password">
             Mot de passe oublié?
