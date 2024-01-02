@@ -6,7 +6,8 @@ import logo from "../styles/icons/logo.png";
 import Popup from "../components/alerts/Popup";
 
 function Login() {
-  const { users, email, setEmail, password, setPassword, setPopup } = Useinfo();
+  const { users, email, setEmail, password, setPassword, setPopupContent } =
+    Useinfo();
   const navigate = useNavigate();
 
   function handleLoginSubmit() {
@@ -14,14 +15,14 @@ function Login() {
       (e) => password === e.password && email === e.email
     );
     if (findUser) {
-      setPopup("Connecté!");
+      setPopupContent("Connecté!");
 
       setTimeout(() => {
         navigate("/");
       }, 1000);
     } else {
-      setPopup("Identifiant ou mot de passe incorrect");
       setTimeout(() => window.location.reload(false), 1000);
+      setPopupContent("Identifiant ou mot de passe incorrect");
     }
   }
 
