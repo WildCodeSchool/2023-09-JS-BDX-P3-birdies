@@ -738,6 +738,8 @@ export function InfoContextProvider({ children }) {
     }),
     [
       recipes,
+      evaluations,
+      HandleRecipeNote,
       difficulties,
       evaluations,
       handleChangeSearch,
@@ -760,6 +762,9 @@ export function InfoContextProvider({ children }) {
       setEmail,
       password,
       setPassword,
+      popupContent,
+      Average,
+      recipesPepites,
       Average,
       recipesPepites,
       popupContent,
