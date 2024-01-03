@@ -16,6 +16,7 @@ import Admin from "./pages/Admin";
 import { AdminContextProvider } from "./context/AdminContext";
 import ModifyRecipe from "./pages/ModifyRecipe";
 import ErrorPage from "./pages/errorPage";
+import UserSettings from "./pages/UserSettings";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
         <Admin />
       </AdminContextProvider>
     ),
+  },
+  {
+    path: "/UserSettings",
+    element: <UserSettings />,
   },
 ]);
 
