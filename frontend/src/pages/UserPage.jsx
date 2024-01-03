@@ -10,12 +10,16 @@ import OptionsMenu from "../components/userPage/OptionsMenu";
 function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
+  const [kindOfRecipes, setKinfOfRecipes] = useState("mines"); // "favs"
 
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
+
   const handleUserRecipes = () => {
+    setKinfOfRecipes("mines");
     console.info("Affiche les recettes postées par l'utilisateur");
   };
   const handleUserFavs = () => {
+    setKinfOfRecipes("favs");
     console.info("Affiche les recettes favorites de l'utilisateur");
   };
   function handleChangeOptionsMenu() {
@@ -59,17 +63,17 @@ function UserPage() {
         <div className="recipes-favs">
           <button
             type="button"
-            className="mes-recettes"
-            onClick={handleUserRecipes}
-          >
-            Mes recettes
-          </button>
-          <button
-            type="button"
             className="coups-de-coeur"
             onClick={handleUserFavs}
           >
             Mes coup de coeur
+          </button>
+          <button
+            type="button"
+            className="mes-recettes"
+            onClick={handleUserRecipes}
+          >
+            Mes recettes
           </button>
         </div>
       </div>
@@ -77,8 +81,7 @@ function UserPage() {
         <Filter />
       </div>
       <div className="userPage-recipes">
-        {/* <Slides /> */}
-        <FavoriteRecipesList />
+        <FavoriteRecipesList kindOfRecipes={kindOfRecipes} />
       </div>
     </>
   );

@@ -20,11 +20,28 @@
       width: 15px;
       height: 15px;
       position: absolute;
-      right: 14px;
+      left: 12px;
       top: 5px;
       .pen-img {
         width: 15px;
       }
+    }
+    .delete-btn {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 0.2rem;
+      padding-right: 0.25rem;
+      right: 8px;
+      top: 9px;
+      width: 20px;
+      height: 20px;
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 50%;
     }
     .recipe-name {
       position: absolute;

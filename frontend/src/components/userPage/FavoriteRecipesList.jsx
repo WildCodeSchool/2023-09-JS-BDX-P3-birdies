@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import { Useinfo } from "../../context/InfoContext";
 import PenImg from "../../styles/icons/Pen-img.png";
 import star from "../../styles/icons/Star.png";
 
-function FavoriteRecipesList() {
+function FavoriteRecipesList({ kindOfRecipes }) {
   const { recipes, Average } = Useinfo();
   return (
     <div className="recipe-container">
@@ -15,9 +16,17 @@ function FavoriteRecipesList() {
               backgroundImage: `url(${recipe.picture})`,
             }}
           >
-            <Link to={`/modifyRecipes/${recipe.id}`} className="modify-btn">
+            {kindOfRecipes === "mines" && (
+              <Link to={`/modifyRecipes/${recipe.id}`} className="modify-btn">
+                <img src={PenImg} alt="pen" className="pen-img" />
+              </Link>
+            )}
+            <button type="button" className="delete-btn">
+              x
+            </button>
+            {/* <Link to={`/modifyRecipes/${recipe.id}`} className="modify-btn">
               <img src={PenImg} alt="pen" className="pen-img" />
-            </Link>
+            </Link> */}
             <h3 className="recipe-name">{recipe.name}</h3>
             <div className="rate-container">
               <div className="stars">
@@ -34,5 +43,7 @@ function FavoriteRecipesList() {
     </div>
   );
 }
-
+FavoriteRecipesList.propTypes = {
+  kindOfRecipes: PropTypes.string.isRequired,
+};
 export default FavoriteRecipesList;
