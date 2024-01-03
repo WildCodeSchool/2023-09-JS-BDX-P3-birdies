@@ -23,24 +23,18 @@ function NewRecipe() {
   const [recipeIngredients, setRecipeIngredients] = useState([]); // ---> INGREDIENTS A RECUPERER
   const [quantityValues, setQuantityValues] = useState([]);
   const [uniteValues, setUniteValues] = useState([]); // --- > UNITES A RECUPERER
-  const [recipeEnergyValue, setRecipeEnergyValue] = useState([]);
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
 
-  // Appel de l'API selon l'ingrédient et filtrer si contient un nutritin grade
-  const apiCall = async (ingredient) => {
+  const newApiCall = async (ingredient) => {
     const response = await axios.get(
-      `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriscore_data`
+      `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriments`
     );
     const productsList = response.data.products.filter(
-      (products) => products.nutriscore_data !== undefined
+      (products) => products.nutriments.energy_unit === "kJ"
     );
     console.info(productsList);
-    const withEnergyPdct = productsList.filter(
-      (product) => product.nutriscore_data.energy !== undefined
-    );
-    console.info(withEnergyPdct);
     setIngredientsFound(productsList);
   };
   // création du nom de la recette
@@ -72,18 +66,16 @@ function NewRecipe() {
     const filteredTry = essai.filter(
       (element) => element.product_name_fr === ingredientSelected
     );
+
     const newIngredient = {
       name:
         filteredTry[0] === undefined
           ? ingredientSearch
           : filteredTry[0].product_name_fr,
       nutritionValue:
-        filteredTry[0] === undefined
-          ? 0
-          : filteredTry[0].nutriscore_data.energy,
+        filteredTry[0] === undefined ? 0 : filteredTry[0].nutriments.energy,
     };
-    console.info(newIngredient);
-    setRecipeIngredients([...ingreds, newIngredient]);
+    setRecipeIngredients([...recipeIngredients, newIngredient]);
     setIngreds([...ingreds, { name: ingredientSearch }]);
     setIngredientSearch("");
   };
@@ -133,36 +125,42 @@ function NewRecipe() {
   const searchIngredient = (value) => {
     setIngredientSearch(value);
   };
-
+  // stock le nom de l'ingrédient choisi
   const handleSelect = (value) => {
     setIngredientSelected(value);
     setEssai(ingredientsFound);
   };
 
   useEffect(() => {
-    apiCall(ingredientSearch);
+    newApiCall(ingredientSearch);
   }, [ingredientSearch]);
 
   // calcule la valeur energétique à partir d'un tableau d'ingrédients
   function getEnergeticValuePerPerson(array) {
+    const recipeEnergy = [];
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < array.length; i++) {
+      const adaptedQuantity =
+        quantityValues[i] === undefined ? 0 : quantityValues[i];
       const energyForQuantity =
-        (array[i].nutritionValue / 100) * quantityValues[i];
-      setRecipeEnergyValue([...recipeEnergyValue, energyForQuantity]);
+        (array[i].nutritionValue / 100) * adaptedQuantity;
+      recipeEnergy.push(energyForQuantity);
     }
-    const energyPerPerson = recipeEnergyValue.concat() / guestsNumber;
+    const totalEnergy = recipeEnergy.reduce((acc, element) => acc + element, 0);
+
+    const energyPerPerson = totalEnergy / guestsNumber;
     return energyPerPerson;
   }
 
   const showAll = () => {
+    console.info(recipeIngredients);
     const ingredientsInfos = [];
     // créer les objets ingrédients : nom, quantité, mesure
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < recipeIngredients.length; i++) {
       const ingredientLine = {
         name: recipeIngredients[i].name,
-        // energy: recipeIngredients[i].energy,
+        energy_100gr: recipeIngredients[i].nutritionValue,
         quantity: quantityValues[i],
         mesure: uniteValues[i],
       };
@@ -183,6 +181,7 @@ function NewRecipe() {
     setBasicSuccess((prev) => !prev);
     console.info(recipe);
   };
+  console.info(recipeIngredients);
   return (
     <div className="page">
       <RecipeHeader />

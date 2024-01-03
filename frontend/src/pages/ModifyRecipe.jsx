@@ -181,7 +181,7 @@ function ModifyRecipe() {
     const recipe = {
       id,
       name: recipeName,
-      picture: image[0],
+      picture: image[0] === undefined ? chosenRecipe.picture : image[0],
       peopleNumber: guestsNumber,
       difficulty: difficultyEvaluation,
       ingredients: ingredientsInfos,
@@ -190,7 +190,7 @@ function ModifyRecipe() {
     setInfoSuccess((prev) => !prev);
     console.info(recipe);
   };
-  console.info(image);
+  console.info(`this is an ${chosenRecipe.picture}`);
   return (
     <div className="page">
       <RecipeHeader />
