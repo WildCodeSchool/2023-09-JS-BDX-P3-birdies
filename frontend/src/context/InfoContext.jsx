@@ -14,6 +14,7 @@ function Average(array) {
 export function InfoContextProvider({ children }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [popupContent, setPopupContent] = useState(null);
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
@@ -25,6 +26,7 @@ export function InfoContextProvider({ children }) {
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
+
   const recipes = [
     {
       id: 1,
@@ -760,6 +762,11 @@ export function InfoContextProvider({ children }) {
       setEmail,
       password,
       setPassword,
+      popupContent,
+      Average,
+      recipesPepites,
+      Average,
+      recipesPepites,
       popupContent,
       Average,
       recipesPepites,
