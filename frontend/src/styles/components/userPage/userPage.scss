@@ -1,0 +1,41 @@
+@import "./favoriteRecipesList";
+
+.info-parameters {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.pfp {
+  width: 5rem;
+  border-radius: 50%;
+}
+
+.evals-recipes {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+.recipes-favs {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-bottom: 1px solid black;
+}
+
+.mes-recettes,
+.coups-de-coeur {
+  border: none;
+  background-color: rgba($color: #00000000, $alpha: 0);
+}
+
+.mes-recettes {
+  color: #d56c06;
+}
+
+.coups-de-coeur {
+  color: #97bf0d;
+}

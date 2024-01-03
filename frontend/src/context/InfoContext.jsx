@@ -12,10 +12,22 @@ function Average(array) {
 }
 
 export function InfoContextProvider({ children }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [popupContent, setPopupContent] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [recipeComment, setRecipeComment] = useState("");
+  // ou l'on stock le texte de recherche de recette
+  const [inputSearchValue, setInputSearchValue] = useState("");
+  // ou l'on stock les id des recettes favorites
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  // valeur de l'alerte pour post de commentaire
+  const [basicSuccess, setBasicSuccess] = useState(false);
+  const [infoSuccess, setInfoSuccess] = useState(false);
   const recipes = [
     {
       id: 1,
@@ -24,7 +36,7 @@ export function InfoContextProvider({ children }) {
         "https://cdn.pixabay.com/photo/2014/02/13/18/52/wok-265566_1280.jpg",
       prepTime: "1h30",
       notes: [3, 5, 2, 4],
-      difficulty: "facile",
+      difficulty: "Facile",
       peopleNumber: 4,
       ingredients: [
         {
@@ -103,7 +115,7 @@ export function InfoContextProvider({ children }) {
         "https://cdn.pixabay.com/photo/2017/02/15/15/17/meal-2069021_1280.jpg",
       prepTime: "2h00",
       notes: [5, 5, 1, 3, 2, 4, 5],
-      difficulty: "Moyen",
+      difficulty: "Moyenne",
       peopleNumber: 6,
       ingredients: [
         {
@@ -312,6 +324,25 @@ export function InfoContextProvider({ children }) {
       word: "Amaaazing !",
     },
   ];
+  const difficulties = [
+    {
+      id: 1,
+      name: "Très facile",
+    },
+    {
+      id: 2,
+      name: "Facile",
+    },
+    {
+      id: 3,
+      name: "Moyenne",
+    },
+    {
+      id: 4,
+      name: "Difficile",
+    },
+  ];
+
   const [users, setUsers] = useState([
     {
       id: 1,
@@ -603,14 +634,73 @@ export function InfoContextProvider({ children }) {
     },
   ];
 
+  // modifie la valeur de la recherche de la barre de recherche
+  function handleChangeSearch(e) {
+    setInputSearchValue(e.target.value);
+  }
+  // ajoute la note lors de l'évaluation d'une recette
   function HandleRecipeNote(e) {
-    console.info(e.target);
-    const avis = e.target.value;
+    const avis =
+      e.target.value === undefined
+        ? e.target.getAttribute("data-value")
+        : e.target.value;
     if (recipeNote === avis) {
       setRecipeNote("");
     } else {
       setRecipeNote(avis);
     }
+  }
+  // stock le texte du commentaire d'une recette
+  function handleChangeComment(e) {
+    setRecipeComment(e.target.value);
+  }
+
+  // ajoute ou enlève une recette des favoris
+  const handleChangeFavorite = (e) => {
+    if (favoriteRecipes.includes(e.target.value)) {
+      setFavoriteRecipes(
+        favoriteRecipes.filter((recipe) => recipe !== e.target.value)
+      );
+    } else {
+      setFavoriteRecipes([...favoriteRecipes, e.target.value]);
+    }
+  };
+  // Définit la date au format JJ/MM/AAAA H:MM
+  const displayDate = () => {
+    const date = new Date().getDate();
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getFullYear();
+    const hours = new Date().getHours();
+    const min =
+      new Date().getMinutes() < 10
+        ? `0${new Date().getMinutes()}`
+        : new Date().getMinutes();
+    return `${date}/${month}/${year}  ${hours}:${min}`;
+  };
+
+  function sendComment(e) {
+    const commentId = e.target.getAttribute("data-value");
+    const commentContent = [
+      {
+        userId: "????",
+      },
+      {
+        commentDate: displayDate(),
+      },
+      {
+        RecipeId: commentId,
+      },
+      {
+        commentMessage: recipeComment,
+      },
+      {
+        CommentNote: recipeNote,
+      },
+    ];
+    console.info(commentContent);
+    setRecipeComment("");
+    setRecipeNote("");
+    setBasicSuccess((prev) => !prev);
   }
 
   const [popup, setPopup] = useState();
@@ -618,10 +708,26 @@ export function InfoContextProvider({ children }) {
   const contextValues = useMemo(
     () => ({
       recipes,
+      difficulties,
       evaluations,
+      handleChangeSearch,
       HandleRecipeNote,
       recipeNote,
       setRecipeNote,
+      handleChangeComment,
+      handleChangeFavorite,
+      recipeComment,
+      inputSearchValue,
+      setInputSearchValue,
+      favoriteRecipes,
+      setFavoriteRecipes,
+      basicSuccess,
+      setBasicSuccess,
+      infoSuccess,
+      setInfoSuccess,
+      setRecipeComment,
+      sendComment,
+      displayDate,
       users,
       setUsers,
       email,
@@ -632,11 +738,32 @@ export function InfoContextProvider({ children }) {
       setPopup,
       Average,
       recipesPepites,
+      popupContent,
+      setPopupContent,
+      showPopup,
+      setShowPopup,
     }),
     [
       recipes,
       evaluations,
       HandleRecipeNote,
+      difficulties,
+      evaluations,
+      handleChangeSearch,
+      HandleRecipeNote,
+      handleChangeComment,
+      handleChangeFavorite,
+      recipeComment,
+      inputSearchValue,
+      setInputSearchValue,
+      favoriteRecipes,
+      setFavoriteRecipes,
+      basicSuccess,
+      setBasicSuccess,
+      infoSuccess,
+      setInfoSuccess,
+      sendComment,
+      displayDate,
       users,
       email,
       setEmail,
@@ -646,6 +773,12 @@ export function InfoContextProvider({ children }) {
       setPopup,
       Average,
       recipesPepites,
+      Average,
+      recipesPepites,
+      popupContent,
+      setPopupContent,
+      showPopup,
+      setShowPopup,
     ]
   );
 

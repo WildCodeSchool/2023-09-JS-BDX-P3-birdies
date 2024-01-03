@@ -1,0 +1,64 @@
+.swipe-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 20px 10%;
+  justify-content: center;
+  align-items: center;
+  .buttons {
+    margin-bottom: 20px;
+    button {
+      background-color: #ece8da;
+      border: none;
+    }
+  }
+  .card-container {
+    width: 90vh;
+    max-width: 260px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    .swipe {
+      position: absolute;
+      .card {
+        position: relative;
+        width: 60vw;
+        max-width: 260px;
+        height: 500px;
+        border-radius: 20px;
+        background-color: black;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        .pressable {
+          margin-left: 12px;
+          margin-top: 6px;
+        }
+        h3 {
+          position: absolute;
+          top: 5px;
+          left: 50%;
+          transform: translateX(-50%);
+          color: rgba(245, 245, 245, 0.874);
+        }
+        .rate-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-top: 5px;
+          color: rgba(245, 245, 245, 0.874);
+          .stars {
+            display: flex;
+            gap: 5px;
+            color: rgba(245, 245, 245, 0.874);
+            img {
+              margin-top: 2px;
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,32 +1,52 @@
-/* eslint-disable import/no-unresolved */
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { MDBAutocomplete } from "mdb-react-ui-kit";
 import { MDBFileUpload } from "mdb-react-file-upload";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
-import DifficultiesList from "../components/NewRecice/DificultiesList";
 import { Useinfo } from "../context/InfoContext";
+import DifficultiesList from "../components/NewRecice/DificultiesList";
 
-function NewRecipe() {
-  const { displayDate, setBasicSuccess } = Useinfo();
+function ModifyRecipe() {
+  const { recipes, setInfoSuccess } = Useinfo();
+  const { id } = useParams();
 
-  const [ingreds, setIngreds] = useState([]);
-  const [recipeName, setRecipeName] = useState(null);
-  const [image, setImage] = useState({}); // ---> IMAGE A RECUPERER
-  const [difficultyEvaluation, setDifficultyEvaluation] = useState([]); // ---> DIFFICULTE A RECUPERER
+  // Récupération de la recete à modifier
+  const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
+  console.info(chosenRecipe);
+
+  // Récupération des étapes originales de la recette
+  const originalStepsList = [];
+  for (const step of chosenRecipe.steps) {
+    originalStepsList.push(step.description.toString());
+  }
+  // Récupération des quantités et mesures originales
+  const originalQuantities = [];
+  const originalUnites = [];
+  for (const ingredient of chosenRecipe.ingredients) {
+    originalQuantities.push(ingredient.quantity);
+    originalUnites.push(ingredient.mesure);
+  }
+
+  const [ingreds, setIngreds] = useState(chosenRecipe.ingredients);
+  const [recipeName, setRecipeName] = useState(chosenRecipe.name);
+  const [image, setImage] = useState(chosenRecipe.picture); // ---> IMAGE A RECUPERER
+  const [difficultyEvaluation, setDifficultyEvaluation] = useState(
+    chosenRecipe.difficulty
+  );
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
-  const [recipeIngredients, setRecipeIngredients] = useState([]); // ---> INGREDIENTS A RECUPERER
-  const [quantityValues, setQuantityValues] = useState([]);
-  const [uniteValues, setUniteValues] = useState([]); // --- > UNITES A RECUPERER
-  const [recipeEnergyValue, setRecipeEnergyValue] = useState([]);
+  const [recipeIngredients, setRecipeIngredients] = useState(
+    chosenRecipe.ingredients
+  ); // ---> INGREDIENTS A RECUPERER
+  const [quantityValues, setQuantityValues] = useState(originalQuantities);
+  const [uniteValues, setUniteValues] = useState(originalUnites);
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
-  const [guestsNumber, setGuestsNumber] = useState(0);
-  const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
+  const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
+  const [inputs, setInputs] = useState(originalStepsList); // ---> ETAPES A RECUPERER
 
   // Appel de l'API selon l'ingrédient et filtrer si contient un nutritin grade
   const apiCall = async (ingredient) => {
@@ -143,20 +163,9 @@ function NewRecipe() {
     apiCall(ingredientSearch);
   }, [ingredientSearch]);
 
-  // calcule la valeur energétique à partir d'un tableau d'ingrédients
-  function getEnergeticValuePerPerson(array) {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < array.length; i++) {
-      const energyForQuantity =
-        (array[i].nutritionValue / 100) * quantityValues[i];
-      setRecipeEnergyValue([...recipeEnergyValue, energyForQuantity]);
-    }
-    const energyPerPerson = recipeEnergyValue.concat() / guestsNumber;
-    return energyPerPerson;
-  }
-
   const showAll = () => {
     const ingredientsInfos = [];
+
     // créer les objets ingrédients : nom, quantité, mesure
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < recipeIngredients.length; i++) {
@@ -170,19 +179,18 @@ function NewRecipe() {
     }
 
     const recipe = {
-      user: "???",
-      commentDate: displayDate(),
+      id,
       name: recipeName,
       picture: image[0],
       peopleNumber: guestsNumber,
-      energyPerPerson: getEnergeticValuePerPerson(recipeIngredients),
       difficulty: difficultyEvaluation,
       ingredients: ingredientsInfos,
       steps: inputs,
     };
-    setBasicSuccess((prev) => !prev);
+    setInfoSuccess((prev) => !prev);
     console.info(recipe);
   };
+  console.info(image);
   return (
     <div className="page">
       <RecipeHeader />
@@ -194,7 +202,10 @@ function NewRecipe() {
           value={recipeName}
           onChange={handleNameChange}
         />
-        <MDBFileUpload getInputFiles={(file) => setImage(file)} />
+        <MDBFileUpload
+          getInputFiles={(file) => setImage(file)}
+          defaultFile={chosenRecipe.picture}
+        />
         <label>
           Nombre de personnes :{/*  */}
           <div className="people-number-selection">
@@ -211,6 +222,7 @@ function NewRecipe() {
           handleChangeDifficulty={handleChangeDifficulty}
           difficultyEvaluation={difficultyEvaluation}
         />
+
         <div className="new-ingredients-container">
           <h2 className="recipe-part">Ingrédients</h2>
           <div className="search-area">
@@ -279,4 +291,4 @@ function NewRecipe() {
   );
 }
 
-export default NewRecipe;
+export default ModifyRecipe;

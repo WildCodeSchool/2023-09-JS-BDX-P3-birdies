@@ -14,6 +14,8 @@ import { InfoContextProvider } from "./context/InfoContext";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 import { AdminContextProvider } from "./context/AdminContext";
+import ModifyRecipe from "./pages/ModifyRecipe";
+import ErrorPage from "./pages/errorPage";
 
 const router = createBrowserRouter([
   {
@@ -29,8 +31,9 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/recipe/:id",
+    path: "/recipes/:id",
     element: <Recipe />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/userpage",
@@ -39,6 +42,11 @@ const router = createBrowserRouter([
   {
     path: "/newrecipe",
     element: <NewRecipe />,
+  },
+  {
+    path: "/modifyrecipes/:id",
+    element: <ModifyRecipe />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/slideone",
