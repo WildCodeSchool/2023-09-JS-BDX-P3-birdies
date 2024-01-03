@@ -9,19 +9,19 @@
     "@react-spring/web": "^9.5.5",
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
-    "mdb-react-file-upload": "./plugins/file-upload.tgz",
     "mdb-react-ui-kit": "./mdb-react-ui-kit-pro-advanced.tgz",
+    "mdb-react-file-upload": "./plugins/file-upload.tgz",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-debounce-input": "^3.3.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.2",
     "react-slideshow-image": "^4.3.0",
-    "react-tinder-card": "^1.6.4",
     "reactjs-popup": "^2.0.6",
     "sass": "^1.69.5",
+    "uuid": "^9.0.1",
     "swiper": "^11.0.5",
-    "uuid": "^9.0.1"
+    "react-tinder-card": "^1.6.4"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.3",
