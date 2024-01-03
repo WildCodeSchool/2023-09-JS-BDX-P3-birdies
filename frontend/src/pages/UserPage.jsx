@@ -3,7 +3,8 @@ import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
 import Filter from "../components/Filter";
-import Slides from "../components/Slides";
+// import Slides from "../components/Slides";
+import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
 
 function UserPage() {
   const handleUserRecipes = () => {
@@ -55,7 +56,8 @@ function UserPage() {
         <Filter />
       </div>
       <div className="userPage-recipes">
-        <Slides />
+        {/* <Slides /> */}
+        <FavoriteRecipesList />
       </div>
     </>
   );

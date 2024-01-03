@@ -1,12 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { MDBStepper, MDBStepperStep, MDBAlert } from "mdb-react-ui-kit";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import TextInput from "../components/Text-input";
 import ActionButton from "../components/action-button";
 import "../styles/Recipe.scss";
 import chevron from "../styles/icons/chevron-down 2.png";
-import lasagnes from "../styles/icons/lasagnes.jpg";
-import paella from "../styles/icons/paella-traditionnelle.jpeg";
 import chefHat from "../styles/icons/Chef Hat.png";
 import star from "../styles/icons/Star.png";
 import pdf from "../styles/icons/Downloads Folder.png";
@@ -17,12 +16,20 @@ import { Useinfo } from "../context/InfoContext";
 import CommentCard from "../components/CommentCard";
 
 function Recipe() {
-  const { recipes, evaluations, recipeNote, HandleRecipeNote, Average } =
-    Useinfo();
+  const {
+    recipes,
+    evaluations,
+    recipeNote,
+    HandleRecipeNote,
+    Average,
+    favoriteRecipes,
+    handleChangeFavorite,
+    basicSuccess,
+    setBasicSuccess,
+  } = Useinfo();
 
   const { id } = useParams();
   const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
-  console.info(typeof id);
   const averageNote = Average(chosenRecipe.notes);
   const totalVotes = chosenRecipe.notes.length;
   const recipeQuantities = chosenRecipe.ingredients;
@@ -30,34 +37,57 @@ function Recipe() {
   const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
   const [addCommentVisible, setAddCommentVisible] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const swiperElRef = useRef(null);
 
+  // Modie le nombre de personnes pour la recete
   function changeGuestsNumber(e) {
     if (e.target.innerHTML === "+") {
       setGuestsNumber(guestsNumber + 1);
-      // increasQuantity(e);
     } else if (e.target.innerHTML === "-" && guestsNumber > 1) {
       setGuestsNumber(guestsNumber - 1);
     }
   }
-
-  function toggleArea() {
-    setAddCommentVisible(!addCommentVisible);
-    setShowComments(false);
+  // ouvre l'espace ajout de commentaire ou voir les commentaires
+  function toggleArea(e) {
+    const btnValue = e.target.getAttribute("data-value");
+    if (btnValue === "1") {
+      setAddCommentVisible(!addCommentVisible);
+      setShowComments(false);
+    } else {
+      setShowComments(!showComments);
+      setAddCommentVisible(false);
+    }
   }
 
-  function toggleArea2() {
-    setShowComments(!showComments);
-    setAddCommentVisible(false);
-  }
-
+  console.info(favoriteRecipes);
   return (
     <>
       <RecipeHeader />
+      <MDBAlert
+        color="success"
+        autohide
+        position="top-right"
+        delay={2000}
+        appendToBody
+        open={basicSuccess}
+        onClose={() => setBasicSuccess(false)}
+      >
+        Merci pour votre participation !
+      </MDBAlert>
       <div className="recipe-title">
         <p>{chosenRecipe.name}</p>
       </div>
       <div className="recipe-img-container">
-        <img src={id === "1" ? lasagnes : paella} alt="recipe-img" />
+        <button
+          className="like-btn"
+          type="button"
+          value={id}
+          onClick={handleChangeFavorite}
+        >
+          {favoriteRecipes.includes(id) ? "❤️" : "🤍"}
+        </button>
+
+        <img src={chosenRecipe.picture} alt="recipe-img" />
       </div>
 
       <div className="recipe-body-container">
@@ -83,55 +113,70 @@ function Recipe() {
             <div className="prep-time">{chosenRecipe.prepTime}</div>
           </div>
         </div>
-        <div className="all-ingredients-container">
-          <div className="ingredients-title-pdf-container">
-            <div className="ingredients-title">Ingrédients</div>
-            <div className="printer-img-container">
-              <img className="printer" src={pdf} alt="printer" />
-            </div>
-          </div>
-          <div className="people-number-selection">
-            <button type="button" onClick={changeGuestsNumber}>
-              -
-            </button>
-            <p className="people-number">{guestsNumber}</p>
-            <button type="button" onClick={changeGuestsNumber}>
-              +
-            </button>
-          </div>
-
-          {recipeQuantities.map((quantity) => (
-            <div key={quantity.name} className="ingredient-container">
-              <div className="ingredient-name">{quantity.name}</div>
-              <div className="ingred-qtty-mesure-container">
-                <div className="ingredient-qtty">
-                  {Math.round(
-                    (quantity.quantity / chosenRecipe.peopleNumber) *
-                      guestsNumber
-                  )}
+        <MDBStepper type="horizontal">
+          <MDBStepperStep headText="Ingrédients" itemId={1}>
+            <div className="all-ingredients-container">
+              <div className="ingredients-title-pdf-container">
+                <div className="ingredients-title">Ingrédients</div>
+                <div className="printer-img-container">
+                  <img className="printer" src={pdf} alt="printer" />
                 </div>
-                <div className="ingredient-mesure">{quantity.mesure}</div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className="all-steps-container">
-          <div className="steps-title-pdf-container">
-            <div className="steps-title">Etapes</div>
-            <div className="printer-img-container">
-              <img className="printer" src={pdf} alt="printer" />
-            </div>
-          </div>
-          {chosenRecipe.steps.map((step, index) => (
-            <div key={step.index} className="step-container">
-              <div className="step-title">Etape {index + 1}</div>
-              <div className="step-text">
-                <p>{step.description}</p>
+              <div className="people-number-selection">
+                <button type="button" onClick={changeGuestsNumber}>
+                  -
+                </button>
+                <p className="people-number">{guestsNumber}</p>
+                <button type="button" onClick={changeGuestsNumber}>
+                  +
+                </button>
               </div>
+              {/* <div className="ingredients-list"> */}
+              {recipeQuantities.map((quantity) => (
+                <div key={quantity.name} className="ingredient-container">
+                  <div className="ingredient-name">{quantity.name}</div>
+                  <div className="ingred-qtty-mesure-container">
+                    <div className="ingredient-qtty">
+                      {Math.round(
+                        (quantity.quantity / chosenRecipe.peopleNumber) *
+                          guestsNumber
+                      )}
+                    </div>
+                    <div className="ingredient-mesure">{quantity.mesure}</div>
+                  </div>
+                </div>
+              ))}
+              {/* </div> */}
             </div>
-          ))}
-        </div>
-
+          </MDBStepperStep>
+          <MDBStepperStep headText="Etapes" itemId={2}>
+            <div className="all-steps-container">
+              <div className="steps-title-pdf-container">
+                <div className="steps-title">Etapes</div>
+                <div className="printer-img-container">
+                  <img className="printer" src={pdf} alt="printer" />
+                </div>
+              </div>
+              <swiper-container
+                ref={swiperElRef}
+                slides-per-view="1"
+                navigation="true"
+                pagination="true"
+              >
+                {chosenRecipe.steps.map((step, index) => (
+                  <swiper-slide autoHeight="true" key={step.description}>
+                    <div className="step-container">
+                      <div className="step-title">{index + 1}.</div>
+                      <div className="step-text">
+                        <p>{step.description}</p>
+                      </div>
+                    </div>
+                  </swiper-slide>
+                ))}
+              </swiper-container>
+            </div>
+          </MDBStepperStep>
+        </MDBStepper>
         <div className="leave-comments-container">
           <div className="leave-comments-header">
             <div className="leave-comments-picture-area">
@@ -161,11 +206,11 @@ function Recipe() {
                   }
                   onClick={HandleRecipeNote}
                 >
-                  <div className="stars-area" value={evaluation.value}>
-                    <p value={evaluation.value}>{evaluation.image}</p>
+                  <div className="stars-area" data-value={evaluation.value}>
+                    <p data-value={evaluation.value}>{evaluation.image}</p>
                   </div>
-                  <div>
-                    <p value={evaluation.value}>{evaluation.word}</p>
+                  <div data-value={evaluation.value}>
+                    <p data-value={evaluation.value}>{evaluation.word}</p>
                   </div>
                 </button>
               ))}
@@ -173,12 +218,22 @@ function Recipe() {
             <div className="comment-area">
               <p>Un petit commentaire à partager ?</p>
               <TextInput />
-              <ActionButton />
+              <ActionButton id={chosenRecipe.id} />
             </div>
           </div>
           <div className="open-close-btn">
-            <button className="chevron-btn" type="button" onClick={toggleArea}>
-              <img className="chevron" src={chevron} alt="chevron" />
+            <button
+              className="chevron-btn"
+              data-value="1"
+              type="button"
+              onClick={toggleArea}
+            >
+              <img
+                className="chevron"
+                src={chevron}
+                alt="chevron"
+                data-value="1"
+              />
             </button>
           </div>
           <div className="all-comments-area">
@@ -191,14 +246,14 @@ function Recipe() {
               }
             >
               {chosenRecipe.comments.map((comment) => (
-                <CommentCard comment={comment} />
+                <CommentCard comment={comment} key={comment.message} />
               ))}
             </div>
             <div className="open-close-btn">
               <button
                 className="chevron-btn"
                 type="button"
-                onClick={toggleArea2}
+                onClick={toggleArea}
               >
                 <img className="chevron" src={chevron} alt="chevron" />
               </button>

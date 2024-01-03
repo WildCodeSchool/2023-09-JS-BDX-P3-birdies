@@ -22,13 +22,27 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  position: relative;
   min-width: 100%;
   height: 20vh;
-  background-color: lightgray;
+  background-color: black;
+  img {
+    height: 100%;
+  }
+  .like-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: black;
+    border: none;
+  }
 }
 .recipe-body-container {
   flex-flow: column;
   margin: 0 15px;
+  ul {
+    min-height: 500px; // PROBLEME !!!!!!!!!!!!!!!!!!!!!!!!
+  }
 
   .rate-nutri-container {
     min-width: 100%;
@@ -119,7 +133,6 @@ body {
         line-height: 10px;
       }
     }
-
     .ingredient-container {
       display: flex;
       justify-content: space-between;
@@ -133,6 +146,7 @@ body {
   }
 
   .all-steps-container {
+    display: block;
     margin: 10px 15%;
 
     .steps-title-pdf-container {
@@ -156,6 +170,13 @@ body {
     }
     .step-container {
       padding-bottom: 1rem;
+      min-height: 300px;
+
+      .step-text {
+        display: flex;
+        justify-content: center;
+        min-height: 300px;
+      }
     }
   }
   .chevron-btn {

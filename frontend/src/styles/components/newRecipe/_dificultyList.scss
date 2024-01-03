@@ -1,0 +1,14 @@
+.difficulties-container {
+  display: flex;
+  gap: 10px;
+  .difficulty-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+
+    &.clicked {
+      background-color: #d56c06;
+    }
+  }
+}
