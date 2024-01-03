@@ -10,7 +10,7 @@ import OptionsMenu from "../components/userPage/OptionsMenu";
 function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
-  const [kindOfRecipes, setKinfOfRecipes] = useState("mines"); // "favs"
+  const [kindOfRecipes, setKinfOfRecipes] = useState("favs"); // "favs"
 
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
 
