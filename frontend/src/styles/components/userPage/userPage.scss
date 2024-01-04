@@ -1,4 +1,5 @@
 @import "./favoriteRecipesList";
+@import "./optionsMenu";
 
 .info-parameters {
   display: flex;
@@ -10,6 +11,11 @@
 .pfp {
   width: 5rem;
   border-radius: 50%;
+}
+
+.option-menu-btn {
+  background-color: #ece8da;
+  border: none;
 }
 
 .evals-recipes {
@@ -38,4 +44,8 @@
 
 .coups-de-coeur {
   color: #97bf0d;
+}
+
+.flowerFiltre {
+  z-index: 111;
 }
