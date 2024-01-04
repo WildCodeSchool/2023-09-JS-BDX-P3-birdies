@@ -33,6 +33,7 @@ function UserPage() {
           <Link className="back-arrow" to="/">
             <img src={replyArrow} alt="Retour" />
           </Link>
+
           <img
             className="pfp"
             src="https://64.media.tumblr.com/9c1d74026bb52921106ca79e61737183/5f8a57cbf4d0c6d5-2d/s540x810/ec4df470e2ee56091e6419ec24c90dbe7479b64e.jpg"
