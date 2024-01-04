@@ -26,6 +26,10 @@ function Recipe() {
     handleChangeFavorite,
     basicSuccess,
     setBasicSuccess,
+    addCommentVisible,
+    setAddCommentVisible,
+    showComments,
+    setShowComments,
   } = Useinfo();
 
   const { id } = useParams();
@@ -35,8 +39,8 @@ function Recipe() {
   const recipeQuantities = chosenRecipe.ingredients;
 
   const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
-  const [addCommentVisible, setAddCommentVisible] = useState(false);
-  const [showComments, setShowComments] = useState(false);
+  // const [addCommentVisible, setAddCommentVisible] = useState(false);
+  // const [showComments, setShowComments] = useState(false);
   const swiperElRef = useRef(null);
 
   // Modie le nombre de personnes pour la recete
