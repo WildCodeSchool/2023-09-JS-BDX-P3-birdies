@@ -26,7 +26,7 @@ export function InfoContextProvider({ children }) {
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
-
+  const [userPicture, setUserPicture] = useState();
   const recipes = [
     {
       id: 1,
@@ -735,6 +735,8 @@ export function InfoContextProvider({ children }) {
       Average,
       recipesPepites,
       popupContent,
+      userPicture,
+      setUserPicture,
     }),
     [
       recipes,
@@ -773,6 +775,8 @@ export function InfoContextProvider({ children }) {
       Average,
       recipesPepites,
       setPopupContent,
+      userPicture,
+      setUserPicture,
     ]
   );
 

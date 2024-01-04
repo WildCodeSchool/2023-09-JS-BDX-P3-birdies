@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { MDBFileUpload } from "mdb-react-file-upload";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/UserSettings/userSettings.scss";
+import { Useinfo } from "../context/InfoContext";
 
 export default function UserSettings() {
+  const { userPicture, setUserPicture } = Useinfo();
   // lines disabled for eslint because values are not changing anything yet
   const [nickname, setNickname] = useState(); // eslint-disable-line
   const [firstname, setFirstname] = useState(); // eslint-disable-line
@@ -16,6 +19,7 @@ export default function UserSettings() {
     alert("Modifications enregistrées"); // eslint-disable-line no-alert
     setTimeout(() => window.location.reload(false), 1000);
   };
+  console.info(userPicture);
 
   return (
     <>
@@ -23,13 +27,9 @@ export default function UserSettings() {
         <Link className="back-arrow" to="/">
           <img src={replyArrow} alt="Retour" />
         </Link>
-        <button type="submit" className="modify-pfp">
-          <img
-            className="pfp"
-            src="https://64.media.tumblr.com/9c1d74026bb52921106ca79e61737183/5f8a57cbf4d0c6d5-2d/s540x810/ec4df470e2ee56091e6419ec24c90dbe7479b64e.jpg"
-            alt="Moi"
-          />
-        </button>
+        <MDBFileUpload
+          getInputFiles={(file) => setUserPicture(file.find((e) => e.name))}
+        />
         <img src={settingsWheel} alt="Paramètres" className="setting-wheel" />
       </div>
       <div className="user-settings-container">
