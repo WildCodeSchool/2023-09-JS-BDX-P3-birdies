@@ -5,6 +5,7 @@ import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
 import Filter from "../components/Filter";
 import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
+
 import OptionsMenu from "../components/userPage/OptionsMenu";
 
 function UserPage() {
