@@ -6,6 +6,10 @@ import star from "../../styles/icons/Star.png";
 
 function FavoriteRecipesList({ kindOfRecipes }) {
   const { recipes, Average } = Useinfo();
+
+  function handleDeleteRecipe() {
+    console.info("recette supprimée");
+  }
   return (
     <div className="recipe-container">
       {recipes.map((recipe) => (
@@ -21,7 +25,11 @@ function FavoriteRecipesList({ kindOfRecipes }) {
                 <img src={PenImg} alt="pen" className="pen-img" />
               </Link>
             )}
-            <button type="button" className="delete-btn">
+            <button
+              type="button"
+              className="delete-btn"
+              onClick={handleDeleteRecipe}
+            >
               x
             </button>
             {/* <Link to={`/modifyRecipes/${recipe.id}`} className="modify-btn">
