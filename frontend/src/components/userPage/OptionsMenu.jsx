@@ -11,7 +11,7 @@ function OptionsMenu({ menuVisible }) {
           <li className="option-menu-line">Ajouter une recette</li>
         </Link>
         <Link to="/userSettings">
-          <li className="option-menu-line">modifi de compte</li>
+          <li className="option-menu-line">modif de compte</li>
         </Link>
         <Link to="/slideone">
           <li className="option-menu-line">deconnexion</li>
