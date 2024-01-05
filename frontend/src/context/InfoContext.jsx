@@ -29,7 +29,7 @@ export function InfoContextProvider({ children }) {
   const [userPicture, setUserPicture] = useState();
   const [addCommentVisible, setAddCommentVisible] = useState(false);
   const [showComments, setShowComments] = useState(false);
-
+  console.info(email);
   const recipes = [
     {
       id: 1,
