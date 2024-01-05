@@ -1,30 +1,45 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Useinfo } from "../context/InfoContext";
+import axios from "axios";
+import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import "reactjs-popup/dist/index.css";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
 import Popup from "../components/alerts/Popup";
 
 function Login() {
-  const { users, email, setEmail, password, setPassword, setPopupContent } =
-    Useinfo();
   const navigate = useNavigate();
+  const [formValue, setFormValue] = useState({
+    email: "",
+    password: "",
+  });
 
-  function handleLoginSubmit() {
-    const findUser = users.find(
-      (e) => password === e.password && email === e.email
-    );
-    if (findUser) {
-      setPopupContent("Connecté!");
+  const onChange = (e) => {
+    setFormValue({ ...formValue, [e.target.name]: e.target.value });
+  };
 
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
-    } else {
-      setTimeout(() => window.location.reload(false), 1000);
-      setPopupContent("Identifiant ou mot de passe incorrect");
+  const handleLoginSubmit = async (credentials) => {
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3310/api/login`,
+        credentials
+      );
+      localStorage.setItem("token", data.token);
+      const tokenData = jwtDecode(data.token);
+      alert(`Content de vous revoir ${credentials.email}`);
+      if (tokenData.role === "admin") {
+        return navigate("/userpage");
+      }
+      return navigate("/");
+    } catch (err) {
+      console.error(err);
+      setFormValue({
+        email: "",
+        password: "",
+      });
     }
-  }
+    return null;
+  };
 
   return (
     <div className="container">
@@ -39,18 +54,22 @@ function Login() {
           </div>
           <div className="input">
             <input
+              value={formValue.email}
+              name="email"
               className="input-email"
               type="email"
               placeholder="Email"
-              onBlur={(e) => setEmail(e.target.value)}
+              onChange={onChange}
             />
           </div>
           <div className="input">
             <input
+              value={formValue.password}
+              name="password"
               className="input-password"
               type="password"
               placeholder="Mot de passe"
-              onBlur={(e) => setPassword(e.target.value)}
+              onChange={onChange}
             />
           </div>
         </div>
@@ -58,7 +77,7 @@ function Login() {
           <button
             className="submit-form"
             type="button"
-            onClick={handleLoginSubmit}
+            onClick={() => handleLoginSubmit(formValue)}
           >
             Se connecter
           </button>
