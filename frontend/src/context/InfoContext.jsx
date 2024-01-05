@@ -27,6 +27,9 @@ export function InfoContextProvider({ children }) {
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
   const [userPicture, setUserPicture] = useState();
+  const [addCommentVisible, setAddCommentVisible] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+
   const recipes = [
     {
       id: 1,
@@ -699,6 +702,7 @@ export function InfoContextProvider({ children }) {
     console.info(commentContent);
     setRecipeComment("");
     setRecipeNote("");
+    setAddCommentVisible(false);
     setBasicSuccess((prev) => !prev);
   }
 
@@ -737,6 +741,10 @@ export function InfoContextProvider({ children }) {
       popupContent,
       userPicture,
       setUserPicture,
+      addCommentVisible,
+      setAddCommentVisible,
+      showComments,
+      setShowComments,
     }),
     [
       recipes,
@@ -777,6 +785,10 @@ export function InfoContextProvider({ children }) {
       setPopupContent,
       userPicture,
       setUserPicture,
+      addCommentVisible,
+      setAddCommentVisible,
+      showComments,
+      setShowComments,
     ]
   );
 
