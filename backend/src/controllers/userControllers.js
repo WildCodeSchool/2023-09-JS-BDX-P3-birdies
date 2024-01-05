@@ -35,7 +35,8 @@ const postUser = (req, res) => {
 const postLogin = (req, res) => {
   models.user.login(req.body).then((user) => {
     if (user) {
-      const token = generateAccessToken(user);
+      const { id, role } = user;
+      const token = generateAccessToken({ id, role, banana: "victory mfk !" });
       res.send({ token });
     } else {
       res.status(401).send({ error: "identifiant incorrect !" });
@@ -43,8 +44,25 @@ const postLogin = (req, res) => {
   });
 };
 
+const deleteUser = (req, res) => {
+  const { id } = req.body;
+  models.user
+    .delete(id)
+    .then(([response]) => {
+      if (response.affectedRows === 0) {
+        res.sendStatus(404);
+      } else {
+        res.status(204).send("good");
+      }
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+};
+
 module.exports = {
   getUsers,
   postUser,
   postLogin,
+  deleteUser,
 };

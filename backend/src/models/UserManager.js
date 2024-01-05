@@ -25,7 +25,7 @@ class UserManager extends AbstractManager {
     }
 
     const user = rows[0];
-
+    console.info(user);
     const result = await bcrypt.compare(password, user.password);
 
     return result ? user : undefined;
