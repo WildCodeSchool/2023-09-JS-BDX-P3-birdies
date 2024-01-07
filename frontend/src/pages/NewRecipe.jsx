@@ -175,13 +175,13 @@ function NewRecipe() {
 
     const recipe = {
       userId: "???",
-      publicationDate: displayDate(),
       name: recipeName,
+      publicationDate: displayDate(),
       picture: image[0],
       peopleNumber: guestsNumber,
-      prepTime: duration,
       energyPerPerson: getEnergeticValuePerPerson(recipeIngredients),
       difficulty: difficultyEvaluation,
+      prepTime: duration,
       ingredients: ingredientsInfos,
       steps: inputs,
     };
