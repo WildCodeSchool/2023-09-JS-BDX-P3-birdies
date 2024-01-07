@@ -12,6 +12,7 @@ function Average(array) {
 }
 
 export function InfoContextProvider({ children }) {
+  const [userId, setUserId] = useState(undefined);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -29,14 +30,14 @@ export function InfoContextProvider({ children }) {
   const [userPicture, setUserPicture] = useState();
   const [addCommentVisible, setAddCommentVisible] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  console.info(email);
+
   const recipes = [
     {
       id: 1,
       name: "Paella",
       picture:
         "https://cdn.pixabay.com/photo/2014/02/13/18/52/wok-265566_1280.jpg",
-      prepTime: "1h30",
+      prepTime: "125",
       notes: [3, 5, 2, 4],
       difficulty: "Facile",
       peopleNumber: 4,
@@ -115,7 +116,7 @@ export function InfoContextProvider({ children }) {
       name: "Lasagnes",
       picture:
         "https://cdn.pixabay.com/photo/2017/02/15/15/17/meal-2069021_1280.jpg",
-      prepTime: "2h00",
+      prepTime: "120",
       notes: [5, 5, 1, 3, 2, 4, 5],
       difficulty: "Moyenne",
       peopleNumber: 6,
@@ -209,7 +210,7 @@ export function InfoContextProvider({ children }) {
       name: "Croziflette",
       picture:
         "https://tse3.mm.bing.net/th?id=OIP.LnTLfxtLjLaZEIlKOygengHaFj&pid=Api&P=0&h=180",
-      prepTime: "50 min",
+      prepTime: "50",
       notes: [3, 5, 2, 4],
       difficulty: "facile",
       peopleNumber: 4,
@@ -374,7 +375,7 @@ export function InfoContextProvider({ children }) {
       name: "Gigot de 7 heures",
       picture:
         "https://gourmandiz.dhnet.be/wp-content/uploads/2018/05/050618RECETTE3PVDA-690x388.jpg",
-      prepTime: "7h ",
+      prepTime: "420",
       notes: [3, 5, 2, 4],
       difficulty: "facile",
       peopleNumber: 4,
@@ -467,7 +468,7 @@ export function InfoContextProvider({ children }) {
       name: "Langouste Grillées",
       picture:
         "https://www.audreycuisine.fr/wp-content/uploads/2020/12/shutterstock_1668087205-1320x881.jpg",
-      prepTime: "10 min",
+      prepTime: "10",
       notes: [3, 5, 2, 4],
       difficulty: "facile",
       peopleNumber: 4,
@@ -558,7 +559,7 @@ export function InfoContextProvider({ children }) {
       name: "Entrecôte bordelaise",
       picture:
         "https://tse3.mm.bing.net/th?id=OIP.IS1uFd78fzfTYNew17UAZAHaEK&pid=Api&P=0&h=180",
-      prepTime: "10 min",
+      prepTime: "120",
       notes: [3, 5, 2, 4],
       difficulty: "facile",
       peopleNumber: 4,
@@ -667,6 +668,14 @@ export function InfoContextProvider({ children }) {
       setFavoriteRecipes([...favoriteRecipes, e.target.value]);
     }
   };
+
+  function convertMinutesToTime(value) {
+    const timeAsANumber = parseInt(value, 10);
+    const hours = Math.floor(timeAsANumber / 60);
+    const minutes =
+      timeAsANumber % 60 < 10 ? `0${timeAsANumber % 60}` : timeAsANumber % 60;
+    return `${hours} h ${minutes}`;
+  }
   // Définit la date au format JJ/MM/AAAA H:MM
   const displayDate = () => {
     const date = new Date().getDate();
@@ -680,7 +689,7 @@ export function InfoContextProvider({ children }) {
     return `${date}/${month}/${year}  ${hours}:${min}`;
   };
 
-  function sendComment(e) {
+  function sendEvaluation(e) {
     const commentId = e.target.getAttribute("data-value");
     const commentContent = [
       {
@@ -708,6 +717,8 @@ export function InfoContextProvider({ children }) {
 
   const contextValues = useMemo(
     () => ({
+      userId,
+      setUserId,
       recipes,
       difficulties,
       evaluations,
@@ -727,7 +738,7 @@ export function InfoContextProvider({ children }) {
       infoSuccess,
       setInfoSuccess,
       setRecipeComment,
-      sendComment,
+      sendEvaluation,
       displayDate,
       users,
       setUsers,
@@ -736,6 +747,7 @@ export function InfoContextProvider({ children }) {
       password,
       setPassword,
       setPopupContent,
+      convertMinutesToTime,
       Average,
       recipesPepites,
       popupContent,
@@ -747,6 +759,8 @@ export function InfoContextProvider({ children }) {
       setShowComments,
     }),
     [
+      userId,
+      setUserId,
       recipes,
       evaluations,
       HandleRecipeNote,
@@ -765,7 +779,7 @@ export function InfoContextProvider({ children }) {
       setBasicSuccess,
       infoSuccess,
       setInfoSuccess,
-      sendComment,
+      sendEvaluation,
       displayDate,
       users,
       email,
@@ -773,6 +787,7 @@ export function InfoContextProvider({ children }) {
       password,
       setPassword,
       popupContent,
+      convertMinutesToTime,
       Average,
       recipesPepites,
       Average,

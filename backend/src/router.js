@@ -20,10 +20,14 @@ router.post("/items", itemControllers.add);
 /* ************************************************************************* */
 // import UserControllers module for handling user-related operations
 const userControllers = require("./controllers/userControllers");
+const recipeControllers = require("./controllers/recipesControllers");
 
 router.get("/users", userControllers.getUsers);
 router.post("/users", userControllers.postUser);
 router.post("/login", userControllers.postLogin);
 router.delete("/users", userControllers.deleteUser);
 
+router.get("/recipes", recipeControllers.getRecipes);
+router.post("/recipes", recipeControllers.postRecipe);
+router.delete("/recipes", recipeControllers.deleteRecipe);
 module.exports = router;

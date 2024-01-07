@@ -6,14 +6,15 @@ import "reactjs-popup/dist/index.css";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
 import Popup from "../components/alerts/Popup";
+// import { Useinfo } from "../context/InfoContext";
 
 function Login() {
-  const navigate = useNavigate();
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
   });
 
+  const navigate = useNavigate();
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
@@ -26,9 +27,10 @@ function Login() {
       );
       localStorage.setItem("token", data.token);
       const tokenData = jwtDecode(data.token);
+      // eslint-disable-next-line no-alert
       alert(`Content de vous revoir ${credentials.email}`);
       if (tokenData.role === "admin") {
-        return navigate("/userpage");
+        return navigate("/admin");
       }
       return navigate("/");
     } catch (err) {

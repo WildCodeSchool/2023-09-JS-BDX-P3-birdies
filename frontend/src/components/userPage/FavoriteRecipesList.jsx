@@ -13,7 +13,7 @@ function FavoriteRecipesList({ kindOfRecipes }) {
   return (
     <div className="recipe-container">
       {recipes.map((recipe) => (
-        <Link to={`/recipes/${recipe.id}`}>
+        <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
           <div
             className="recipe-card"
             style={{
@@ -32,9 +32,6 @@ function FavoriteRecipesList({ kindOfRecipes }) {
             >
               x
             </button>
-            {/* <Link to={`/modifyRecipes/${recipe.id}`} className="modify-btn">
-              <img src={PenImg} alt="pen" className="pen-img" />
-            </Link> */}
             <h3 className="recipe-name">{recipe.name}</h3>
             <div className="rate-container">
               <div className="stars">
