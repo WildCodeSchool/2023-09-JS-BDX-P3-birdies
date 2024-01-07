@@ -11,6 +11,18 @@ const getRecipes = (_, res) => {
       res.status(500).send({ error: err.message });
     });
 };
+
+const getRecipeById = (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  models.recipe.find(id).then(([result]) => {
+    if (result[0] !== null) {
+      res.json(result[0]);
+    } else {
+      res.sendStatus(404);
+    }
+  });
+};
+
 const postRecipe = (req, res) => {
   models.recipe
     .create(req.body)
@@ -45,6 +57,7 @@ const deleteRecipe = (req, res) => {
 
 module.exports = {
   getRecipes,
+  getRecipeById,
   postRecipe,
   deleteRecipe,
 };

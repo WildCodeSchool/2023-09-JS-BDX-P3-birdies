@@ -2,12 +2,12 @@ const AbstractManager = require("./AbstractManager");
 
 class RecipeManager extends AbstractManager {
   constructor() {
-    super({ table: "recipe" });
+    super({ table: "recipes" });
   }
 
   async create(recipe) {
     return this.database.query(
-      `insert into ${this.table} (userId, name, date, picture, peopleNumber, energyPerPerson, difficulty, prepTime) values (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `insert into ${this.table} (userId, name, publicationDate, picture, peopleNumber, energyPerPerson, difficulty, prepTime) values (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         recipe.userId,
         recipe.name,

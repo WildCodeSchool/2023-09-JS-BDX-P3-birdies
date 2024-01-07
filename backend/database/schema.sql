@@ -22,7 +22,7 @@ create table `recipes` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `userId` INT NOT NULL,
   `name` VARCHAR(255) NOT NULL,
-  `publicationDate` DATETIME,
+  `publicationDate` VARCHAR(255) NOT NULL,
   `picture` VARCHAR(255) NOT NULL,
   `peopleNumber` INT NOT NULL,
   `energyPerPerson` INT NOT NULL,
@@ -76,7 +76,7 @@ CREATE table `evaluations` (
   `recipe_id` INT NOT NULL,
   `comment` VARCHAR(255),
   `note` INT NOT NULL,
-  `commentDate` DATETIME
+  `commentDate` VARCHAR(255) NOT NULL
 );
 
 DROP TABLE `evaluations`;
