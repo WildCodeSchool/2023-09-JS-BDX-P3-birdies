@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
@@ -11,7 +11,7 @@ function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
   const [kindOfRecipes, setKinfOfRecipes] = useState("favs"); // "favs"
-
+  const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
 
   const handleUserRecipes = () => {
@@ -30,9 +30,13 @@ function UserPage() {
     <>
       <div className="userPage-header">
         <div className="info-parameters">
-          <Link className="back-arrow" to="/">
+          <button
+            type="button"
+            className="back-arrow"
+            onClick={() => navigate(-1)}
+          >
             <img src={replyArrow} alt="Retour" />
-          </Link>
+          </button>
 
           <img
             className="pfp"

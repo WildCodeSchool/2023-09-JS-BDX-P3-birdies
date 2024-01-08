@@ -24,6 +24,7 @@ const postUser = (req, res) => {
         id: rows.insertId,
         email: req.body.email,
         role: req.body.role,
+        password: req.body.password,
       });
     })
     .catch((err) => {
@@ -35,8 +36,13 @@ const postUser = (req, res) => {
 const postLogin = (req, res) => {
   models.user.login(req.body).then((user) => {
     if (user) {
-      const { id, role } = user;
-      const token = generateAccessToken({ id, role, banana: "victory mfk !" });
+      const { id, role, pseudo } = user;
+      const token = generateAccessToken({
+        id,
+        role,
+        pseudo,
+        banana: "banana !",
+      });
       res.send({ token });
     } else {
       res.status(401).send({ error: "identifiant incorrect !" });
@@ -52,7 +58,7 @@ const deleteUser = (req, res) => {
       if (response.affectedRows === 0) {
         res.sendStatus(404);
       } else {
-        res.status(204).send("good");
+        res.status(204).send({ message: "good" });
       }
     })
     .catch((error) => {

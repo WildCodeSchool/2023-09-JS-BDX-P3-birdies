@@ -3,14 +3,14 @@ const AbstractManager = require("./AbstractManager");
 
 class UserManager extends AbstractManager {
   constructor() {
-    super({ table: "user" });
+    super({ table: "users" });
   }
 
   async create(user) {
     const hash = await UserManager.hashPassword(user.password);
     return this.database.query(
-      `insert into ${this.table} (firstname, lastname, email, password, role) values (?, ?, ?, ?, ?)`,
-      [user.firstname, user.lastname, user.email, hash, user.role]
+      `insert into ${this.table} (firstname, lastname, pseudo, email, password, role) values (?, ?, ?, ?, ?, ?)`,
+      [user.firstname, user.lastname, user.pseudo, user.email, hash, user.role]
     );
   }
 

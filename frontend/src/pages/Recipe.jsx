@@ -30,6 +30,7 @@ function Recipe() {
     setAddCommentVisible,
     showComments,
     setShowComments,
+    convertMinutesToTime,
   } = Useinfo();
 
   const { id } = useParams();
@@ -114,7 +115,9 @@ function Recipe() {
           </div>
           <div className="difficulty-container">
             <img src={deliveryTime} alt="chronometer" />
-            <div className="prep-time">{chosenRecipe.prepTime}</div>
+            <div className="prep-time">
+              {convertMinutesToTime(chosenRecipe.prepTime)}
+            </div>
           </div>
         </div>
         <MDBStepper type="horizontal">

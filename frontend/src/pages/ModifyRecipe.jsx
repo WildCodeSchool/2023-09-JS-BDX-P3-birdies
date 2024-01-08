@@ -8,6 +8,7 @@ import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
 import { Useinfo } from "../context/InfoContext";
 import DifficultiesList from "../components/NewRecice/DificultiesList";
+import PreparationTime from "../components/NewRecice/PreparationTime";
 
 function ModifyRecipe() {
   const { recipes, setInfoSuccess } = Useinfo();
@@ -32,7 +33,8 @@ function ModifyRecipe() {
 
   const [ingreds, setIngreds] = useState(chosenRecipe.ingredients);
   const [recipeName, setRecipeName] = useState(chosenRecipe.name);
-  const [image, setImage] = useState(chosenRecipe.picture); // ---> IMAGE A RECUPERER
+  const [image, setImage] = useState(undefined); // ---> IMAGE A RECUPERER
+  const [duration, setDuration] = useState(chosenRecipe.prepTime); // ---> TEMPS A RECUPERER
   const [difficultyEvaluation, setDifficultyEvaluation] = useState(
     chosenRecipe.difficulty
   );
@@ -76,6 +78,12 @@ function ModifyRecipe() {
       setGuestsNumber(guestsNumber - 1);
     }
   }
+
+  // definit le temps de préparation de la recete
+  const handleChangeTime = (e) => {
+    console.info(duration);
+    setDuration(e.target.value);
+  };
 
   // Définie la difficulté de la recette
   const handleChangeDifficulty = (e) => {
@@ -180,17 +188,23 @@ function ModifyRecipe() {
 
     const recipe = {
       id,
+      userId: "???",
       name: recipeName,
+      PublicationDate: chosenRecipe.date,
       picture: image[0] === undefined ? chosenRecipe.picture : image[0],
       peopleNumber: guestsNumber,
+      energyPerPerson:
+        chosenRecipe.energyPerPerson === undefined
+          ? 42
+          : chosenRecipe.energyPerPerson,
       difficulty: difficultyEvaluation,
+      prepTime: duration === undefined ? 42 : duration,
       ingredients: ingredientsInfos,
       steps: inputs,
     };
     setInfoSuccess((prev) => !prev);
     console.info(recipe);
   };
-  console.info(`this is an ${chosenRecipe.picture}`);
   return (
     <div className="page">
       <RecipeHeader />
@@ -218,6 +232,11 @@ function ModifyRecipe() {
             </button>
           </div>
         </label>
+        <PreparationTime
+          handleChangeTime={handleChangeTime}
+          duration={duration}
+        />
+
         <DifficultiesList
           handleChangeDifficulty={handleChangeDifficulty}
           difficultyEvaluation={difficultyEvaluation}
