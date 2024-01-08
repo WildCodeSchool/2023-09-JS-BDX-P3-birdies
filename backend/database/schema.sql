@@ -5,13 +5,11 @@ create table `users` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `firstname` VARCHAR(255) NOT NULL,
   `lastname` VARCHAR(255) NOT NULL,
-  `pseudo` VARCHAR(255),
-  `email` VARCHAR(255) NOT NULL,
+  `pseudo` VARCHAR(255) UNIQUE,
+  `email` VARCHAR(255) UNIQUE NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `role` VARCHAR(255) NOT NULL
 );
-
-DROP TABLE `users`;
 
 INSERT INTO `users` (`firstname`, `lastname`, `pseudo`, `email`, `password`, `role`)
 VALUES
@@ -30,14 +28,12 @@ create table `recipes` (
   `prepTime` INT not NULL
 );
 
-drop table `recipes`;
 
 CREATE table `ingredients` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `ingredientName` VARCHAR(255) NOT NULL
 );
 
-DROP TABLE `ingredients`;
 
 CREATE TABLE `recipes_ingredients` (
   `recipe_id` INT NOT NULL,
@@ -53,14 +49,12 @@ CREATE TABLE `cathegories` (
   `name` VARCHAR(255) NOT NULL
 )
 
-DROP TABLE `cathegories`;
 
 CREATE TABLE `recipes_cathegories` (
   `recipe_id` INT NOT NULL,
   `cathegory_id` INT NOT NULL 
 )
 
-DROP TABLE `recipes_cathegories`;
 
 CREATE TABLE `favorite_Recipes` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -68,7 +62,6 @@ CREATE TABLE `favorite_Recipes` (
   `recipe_id` INT NOT NULL
 )
 
-DROP TABLE `favorite_Recipes`;
 
 CREATE table `evaluations` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -79,7 +72,6 @@ CREATE table `evaluations` (
   `commentDate` VARCHAR(255) NOT NULL
 );
 
-DROP TABLE `evaluations`;
 
 CREATE TABLE `steps` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -88,4 +80,3 @@ CREATE TABLE `steps` (
   `position` INT NOT NULL
 );
 
-DROP TABLE `steps`;

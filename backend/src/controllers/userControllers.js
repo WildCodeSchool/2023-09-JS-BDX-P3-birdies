@@ -36,11 +36,11 @@ const postUser = (req, res) => {
 const postLogin = (req, res) => {
   models.user.login(req.body).then((user) => {
     if (user) {
-      const { id, role, firstname } = user;
+      const { id, role, pseudo } = user;
       const token = generateAccessToken({
         id,
         role,
-        firstname,
+        pseudo,
         banana: "banana !",
       });
       res.send({ token });

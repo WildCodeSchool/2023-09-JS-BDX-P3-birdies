@@ -9,8 +9,9 @@ import logo from "../styles/icons/logo.png";
 function Register() {
   const [checkPassword, setCheckPassword] = useState();
   const [formValue, setFormValue] = useState({
-    firstname: "",
+    firstname: "banana",
     lastname: "tikatika",
+    pseudo: "",
     email: "",
     password: "",
     role: "user",
@@ -18,7 +19,6 @@ function Register() {
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
-
   const navigate = useNavigate();
 
   const createUser = async (credentials) => {
@@ -48,8 +48,9 @@ function Register() {
     } catch (err) {
       console.error(err);
       setFormValue({
-        firstname: "",
-        lastname: "banana",
+        firstname: "banana",
+        lastname: "tikatika",
+        pseudo: "",
         email: "",
         password: "",
         role: "user",
@@ -65,7 +66,7 @@ function Register() {
       alert("Les mots de passe ne sont pas identiques"); // eslint-disable-line no-alert
     } else {
       createUser(formValue);
-      alert(`Bienvenu sur notre site, ${formValue.firstname}!`); // eslint-disable-line no-alert
+      alert(`Bienvenu sur notre site, ${formValue.pseudo}!`); // eslint-disable-line no-alert
       navigate("/");
     }
   };
@@ -83,11 +84,11 @@ function Register() {
           </div>
           <div className="input">
             <input
-              name="firstname"
+              name="pseudo"
               className="input-pseudo"
               type="text"
               placeholder="pseudo"
-              value={formValue.firstname}
+              value={formValue.pseudo}
               onChange={onChange}
             />
           </div>
