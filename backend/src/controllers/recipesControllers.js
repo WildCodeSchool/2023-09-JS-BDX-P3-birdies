@@ -1,3 +1,4 @@
+// const { compareSync } = require("bcrypt");
 const models = require("../models");
 
 const getRecipes = (_, res) => {
@@ -29,7 +30,6 @@ const postRecipe = (req, res) => {
     .then(([response]) => {
       res.send({
         id: response.insertId,
-        name: req.body.name,
       });
     })
     .catch((err) => {

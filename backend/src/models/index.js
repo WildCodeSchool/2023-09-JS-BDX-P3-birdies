@@ -13,7 +13,6 @@ const pool = mysql.createPool({
   password: DB_PASSWORD,
   database: DB_NAME,
 });
-
 // try a connection
 
 pool.getConnection().catch(() => {
@@ -32,6 +31,7 @@ const models = {};
 // const ItemManager = require("./ItemManager");
 const UserManager = require("./UserManager");
 const RecipeManager = require("./recipesManager");
+const StepManager = require("./stepsManager");
 // models.item = new ItemManager();
 // models.item.setDatabase(pool);
 
@@ -41,6 +41,8 @@ models.user.setDatabase(pool);
 models.recipe = new RecipeManager();
 models.recipe.setDatabase(pool);
 
+models.step = new StepManager();
+models.step.setDatabase(pool);
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 

@@ -13,11 +13,21 @@ import PreparationTime from "../components/NewRecice/PreparationTime";
 function ModifyRecipe() {
   const { recipes, setInfoSuccess } = Useinfo();
   const { id } = useParams();
-
+  // const [chosenRecipe, setChosenRecipe] = useState({});
   // Récupération de la recete à modifier
   const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
   console.info(chosenRecipe);
 
+  // FONCTION POUR RECUPERER LES RECETTES DU BACK
+  // const getRecipe = async () => {
+  //   const result = await axios.get(`http://localhost:3310/api/recipes/${id}`);
+  //   setChosenRecipe(result.data);
+  // };
+  // useEffect(() => {
+  //   getRecipe();
+  // }, []);
+
+  // console.info(chosenRecipe);
   // Récupération des étapes originales de la recette
   const originalStepsList = [];
   for (const step of chosenRecipe.steps) {

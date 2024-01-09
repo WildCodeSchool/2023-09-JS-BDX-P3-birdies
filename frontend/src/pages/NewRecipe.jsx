@@ -13,7 +13,6 @@ import { Useinfo } from "../context/InfoContext";
 
 function NewRecipe() {
   const { displayDate, setBasicSuccess } = Useinfo();
-
   const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
   const [image, setImage] = useState({}); // ---> IMAGE A RECUPERER
@@ -28,7 +27,8 @@ function NewRecipe() {
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
-
+  const stepsInfos = [];
+  console.info(image);
   const newApiCall = async (ingredient) => {
     const response = await axios.get(
       `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriments`
@@ -36,8 +36,22 @@ function NewRecipe() {
     const productsList = response.data.products.filter(
       (products) => products.nutriments.energy_unit === "kJ"
     );
-    console.info(productsList);
+    // console.info(productsList);
     setIngredientsFound(productsList);
+  };
+
+  const handleRecipeSubmit = async (credentials) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3310/api/recipes`,
+        credentials
+      );
+      console.info(`this is the ID : ${response.data.id}`);
+      return response.data.id;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   };
   // création du nom de la recette
   const handleNameChange = (e) => {
@@ -158,8 +172,7 @@ function NewRecipe() {
     return energyPerPerson;
   }
 
-  const showAll = () => {
-    console.info(recipeIngredients);
+  const showAll = async () => {
     const ingredientsInfos = [];
     // créer les objets ingrédients : nom, quantité, mesure
     // eslint-disable-next-line no-plusplus
@@ -172,23 +185,34 @@ function NewRecipe() {
       };
       ingredientsInfos.push(ingredientLine);
     }
-
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < inputs.length; i++) {
+      const stepLine = {
+        description: inputs[i],
+        position: i + 1,
+      };
+      stepsInfos.push(stepLine);
+    }
     const recipe = {
-      userId: "???",
+      userId: "1",
       name: recipeName,
       publicationDate: displayDate(),
-      picture: image[0],
+      picture: "image",
       peopleNumber: guestsNumber,
       energyPerPerson: getEnergeticValuePerPerson(recipeIngredients),
       difficulty: difficultyEvaluation,
       prepTime: duration,
       ingredients: ingredientsInfos,
-      steps: inputs,
+      steps: stepsInfos,
     };
     setBasicSuccess((prev) => !prev);
-    console.info(recipe);
+    try {
+      handleRecipeSubmit(recipe);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   };
-  console.info(recipeIngredients);
   return (
     <div className="page">
       <RecipeHeader />

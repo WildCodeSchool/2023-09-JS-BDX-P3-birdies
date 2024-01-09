@@ -11,11 +11,11 @@ class RecipeManager extends AbstractManager {
       [
         recipe.userId,
         recipe.name,
-        recipe.date,
+        recipe.publicationDate,
         recipe.picture,
         recipe.peopleNumber,
         recipe.energyPerPerson,
-        recipe.difficulty,
+        recipe.difficulty ?? "",
         recipe.prepTime,
       ]
     );
