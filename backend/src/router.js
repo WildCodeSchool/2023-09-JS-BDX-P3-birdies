@@ -33,5 +33,5 @@ router.get("/recipes/:id", recipeControllers.getRecipeById);
 router.post("/recipes", recipeControllers.postRecipe);
 router.delete("/recipes", recipeControllers.deleteRecipe);
 
-router.post("/recipes/steps", stepControllers.postIngredient);
+router.post("/recipes/:id/steps", stepControllers.postIngredient);
 module.exports = router;

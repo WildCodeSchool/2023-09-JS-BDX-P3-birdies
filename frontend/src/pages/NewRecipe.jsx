@@ -46,8 +46,20 @@ function NewRecipe() {
         `http://localhost:3310/api/recipes`,
         credentials
       );
-      console.info(`this is the ID : ${response.data.id}`);
+      // console.info(`this is the ID : ${response.data.id}`);
       return response.data.id;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+  const handleSubmitSteps = async (id, credentials) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3310/api/recipes/${id}/steps`,
+        credentials
+      );
+      console.info(`Seconde response steps : ${response.data.id}`);
     } catch (err) {
       console.error(err);
       throw err;
@@ -207,7 +219,9 @@ function NewRecipe() {
     };
     setBasicSuccess((prev) => !prev);
     try {
-      handleRecipeSubmit(recipe);
+      handleRecipeSubmit(recipe).then((response) =>
+        handleSubmitSteps(response, stepsInfos)
+      );
     } catch (err) {
       console.error(err);
       throw err;
