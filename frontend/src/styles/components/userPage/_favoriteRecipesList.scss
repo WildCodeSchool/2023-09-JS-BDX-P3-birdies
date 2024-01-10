@@ -1,4 +1,8 @@
-.recipe-container {
+.recipe-container-hide {
+  display: none;
+}
+
+.recipe-container-show {
   margin: 10vw 0;
   display: flex;
   flex-direction: column;

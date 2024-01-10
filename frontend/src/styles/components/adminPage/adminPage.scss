@@ -1,0 +1,13 @@
+.show-user-list {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.hide-user-list {
+  display: none;
+}
+
+.user-info-separation {
+  border-bottom: 1px solid black;
+}
