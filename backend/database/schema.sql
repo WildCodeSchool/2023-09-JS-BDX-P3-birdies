@@ -14,7 +14,7 @@ create table `users` (
 INSERT INTO `users` (`firstname`, `lastname`, `pseudo`, `email`, `password`, `role`)
 VALUES
 ("John", "Wick", "johnnyBoy", "johnwick@wanadoo.fr", "123456", "admin"),
-("Patata", "Doe", "tikaMassala", "patatadoe@wanadoo.fr", "123456", "user")
+("Patata", "Doe", "tikaMassala", "patatadoe@wanadoo.fr", "123456", "user");
 
 create table `recipes` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -25,7 +25,7 @@ create table `recipes` (
   `peopleNumber` INT NOT NULL,
   `energyPerPerson` INT NOT NULL,
   `difficulty` VARCHAR(255) NOT NULL,
-  `prepTime` INT not NULL
+  `prepTime` VARCHAR(225) NOT NULL
 );
 
 
@@ -42,7 +42,6 @@ CREATE TABLE `recipes_ingredients` (
   `quantity` INT NOT NULL
 );
 
-DROP TABLE `recipes_ingredients`;
 
 CREATE TABLE `cathegories` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -53,14 +52,14 @@ CREATE TABLE `cathegories` (
 CREATE TABLE `recipes_cathegories` (
   `recipe_id` INT NOT NULL,
   `cathegory_id` INT NOT NULL 
-)
+);
 
 
 CREATE TABLE `favorite_Recipes` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `user_id`INT NOT NULL,
   `recipe_id` INT NOT NULL
-)
+);
 
 
 CREATE table `evaluations` (

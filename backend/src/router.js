@@ -21,8 +21,11 @@ router.post("/items", itemControllers.add);
 // import UserControllers module for handling user-related operations
 const userControllers = require("./controllers/userControllers");
 const recipeControllers = require("./controllers/recipesControllers");
+const stepControllers = require("./controllers/stepControllers");
+const { authMiddleware } = require("./middlewares/security/auth.middleware");
 
 router.get("/users", userControllers.getUsers);
+router.get("/users/me", authMiddleware, userControllers.getProfile);
 router.post("/users", userControllers.postUser);
 router.post("/login", userControllers.postLogin);
 router.delete("/users", userControllers.deleteUser);
@@ -31,4 +34,6 @@ router.get("/recipes", recipeControllers.getRecipes);
 router.get("/recipes/:id", recipeControllers.getRecipeById);
 router.post("/recipes", recipeControllers.postRecipe);
 router.delete("/recipes", recipeControllers.deleteRecipe);
+
+router.post("/recipes/:id/steps", stepControllers.postIngredient);
 module.exports = router;

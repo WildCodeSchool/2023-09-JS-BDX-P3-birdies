@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const models = require("../models");
 
 function generateAccessToken(data) {
-  return jwt.sign(data, process.env.APP_SECRET, { expiresIn: "1800s" });
+  return jwt.sign(data, process.env.APP_SECRET, { expiresIn: "3600s" });
 }
 const getUsers = (_, res) => {
   models.user
@@ -14,6 +14,10 @@ const getUsers = (_, res) => {
       console.error(err);
       res.sendStatus(500);
     });
+};
+
+const getProfile = (req, res) => {
+  res.send(req.user);
 };
 
 const postUser = (req, res) => {
@@ -68,6 +72,7 @@ const deleteUser = (req, res) => {
 
 module.exports = {
   getUsers,
+  getProfile,
   postUser,
   postLogin,
   deleteUser,
