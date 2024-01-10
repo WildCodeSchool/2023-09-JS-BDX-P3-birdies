@@ -22,8 +22,10 @@ router.post("/items", itemControllers.add);
 const userControllers = require("./controllers/userControllers");
 const recipeControllers = require("./controllers/recipesControllers");
 const stepControllers = require("./controllers/stepControllers");
+const { authMiddleware } = require("./middlewares/security/auth.middleware");
 
 router.get("/users", userControllers.getUsers);
+router.get("/users/me", authMiddleware, userControllers.getProfile);
 router.post("/users", userControllers.postUser);
 router.post("/login", userControllers.postLogin);
 router.delete("/users", userControllers.deleteUser);
