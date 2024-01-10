@@ -1,5 +1,6 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 const InfoContext = createContext();
 
@@ -30,7 +31,21 @@ export function InfoContextProvider({ children }) {
   const [userPicture, setUserPicture] = useState();
   const [addCommentVisible, setAddCommentVisible] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [getData, setGetData] = useState([]);
 
+  const getRecipes = async () => {
+    try {
+      const res = await axios.get("http://localhost:3310/api/recipes");
+      console.info(res.data);
+      setGetData(res.data);
+    } catch (err) {
+      console.error(err.res);
+      setGetData();
+    }
+  };
+  useEffect(() => {
+    getRecipes();
+  }, []);
   const recipes = [
     {
       id: 1,
@@ -717,6 +732,7 @@ export function InfoContextProvider({ children }) {
 
   const contextValues = useMemo(
     () => ({
+      getData,
       userId,
       setUserId,
       recipes,
@@ -759,6 +775,7 @@ export function InfoContextProvider({ children }) {
       setShowComments,
     }),
     [
+      getData,
       userId,
       setUserId,
       recipes,
