@@ -31,6 +31,13 @@ class UserManager extends AbstractManager {
     return result ? user : undefined;
   }
 
+  getProfile(id) {
+    return this.database.query(
+      `SELECT id, email, role FROM ${this.table} WHERE id=?`,
+      [id]
+    );
+  }
+
   static hashPassword(password, workFactor = 5) {
     return bcrypt.hash(password, workFactor);
   }
