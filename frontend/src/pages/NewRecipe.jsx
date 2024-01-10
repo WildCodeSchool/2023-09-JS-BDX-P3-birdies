@@ -12,7 +12,7 @@ import PreparationTime from "../components/NewRecice/PreparationTime";
 import { Useinfo } from "../context/InfoContext";
 
 function NewRecipe() {
-  const { displayDate, setBasicSuccess } = Useinfo();
+  const { displayDate, setBasicSuccess, user } = Useinfo();
   const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
   const [image, setImage] = useState({}); // ---> IMAGE A RECUPERER
@@ -206,7 +206,7 @@ function NewRecipe() {
       stepsInfos.push(stepLine);
     }
     const recipe = {
-      userId: "1",
+      userId: user.id,
       name: recipeName,
       publicationDate: displayDate(),
       picture: "image",

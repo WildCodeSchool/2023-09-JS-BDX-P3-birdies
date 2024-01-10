@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
-// import { Useinfo } from "../context/InfoContext";
+import { Useinfo } from "../context/InfoContext";
 
 function Register() {
+  const { setUser, setInfoLogin } = Useinfo();
   const [checkPassword, setCheckPassword] = useState();
   const [formValue, setFormValue] = useState({
     firstname: "banana",
@@ -27,24 +27,30 @@ function Register() {
         `http://localhost:3310/api/users`,
         credentials
       );
-      console.info(`this is : ${JSON.stringify(newData)}`);
+      console.info(`this is : ${newData}`);
+      // console.info(`this is the data : ${newData.data}`);
       const newCredentials = {
         email: credentials.email,
         password: credentials.password,
       };
-      console.info(newCredentials);
       const { data } = await axios.post(
         `http://localhost:3310/api/login`,
         newCredentials
       );
       localStorage.setItem("token", data.token);
-      const tokenData = jwtDecode(data.token);
+      const config = { headers: { Authorization: `Bearer ${data.token}` } };
+      const result = await axios.get(
+        `http://localhost:3310/api/users/me`,
+        config
+      );
       // eslint-disable-next-line no-alert
-      alert(`Bienvenue ${credentials.email}`);
-      if (tokenData.role === "admin") {
-        return navigate("/admin");
+      setInfoLogin((prev) => !prev);
+      setUser(result.data);
+      console.info(result.data.role);
+      if (result.data.role !== "admin") {
+        return navigate("/");
       }
-      return navigate("/");
+      return navigate("/admin");
     } catch (err) {
       console.error(err);
       setFormValue({
@@ -66,8 +72,6 @@ function Register() {
       alert("Les mots de passe ne sont pas identiques"); // eslint-disable-line no-alert
     } else {
       createUser(formValue);
-      alert(`Bienvenu sur notre site, ${formValue.pseudo}!`); // eslint-disable-line no-alert
-      navigate("/");
     }
   };
 

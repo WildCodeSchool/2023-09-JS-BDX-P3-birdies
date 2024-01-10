@@ -16,7 +16,8 @@ export function InfoContextProvider({ children }) {
   const [userId, setUserId] = useState(undefined);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  // les infos de l'utilisateur connecté
+  const [user, setUser] = useState(undefined);
   const [popupContent, setPopupContent] = useState(null);
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
@@ -28,6 +29,7 @@ export function InfoContextProvider({ children }) {
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
+  const [infoLogin, setInfoLogin] = useState(false);
   const [userPicture, setUserPicture] = useState();
   const [addCommentVisible, setAddCommentVisible] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -735,6 +737,8 @@ export function InfoContextProvider({ children }) {
       getData,
       userId,
       setUserId,
+      user,
+      setUser,
       recipes,
       difficulties,
       evaluations,
@@ -752,6 +756,8 @@ export function InfoContextProvider({ children }) {
       basicSuccess,
       setBasicSuccess,
       infoSuccess,
+      infoLogin,
+      setInfoLogin,
       setInfoSuccess,
       setRecipeComment,
       sendEvaluation,
@@ -778,6 +784,8 @@ export function InfoContextProvider({ children }) {
       getData,
       userId,
       setUserId,
+      user,
+      setUser,
       recipes,
       evaluations,
       HandleRecipeNote,
@@ -796,6 +804,8 @@ export function InfoContextProvider({ children }) {
       setBasicSuccess,
       infoSuccess,
       setInfoSuccess,
+      infoLogin,
+      setInfoLogin,
       sendEvaluation,
       displayDate,
       users,

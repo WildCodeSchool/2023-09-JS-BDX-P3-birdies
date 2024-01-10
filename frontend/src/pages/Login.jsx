@@ -1,14 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import "reactjs-popup/dist/index.css";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
 import Popup from "../components/alerts/Popup";
+import { Useinfo } from "../context/InfoContext";
 // import { Useinfo } from "../context/InfoContext";
 
 function Login() {
+  const { setUser, setInfoLogin } = Useinfo();
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
@@ -26,10 +27,16 @@ function Login() {
         credentials
       );
       localStorage.setItem("token", data.token);
-      const tokenData = jwtDecode(data.token);
+      const config = { headers: { Authorization: `Bearer ${data.token}` } };
+      const result = await axios.get(
+        `http://localhost:3310/api/users/me`,
+        config
+      );
+      setInfoLogin((prev) => !prev);
       // eslint-disable-next-line no-alert
-      alert(`Content de vous revoir ${credentials.email}`);
-      if (tokenData.role === "admin") {
+      alert(`Content de vous revoir ${result.data.pseudo}`);
+      setUser(result.data);
+      if (result.data.role === "admin") {
         return navigate("/admin");
       }
       return navigate("/");
