@@ -6,8 +6,8 @@
   gap: 20px;
 
   .card-container {
-    max-width: 100%;
-    max-height: 600px;
+    min-width: 100%;
+    min-height: 200px;
 
     .content-container {
       background: black;
@@ -42,7 +42,7 @@
       }
     }
     img {
-      max-width: 200px;
+      width: 361px;
       height: 150px;
     }
   }

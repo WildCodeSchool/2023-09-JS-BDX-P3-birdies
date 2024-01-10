@@ -4,6 +4,7 @@ import blocFiltre from "../styles/icons/Bloc lien filtres.png";
 
 function Filter() {
   const [foodFilter, setFoodFilter] = useState([]);
+
   const [displayFilter, setDisplayFilter] = useState(false);
 
   function filterListModify(e) {
