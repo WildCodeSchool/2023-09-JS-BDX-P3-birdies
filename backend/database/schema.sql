@@ -174,3 +174,33 @@ INSERT INTO `cathegories`(`name`) VALUES ("Difficile");
 INSERT INTO `cathegories`(`name`) VALUES ("-30 minutes");
 
 INSERT INTO `cathegories`(`name`) VALUES ("-1 heure");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Gourmand");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Festif");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Sportif");
+
+INSERT INTO `cathegories`(`name`) VALUES ("De saison");
+
+INSERT INTO `cathegories`(`name`) VALUES ("BBQ");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Végétarien");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Sans lactose");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Végan");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Sans gluten");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Entrée");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Snack"), ("Plat");
+
+INSERT INTO
+    `cathegories`(`name`)
+VALUES ("Dessert"), ("Boissons"), ("Français"), ("Asiatique"), ("Méditerranéen"), ("Oriental"), ("Caribéen"), ("Hispanique"), ("USA"), ("Québecois");
+
+ALTER TABLE `recipes` ADD `Gender` VARCHAR(255);
+
+ALTER TABLE `recipes` DROP `Gender`;

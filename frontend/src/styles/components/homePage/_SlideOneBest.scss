@@ -6,7 +6,7 @@
   gap: 20px;
 
   .card-container {
-    min-width: 100%;
+    width: 500px;
     min-height: 200px;
 
     .content-container {
@@ -42,7 +42,7 @@
       }
     }
     img {
-      width: 361px;
+      // width: 361px;
       height: 150px;
     }
   }

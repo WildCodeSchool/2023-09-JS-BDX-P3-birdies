@@ -32,6 +32,9 @@ export function InfoContextProvider({ children }) {
   const [addCommentVisible, setAddCommentVisible] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [getData, setGetData] = useState([]);
+  const [getDataName, setGetDataName] = useState([]);
+  const [foodFilter, setFoodFilter] = useState([]);
+  const [displayFilter, setDisplayFilter] = useState(false);
 
   const getRecipes = async () => {
     try {
@@ -39,10 +42,34 @@ export function InfoContextProvider({ children }) {
       console.info(res.data);
       setGetData(res.data);
     } catch (err) {
-      console.error(err.res);
+      console.error(err.res.data);
       setGetData();
     }
   };
+  const getRecipesName = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3310/api/recipes/${inputSearchValue}`
+      );
+      console.info(res.data);
+      setGetDataName(res.data);
+    } catch (err) {
+      console.error(err.res.data);
+      setGetDataName();
+    }
+  };
+  console.info(foodFilter);
+  function filterListModify(e) {
+    const targetedFilter = e.target.innerText;
+    if (foodFilter.includes(targetedFilter)) {
+      setFoodFilter(foodFilter.filter((spec) => spec !== targetedFilter));
+    } else {
+      setFoodFilter([...foodFilter, targetedFilter]);
+    }
+  }
+  useEffect(() => {
+    getRecipesName();
+  }, [inputSearchValue]);
   useEffect(() => {
     getRecipes();
   }, []);
@@ -747,6 +774,7 @@ export function InfoContextProvider({ children }) {
       recipeComment,
       inputSearchValue,
       setInputSearchValue,
+      getDataName,
       favoriteRecipes,
       setFavoriteRecipes,
       basicSuccess,
@@ -773,9 +801,13 @@ export function InfoContextProvider({ children }) {
       setAddCommentVisible,
       showComments,
       setShowComments,
+      filterListModify,
+      displayFilter,
+      setDisplayFilter,
     }),
     [
       getData,
+      getDataName,
       userId,
       setUserId,
       recipes,
@@ -821,6 +853,9 @@ export function InfoContextProvider({ children }) {
       setAddCommentVisible,
       showComments,
       setShowComments,
+      filterListModify,
+      displayFilter,
+      setDisplayFilter,
     ]
   );
 

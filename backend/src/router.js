@@ -31,6 +31,7 @@ router.post("/login", userControllers.postLogin);
 router.delete("/users", userControllers.deleteUser);
 
 router.get("/recipes", recipeControllers.getRecipes);
+router.get("/recipes/:name", recipeControllers.getRecipesName);
 router.get("/recipes/:id", recipeControllers.getRecipeById);
 router.post("/recipes", recipeControllers.postRecipe);
 router.delete("/recipes", recipeControllers.deleteRecipe);
