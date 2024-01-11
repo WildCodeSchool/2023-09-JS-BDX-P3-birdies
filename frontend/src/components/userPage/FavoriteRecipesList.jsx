@@ -4,14 +4,18 @@ import { Useinfo } from "../../context/InfoContext";
 import PenImg from "../../styles/icons/Pen-img.png";
 import star from "../../styles/icons/Star.png";
 
-function FavoriteRecipesList({ kindOfRecipes }) {
+function FavoriteRecipesList({ kindOfRecipes, favRecListVisible }) {
   const { recipes, Average } = Useinfo();
 
   function handleDeleteRecipe() {
     console.info("recette supprimée");
   }
   return (
-    <div className="recipe-container">
+    <div
+      className={
+        favRecListVisible ? "recipe-container-hide" : "recipe-container-show"
+      }
+    >
       {recipes.map((recipe) => (
         <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
           <div
@@ -50,5 +54,6 @@ function FavoriteRecipesList({ kindOfRecipes }) {
 }
 FavoriteRecipesList.propTypes = {
   kindOfRecipes: PropTypes.string.isRequired,
+  favRecListVisible: PropTypes.string.isRequired,
 };
 export default FavoriteRecipesList;

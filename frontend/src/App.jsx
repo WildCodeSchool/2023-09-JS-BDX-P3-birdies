@@ -8,15 +8,16 @@ import SearchedRecipes from "./components/MainPage/SearchedRecipes";
 
 function App() {
   const {
-    userId,
+    user,
     inputSearchValue,
     basicSuccess,
     setBasicSuccess,
     infoSuccess,
     setInfoSuccess,
+    infoLogin,
+    setInfoLogin,
   } = Useinfo();
-
-  console.info(userId);
+  console.info(user);
   return (
     <>
       <Navigation />
@@ -42,6 +43,18 @@ function App() {
         onClose={() => setInfoSuccess(false)}
       >
         Votre recette à bien été modifiée !
+      </MDBAlert>
+
+      <MDBAlert
+        color="success"
+        autohide
+        position="top-right"
+        delay={2000}
+        appendToBody
+        open={infoLogin}
+        onClose={() => setInfoLogin(false)}
+      >
+        {`Bienvenue ${user.pseudo} !`}
       </MDBAlert>
 
       <Filter />

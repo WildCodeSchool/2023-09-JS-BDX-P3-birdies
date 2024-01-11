@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+import ApiService from "../services/api.service";
 
 const InfoContext = createContext();
 
@@ -12,11 +14,12 @@ function Average(array) {
   return roundedNote;
 }
 
-export function InfoContextProvider({ children }) {
+export function InfoContextProvider({ children, apiService }) {
   const [userId, setUserId] = useState(undefined);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  // les infos de l'utilisateur connecté
+  const [user, setUser] = useState({ role: "visitor" });
   const [popupContent, setPopupContent] = useState(null);
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
@@ -28,6 +31,7 @@ export function InfoContextProvider({ children }) {
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
+  const [infoLogin, setInfoLogin] = useState(false);
   const [userPicture, setUserPicture] = useState();
   const [addCommentVisible, setAddCommentVisible] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -35,6 +39,74 @@ export function InfoContextProvider({ children }) {
   const [getDataName, setGetDataName] = useState([]);
   const [foodFilter, setFoodFilter] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
+
+  const [checkPassword, setCheckPassword] = useState();
+  const [formValue, setFormValue] = useState({
+    email: "",
+    password: "",
+    role: "user",
+  });
+
+  // const navigate = useNavigate();
+
+  const handleLoginSubmit = async (credentials) => {
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3310/api/login`,
+        credentials
+      );
+      localStorage.setItem("token", data.token);
+      // const config = { headers: { Authorization: `Bearer ${data.token}` } };
+      apiService.setToken(data.token);
+      const result = apiService.get(`http://localhost:3310/api/users/me`);
+      // const result = await axios.get(
+      //   `http://localhost:3310/api/users/me`,
+      //   config
+      // );
+      setInfoLogin((prev) => !prev);
+      setUser(result.data);
+      if (result.data.role === "admin") {
+        // return navigate("/admin");
+      }
+      // return navigate("/");
+    } catch (err) {
+      console.error(err);
+      setFormValue({
+        pseudo: "",
+        email: "",
+        password: "",
+      });
+      setCheckPassword("");
+    }
+    return null;
+  };
+
+  const createUser = async (credentials) => {
+    try {
+      const { newData } = await axios.post(
+        `http://localhost:3310/api/users`,
+        credentials
+      );
+      console.info(`this is : ${newData}`);
+      // console.info(`this is the data : ${newData.data}`);
+      const newCredentials = {
+        email: credentials.email,
+        password: credentials.password,
+      };
+      handleLoginSubmit(newCredentials);
+    } catch (err) {
+      console.error(err);
+      setFormValue({
+        firstname: "banana",
+        lastname: "tikatika",
+        pseudo: "",
+        email: "",
+        password: "",
+        role: "user",
+      });
+    }
+    return null;
+  };
 
   const getRecipes = async () => {
     try {
@@ -762,6 +834,8 @@ export function InfoContextProvider({ children }) {
       getData,
       userId,
       setUserId,
+      user,
+      setUser,
       recipes,
       difficulties,
       evaluations,
@@ -780,6 +854,8 @@ export function InfoContextProvider({ children }) {
       basicSuccess,
       setBasicSuccess,
       infoSuccess,
+      infoLogin,
+      setInfoLogin,
       setInfoSuccess,
       setRecipeComment,
       sendEvaluation,
@@ -804,12 +880,21 @@ export function InfoContextProvider({ children }) {
       filterListModify,
       displayFilter,
       setDisplayFilter,
+      apiService,
+      formValue,
+      setFormValue,
+      handleLoginSubmit,
+      createUser,
+      checkPassword,
+      setCheckPassword,
     }),
     [
       getData,
       getDataName,
       userId,
       setUserId,
+      user,
+      setUser,
       recipes,
       evaluations,
       HandleRecipeNote,
@@ -828,6 +913,8 @@ export function InfoContextProvider({ children }) {
       setBasicSuccess,
       infoSuccess,
       setInfoSuccess,
+      infoLogin,
+      setInfoLogin,
       sendEvaluation,
       displayDate,
       users,
@@ -856,6 +943,14 @@ export function InfoContextProvider({ children }) {
       filterListModify,
       displayFilter,
       setDisplayFilter,
+
+      apiService,
+      formValue,
+      setFormValue,
+      handleLoginSubmit,
+      createUser,
+      checkPassword,
+      setCheckPassword,
     ]
   );
 
@@ -868,6 +963,7 @@ export function InfoContextProvider({ children }) {
 
 InfoContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
+  apiService: PropTypes.instanceOf(ApiService).isRequired,
 };
 
 export const Useinfo = () => useContext(InfoContext);

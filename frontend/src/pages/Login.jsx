@@ -1,46 +1,18 @@
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useState } from "react";
-import { jwtDecode } from "jwt-decode";
+import { Link } from "react-router-dom";
+// import axios from "axios";
+// import { useState } from "react";
 import "reactjs-popup/dist/index.css";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
 import Popup from "../components/alerts/Popup";
+import { Useinfo } from "../context/InfoContext";
 // import { Useinfo } from "../context/InfoContext";
 
 function Login() {
-  const [formValue, setFormValue] = useState({
-    email: "",
-    password: "",
-  });
+  const { formValue, setFormValue, handleLoginSubmit } = Useinfo();
 
-  const navigate = useNavigate();
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
-  };
-
-  const handleLoginSubmit = async (credentials) => {
-    try {
-      const { data } = await axios.post(
-        `http://localhost:3310/api/login`,
-        credentials
-      );
-      localStorage.setItem("token", data.token);
-      const tokenData = jwtDecode(data.token);
-      // eslint-disable-next-line no-alert
-      alert(`Content de vous revoir ${credentials.email}`);
-      if (tokenData.role === "admin") {
-        return navigate("/admin");
-      }
-      return navigate("/");
-    } catch (err) {
-      console.error(err);
-      setFormValue({
-        email: "",
-        password: "",
-      });
-    }
-    return null;
   };
 
   return (

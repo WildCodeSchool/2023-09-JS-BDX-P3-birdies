@@ -17,7 +17,7 @@ const authMiddleware = (req, res, next) => {
       // step 3: get user data from token payload
       models.user.getProfile(data.id).then(([result]) => {
         if (!result.length) {
-          return res.status(401).json({ error: "tu n'exites plus" });
+          return res.status(401).json({ error: "tu n'existes plus" });
         }
         // step 4: share user data from different middlewares
         const [firstResult] = result;
@@ -30,4 +30,11 @@ const authMiddleware = (req, res, next) => {
   // return next();
 };
 
-module.exports = { authMiddleware };
+const authAdminMiddleware = (req, res, next) => {
+  if (req?.user?.role !== "admin") {
+    res.status(403).json({ error: "t'es pas un membre" });
+  }
+  return next();
+};
+
+module.exports = { authMiddleware, authAdminMiddleware };
