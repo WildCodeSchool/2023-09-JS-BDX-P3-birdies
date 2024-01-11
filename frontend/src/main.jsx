@@ -17,6 +17,9 @@ import { AdminContextProvider } from "./context/AdminContext";
 import ModifyRecipe from "./pages/ModifyRecipe";
 import ErrorPage from "./pages/errorPage";
 import UserSettings from "./pages/UserSettings";
+import ApiService from "./services/api.service";
+
+const apiService = new ApiService();
 
 const router = createBrowserRouter([
   {
@@ -79,7 +82,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <InfoContextProvider>
+    <InfoContextProvider apiService={apiService}>
       <RouterProvider router={router} />
     </InfoContextProvider>
   </React.StrictMode>

@@ -1,68 +1,19 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
 import { Useinfo } from "../context/InfoContext";
 
 function Register() {
-  const { setUser, setInfoLogin } = Useinfo();
-  const [checkPassword, setCheckPassword] = useState();
-  const [formValue, setFormValue] = useState({
-    firstname: "banana",
-    lastname: "tikatika",
-    pseudo: "",
-    email: "",
-    password: "",
-    role: "user",
-  });
+  const {
+    createUser,
+    checkPassword,
+    setCheckPassword,
+    formValue,
+    setFormValue,
+  } = Useinfo();
+
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
-  };
-  const navigate = useNavigate();
-
-  const createUser = async (credentials) => {
-    try {
-      const { newData } = await axios.post(
-        `http://localhost:3310/api/users`,
-        credentials
-      );
-      console.info(`this is : ${newData}`);
-      // console.info(`this is the data : ${newData.data}`);
-      const newCredentials = {
-        email: credentials.email,
-        password: credentials.password,
-      };
-      const { data } = await axios.post(
-        `http://localhost:3310/api/login`,
-        newCredentials
-      );
-      localStorage.setItem("token", data.token);
-      const config = { headers: { Authorization: `Bearer ${data.token}` } };
-      const result = await axios.get(
-        `http://localhost:3310/api/users/me`,
-        config
-      );
-      // eslint-disable-next-line no-alert
-      setInfoLogin((prev) => !prev);
-      setUser(result.data);
-      console.info(result.data.role);
-      if (result.data.role !== "admin") {
-        return navigate("/");
-      }
-      return navigate("/admin");
-    } catch (err) {
-      console.error(err);
-      setFormValue({
-        firstname: "banana",
-        lastname: "tikatika",
-        pseudo: "",
-        email: "",
-        password: "",
-        role: "user",
-      });
-    }
-    return null;
   };
 
   const handleSubmit = () => {
