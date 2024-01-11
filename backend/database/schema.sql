@@ -4,8 +4,8 @@
 create table
     `users` (
         `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-        `firstname` VARCHAR(255) NOT NULL,
-        `lastname` VARCHAR(255) NOT NULL,
+        `firstname` VARCHAR(255),
+        `lastname` VARCHAR(255),
         `pseudo` VARCHAR(255) UNIQUE,
         `email` VARCHAR(255) UNIQUE NOT NULL,
         `password` VARCHAR(255) NOT NULL,
