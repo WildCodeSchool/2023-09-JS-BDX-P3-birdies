@@ -8,7 +8,6 @@ import SearchedRecipes from "./components/MainPage/SearchedRecipes";
 
 function App() {
   const {
-    userId,
     inputSearchValue,
     basicSuccess,
     setBasicSuccess,
@@ -16,7 +15,6 @@ function App() {
     setInfoSuccess,
   } = Useinfo();
 
-  console.info(userId);
   return (
     <>
       <Navigation />

@@ -72,7 +72,7 @@ function AdminPage() {
             Recettes
           </button>
           <button type="button" className="users-list" onClick={handleUserList}>
-            Liste d'utilisateurs
+            Utilisateurs
           </button>
         </div>
       </div>

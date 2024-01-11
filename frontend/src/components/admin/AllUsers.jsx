@@ -9,7 +9,18 @@ function AllUsers({ listVisible }) {
     axios
       .get("http://localhost:3310/api/users")
       .then((res) => setDbUsers(res?.data));
+    console.info(dbUsers);
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3310/api/users/${id}`);
+    } catch (err) {
+      console.error(err);
+    }
+    window.location.reload();
+    return alert("Utilisateur supprimé"); // eslint-disable-line no-alert
+  };
 
   return (
     <div className={listVisible ? "show-user-list" : "hide-user-list"}>
@@ -18,9 +29,18 @@ function AllUsers({ listVisible }) {
           <div>Prénom:{e.firstname}</div>
           <div> Nom:{e.lastname} </div>
           <div>Email:{e.email}</div>
-          <div className="user-info-separation">
+          <div>
             Pseudo:
             {e.pseudo}
+          </div>
+          <div className="user-info-separation">
+            <button
+              className="delete-user-button"
+              type="button"
+              onClick={() => handleDelete(e.id)}
+            >
+              Supprimer
+            </button>
           </div>
         </div>
       ))}

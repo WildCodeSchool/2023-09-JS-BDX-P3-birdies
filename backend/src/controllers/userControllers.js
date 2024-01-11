@@ -55,14 +55,14 @@ const postLogin = (req, res) => {
 };
 
 const deleteUser = (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   models.user
     .delete(id)
     .then(([response]) => {
       if (response.affectedRows === 0) {
         res.sendStatus(404);
       } else {
-        res.status(204).send({ message: "good" });
+        res.status(204).send({ message: "User" });
       }
     })
     .catch((error) => {
