@@ -3,23 +3,17 @@ import { useState } from "react";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
-import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
 import OptionsMenu from "../components/userPage/OptionsMenu";
 import AllUsers from "../components/admin/AllUsers";
+import AllRecipes from "../components/admin/AllRecipes";
 
 function AdminPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
-  const [kindOfRecipes, setKinfOfRecipes] = useState("favs"); // "favs"
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
   const [showUserList, setShowUserList] = useState(false);
-  const [showFavRecipes, setShowFavRecipes] = useState(false);
-
-  const handleUserRecipes = () => {
-    setKinfOfRecipes("mines");
-    console.info("Affiche les recettes postées par l'utilisateur");
-  };
+  const [showAllRecipes, setShowAllRecipes] = useState(false);
 
   function handleChangeOptionsMenu() {
     setMenuVisible(!menuVisible);
@@ -28,9 +22,11 @@ function AdminPage() {
 
   const handleUserList = () => {
     setShowUserList(!showUserList);
-    setShowFavRecipes(!showFavRecipes);
   };
 
+  const handleAllRecipes = () => {
+    setShowAllRecipes(!showAllRecipes);
+  };
   return (
     <>
       <div className="userPage-header">
@@ -63,24 +59,21 @@ function AdminPage() {
           <OptionsMenu menuVisible={menuVisible} />
         </div>
 
-        <div className="recipes-favs">
+        <div className="recipes-favs recipes-favs-admin">
           <button
             type="button"
             className="every-recipes-list"
-            onClick={handleUserRecipes}
+            onClick={handleAllRecipes}
           >
             Recettes
           </button>
           <button type="button" className="users-list" onClick={handleUserList}>
-            Liste d'utilisateurs
+            Utilisateurs
           </button>
         </div>
       </div>
       <div className="userPage-recipes">
-        <FavoriteRecipesList
-          kindOfRecipes={kindOfRecipes}
-          favRecListVisible={showFavRecipes}
-        />
+        <AllRecipes recipeListVisible={showAllRecipes} />
         <AllUsers listVisible={showUserList} />
       </div>
     </>

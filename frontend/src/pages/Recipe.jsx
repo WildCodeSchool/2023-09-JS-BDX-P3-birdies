@@ -64,7 +64,6 @@ function Recipe() {
     }
   }
 
-  console.info(favoriteRecipes);
   return (
     <>
       <RecipeHeader />

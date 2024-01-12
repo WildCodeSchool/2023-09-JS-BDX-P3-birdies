@@ -17,7 +17,6 @@ function App() {
     infoLogin,
     setInfoLogin,
   } = Useinfo();
-  console.info(user);
   return (
     <>
       <Navigation />

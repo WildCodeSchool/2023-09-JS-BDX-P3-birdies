@@ -8,6 +8,167 @@
   display: none;
 }
 
+.show-all-recipes-list {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.show-all-recipes-list {
+  display: none;
+}
+
+.recipes-favs-admin {
+  margin-top: 1rem;
+  border-bottom: none;
+}
 .user-info-separation {
   border-bottom: 1px solid black;
+}
+
+.every-recipes-list {
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 20px;
+  border-color: orange;
+}
+
+.every-recipes-list {
+  align-items: center;
+  background-clip: padding-box;
+  background-color: #97bf0d;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family:
+    system-ui,
+    -apple-system,
+    system-ui,
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-size: 16px;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 2rem;
+  padding-bottom: 0.2rem;
+  position: relative;
+  text-decoration: none;
+  transition: all 100ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.every-recipes-list:hover,
+.every-recipes-list:focus {
+  background-color: #97bf0d;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.every-recipes-list:active {
+  background-color: #607808;
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  transform: translateY(0);
+}
+
+.users-list {
+  align-items: center;
+  background-clip: padding-box;
+  background-color: #d56c06;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family:
+    system-ui,
+    -apple-system,
+    system-ui,
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-size: 16px;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 2rem;
+  padding-bottom: 0.2rem;
+  position: relative;
+  text-decoration: none;
+  transition: all 100ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.users-list:hover,
+.users-list:focus {
+  background-color: #d56c06;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.users-list:active {
+  background-color: #c85000;
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  transform: translateY(0);
+}
+
+.delete-user-button {
+  align-items: center;
+  background-clip: padding-box;
+  background-color: #d56c06;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family:
+    system-ui,
+    -apple-system,
+    system-ui,
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-size: 16px;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 2rem;
+  padding-bottom: 0.2rem;
+  position: relative;
+  text-decoration: none;
+  transition: all 100ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.delete-user-button:hover,
+.delete-user-button:focus {
+  background-color: #d56c06;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.delete-user-button:active {
+  background-color: #c85000;
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  transform: translateY(0);
 }

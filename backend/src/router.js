@@ -28,7 +28,7 @@ router.get("/users", userControllers.getUsers);
 router.get("/users/me", authMiddleware, userControllers.getProfile);
 router.post("/users", userControllers.postUser);
 router.post("/login", userControllers.postLogin);
-router.delete("/users", userControllers.deleteUser);
+router.delete("/users/:id", userControllers.deleteUser);
 
 router.get("/recipes", recipeControllers.getRecipes);
 router.get("/recipes/:name", recipeControllers.getRecipesName);
