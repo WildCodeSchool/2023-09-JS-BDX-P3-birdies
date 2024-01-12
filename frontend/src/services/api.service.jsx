@@ -23,6 +23,17 @@ export default class ApiService {
     if (this.#token) {
       config.headers.Authorization = `bearer ${this.#token}`;
     }
-    axios.get(url, config);
+    return axios.get(url, config);
+  }
+
+  async post(url, content) {
+    const config = { headers: {} };
+
+    if (this.#token) {
+      config.headers.Authorization = `bearer ${this.#token}`;
+    }
+
+    const { data } = await axios.post(url, content, config);
+    return data;
   }
 }

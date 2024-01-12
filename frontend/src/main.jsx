@@ -24,57 +24,71 @@ const apiService = new ApiService();
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/recipes/:id",
-    element: <Recipe />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/userpage",
-    element: <UserPage />,
-  },
-  {
-    path: "/newrecipe",
-    element: <NewRecipe />,
-  },
-  {
-    path: "/modifyrecipes/:id",
-    element: <ModifyRecipe />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/slideone",
-    element: <SlideOne />,
-  },
-  {
-    path: "/slidetwo",
-    element: <SlideTwo />,
-  },
-  {
-    path: "/slidethree",
-    element: <SlideThree />,
-  },
-  {
-    path: "/admin",
-    element: (
-      <AdminContextProvider>
-        <Admin />
-      </AdminContextProvider>
-    ),
-  },
-  {
-    path: "/UserSettings",
-    element: <UserSettings />,
+    loader: async () => {
+      try {
+        const data = await apiService.get(`http://localhost:3310/api/users/me`);
+        return { preloadUser: data ?? null };
+      } catch (err) {
+        return null;
+      }
+    },
+    element: <InfoContextProvider apiService={apiService} />,
+    children: [
+      {
+        path: "/",
+        element: <App />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/recipes/:id",
+        element: <Recipe />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/userpage",
+        element: <UserPage />,
+      },
+      {
+        path: "/newrecipe",
+        element: <NewRecipe />,
+      },
+      {
+        path: "/modifyrecipes/:id",
+        element: <ModifyRecipe />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/slideone",
+        element: <SlideOne />,
+      },
+      {
+        path: "/slidetwo",
+        element: <SlideTwo />,
+      },
+      {
+        path: "/slidethree",
+        element: <SlideThree />,
+      },
+      {
+        path: "/admin",
+        element: (
+          <AdminContextProvider>
+            <Admin />
+          </AdminContextProvider>
+        ),
+      },
+      {
+        path: "/UserSettings",
+        element: <UserSettings />,
+      },
+    ],
   },
 ]);
 
@@ -82,8 +96,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <InfoContextProvider apiService={apiService}>
-      <RouterProvider router={router} />
-    </InfoContextProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

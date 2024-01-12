@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import ApiService from "../services/api.service";
 
 const InfoContext = createContext();
@@ -14,12 +14,14 @@ function Average(array) {
   return roundedNote;
 }
 
-export function InfoContextProvider({ children, apiService }) {
+export function InfoContextProvider({ apiService }) {
+  // const { preloadUser } = useLoaderData();
   const [userId, setUserId] = useState(undefined);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // les infos de l'utilisateur connecté
+  // les infos de l'utilisateur connecté;
   const [user, setUser] = useState({ role: "visitor" });
+  // preloadUser?.data?.role ? preloadUser.data :
   const [popupContent, setPopupContent] = useState(null);
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
@@ -47,28 +49,25 @@ export function InfoContextProvider({ children, apiService }) {
     role: "user",
   });
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleLoginSubmit = async (credentials) => {
     try {
-      const { data } = await axios.post(
+      const data = await apiService.post(
         `http://localhost:3310/api/login`,
         credentials
       );
       localStorage.setItem("token", data.token);
-      // const config = { headers: { Authorization: `Bearer ${data.token}` } };
       apiService.setToken(data.token);
-      const result = apiService.get(`http://localhost:3310/api/users/me`);
-      // const result = await axios.get(
-      //   `http://localhost:3310/api/users/me`,
-      //   config
-      // );
+      const result = await apiService.get(`http://localhost:3310/api/users/me`);
+
       setInfoLogin((prev) => !prev);
       setUser(result.data);
+      setFormValue({ email: "", password: "" });
       if (result.data.role === "admin") {
-        // return navigate("/admin");
+        return navigate("/admin");
       }
-      // return navigate("/");
+      return navigate("/");
     } catch (err) {
       console.error(err);
       setFormValue({
@@ -88,7 +87,6 @@ export function InfoContextProvider({ children, apiService }) {
         credentials
       );
       console.info(`this is : ${newData}`);
-      // console.info(`this is the data : ${newData.data}`);
       const newCredentials = {
         email: credentials.email,
         password: credentials.password,
@@ -97,8 +95,6 @@ export function InfoContextProvider({ children, apiService }) {
     } catch (err) {
       console.error(err);
       setFormValue({
-        firstname: "banana",
-        lastname: "tikatika",
         pseudo: "",
         email: "",
         password: "",
@@ -106,6 +102,12 @@ export function InfoContextProvider({ children, apiService }) {
       });
     }
     return null;
+  };
+
+  const logout = () => {
+    setUser({ role: "visitor" });
+    localStorage.clear();
+    return navigate("/slideone");
   };
 
   const getRecipes = async () => {
@@ -887,6 +889,7 @@ export function InfoContextProvider({ children, apiService }) {
       createUser,
       checkPassword,
       setCheckPassword,
+      logout,
     }),
     [
       getData,
@@ -951,18 +954,23 @@ export function InfoContextProvider({ children, apiService }) {
       createUser,
       checkPassword,
       setCheckPassword,
+      logout,
     ]
   );
-
+  // if (user.role === "visitor") {
+  //   return navigate("/slideone");
+  // }
+  // if (user.role === "admin") {
+  //   return navigate("/admin");
+  // }
   return (
     <InfoContext.Provider value={contextValues}>
-      {children}
+      <Outlet />
     </InfoContext.Provider>
   );
 }
 
 InfoContextProvider.propTypes = {
-  children: PropTypes.node.isRequired,
   apiService: PropTypes.instanceOf(ApiService).isRequired,
 };
 
