@@ -7,7 +7,7 @@ function BoxLogin() {
   return (
     <div className="box-login" id="login-box">
       <Link to="/userpage">
-        {(user.role === "user" || user.role === "admin") && (
+        {user.role !== "visitor" && (
           <button type="button" id="box-login">
             Mon Compte
           </button>
