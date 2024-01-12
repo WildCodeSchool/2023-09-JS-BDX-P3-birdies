@@ -13,7 +13,7 @@ function AllRecipes({ recipeListVisible }) {
     } catch (err) {
       console.warn(err);
     }
-  }, []);
+  }, [allRecipes]);
 
   return (
     <div

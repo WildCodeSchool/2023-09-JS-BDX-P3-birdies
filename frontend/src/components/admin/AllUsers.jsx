@@ -9,7 +9,7 @@ function AllUsers({ listVisible }) {
     axios
       .get("http://localhost:3310/api/users")
       .then((res) => setDbUsers(res?.data));
-  }, []);
+  }, [dbUsers]);
 
   const handleDelete = async (id) => {
     try {
@@ -17,7 +17,6 @@ function AllUsers({ listVisible }) {
     } catch (err) {
       console.error(err);
     }
-    window.location.reload();
     return alert("Utilisateur supprimé"); // eslint-disable-line no-alert
   };
 
