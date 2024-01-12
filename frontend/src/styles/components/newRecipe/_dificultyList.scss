@@ -5,10 +5,36 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 1.5rem;
     border-radius: 25px;
+    background-color: #ece8da;
 
     &.clicked {
-      background-color: #d56c06;
+      border-color: #d56c06;
+      border-width: 1.8px;
+    }
+  }
+}
+.tags {
+  margin: 20px 0;
+  .tags-container {
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    .filter-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 1.5rem;
+      border-radius: 25px;
+      background-color: #ece8da;
+
+      &.clicked {
+        border-color: #d56c06;
+        border-width: 1.8px;
+      }
     }
   }
 }

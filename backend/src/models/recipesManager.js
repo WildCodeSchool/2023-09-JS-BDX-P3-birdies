@@ -1,3 +1,4 @@
+/* eslint-disable lines-between-class-members */
 const AbstractManager = require("./AbstractManager");
 
 class RecipeManager extends AbstractManager {
@@ -18,6 +19,11 @@ class RecipeManager extends AbstractManager {
         recipe.difficulty ?? "",
         recipe.prepTime,
       ]
+    );
+  }
+  async findByName(name) {
+    return this.database.query(
+      `SELECT * from ${this.table} WHERE name like"%${name}%" `
     );
   }
 }

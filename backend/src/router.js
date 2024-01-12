@@ -31,9 +31,10 @@ router.post("/login", userControllers.postLogin);
 router.delete("/users/:id", userControllers.deleteUser);
 
 router.get("/recipes", recipeControllers.getRecipes);
-router.get("/recipes/:id", recipeControllers.getRecipeById);
+router.get("/recipes/:name", recipeControllers.getRecipesName);
+router.get("/recipes/:id([0-9]+)", recipeControllers.getRecipeById);
 router.post("/recipes", recipeControllers.postRecipe);
 router.delete("/recipes", recipeControllers.deleteRecipe);
 
-router.post("/recipes/:id/steps", stepControllers.postIngredient);
+router.post("/recipes/:id([0-9]+)/steps", stepControllers.postIngredient);
 module.exports = router;

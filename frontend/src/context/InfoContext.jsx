@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { Outlet, useNavigate } from "react-router-dom";
+import ApiService from "../services/api.service";
 
 const InfoContext = createContext();
 
@@ -12,11 +14,14 @@ function Average(array) {
   return roundedNote;
 }
 
-export function InfoContextProvider({ children }) {
+export function InfoContextProvider({ apiService }) {
+  // const { preloadUser } = useLoaderData();
   const [userId, setUserId] = useState(undefined);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  // les infos de l'utilisateur connecté;
+  const [user, setUser] = useState({ role: "visitor" });
+  // preloadUser?.data?.role ? preloadUser.data :
   const [popupContent, setPopupContent] = useState(null);
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
@@ -28,20 +33,116 @@ export function InfoContextProvider({ children }) {
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
+  const [infoLogin, setInfoLogin] = useState(false);
   const [userPicture, setUserPicture] = useState();
   const [addCommentVisible, setAddCommentVisible] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [getData, setGetData] = useState([]);
+  const [getDataName, setGetDataName] = useState([]);
+  const [foodFilter, setFoodFilter] = useState([]);
+  const [displayFilter, setDisplayFilter] = useState(false);
+
+  const [checkPassword, setCheckPassword] = useState();
+  const [formValue, setFormValue] = useState({
+    email: "",
+    password: "",
+    role: "user",
+  });
+
+  const navigate = useNavigate();
+
+  const handleLoginSubmit = async (credentials) => {
+    try {
+      const data = await apiService.post(
+        `http://localhost:3310/api/login`,
+        credentials
+      );
+      localStorage.setItem("token", data.token);
+      apiService.setToken(data.token);
+      const result = await apiService.get(`http://localhost:3310/api/users/me`);
+
+      setInfoLogin((prev) => !prev);
+      setUser(result.data);
+      setFormValue({ email: "", password: "" });
+      if (result.data.role === "admin") {
+        return navigate("/admin");
+      }
+      return navigate("/");
+    } catch (err) {
+      console.error(err);
+      setFormValue({
+        pseudo: "",
+        email: "",
+        password: "",
+      });
+      setCheckPassword("");
+    }
+    return null;
+  };
+
+  const createUser = async (credentials) => {
+    try {
+      const { newData } = await axios.post(
+        `http://localhost:3310/api/users`,
+        credentials
+      );
+      console.info(`this is : ${newData}`);
+      const newCredentials = {
+        email: credentials.email,
+        password: credentials.password,
+      };
+      handleLoginSubmit(newCredentials);
+    } catch (err) {
+      console.error(err);
+      setFormValue({
+        pseudo: "",
+        email: "",
+        password: "",
+        role: "user",
+      });
+    }
+    return null;
+  };
+
+  const logout = () => {
+    setUser({ role: "visitor" });
+    localStorage.clear();
+    return navigate("/slideone");
+  };
 
   const getRecipes = async () => {
     try {
       const res = await axios.get("http://localhost:3310/api/recipes");
       setGetData(res.data);
     } catch (err) {
-      console.error(err.res);
+      console.error(err.res.data);
       setGetData();
     }
   };
+  const getRecipesName = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3310/api/recipes/${inputSearchValue}`
+      );
+      console.info(res.data);
+      setGetDataName(res.data);
+    } catch (err) {
+      console.error(err.res.data);
+      setGetDataName();
+    }
+  };
+  console.info(foodFilter);
+  function filterListModify(e) {
+    const targetedFilter = e.target.innerText;
+    if (foodFilter.includes(targetedFilter)) {
+      setFoodFilter(foodFilter.filter((spec) => spec !== targetedFilter));
+    } else {
+      setFoodFilter([...foodFilter, targetedFilter]);
+    }
+  }
+  useEffect(() => {
+    getRecipesName();
+  }, [inputSearchValue]);
   useEffect(() => {
     getRecipes();
   }, []);
@@ -734,6 +835,8 @@ export function InfoContextProvider({ children }) {
       getData,
       userId,
       setUserId,
+      user,
+      setUser,
       recipes,
       difficulties,
       evaluations,
@@ -746,11 +849,14 @@ export function InfoContextProvider({ children }) {
       recipeComment,
       inputSearchValue,
       setInputSearchValue,
+      getDataName,
       favoriteRecipes,
       setFavoriteRecipes,
       basicSuccess,
       setBasicSuccess,
       infoSuccess,
+      infoLogin,
+      setInfoLogin,
       setInfoSuccess,
       setRecipeComment,
       sendEvaluation,
@@ -772,11 +878,25 @@ export function InfoContextProvider({ children }) {
       setAddCommentVisible,
       showComments,
       setShowComments,
+      filterListModify,
+      displayFilter,
+      setDisplayFilter,
+      apiService,
+      formValue,
+      setFormValue,
+      handleLoginSubmit,
+      createUser,
+      checkPassword,
+      setCheckPassword,
+      logout,
     }),
     [
       getData,
+      getDataName,
       userId,
       setUserId,
+      user,
+      setUser,
       recipes,
       evaluations,
       HandleRecipeNote,
@@ -795,6 +915,8 @@ export function InfoContextProvider({ children }) {
       setBasicSuccess,
       infoSuccess,
       setInfoSuccess,
+      infoLogin,
+      setInfoLogin,
       sendEvaluation,
       displayDate,
       users,
@@ -820,18 +942,35 @@ export function InfoContextProvider({ children }) {
       setAddCommentVisible,
       showComments,
       setShowComments,
+      filterListModify,
+      displayFilter,
+      setDisplayFilter,
+
+      apiService,
+      formValue,
+      setFormValue,
+      handleLoginSubmit,
+      createUser,
+      checkPassword,
+      setCheckPassword,
+      logout,
     ]
   );
-
+  // if (user.role === "visitor") {
+  //   return navigate("/slideone");
+  // }
+  // if (user.role === "admin") {
+  //   return navigate("/admin");
+  // }
   return (
     <InfoContext.Provider value={contextValues}>
-      {children}
+      <Outlet />
     </InfoContext.Provider>
   );
 }
 
 InfoContextProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  apiService: PropTypes.instanceOf(ApiService).isRequired,
 };
 
 export const Useinfo = () => useContext(InfoContext);

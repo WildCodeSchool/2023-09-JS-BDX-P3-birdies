@@ -1,62 +1,19 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import { Link } from "react-router-dom";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
-// import { Useinfo } from "../context/InfoContext";
+import { Useinfo } from "../context/InfoContext";
 
 function Register() {
-  const [checkPassword, setCheckPassword] = useState();
-  const [formValue, setFormValue] = useState({
-    firstname: "banana",
-    lastname: "tikatika",
-    pseudo: "",
-    email: "",
-    password: "",
-    role: "user",
-  });
+  const {
+    createUser,
+    checkPassword,
+    setCheckPassword,
+    formValue,
+    setFormValue,
+  } = Useinfo();
+
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
-  };
-  const navigate = useNavigate();
-
-  const createUser = async (credentials) => {
-    try {
-      const { newData } = await axios.post(
-        `http://localhost:3310/api/users`,
-        credentials
-      );
-      console.info(`this is : ${JSON.stringify(newData)}`);
-      const newCredentials = {
-        email: credentials.email,
-        password: credentials.password,
-      };
-      console.info(newCredentials);
-      const { data } = await axios.post(
-        `http://localhost:3310/api/login`,
-        newCredentials
-      );
-      localStorage.setItem("token", data.token);
-      const tokenData = jwtDecode(data.token);
-      // eslint-disable-next-line no-alert
-      alert(`Bienvenue ${credentials.email}`);
-      if (tokenData.role === "admin") {
-        return navigate("/admin");
-      }
-      return navigate("/");
-    } catch (err) {
-      console.error(err);
-      setFormValue({
-        firstname: "banana",
-        lastname: "tikatika",
-        pseudo: "",
-        email: "",
-        password: "",
-        role: "user",
-      });
-    }
-    return null;
   };
 
   const handleSubmit = () => {
@@ -66,8 +23,6 @@ function Register() {
       alert("Les mots de passe ne sont pas identiques"); // eslint-disable-line no-alert
     } else {
       createUser(formValue);
-      alert(`Bienvenu sur notre site, ${formValue.pseudo}!`); // eslint-disable-line no-alert
-      navigate("/");
     }
   };
 

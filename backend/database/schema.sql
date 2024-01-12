@@ -4,8 +4,8 @@
 create table
     `users` (
         `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-        `firstname` VARCHAR(255) NOT NULL,
-        `lastname` VARCHAR(255) NOT NULL,
+        `firstname` VARCHAR(255),
+        `lastname` VARCHAR(255),
         `pseudo` VARCHAR(255) UNIQUE,
         `email` VARCHAR(255) UNIQUE NOT NULL,
         `password` VARCHAR(255) NOT NULL,
@@ -174,3 +174,73 @@ INSERT INTO `cathegories`(`name`) VALUES ("Difficile");
 INSERT INTO `cathegories`(`name`) VALUES ("-30 minutes");
 
 INSERT INTO `cathegories`(`name`) VALUES ("-1 heure");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Gourmand");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Festif");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Sportif");
+
+INSERT INTO `cathegories`(`name`) VALUES ("De saison");
+
+INSERT INTO `cathegories`(`name`) VALUES ("BBQ");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Végétarien");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Sans lactose");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Végan");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Sans gluten");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Entrée");
+
+INSERT INTO `cathegories`(`name`) VALUES ("Snack"), ("Plat");
+
+INSERT INTO
+    `cathegories`(`name`)
+VALUES ("Dessert"), ("Boissons"), ("Français"), ("Asiatique"), ("Méditerranéen"), ("Oriental"), ("Caribéen"), ("Hispanique"), ("USA"), ("Québecois");
+
+ALTER TABLE `recipes` ADD `Gender` VARCHAR(255);
+
+ALTER TABLE `recipes` DROP `Gender`;
+
+INSERT INTO
+    `recipes` (
+        `userId`,
+        `name`,
+        `publicationDate`,
+        `picture`,
+        `peopleNumber`,
+        `energyPerPerson`,
+        `difficulty`,
+        `prepTime`
+    )
+VALUES (
+        "5",
+        "Croziflette",
+        "11/01/2024",
+        "null",
+        "4",
+        "240",
+        "Facile",
+        "50"
+    ), (
+        "6",
+        "Recette soufflé au Grand Marnier",
+        "11/01/2024",
+        "null",
+        "6",
+        "120",
+        "Difficile",
+        "40"
+    ), (
+        "7",
+        " Recette pastilla de pigeon aux raisins blancs",
+        "11/01/2024",
+        "null",
+        "6",
+        "200",
+        "Difficile",
+        "45"
+    );

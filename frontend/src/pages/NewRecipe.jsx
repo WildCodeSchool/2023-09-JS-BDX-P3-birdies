@@ -10,9 +10,10 @@ import IngredientsList from "../components/NewRecice/Ingredients-list";
 import DifficultiesList from "../components/NewRecice/DificultiesList";
 import PreparationTime from "../components/NewRecice/PreparationTime";
 import { Useinfo } from "../context/InfoContext";
+import FilterBar from "../components/NewRecice/FilterBar";
 
 function NewRecipe() {
-  const { displayDate, setBasicSuccess } = Useinfo();
+  const { displayDate, setBasicSuccess, user } = Useinfo();
   const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
   const [image, setImage] = useState({}); // ---> IMAGE A RECUPERER
@@ -28,6 +29,9 @@ function NewRecipe() {
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
   const stepsInfos = [];
+  const filtersInfo = [];
+
+  const [chosenFilters, setChosenFilters] = useState([]);
   console.info(image);
   const newApiCall = async (ingredient) => {
     const response = await axios.get(
@@ -205,8 +209,15 @@ function NewRecipe() {
       };
       stepsInfos.push(stepLine);
     }
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < chosenFilters.length; i++) {
+      const filtersLine = {
+        name: chosenFilters[i],
+      };
+      filtersInfo.push(filtersLine);
+    }
     const recipe = {
-      userId: "1",
+      userId: user.id,
       name: recipeName,
       publicationDate: displayDate(),
       picture: "image",
@@ -216,7 +227,9 @@ function NewRecipe() {
       prepTime: duration,
       ingredients: ingredientsInfos,
       steps: stepsInfos,
+      cathegories: filtersInfo,
     };
+    console.info(recipe);
     setBasicSuccess((prev) => !prev);
     try {
       handleRecipeSubmit(recipe).then((response) =>
@@ -317,6 +330,10 @@ function NewRecipe() {
             </div>
           ))}
         </div>
+        <FilterBar
+          chosenFilters={chosenFilters}
+          setChosenFilters={setChosenFilters}
+        />
         <Link to="/">
           <button className="send-recipe-btn" type="button" onClick={showAll}>
             ENVOYER
