@@ -52,7 +52,6 @@ export function InfoContextProvider({ apiService }) {
     password: "",
     role: "user",
   });
-
   const handleLoginSubmit = async (credentials) => {
     try {
       const data = await apiService.post(
