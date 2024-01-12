@@ -41,7 +41,8 @@ export function InfoContextProvider({ apiService }) {
   const [getDataName, setGetDataName] = useState([]);
   const [foodFilter, setFoodFilter] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
-
+  const [showUserList, setShowUserList] = useState(true);
+  const [showAllRecipes, setShowAllRecipes] = useState(false);
   const [checkPassword, setCheckPassword] = useState();
   const [formValue, setFormValue] = useState({
     email: "",
@@ -131,7 +132,6 @@ export function InfoContextProvider({ apiService }) {
       setGetDataName();
     }
   };
-  console.info(foodFilter);
   function filterListModify(e) {
     const targetedFilter = e.target.innerText;
     if (foodFilter.includes(targetedFilter)) {
@@ -889,6 +889,10 @@ export function InfoContextProvider({ apiService }) {
       checkPassword,
       setCheckPassword,
       logout,
+      showUserList,
+      setShowUserList,
+      showAllRecipes,
+      setShowAllRecipes,
     }),
     [
       getData,
@@ -954,6 +958,10 @@ export function InfoContextProvider({ apiService }) {
       checkPassword,
       setCheckPassword,
       logout,
+      showUserList,
+      setShowUserList,
+      showAllRecipes,
+      setShowAllRecipes,
     ]
   );
   // if (user.role === "visitor") {

@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { Useinfo } from "../../context/InfoContext";
 
-function AllUsers({ listVisible }) {
+function AllUsers() {
   const [dbUsers, setDbUsers] = useState([]);
+  const { showUserList } = Useinfo();
 
   useEffect(() => {
     axios
@@ -21,7 +22,7 @@ function AllUsers({ listVisible }) {
   };
 
   return (
-    <div className={listVisible ? "show-user-list" : "hide-user-list"}>
+    <div className={showUserList ? "show-user-list" : "hide-user-list"}>
       {dbUsers.map((e) => (
         <div>
           <div>Prénom:{e.firstname}</div>
@@ -45,9 +46,5 @@ function AllUsers({ listVisible }) {
     </div>
   );
 }
-
-AllUsers.propTypes = {
-  listVisible: PropTypes.bool.isRequired,
-};
 
 export default AllUsers;

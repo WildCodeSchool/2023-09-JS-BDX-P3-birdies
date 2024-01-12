@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { Useinfo } from "../../context/InfoContext";
 
-function AllRecipes({ recipeListVisible }) {
+function AllRecipes() {
+  const { showAllRecipes } = Useinfo();
   const [allRecipes, setAllRecipes] = useState([]);
 
   useEffect(() => {
@@ -15,26 +16,40 @@ function AllRecipes({ recipeListVisible }) {
     }
   }, [allRecipes]);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3310/api/recipes/${id}`);
+    } catch (err) {
+      console.warn(err);
+    }
+    return alert("Recette supprimée"); // eslint-disable-line no-alert
+  };
+
   return (
     <div
       className={
-        recipeListVisible ? "show-all-recipes-list" : "hide-all-recipes-list"
+        !showAllRecipes ? "show-all-recipes-list" : "hide-all-recipes-list"
       }
     >
       La liste de toutes les recettes :{" "}
-      {allRecipes.map((e) => (
+      {allRecipes?.map((e) => (
         <>
           <div>n°{e.id}</div>
           <div>Utilisateur: {e.userId}</div>
           <div>Nom de la recette: {e.name}</div>
           <div>Date de publication: {e.publicationDate}</div>
           <div>{e.picture}</div>
+          <button
+            type="button"
+            className="delete-recipe-button"
+            onClick={() => handleDelete(e.id)}
+          >
+            Supprimer
+          </button>
         </>
       ))}
     </div>
   );
 }
-AllRecipes.propTypes = {
-  recipeListVisible: PropTypes.bool.isRequired,
-};
+
 export default AllRecipes;
