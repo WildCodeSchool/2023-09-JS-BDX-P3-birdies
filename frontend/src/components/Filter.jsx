@@ -1,20 +1,9 @@
-import { useState } from "react";
 import imgflower from "../styles/img/flower.png";
 import blocFiltre from "../styles/icons/Bloc lien filtres.png";
+import { Useinfo } from "../context/InfoContext";
 
 function Filter() {
-  const [foodFilter, setFoodFilter] = useState([]);
-
-  const [displayFilter, setDisplayFilter] = useState(false);
-
-  function filterListModify(e) {
-    const targetedFilter = e.target.innerText;
-    if (foodFilter.includes(targetedFilter)) {
-      setFoodFilter(foodFilter.filter((spec) => spec !== targetedFilter));
-    } else {
-      setFoodFilter([...foodFilter, targetedFilter]);
-    }
-  }
+  const { filterListModify, displayFilter, setDisplayFilter } = Useinfo();
 
   return (
     <>

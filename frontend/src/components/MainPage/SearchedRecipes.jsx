@@ -5,15 +5,15 @@ import { Useinfo } from "../../context/InfoContext";
 import star from "../../styles/icons/Star.png";
 
 function SearchedRecipes() {
-  const { recipes, Average } = Useinfo();
-  const [currentIndex, setCurrentIndex] = useState(recipes.length - 1);
+  const { getDataName } = Useinfo();
+  const [currentIndex, setCurrentIndex] = useState(getDataName.length - 1);
   const [lastDirection, setLastDirection] = useState();
   // used for out of frame closure
   const currentIndexRef = useRef(currentIndex);
   console.info(lastDirection);
   const childRefs = useMemo(
     () =>
-      Array(recipes.length)
+      Array(getDataName.length)
         .fill(0)
         .map(() => React.createRef()),
     []
@@ -24,7 +24,7 @@ function SearchedRecipes() {
     currentIndexRef.current = val;
   };
 
-  const canGoBack = currentIndex < recipes.length - 1;
+  const canGoBack = currentIndex < getDataName.length - 1;
 
   const canSwipe = currentIndex >= 0;
 
@@ -40,7 +40,7 @@ function SearchedRecipes() {
     // currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
   const swipe = async (dir) => {
-    if (canSwipe && currentIndex < recipes.length) {
+    if (canSwipe && currentIndex < getDataName.length) {
       await childRefs[currentIndex].current.swipe(dir); // swipe the card !
     }
   };
@@ -78,7 +78,7 @@ function SearchedRecipes() {
       </div>
 
       <div className="card-container">
-        {recipes.map((recipe, index) => (
+        {getDataName.map((recipe, index) => (
           <TinderCard
             className="swipe"
             ref={childRefs[index]}
@@ -88,13 +88,13 @@ function SearchedRecipes() {
           >
             <div
               className="card"
-              style={{
-                backgroundImage: `url(${recipe.picture})`,
-                height: "500px",
-                width: "60vw",
-                borderRadius: "20px",
-                position: "relative",
-              }}
+              // style={{
+              //   backgroundImage: `url(${recipe.picture})`,
+              //   height: "500px",
+              //   width: "60vw",
+              //   borderRadius: "20px",
+              //   position: "relative",
+              // }}
             >
               <Link className="pressable" to={`/recipes/${recipe.id}`}>
                 Voir
@@ -103,11 +103,11 @@ function SearchedRecipes() {
               <div className="rate-container">
                 <div className="stars">
                   <img src={star} alt="star-img" />
-                  <div>{Average(recipe.notes)}/5</div>
+                  {/* <div>{Average(recipe.notes)}/5</div> */}
                 </div>
-                <div className="votes">
+                {/* <div className="votes">
                   <p>{recipe.notes.length} votes</p>
-                </div>
+                </div> */}
               </div>
             </div>
           </TinderCard>
