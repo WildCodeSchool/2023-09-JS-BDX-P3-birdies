@@ -958,12 +958,12 @@ export function InfoContextProvider({ apiService }) {
       logout,
     ]
   );
-  // if (user.role === "visitor") {
-  //   return navigate("/slideone");
-  // }
-  // if (user.role === "admin") {
-  //   return navigate("/admin");
-  // }
+  if (user.role === "visitor") {
+    return navigate("/slideone");
+  }
+  if (user.role === "admin") {
+    return navigate("/admin");
+  }
   return (
     <InfoContext.Provider value={contextValues}>
       <Outlet />
