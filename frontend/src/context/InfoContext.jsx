@@ -36,7 +36,6 @@ export function InfoContextProvider({ children }) {
   const getRecipes = async () => {
     try {
       const res = await axios.get("http://localhost:3310/api/recipes");
-      console.info(res.data);
       setGetData(res.data);
     } catch (err) {
       console.error(err.res);

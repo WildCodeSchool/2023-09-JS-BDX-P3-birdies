@@ -8,6 +8,20 @@
   display: none;
 }
 
+.show-all-recipes-list {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.show-all-recipes-list {
+  display: none;
+}
+
+.recipes-favs-admin {
+  margin-top: 1rem;
+  border-bottom: none;
+}
 .user-info-separation {
   border-bottom: 1px solid black;
 }

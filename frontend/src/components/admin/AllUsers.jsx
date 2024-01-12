@@ -9,7 +9,6 @@ function AllUsers({ listVisible }) {
     axios
       .get("http://localhost:3310/api/users")
       .then((res) => setDbUsers(res?.data));
-    console.info(dbUsers);
   }, []);
 
   const handleDelete = async (id) => {
