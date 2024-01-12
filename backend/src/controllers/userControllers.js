@@ -28,7 +28,6 @@ const postUser = (req, res) => {
         id: rows.insertId,
         email: req.body.email,
         role: req.body.role,
-        password: req.body.password,
       });
     })
     .catch((err) => {
