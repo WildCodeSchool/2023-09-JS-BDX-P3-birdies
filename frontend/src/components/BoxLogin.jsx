@@ -2,20 +2,26 @@ import { Link } from "react-router-dom";
 import { Useinfo } from "../context/InfoContext";
 
 function BoxLogin() {
-  const { user } = Useinfo();
+  const { user, logout } = Useinfo();
 
   return (
     <div className="box-login" id="login-box">
-      <Link to={user.role === "visitor" ?? "/userpage"}>
+      <Link to="/userpage">
         {(user.role === "user" || user.role === "admin") && (
-          <li id="box-login">Mon Compte</li>
+          <button type="button" id="box-login">
+            Mon Compte
+          </button>
         )}
       </Link>
-      <Link to="/login">
+      <Link to={user.role === "visitor" ? "/login" : "/slideone"}>
         {user.role === "visitor" ? (
-          <li id="box-login">Me connecter</li>
+          <button type="button" id="box-login">
+            Me connecter
+          </button>
         ) : (
-          <li id="box-login">Déconnexion</li>
+          <button type="button" id="box-login" onClick={logout}>
+            Déconnexion
+          </button>
         )}
       </Link>
     </div>

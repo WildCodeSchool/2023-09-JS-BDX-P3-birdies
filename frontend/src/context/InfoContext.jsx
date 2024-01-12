@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import ApiService from "../services/api.service";
 
 const InfoContext = createContext();
@@ -15,14 +15,14 @@ function Average(array) {
 }
 
 export function InfoContextProvider({ apiService }) {
-  const { preloadUser } = useLoaderData();
+  const navigate = useNavigate();
+  // const { preloadUser } = useLoaderData();
   const [userId, setUserId] = useState(undefined);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // les infos de l'utilisateur connecté;
-  const [user, setUser] = useState(
-    preloadUser?.data?.role ? preloadUser.data : { role: "visitor" }
-  );
+  const [user, setUser] = useState({ role: "visitor" });
+  console.info(user);
   // preloadUser?.data?.role ? preloadUser.data :
   const [popupContent, setPopupContent] = useState(null);
   // ou l'on stock le commentaire & la note d'une recette
@@ -50,8 +50,6 @@ export function InfoContextProvider({ apiService }) {
     password: "",
     role: "user",
   });
-
-  const navigate = useNavigate();
 
   const handleLoginSubmit = async (credentials) => {
     try {
@@ -958,12 +956,7 @@ export function InfoContextProvider({ apiService }) {
       logout,
     ]
   );
-  if (user.role === "visitor") {
-    return navigate("/slideone");
-  }
-  if (user.role === "admin") {
-    return navigate("/admin");
-  }
+
   return (
     <InfoContext.Provider value={contextValues}>
       <Outlet />
