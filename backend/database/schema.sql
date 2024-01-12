@@ -204,3 +204,43 @@ VALUES ("Dessert"), ("Boissons"), ("Français"), ("Asiatique"), ("Méditerranée
 ALTER TABLE `recipes` ADD `Gender` VARCHAR(255);
 
 ALTER TABLE `recipes` DROP `Gender`;
+
+INSERT INTO
+    `recipes` (
+        `userId`,
+        `name`,
+        `publicationDate`,
+        `picture`,
+        `peopleNumber`,
+        `energyPerPerson`,
+        `difficulty`,
+        `prepTime`
+    )
+VALUES (
+        "5",
+        "Croziflette",
+        "11/01/2024",
+        "null",
+        "4",
+        "240",
+        "Facile",
+        "50"
+    ), (
+        "6",
+        "Recette soufflé au Grand Marnier",
+        "11/01/2024",
+        "null",
+        "6",
+        "120",
+        "Difficile",
+        "40"
+    ), (
+        "7",
+        " Recette pastilla de pigeon aux raisins blancs",
+        "11/01/2024",
+        "null",
+        "6",
+        "200",
+        "Difficile",
+        "45"
+    );

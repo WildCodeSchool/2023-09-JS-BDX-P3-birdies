@@ -6,13 +6,15 @@
   gap: 20px;
 
   .card-container {
-    width: 500px;
-    min-height: 200px;
+    text-align: center;
+    min-width: 200px;
+    min-height: 400px;
 
     .content-container {
+      min-height: 150px;
       background: black;
       border-radius: 20px 20px 0 0;
-      min-height: 80px;
+
       color: rgb(165, 147, 147);
       margin-top: 20px;
       display: flex;
@@ -42,7 +44,7 @@
       }
     }
     img {
-      // width: 361px;
+      max-width: 200px;
       height: 150px;
     }
   }
