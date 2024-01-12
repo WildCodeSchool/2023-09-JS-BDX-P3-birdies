@@ -27,9 +27,10 @@ const router = createBrowserRouter([
     loader: async () => {
       try {
         const data = await apiService.get(`http://localhost:3310/api/users/me`);
+        console.info(data);
         return { preloadUser: data ?? null };
       } catch (err) {
-        return null;
+        return { preloadUser: null };
       }
     },
     element: <InfoContextProvider apiService={apiService} />,

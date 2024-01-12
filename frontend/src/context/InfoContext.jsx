@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import ApiService from "../services/api.service";
 
 const InfoContext = createContext();
@@ -16,12 +16,14 @@ function Average(array) {
 
 export function InfoContextProvider({ apiService }) {
   const navigate = useNavigate();
-  // const { preloadUser } = useLoaderData();
+  const { preloadUser } = useLoaderData();
   const [userId, setUserId] = useState(undefined);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // les infos de l'utilisateur connecté;
-  const [user, setUser] = useState({ role: "visitor" });
+  const [user, setUser] = useState(
+    preloadUser?.data?.role ? preloadUser.data : { role: "visitor" }
+  );
   console.info(user);
   // preloadUser?.data?.role ? preloadUser.data :
   const [popupContent, setPopupContent] = useState(null);
@@ -100,6 +102,7 @@ export function InfoContextProvider({ apiService }) {
         password: "",
         role: "user",
       });
+      setCheckPassword("");
     }
     return null;
   };
