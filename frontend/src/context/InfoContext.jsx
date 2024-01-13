@@ -75,7 +75,7 @@ export function InfoContextProvider({ apiService }) {
 
       setInfoLogin((prev) => !prev);
       setUser(result.data);
-      setFormValue({ email: "", password: "" });
+      setFormValue({ email: "", password: "", role: "user" });
       setPasswordError(false);
       if (result.data.role === "admin") {
         return navigate("/admin");
@@ -87,6 +87,7 @@ export function InfoContextProvider({ apiService }) {
         pseudo: "",
         email: "",
         password: "",
+        role: "user",
       });
       setCheckPassword("");
       setPasswordError(true);

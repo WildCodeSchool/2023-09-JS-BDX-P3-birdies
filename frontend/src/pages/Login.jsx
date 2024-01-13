@@ -63,7 +63,12 @@ function Login() {
           <button
             className="submit-form"
             type="button"
-            onClick={() => handleLoginSubmit(formValue)}
+            onClick={() =>
+              handleLoginSubmit({
+                email: formValue.email,
+                password: formValue.password,
+              })
+            }
           >
             Se connecter
           </button>
