@@ -9,7 +9,8 @@ import { Useinfo } from "../context/InfoContext";
 // import { Useinfo } from "../context/InfoContext";
 
 function Login() {
-  const { formValue, setFormValue, handleLoginSubmit } = Useinfo();
+  const { formValue, setFormValue, handleLoginSubmit, passwordError } =
+    Useinfo();
 
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
@@ -23,6 +24,17 @@ function Login() {
       </div>
       <div className="login-container">
         <div className="inputs">
+          <div className="wrong-identification">
+            <p
+              className={
+                passwordError
+                  ? "error-identification"
+                  : "error-identification checked"
+              }
+            >
+              Identifiants incorrects
+            </p>
+          </div>
           <div className="header">
             <div className="text">Connexion</div>
           </div>
@@ -32,7 +44,6 @@ function Login() {
               name="email"
               className="input-email"
               type="email"
-              pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/"
               placeholder="Email"
               onChange={onChange}
             />

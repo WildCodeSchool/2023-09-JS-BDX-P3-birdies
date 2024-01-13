@@ -52,6 +52,17 @@ export function InfoContextProvider({ apiService }) {
     password: "",
     role: "user",
   });
+  const [passwordError, setPasswordError] = useState(false);
+  // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
+  useEffect(() => {
+    if (formValue.password || formValue.email) {
+      setPasswordError(false);
+    }
+  }, [formValue.password, formValue.email]);
+  const validPseudo = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+  const validEmail = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
+  const validPassword = /^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$/;
+
   const handleLoginSubmit = async (credentials) => {
     try {
       const data = await apiService.post(
@@ -65,6 +76,7 @@ export function InfoContextProvider({ apiService }) {
       setInfoLogin((prev) => !prev);
       setUser(result.data);
       setFormValue({ email: "", password: "" });
+      setPasswordError(false);
       if (result.data.role === "admin") {
         return navigate("/admin");
       }
@@ -77,6 +89,7 @@ export function InfoContextProvider({ apiService }) {
         password: "",
       });
       setCheckPassword("");
+      setPasswordError(true);
     }
     return null;
   };
@@ -869,6 +882,9 @@ export function InfoContextProvider({ apiService }) {
       setEmail,
       password,
       setPassword,
+      validEmail,
+      validPassword,
+      validPseudo,
       setPopupContent,
       convertMinutesToTime,
       Average,
@@ -890,6 +906,7 @@ export function InfoContextProvider({ apiService }) {
       createUser,
       checkPassword,
       setCheckPassword,
+      passwordError,
       logout,
     }),
     [
@@ -926,6 +943,9 @@ export function InfoContextProvider({ apiService }) {
       setEmail,
       password,
       setPassword,
+      validEmail,
+      validPassword,
+      validPseudo,
       popupContent,
       convertMinutesToTime,
       Average,
@@ -947,7 +967,6 @@ export function InfoContextProvider({ apiService }) {
       filterListModify,
       displayFilter,
       setDisplayFilter,
-
       apiService,
       formValue,
       setFormValue,
@@ -955,6 +974,7 @@ export function InfoContextProvider({ apiService }) {
       createUser,
       checkPassword,
       setCheckPassword,
+      passwordError,
       logout,
     ]
   );

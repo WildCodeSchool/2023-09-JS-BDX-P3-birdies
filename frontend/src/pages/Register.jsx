@@ -10,6 +10,9 @@ function Register() {
     setCheckPassword,
     formValue,
     setFormValue,
+    validEmail,
+    validPassword,
+    validPseudo,
   } = Useinfo();
 
   const onChange = (e) => {
@@ -25,7 +28,6 @@ function Register() {
       createUser(formValue);
     }
   };
-
   return (
     <div className="container">
       <img className="cookies" src={cookies} alt="" />
@@ -47,6 +49,18 @@ function Register() {
               onChange={onChange}
             />
           </div>
+          <div className="error-message-container">
+            <p
+              className={
+                formValue.pseudo === undefined ||
+                !formValue.pseudo.match(validPseudo)
+                  ? "error-format-pseudo"
+                  : "error-format-pseudo checked"
+              }
+            >
+              Min 8 caractères, 1 Maj, 1 Min, 1 Chiffre
+            </p>
+          </div>
           <div className="input">
             <input
               name="email"
@@ -56,6 +70,18 @@ function Register() {
               value={formValue.email}
               onChange={onChange}
             />
+          </div>
+          <div className="error-message-container">
+            <p
+              className={
+                formValue.email === undefined ||
+                !formValue.email.match(validEmail)
+                  ? "error-format-pseudo"
+                  : "error-format-pseudo checked"
+              }
+            >
+              Format d' e-mail invalide
+            </p>
           </div>
           <div className="input">
             <input
@@ -67,6 +93,18 @@ function Register() {
               onChange={onChange}
             />
           </div>
+          <div className="error-message-container">
+            <p
+              className={
+                formValue.password === undefined ||
+                !formValue.password.match(validPassword)
+                  ? "error-format-pseudo"
+                  : "error-format-pseudo checked"
+              }
+            >
+              doit contenir 1 caractere spé
+            </p>
+          </div>
           <div className="input">
             <input
               className="input-password"
@@ -75,6 +113,17 @@ function Register() {
               value={checkPassword}
               onChange={(e) => setCheckPassword(e.target.value)}
             />
+          </div>
+          <div className="error-message-container">
+            <p
+              className={
+                checkPassword !== formValue.password
+                  ? "error-check-password"
+                  : "error-check-password checked"
+              }
+            >
+              Vérification incorrecte
+            </p>
           </div>
         </div>
         <div className="submit">
