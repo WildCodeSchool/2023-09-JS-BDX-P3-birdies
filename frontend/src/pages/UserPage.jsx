@@ -6,6 +6,7 @@ import "../styles/components/userPage/userPage.scss";
 import Filter from "../components/Filter";
 import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
 import OptionsMenu from "../components/userPage/OptionsMenu";
+// import { Useinfo } from "../context/InfoContext";
 
 function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);

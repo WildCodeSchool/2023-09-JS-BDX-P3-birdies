@@ -1,5 +1,9 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import "./styles/app.scss";
 import App from "./App";
@@ -54,6 +58,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/userpage",
+        loader: async () => {
+          try {
+            const data = await apiService.get(
+              `http://localhost:3310/api/users/me`
+            );
+            if (data.role === "user") {
+              return redirect("/user");
+            }
+          } catch (err) {
+            return redirect("/login");
+          }
+          return null;
+        },
         element: <UserPage />,
       },
       {
@@ -79,6 +96,20 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin",
+        loader: async () => {
+          try {
+            const data = await apiService.get(
+              `http://localhost:3310/api/users/me`
+            );
+            if (data.role === "user") {
+              return redirect("/");
+            }
+          } catch (err) {
+            return redirect("/login");
+          }
+          return null;
+        },
+
         element: (
           <AdminContextProvider>
             <Admin />
