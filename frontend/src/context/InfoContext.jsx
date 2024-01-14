@@ -53,15 +53,18 @@ export function InfoContextProvider({ apiService }) {
   const [passwordError, setPasswordError] = useState(false);
   const [errorOrigin, setErrorOrigin] = useState("");
   const [noMatchPassword, setNoMatchPassword] = useState(false);
+
   // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
   useEffect(() => {
     if (formValue.password || formValue.email) {
       setPasswordError(false);
     }
-    if (checkPassword !== "") {
+    if (checkPassword !== "" || formValue.password !== "") {
       setNoMatchPassword(false);
     }
   }, [formValue.password, formValue.email, checkPassword]);
+
+  // formats valides en format regex
   const validPseudo = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
   const validEmail = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
   const validPassword = /^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$/;

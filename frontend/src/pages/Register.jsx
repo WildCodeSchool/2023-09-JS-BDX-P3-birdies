@@ -25,7 +25,10 @@ function Register() {
   };
 
   const handleSubmit = () => {
-    if (formValue.password !== checkPassword) {
+    if (
+      formValue.password !== checkPassword ||
+      !formValue.password.match(validPassword)
+    ) {
       setFormValue({ ...formValue, password: "" });
       setCheckPassword("");
       setNoMatchPassword(true);
