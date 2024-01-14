@@ -52,6 +52,7 @@ export function InfoContextProvider({ apiService }) {
   });
   const [passwordError, setPasswordError] = useState(false);
   const [errorOrigin, setErrorOrigin] = useState("");
+  const [formatError, setFormatError] = useState("");
   const [noMatchPassword, setNoMatchPassword] = useState(false);
 
   // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
@@ -62,7 +63,10 @@ export function InfoContextProvider({ apiService }) {
     if (checkPassword !== "" || formValue.password !== "") {
       setNoMatchPassword(false);
     }
-  }, [formValue.password, formValue.email, checkPassword]);
+    if (formValue.pseudo) {
+      setFormatError("");
+    }
+  }, [formValue.password, formValue.email, formValue.pseudo, checkPassword]);
 
   // formats valides en format regex
   const validPseudo = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -916,6 +920,8 @@ export function InfoContextProvider({ apiService }) {
       setCheckPassword,
       passwordError,
       errorOrigin,
+      formatError,
+      setFormatError,
       setErrorOrigin,
       noMatchPassword,
       setNoMatchPassword,
@@ -988,6 +994,8 @@ export function InfoContextProvider({ apiService }) {
       setCheckPassword,
       passwordError,
       errorOrigin,
+      formatError,
+      setFormatError,
       setErrorOrigin,
       noMatchPassword,
       setNoMatchPassword,
