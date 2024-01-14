@@ -23,6 +23,7 @@ const userControllers = require("./controllers/userControllers");
 const recipeControllers = require("./controllers/recipesControllers");
 const stepControllers = require("./controllers/stepControllers");
 const ingredientControllers = require("./controllers/ingredientsControllers");
+const evaluationControllers = require("./controllers/evaluationsControllers");
 const { authMiddleware } = require("./middlewares/security/auth.middleware");
 
 router.get("/users", userControllers.getUsers);
@@ -41,4 +42,6 @@ router.post("/recipes/:id([0-9]+)/steps", stepControllers.postStep);
 
 router.get("/ingredients", ingredientControllers.getIngredients);
 router.post("/ingredients", ingredientControllers.postIngredient);
+
+router.post("/evaluations", evaluationControllers.postEvaluation);
 module.exports = router;

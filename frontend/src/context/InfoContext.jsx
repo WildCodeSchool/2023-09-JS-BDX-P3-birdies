@@ -24,7 +24,6 @@ export function InfoContextProvider({ apiService }) {
   const [user, setUser] = useState(
     preloadUser?.data?.role ? preloadUser.data : { role: "visitor" }
   );
-  console.info(preloadUser.data);
   const [popupContent, setPopupContent] = useState(null);
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
@@ -834,23 +833,14 @@ export function InfoContextProvider({ apiService }) {
 
   function sendEvaluation(e) {
     const commentId = e.target.getAttribute("data-value");
-    const commentContent = [
-      {
-        userId: "????",
-      },
-      {
-        commentDate: displayDate(),
-      },
-      {
-        RecipeId: commentId,
-      },
-      {
-        commentMessage: recipeComment,
-      },
-      {
-        CommentNote: recipeNote,
-      },
-    ];
+    const commentContent = {
+      userId: "????",
+      commentMessage: recipeComment,
+      CommentNote: recipeNote,
+      commentDate: displayDate(),
+      RecipeId: commentId,
+    };
+
     console.info(commentContent);
     setRecipeComment("");
     setRecipeNote("");
