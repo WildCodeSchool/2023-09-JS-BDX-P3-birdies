@@ -27,6 +27,7 @@ const evaluationControllers = require("./controllers/evaluationsControllers");
 const { authMiddleware } = require("./middlewares/security/auth.middleware");
 
 router.get("/users", userControllers.getUsers);
+router.get("/users/:id", userControllers.getUserById);
 router.get("/users/me", authMiddleware, userControllers.getProfile);
 router.post("/users", userControllers.postUser);
 router.post("/login", userControllers.postLogin);
