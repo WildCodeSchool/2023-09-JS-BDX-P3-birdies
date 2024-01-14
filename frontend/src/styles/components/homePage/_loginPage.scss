@@ -86,6 +86,22 @@ body {
     }
   }
 }
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .error-Msg-existing {
+    height: 1.5rem;
+    text-align: center;
+    color: red;
+    &.checked {
+      display: none;
+    }
+  }
+  .register-title {
+    text-align: center;
+  }
+}
 .submit {
   display: flex;
   justify-content: center;

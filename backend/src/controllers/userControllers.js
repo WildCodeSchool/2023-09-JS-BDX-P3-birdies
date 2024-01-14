@@ -31,8 +31,9 @@ const postUser = (req, res) => {
       });
     })
     .catch((err) => {
-      console.error(err);
-      res.status(422).send({ error: err.message });
+      const endOf = err.sqlMessage.split(" ").pop();
+      console.error(endOf);
+      res.status(422).send({ error: endOf });
     });
 };
 

@@ -24,8 +24,6 @@ export function InfoContextProvider({ apiService }) {
   const [user, setUser] = useState(
     preloadUser?.data?.role ? preloadUser.data : { role: "visitor" }
   );
-  console.info(user);
-  // preloadUser?.data?.role ? preloadUser.data :
   const [popupContent, setPopupContent] = useState(null);
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
@@ -53,6 +51,8 @@ export function InfoContextProvider({ apiService }) {
     role: "user",
   });
   const [passwordError, setPasswordError] = useState(false);
+  const [errorOrigin, setErrorOrigin] = useState("");
+  const [noMatchPassword, setNoMatchPassword] = useState(false);
   // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
   useEffect(() => {
     if (formValue.password || formValue.email) {
@@ -108,14 +108,15 @@ export function InfoContextProvider({ apiService }) {
       };
       handleLoginSubmit(newCredentials);
     } catch (err) {
-      console.error(err);
-      setFormValue({
-        pseudo: "",
-        email: "",
-        password: "",
-        role: "user",
-      });
+      const errorKind = err.response.data.error;
+      const inputError = errorKind
+        .replace("'", " ")
+        .split(".")[1]
+        .split(" ")[0];
+      const errorMsg = inputError.replace("'", "");
+      setFormValue({ ...formValue, [errorMsg]: "" });
       setCheckPassword("");
+      setErrorOrigin(errorMsg);
     }
     return null;
   };
@@ -908,6 +909,10 @@ export function InfoContextProvider({ apiService }) {
       checkPassword,
       setCheckPassword,
       passwordError,
+      errorOrigin,
+      setErrorOrigin,
+      noMatchPassword,
+      setNoMatchPassword,
       logout,
     }),
     [
@@ -976,6 +981,10 @@ export function InfoContextProvider({ apiService }) {
       checkPassword,
       setCheckPassword,
       passwordError,
+      errorOrigin,
+      setErrorOrigin,
+      noMatchPassword,
+      setNoMatchPassword,
       logout,
     ]
   );

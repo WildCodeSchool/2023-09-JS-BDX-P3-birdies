@@ -13,9 +13,14 @@ function Register() {
     validEmail,
     validPassword,
     validPseudo,
+    errorOrigin,
+    setErrorOrigin,
+    noMatchPassword,
+    setNoMatchPassword,
   } = Useinfo();
 
   const onChange = (e) => {
+    setErrorOrigin("");
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
@@ -23,7 +28,8 @@ function Register() {
     if (formValue.password !== checkPassword) {
       setFormValue({ ...formValue, password: "" });
       setCheckPassword("");
-      alert("Les mots de passe ne sont pas identiques"); // eslint-disable-line no-alert
+      setNoMatchPassword(true);
+      // alert("Les mots de passe ne sont pas identiques"); // eslint-disable-line no-alert
     } else {
       createUser(formValue);
     }
@@ -37,7 +43,11 @@ function Register() {
       <div className="login-container">
         <div className="inputs">
           <div className="header">
-            <div className="text">Créer mon compte</div>
+            <div className="error-Msg-existing">
+              {errorOrigin !== "" && <p>{`${errorOrigin} déjà existant`}</p>}
+              {noMatchPassword && <p>Mot de passe incorrect</p>}
+            </div>
+            <div className="text register-title">Créer mon compte</div>
           </div>
           <div className="input">
             <input
