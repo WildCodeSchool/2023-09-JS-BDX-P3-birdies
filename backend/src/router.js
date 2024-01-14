@@ -22,6 +22,7 @@ router.post("/items", itemControllers.add);
 const userControllers = require("./controllers/userControllers");
 const recipeControllers = require("./controllers/recipesControllers");
 const stepControllers = require("./controllers/stepControllers");
+const ingredientControllers = require("./controllers/ingredientsControllers");
 const { authMiddleware } = require("./middlewares/security/auth.middleware");
 
 router.get("/users", userControllers.getUsers);
@@ -37,4 +38,7 @@ router.post("/recipes", recipeControllers.postRecipe);
 router.delete("/recipes", recipeControllers.deleteRecipe);
 
 router.post("/recipes/:id([0-9]+)/steps", stepControllers.postStep);
+
+router.get("/ingredients", ingredientControllers.getIngredients);
+router.post("/ingredients", ingredientControllers.postIngredient);
 module.exports = router;
