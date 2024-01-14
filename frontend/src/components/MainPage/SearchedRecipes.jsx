@@ -86,16 +86,7 @@ function SearchedRecipes() {
             onSwipe={(dir) => swiped(dir, recipe.name, index)}
             onCardLeftScreen={() => outOfFrame(recipe.name, index)}
           >
-            <div
-              className="card"
-              // style={{
-              //   backgroundImage: `url(${recipe.picture})`,
-              //   height: "500px",
-              //   width: "60vw",
-              //   borderRadius: "20px",
-              //   position: "relative",
-              // }}
-            >
+            <div className="card">
               <Link className="pressable" to={`/recipes/${recipe.id}`}>
                 Voir
               </Link>

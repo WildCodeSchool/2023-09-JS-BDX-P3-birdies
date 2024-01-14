@@ -36,5 +36,5 @@ router.get("/recipes/:id([0-9]+)", recipeControllers.getRecipeById);
 router.post("/recipes", recipeControllers.postRecipe);
 router.delete("/recipes", recipeControllers.deleteRecipe);
 
-router.post("/recipes/:id([0-9]+)/steps", stepControllers.postIngredient);
+router.post("/recipes/:id([0-9]+)/steps", stepControllers.postStep);
 module.exports = router;

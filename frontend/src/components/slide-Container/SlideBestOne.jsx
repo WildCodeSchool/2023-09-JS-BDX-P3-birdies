@@ -27,7 +27,7 @@ function SlideBestOne() {
   return (
     <div className="slide-one-container">
       {getData.map((recipe) => (
-        <div className="card-container" key={recipe.userId}>
+        <div className="card-container" key={recipe.id}>
           <div className="content-container">
             <h1>{recipe.name}</h1>
             <div className="note-container">

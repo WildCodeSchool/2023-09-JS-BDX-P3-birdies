@@ -24,6 +24,7 @@ export function InfoContextProvider({ apiService }) {
   const [user, setUser] = useState(
     preloadUser?.data?.role ? preloadUser.data : { role: "visitor" }
   );
+  console.info(preloadUser.data);
   const [popupContent, setPopupContent] = useState(null);
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");

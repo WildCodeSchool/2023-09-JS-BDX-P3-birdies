@@ -17,6 +17,7 @@ function NewRecipe() {
   const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
   const [image, setImage] = useState({}); // ---> IMAGE A RECUPERER
+  console.info(image);
   const [duration, setDuration] = useState(""); // ---> TEMPS A RECUPERER
   const [difficultyEvaluation, setDifficultyEvaluation] = useState([]); // ---> DIFFICULTE A RECUPERER
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
@@ -30,9 +31,7 @@ function NewRecipe() {
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
   const stepsInfos = [];
   const filtersInfo = [];
-
   const [chosenFilters, setChosenFilters] = useState([]);
-  console.info(image);
   const newApiCall = async (ingredient) => {
     const response = await axios.get(
       `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriments`
@@ -40,7 +39,6 @@ function NewRecipe() {
     const productsList = response.data.products.filter(
       (products) => products.nutriments.energy_unit === "kJ"
     );
-    // console.info(productsList);
     setIngredientsFound(productsList);
   };
 
@@ -50,7 +48,6 @@ function NewRecipe() {
         `http://localhost:3310/api/recipes`,
         credentials
       );
-      // console.info(`this is the ID : ${response.data.id}`);
       return response.data.id;
     } catch (err) {
       console.error(err);
