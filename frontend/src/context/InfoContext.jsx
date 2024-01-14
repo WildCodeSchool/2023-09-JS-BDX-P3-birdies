@@ -44,7 +44,7 @@ export function InfoContextProvider({ apiService }) {
   const [foodFilter, setFoodFilter] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
 
-  const [checkPassword, setCheckPassword] = useState();
+  const [checkPassword, setCheckPassword] = useState("");
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
@@ -58,7 +58,10 @@ export function InfoContextProvider({ apiService }) {
     if (formValue.password || formValue.email) {
       setPasswordError(false);
     }
-  }, [formValue.password, formValue.email]);
+    if (checkPassword !== "") {
+      setNoMatchPassword(false);
+    }
+  }, [formValue.password, formValue.email, checkPassword]);
   const validPseudo = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
   const validEmail = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
   const validPassword = /^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$/;
