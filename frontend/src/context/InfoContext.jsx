@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import ApiService from "../services/api.service";
 
 const InfoContext = createContext();
@@ -15,13 +15,15 @@ function Average(array) {
 }
 
 export function InfoContextProvider({ apiService }) {
-  // const { preloadUser } = useLoaderData();
+  const navigate = useNavigate();
+  const { preloadUser } = useLoaderData();
   const [userId, setUserId] = useState(undefined);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // les infos de l'utilisateur connecté;
-  const [user, setUser] = useState({ role: "visitor" });
-  // preloadUser?.data?.role ? preloadUser.data :
+  const [user, setUser] = useState(
+    preloadUser?.data?.role ? preloadUser.data : { role: "visitor" }
+  );
   const [popupContent, setPopupContent] = useState(null);
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
@@ -30,6 +32,8 @@ export function InfoContextProvider({ apiService }) {
   const [inputSearchValue, setInputSearchValue] = useState("");
   // ou l'on stock les id des recettes favorites
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  // où l'on stock la recette choisie
+  // const [chosenRecipe, setChosenRecipe] = useState({})
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
@@ -42,14 +46,34 @@ export function InfoContextProvider({ apiService }) {
   const [foodFilter, setFoodFilter] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
 
-  const [checkPassword, setCheckPassword] = useState();
+  const [checkPassword, setCheckPassword] = useState("");
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
     role: "user",
   });
+  const [passwordError, setPasswordError] = useState(false);
+  const [errorOrigin, setErrorOrigin] = useState("");
+  const [formatError, setFormatError] = useState("");
+  const [noMatchPassword, setNoMatchPassword] = useState(false);
 
-  const navigate = useNavigate();
+  // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
+  useEffect(() => {
+    if (formValue.password || formValue.email) {
+      setPasswordError(false);
+    }
+    if (checkPassword !== "" || formValue.password !== "") {
+      setNoMatchPassword(false);
+    }
+    if (formValue.pseudo) {
+      setFormatError("");
+    }
+  }, [formValue.password, formValue.email, formValue.pseudo, checkPassword]);
+
+  // formats valides en format regex
+  const validPseudo = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+  const validEmail = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
+  const validPassword = /^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$/;
 
   const handleLoginSubmit = async (credentials) => {
     try {
@@ -63,7 +87,8 @@ export function InfoContextProvider({ apiService }) {
 
       setInfoLogin((prev) => !prev);
       setUser(result.data);
-      setFormValue({ email: "", password: "" });
+      setFormValue({ email: "", password: "", role: "user" });
+      setPasswordError(false);
       if (result.data.role === "admin") {
         return navigate("/admin");
       }
@@ -74,8 +99,10 @@ export function InfoContextProvider({ apiService }) {
         pseudo: "",
         email: "",
         password: "",
+        role: "user",
       });
       setCheckPassword("");
+      setPasswordError(true);
     }
     return null;
   };
@@ -93,13 +120,15 @@ export function InfoContextProvider({ apiService }) {
       };
       handleLoginSubmit(newCredentials);
     } catch (err) {
-      console.error(err);
-      setFormValue({
-        pseudo: "",
-        email: "",
-        password: "",
-        role: "user",
-      });
+      const errorKind = err.response.data.error;
+      const inputError = errorKind
+        .replace("'", " ")
+        .split(".")[1]
+        .split(" ")[0];
+      const errorMsg = inputError.replace("'", "");
+      setFormValue({ ...formValue, [errorMsg]: "" });
+      setCheckPassword("");
+      setErrorOrigin(errorMsg);
     }
     return null;
   };
@@ -119,6 +148,12 @@ export function InfoContextProvider({ apiService }) {
       setGetData();
     }
   };
+
+  // const getRecipeByID = async (id) => {
+  //   const res = await axios.get(`http://localhost:3310/api/recipes/${id}`);
+  //   console.log(res.data);
+  //   setChosenRecipe(res.data)
+  // };
   const getRecipesName = async () => {
     try {
       const res = await axios.get(
@@ -806,23 +841,14 @@ export function InfoContextProvider({ apiService }) {
 
   function sendEvaluation(e) {
     const commentId = e.target.getAttribute("data-value");
-    const commentContent = [
-      {
-        userId: "????",
-      },
-      {
-        commentDate: displayDate(),
-      },
-      {
-        RecipeId: commentId,
-      },
-      {
-        commentMessage: recipeComment,
-      },
-      {
-        CommentNote: recipeNote,
-      },
-    ];
+    const commentContent = {
+      userId: "????",
+      commentMessage: recipeComment,
+      CommentNote: recipeNote,
+      commentDate: displayDate(),
+      RecipeId: commentId,
+    };
+
     console.info(commentContent);
     setRecipeComment("");
     setRecipeNote("");
@@ -867,6 +893,9 @@ export function InfoContextProvider({ apiService }) {
       setEmail,
       password,
       setPassword,
+      validEmail,
+      validPassword,
+      validPseudo,
       setPopupContent,
       convertMinutesToTime,
       Average,
@@ -888,7 +917,15 @@ export function InfoContextProvider({ apiService }) {
       createUser,
       checkPassword,
       setCheckPassword,
+      passwordError,
+      errorOrigin,
+      formatError,
+      setFormatError,
+      setErrorOrigin,
+      noMatchPassword,
+      setNoMatchPassword,
       logout,
+      // getRecipeByID,
     }),
     [
       getData,
@@ -924,6 +961,9 @@ export function InfoContextProvider({ apiService }) {
       setEmail,
       password,
       setPassword,
+      validEmail,
+      validPassword,
+      validPseudo,
       popupContent,
       convertMinutesToTime,
       Average,
@@ -945,7 +985,6 @@ export function InfoContextProvider({ apiService }) {
       filterListModify,
       displayFilter,
       setDisplayFilter,
-
       apiService,
       formValue,
       setFormValue,
@@ -953,15 +992,18 @@ export function InfoContextProvider({ apiService }) {
       createUser,
       checkPassword,
       setCheckPassword,
+      passwordError,
+      errorOrigin,
+      formatError,
+      setFormatError,
+      setErrorOrigin,
+      noMatchPassword,
+      setNoMatchPassword,
       logout,
+      // getRecipeByID,
     ]
   );
-  // if (user.role === "visitor") {
-  //   return navigate("/slideone");
-  // }
-  // if (user.role === "admin") {
-  //   return navigate("/admin");
-  // }
+
   return (
     <InfoContext.Provider value={contextValues}>
       <Outlet />
