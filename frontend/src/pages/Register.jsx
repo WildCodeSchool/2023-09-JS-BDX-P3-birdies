@@ -10,22 +10,37 @@ function Register() {
     setCheckPassword,
     formValue,
     setFormValue,
+    validEmail,
+    validPassword,
+    validPseudo,
+    errorOrigin,
+    setErrorOrigin,
+    noMatchPassword,
+    setNoMatchPassword,
+    formatError,
+    setFormatError,
   } = Useinfo();
 
   const onChange = (e) => {
+    setErrorOrigin("");
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = () => {
-    if (formValue.password !== checkPassword) {
+    if (
+      formValue.password !== checkPassword ||
+      !formValue.password.match(validPassword)
+    ) {
       setFormValue({ ...formValue, password: "" });
       setCheckPassword("");
-      alert("Les mots de passe ne sont pas identiques"); // eslint-disable-line no-alert
+      setNoMatchPassword(true);
+    } else if (!formValue.pseudo.match(validPseudo)) {
+      setFormValue({ ...formValue, pseudo: "" });
+      setFormatError("pseudo");
     } else {
       createUser(formValue);
     }
   };
-
   return (
     <div className="container">
       <img className="cookies" src={cookies} alt="" />
@@ -35,7 +50,12 @@ function Register() {
       <div className="login-container">
         <div className="inputs">
           <div className="header">
-            <div className="text">Créer mon compte</div>
+            <div className="error-Msg-existing">
+              {errorOrigin !== "" && <p>{`${errorOrigin} déjà existant`}</p>}
+              {formatError !== "" && <p>{`${formatError} format incorrect`}</p>}
+              {noMatchPassword && <p>Mot de passe incorrect</p>}
+            </div>
+            <div className="text register-title">Créer mon compte</div>
           </div>
           <div className="input">
             <input
@@ -47,6 +67,18 @@ function Register() {
               onChange={onChange}
             />
           </div>
+          <div className="error-message-container">
+            <p
+              className={
+                formValue.pseudo === undefined ||
+                !formValue.pseudo.match(validPseudo)
+                  ? "error-format-pseudo"
+                  : "error-format-pseudo checked"
+              }
+            >
+              Min 8 caractères, 1 Maj, 1 Min, 1 Chiffre
+            </p>
+          </div>
           <div className="input">
             <input
               name="email"
@@ -56,6 +88,18 @@ function Register() {
               value={formValue.email}
               onChange={onChange}
             />
+          </div>
+          <div className="error-message-container">
+            <p
+              className={
+                formValue.email === undefined ||
+                !formValue.email.match(validEmail)
+                  ? "error-format-pseudo"
+                  : "error-format-pseudo checked"
+              }
+            >
+              Format d' e-mail invalide
+            </p>
           </div>
           <div className="input">
             <input
@@ -67,6 +111,18 @@ function Register() {
               onChange={onChange}
             />
           </div>
+          <div className="error-message-container">
+            <p
+              className={
+                formValue.password === undefined ||
+                !formValue.password.match(validPassword)
+                  ? "error-format-pseudo"
+                  : "error-format-pseudo checked"
+              }
+            >
+              doit contenir 1 caractere spé
+            </p>
+          </div>
           <div className="input">
             <input
               className="input-password"
@@ -75,6 +131,17 @@ function Register() {
               value={checkPassword}
               onChange={(e) => setCheckPassword(e.target.value)}
             />
+          </div>
+          <div className="error-message-container">
+            <p
+              className={
+                checkPassword !== formValue.password
+                  ? "error-check-password"
+                  : "error-check-password checked"
+              }
+            >
+              Vérification incorrecte
+            </p>
           </div>
         </div>
         <div className="submit">

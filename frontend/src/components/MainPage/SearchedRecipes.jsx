@@ -1,11 +1,11 @@
 import TinderCard from "react-tinder-card";
 import React, { useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
 import star from "../../styles/icons/Star.png";
 
 function SearchedRecipes() {
-  const { getDataName } = Useinfo();
+  const { getDataName, getRecipeByID } = Useinfo();
   const [currentIndex, setCurrentIndex] = useState(getDataName.length - 1);
   const [lastDirection, setLastDirection] = useState();
   // used for out of frame closure
@@ -86,19 +86,14 @@ function SearchedRecipes() {
             onSwipe={(dir) => swiped(dir, recipe.name, index)}
             onCardLeftScreen={() => outOfFrame(recipe.name, index)}
           >
-            <div
-              className="card"
-              // style={{
-              //   backgroundImage: `url(${recipe.picture})`,
-              //   height: "500px",
-              //   width: "60vw",
-              //   borderRadius: "20px",
-              //   position: "relative",
-              // }}
-            >
-              <Link className="pressable" to={`/recipes/${recipe.id}`}>
+            <div className="card">
+              <button
+                type="button"
+                className="pressable"
+                onClick={() => getRecipeByID(recipe.id)}
+              >
                 Voir
-              </Link>
+              </button>
               <h3>{recipe.name}</h3>
               <div className="rate-container">
                 <div className="stars">

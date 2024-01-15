@@ -26,8 +26,13 @@
 }
 @media screen and (max-width: 500px) {
   #login-box {
-    left: 5%;
+    left: 0;
     padding: 0 50px;
+
+    button {
+      background-color: white;
+      border: none;
+    }
 
     #box-login {
       font-size: 0.8rem;
