@@ -12,6 +12,7 @@ const getRecipes = (_, res) => {
       res.status(500).send({ error: err.message });
     });
 };
+
 const getRecipesName = (req, res) => {
   const { name } = req.params;
   models.recipe.findByName(name).then(([result]) => {
@@ -24,14 +25,20 @@ const getRecipesName = (req, res) => {
 };
 
 const getRecipeById = (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  models.recipe.find(id).then(([result]) => {
-    if (result[0] !== null) {
-      res.json(result[0]);
-    } else {
-      res.sendStatus(404);
-    }
-  });
+  const { id } = req.params;
+  models.recipe
+    .find(id)
+    .then(([result]) => {
+      if (result[0] !== null) {
+        res.json(result[0]);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.send({ error: err.message });
+    });
 };
 
 const postRecipe = (req, res) => {

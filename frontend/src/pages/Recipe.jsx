@@ -32,7 +32,6 @@ function Recipe() {
     setShowComments,
     convertMinutesToTime,
   } = Useinfo();
-
   const { id } = useParams();
   const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
   const averageNote = Average(chosenRecipe.notes);

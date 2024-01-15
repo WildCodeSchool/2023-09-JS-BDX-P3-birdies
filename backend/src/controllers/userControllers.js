@@ -15,6 +15,22 @@ const getUsers = (_, res) => {
       res.sendStatus(500);
     });
 };
+const getUserById = (req, res) => {
+  const { id } = req.params;
+  models.user
+    .find(id)
+    .then(([response]) => {
+      if (response[0] !== null) {
+        res.json(response[0]);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(404).send({ error: err.message });
+    });
+};
 
 const getProfile = (req, res) => {
   res.send(req.user);
@@ -31,8 +47,9 @@ const postUser = (req, res) => {
       });
     })
     .catch((err) => {
-      console.error(err);
-      res.status(422).send({ error: err.message });
+      const endOf = err.sqlMessage.split(" ").pop();
+      console.error(endOf);
+      res.status(422).send({ error: endOf });
     });
 };
 
@@ -71,6 +88,7 @@ const deleteUser = (req, res) => {
 
 module.exports = {
   getUsers,
+  getUserById,
   getProfile,
   postUser,
   postLogin,
