@@ -7,7 +7,7 @@ class EvaluationManager extends AbstractManager {
 
   async create(evaluation) {
     return this.database.query(
-      `insert into ${this.table} (user_id, recipe_id, comment, note, commentDate) values (?, ?, ?, ?, ?)`,
+      `insert into ${this.table} (user_id, recipe_id, comment, note, transformedDate) values (?, ?, ?, ?, ?)`,
       [
         evaluation.userId,
         evaluation.recipeId,

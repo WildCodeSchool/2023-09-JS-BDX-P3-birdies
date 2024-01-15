@@ -73,14 +73,18 @@ CREATE TABLE
 CREATE TABLE
     `recipes_cathegories` (
         `recipe_id` INT NOT NULL,
-        `cathegory_id` INT NOT NULL
+        `cathegory_id` INT NOT NULL,
+        Foreign Key (`recipe_id`) REFERENCES recipes(id),
+        Foreign Key (`cathegory_id`) REFERENCES cathegories(id)
     );
 
 CREATE TABLE
     `favorite_Recipes` (
         `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         `user_id` INT NOT NULL,
-        `recipe_id` INT NOT NULL
+        `recipe_id` INT NOT NULL,
+        Foreign Key (user_id) REFERENCES users(id),
+        Foreign Key (recipe_id) REFERENCES recipes(id)
     );
 
 CREATE table
@@ -90,17 +94,20 @@ CREATE table
         `recipe_id` INT NOT NULL,
         `comment` VARCHAR(255),
         `note` INT NOT NULL,
-        `commentDate` VARCHAR(255) NOT NULL
+        `commentDate` timestamp default CURRENT_TIMESTAMP,
+        `transformedDate` VARCHAR(255),
+        Foreign Key (user_id) REFERENCES users(id),
+        Foreign Key (recipe_id) REFERENCES recipes(id)
     );
-
+drop table evaluations;
 CREATE TABLE
     `steps` (
         `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         `recipe_id` INT NOT NULL,
         `description` VARCHAR(500) NOT NULL,
-        `position` INT NOT NULL
+        `position` INT NOT NULL,
+        Foreign Key (recipe_id) REFERENCES recipes(id)
     );
-
 INSERT INTO
     `recipes` (
         `userId`,
@@ -244,3 +251,5 @@ VALUES (
         "Difficile",
         "45"
     );
+
+    

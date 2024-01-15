@@ -34,12 +34,13 @@ router.post("/login", userControllers.postLogin);
 router.delete("/users/:id", userControllers.deleteUser);
 
 router.get("/recipes", recipeControllers.getRecipes);
-router.get("/recipes/:name(a-z)+", recipeControllers.getRecipesName);
+router.get("/recipes/:name([a-z]+)", recipeControllers.getRecipesName);
 router.get("/recipes/:id([0-9]+)", recipeControllers.getRecipeById);
 router.post("/recipes", recipeControllers.postRecipe);
 router.delete("/recipes", recipeControllers.deleteRecipe);
 
 router.post("/recipes/:id([0-9]+)/steps", stepControllers.postStep);
+router.get("/recipes/:id([0-9]+)/steps", stepControllers.getStep);
 
 router.get("/ingredients", ingredientControllers.getIngredients);
 router.post("/ingredients", ingredientControllers.postIngredient);

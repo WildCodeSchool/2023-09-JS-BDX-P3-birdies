@@ -7,4 +7,20 @@ const postStep = (req, res) => {
   });
 };
 
-module.exports = { postStep };
+const getStep = (req, res) => {
+  const { id } = req.params;
+  models.step
+    .get(id)
+    .then(([response]) => {
+      if (response[0] !== null) {
+        res.json(response[0]);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(420).send({ error: err.message });
+    });
+};
+module.exports = { postStep, getStep };

@@ -56,6 +56,7 @@ export function InfoContextProvider({ apiService }) {
   const [errorOrigin, setErrorOrigin] = useState("");
   const [formatError, setFormatError] = useState("");
   const [noMatchPassword, setNoMatchPassword] = useState(false);
+  const [chosenRecipesss, setChosenRecipesss] = useState(undefined);
 
   // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
   useEffect(() => {
@@ -152,17 +153,7 @@ export function InfoContextProvider({ apiService }) {
     const res = await axios.get(`http://localhost:3310/api/recipes/${id}`);
     setChosenRecipe(res.data);
   };
-  // const getEvaluation = async (id) => {
-  //   const res = await axios.get(`http://localhost:3310/api/recipes/${id}/evaluations`)
-  //   console.info(res.data);
-  // };
-  // const redirectToRecipe = async (id) => {
-  //   try {
-  //     getRecipeByID(id);
-  //   } catch (err) {
-  //     console.error({ error: err.message });
-  //   }
-  // };
+
   const getRecipesName = async () => {
     try {
       const res = await axios.get(
@@ -852,7 +843,7 @@ export function InfoContextProvider({ apiService }) {
   function sendEvaluation(e) {
     const commentId = e.target.getAttribute("data-value");
     const commentContent = {
-      userId: "????",
+      userId: user.id,
       commentMessage: recipeComment,
       CommentNote: recipeNote,
       commentDate: displayDate(),
@@ -935,8 +926,8 @@ export function InfoContextProvider({ apiService }) {
       setNoMatchPassword,
       logout,
       getRecipeByID,
-      chosenRecipe,
-      setChosenRecipe,
+      chosenRecipesss,
+      setChosenRecipesss,
     }),
     [
       getData,
@@ -1012,8 +1003,8 @@ export function InfoContextProvider({ apiService }) {
       setNoMatchPassword,
       logout,
       getRecipeByID,
-      chosenRecipe,
-      setChosenRecipe,
+      chosenRecipesss,
+      setChosenRecipesss,
     ]
   );
 
