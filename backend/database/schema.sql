@@ -244,3 +244,13 @@ VALUES (
         "Difficile",
         "45"
     );
+
+UPDATE `recipes`
+SET
+    `name` = "Soufflé au Grand Marnier"
+WHERE `id` = 6;
+
+UPDATE `recipes`
+SET
+    `name` = "Pastilla de pigeon aux raisins blancs"
+WHERE `id` = 7;
