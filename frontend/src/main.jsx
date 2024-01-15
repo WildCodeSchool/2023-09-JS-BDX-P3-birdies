@@ -18,6 +18,7 @@ import ModifyRecipe from "./pages/ModifyRecipe";
 import ErrorPage from "./pages/errorPage";
 import UserSettings from "./pages/UserSettings";
 import ApiService from "./services/api.service";
+// import AdminEditUser from "./pages/AdminEditUser";
 
 const apiService = new ApiService();
 
@@ -88,6 +89,14 @@ const router = createBrowserRouter([
         path: "/UserSettings",
         element: <UserSettings />,
       },
+      // {
+      //   path: "/AdminEditUser",
+      //   element: (
+      //     <AdminContextProvider>
+      //       <AdminEditUser />
+      //     </AdminContextProvider>
+      //   ),
+      // },
     ],
   },
 ]);

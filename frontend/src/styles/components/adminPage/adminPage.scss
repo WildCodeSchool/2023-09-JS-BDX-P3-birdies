@@ -219,3 +219,16 @@
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   transform: translateY(0);
 }
+
+.edit-recipe-and-user-pen {
+  float: right;
+}
+
+.edit-recipe-and-user-pen:hover {
+  cursor: pointer;
+}
+
+.edit-recipe-and-user-pen-button {
+  background: rgba(0, 0, 0, 0);
+  border: none;
+}

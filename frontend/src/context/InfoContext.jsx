@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+
 import PropTypes from "prop-types";
 import axios from "axios";
-import { Outlet, useNavigate } from "react-router-dom";
 import ApiService from "../services/api.service";
 
 const InfoContext = createContext();

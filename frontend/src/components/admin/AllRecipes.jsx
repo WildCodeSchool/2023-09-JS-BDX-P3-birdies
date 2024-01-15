@@ -1,10 +1,13 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Useinfo } from "../../context/InfoContext";
+import edit from "../../styles/img/kisspng-computer-icons-pencil-icon-design-material-design-5b09679fe42b46.8810328815273430079346.png";
 
 function AllRecipes() {
   const { showAllRecipes } = Useinfo();
   const [allRecipes, setAllRecipes] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -45,6 +48,19 @@ function AllRecipes() {
             onClick={() => handleDelete(e.id)}
           >
             Supprimer
+          </button>
+          <button
+            className="edit-recipe-and-user-pen-button"
+            type="button"
+            onClick={() => navigate("/modifyrecipes/:id")}
+            onKeyDown={handleDelete}
+          >
+            <img
+              src={edit}
+              alt="Modifier-la-recette"
+              style={{ width: 20 }}
+              className="edit-recipe-and-user-pen"
+            />
           </button>
         </>
       ))}
