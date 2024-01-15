@@ -17,5 +17,12 @@ class EvaluationManager extends AbstractManager {
       ]
     );
   }
+
+  async findByRecipe(recipeId) {
+    return this.database.query(
+      `select * from ${this.table} where recipe_id = ?`,
+      [recipeId]
+    );
+  }
 }
 module.exports = EvaluationManager;

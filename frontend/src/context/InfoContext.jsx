@@ -33,7 +33,7 @@ export function InfoContextProvider({ apiService }) {
   // ou l'on stock les id des recettes favorites
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   // où l'on stock la recette choisie
-  // const [chosenRecipe, setChosenRecipe] = useState({})
+  const [chosenRecipe, setChosenRecipe] = useState({});
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
@@ -148,11 +148,20 @@ export function InfoContextProvider({ apiService }) {
       setGetData();
     }
   };
-
-  // const getRecipeByID = async (id) => {
-  //   const res = await axios.get(`http://localhost:3310/api/recipes/${id}`);
-  //   console.log(res.data);
-  //   setChosenRecipe(res.data)
+  const getRecipeByID = async (id) => {
+    const res = await axios.get(`http://localhost:3310/api/recipes/${id}`);
+    setChosenRecipe(res.data);
+  };
+  // const getEvaluation = async (id) => {
+  //   const res = await axios.get(`http://localhost:3310/api/recipes/${id}/evaluations`)
+  //   console.info(res.data);
+  // };
+  // const redirectToRecipe = async (id) => {
+  //   try {
+  //     getRecipeByID(id);
+  //   } catch (err) {
+  //     console.error({ error: err.message });
+  //   }
   // };
   const getRecipesName = async () => {
     try {
@@ -166,7 +175,8 @@ export function InfoContextProvider({ apiService }) {
       setGetDataName();
     }
   };
-  console.info(foodFilter);
+  console.info(chosenRecipe);
+
   function filterListModify(e) {
     const targetedFilter = e.target.innerText;
     if (foodFilter.includes(targetedFilter)) {
@@ -855,7 +865,6 @@ export function InfoContextProvider({ apiService }) {
     setAddCommentVisible(false);
     setBasicSuccess((prev) => !prev);
   }
-
   const contextValues = useMemo(
     () => ({
       getData,
@@ -925,7 +934,9 @@ export function InfoContextProvider({ apiService }) {
       noMatchPassword,
       setNoMatchPassword,
       logout,
-      // getRecipeByID,
+      getRecipeByID,
+      chosenRecipe,
+      setChosenRecipe,
     }),
     [
       getData,
@@ -1000,7 +1011,9 @@ export function InfoContextProvider({ apiService }) {
       noMatchPassword,
       setNoMatchPassword,
       logout,
-      // getRecipeByID,
+      getRecipeByID,
+      chosenRecipe,
+      setChosenRecipe,
     ]
   );
 

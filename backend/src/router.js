@@ -45,4 +45,5 @@ router.get("/ingredients", ingredientControllers.getIngredients);
 router.post("/ingredients", ingredientControllers.postIngredient);
 
 router.post("/evaluations", evaluationControllers.postEvaluation);
+router.get("/evaluations/:recipeId", evaluationControllers.getByRecipe);
 module.exports = router;
