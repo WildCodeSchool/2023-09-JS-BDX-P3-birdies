@@ -22,6 +22,8 @@ const getUserById = (req, res) => {
     .then(([response]) => {
       if (response[0] !== null) {
         res.json(response[0]);
+      } else {
+        res.sendStatus(404);
       }
     })
     .catch((err) => {

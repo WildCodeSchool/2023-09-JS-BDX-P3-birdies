@@ -27,14 +27,14 @@ const evaluationControllers = require("./controllers/evaluationsControllers");
 const { authMiddleware } = require("./middlewares/security/auth.middleware");
 
 router.get("/users", userControllers.getUsers);
-router.get("/users/:id", userControllers.getUserById);
+router.get("/users/:id([0-9]+)", userControllers.getUserById);
 router.get("/users/me", authMiddleware, userControllers.getProfile);
 router.post("/users", userControllers.postUser);
 router.post("/login", userControllers.postLogin);
 router.delete("/users/:id", userControllers.deleteUser);
 
 router.get("/recipes", recipeControllers.getRecipes);
-router.get("/recipes/:name", recipeControllers.getRecipesName);
+router.get("/recipes/:name(a-z)+", recipeControllers.getRecipesName);
 router.get("/recipes/:id([0-9]+)", recipeControllers.getRecipeById);
 router.post("/recipes", recipeControllers.postRecipe);
 router.delete("/recipes", recipeControllers.deleteRecipe);

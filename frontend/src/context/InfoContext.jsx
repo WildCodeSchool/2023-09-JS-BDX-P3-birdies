@@ -32,6 +32,8 @@ export function InfoContextProvider({ apiService }) {
   const [inputSearchValue, setInputSearchValue] = useState("");
   // ou l'on stock les id des recettes favorites
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  // où l'on stock la recette choisie
+  // const [chosenRecipe, setChosenRecipe] = useState({})
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
@@ -146,6 +148,12 @@ export function InfoContextProvider({ apiService }) {
       setGetData();
     }
   };
+
+  // const getRecipeByID = async (id) => {
+  //   const res = await axios.get(`http://localhost:3310/api/recipes/${id}`);
+  //   console.log(res.data);
+  //   setChosenRecipe(res.data)
+  // };
   const getRecipesName = async () => {
     try {
       const res = await axios.get(
@@ -917,6 +925,7 @@ export function InfoContextProvider({ apiService }) {
       noMatchPassword,
       setNoMatchPassword,
       logout,
+      // getRecipeByID,
     }),
     [
       getData,
@@ -991,6 +1000,7 @@ export function InfoContextProvider({ apiService }) {
       noMatchPassword,
       setNoMatchPassword,
       logout,
+      // getRecipeByID,
     ]
   );
 
