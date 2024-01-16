@@ -28,13 +28,11 @@ function AllUsers() {
     <div className={showUserList ? "show-user-list" : "hide-user-list"}>
       {dbUsers.map((e) => (
         <div>
-          <div>Prénom:{e.firstname}</div>
-          <div> Nom:{e.lastname} </div>
-          <div>Email:{e.email}</div>
-          <div>
-            Pseudo:
-            {e.pseudo}
-          </div>
+          <div>id: {e.id}</div>
+          <div>Prénom: {e.firstname}</div>
+          <div>Nom: {e.lastname} </div>
+          <div>Email: {e.email}</div>
+          <div>Pseudo: {e.pseudo}</div>
           <div className="user-info-separation">
             <button
               className="delete-user-button"
@@ -45,7 +43,7 @@ function AllUsers() {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/UserSettings")}
+              onClick={() => navigate(`/UserSettings/${e.id}`)}
               className="edit-recipe-and-user-pen-button"
             >
               <img

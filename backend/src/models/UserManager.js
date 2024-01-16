@@ -25,7 +25,6 @@ class UserManager extends AbstractManager {
     }
 
     const user = rows[0];
-    console.info(user);
     const result = await bcrypt.compare(password, user.password);
 
     return result ? user : undefined;
@@ -33,13 +32,20 @@ class UserManager extends AbstractManager {
 
   getProfile(id) {
     return this.database.query(
-      `SELECT id, email, pseudo, role FROM ${this.table} WHERE id=?`,
+      `SELECT id, email, pseudo, role FROM ${this.table} WHERE id = ?`,
       [id]
     );
   }
 
   static hashPassword(password, workFactor = 5) {
     return bcrypt.hash(password, workFactor);
+  }
+
+  async updateRole(id, user) {
+    return this.database.query(
+      `UPDATE ${this.table} SET role = ? WHERE id = ?`,
+      [user.role, id]
+    );
   }
 }
 module.exports = UserManager;

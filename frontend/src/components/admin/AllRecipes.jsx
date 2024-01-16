@@ -52,7 +52,7 @@ function AllRecipes() {
           <button
             className="edit-recipe-and-user-pen-button"
             type="button"
-            onClick={() => navigate("/modifyrecipes/:id")}
+            onClick={() => navigate(`/modifyrecipes/${e.id}`)}
             onKeyDown={handleDelete}
           >
             <img

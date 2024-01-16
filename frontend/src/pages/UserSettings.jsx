@@ -1,25 +1,32 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { MDBFileUpload } from "mdb-react-file-upload";
+import { Useinfo } from "../context/InfoContext";
+import "../styles/components/UserSettings/userSettings.scss";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
-import "../styles/components/UserSettings/userSettings.scss";
-import { Useinfo } from "../context/InfoContext";
 
 export default function UserSettings() {
-  const { userPicture, setUserPicture } = Useinfo();
+  const { setUserPicture } = Useinfo();
   // lines disabled for eslint because values are not changing anything yet
   const [nickname, setNickname] = useState(); // eslint-disable-line
   const [firstname, setFirstname] = useState(); // eslint-disable-line
   const [lastname, setLastname] = useState(); // eslint-disable-line
   const [modifiedEmail, setModifiedEmail] = useState(); // eslint-disable-line
   const [modifiedPassword, setModifiedPassword] = useState(); // eslint-disable-line
+  const [modifyRole, setModifyRole] = useState({ role: "" }); // eslint-disable-line
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3310/api/users/`)
+      .then((res) => setModifyRole(res?.data)); // data is an array of objects that have roles
+  }, []);
 
   const handleModification = () => {
     alert("Modifications enregistrées"); // eslint-disable-line no-alert
     setTimeout(() => window.location.reload(false), 1000);
   };
-  console.info(userPicture);
 
   return (
     <>
@@ -54,9 +61,14 @@ export default function UserSettings() {
           onChange={(e) => setModifiedEmail(e.target.value)}
         />
         <input
+          type="text"
+          placeholder="Rôle"
+          onChange={(e) => setModifiedPassword(e.target.value)}
+        />
+        <input
           type="password"
           placeholder="Mot de passe"
-          onChange={(e) => setModifiedPassword(e.target.value)}
+          onChange={() => setUser(user ? "admin" : "visitor")} // eslint-disable-line
         />
         <button
           type="submit"
