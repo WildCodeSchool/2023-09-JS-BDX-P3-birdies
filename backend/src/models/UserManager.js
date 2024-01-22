@@ -41,10 +41,18 @@ class UserManager extends AbstractManager {
     return bcrypt.hash(password, workFactor);
   }
 
-  async updateRole(id, user) {
+  async updateUser(id, user) {
     return this.database.query(
       `UPDATE ${this.table} SET pseudo = ?, firstname = ?, lastname = ?, email = ?, password = ?, role = ? WHERE id = ?`,
-      [user.role, id]
+      [
+        user.pseudo,
+        user.firstname,
+        user.lastname,
+        user.email,
+        user.password,
+        user.role,
+        id,
+      ]
     );
   }
 }

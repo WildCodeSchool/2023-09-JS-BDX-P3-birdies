@@ -90,7 +90,7 @@ const updateUser = (req, res) => {
   const { id } = req.params;
   const user = req.body;
   try {
-    models.user.updateRole(id, user).then((response) => {
+    models.user.updateUser(id, user).then((response) => {
       if (response.affectedRows === 0) {
         res.sendStatus(404);
       } else {

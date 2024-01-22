@@ -10,7 +10,7 @@ import settingsWheel from "../styles/icons/settingsWheel.png";
 export default function UserSettings() {
   const { setUserPicture } = Useinfo();
   // lines disabled for eslint because values are not changing anything yet
-  const [everyInfo, setEveryInfo] = useState();
+  const [everyInfo, setEveryInfo] = useState({});
   const [nickname, setNickname] = useState(); // eslint-disable-line
   const [firstname, setFirstname] = useState(); // eslint-disable-line
   const [lastname, setLastname] = useState(); // eslint-disable-line
@@ -29,6 +29,17 @@ export default function UserSettings() {
   useEffect(() => {
     fetchData(id);
   }, []);
+
+  const sendChanges = async () => {
+    try {
+      await axios.put(`http://localhost:3310/api/users/${id}`, everyInfo);
+    } catch (error) {
+      console.error("Error saving changes:", error);
+    }
+  };
+  function onValuechange(e) {
+    setEveryInfo({ ...everyInfo, [e.target.name]: e.target.value });
+  }
 
   return (
     <div>
@@ -50,34 +61,53 @@ export default function UserSettings() {
           <div className="user-settings-container">
             <input
               type="text"
+              name="pseudo"
               placeholder="Pseudo"
               value={everyInfo.pseudo}
-              onChange={(e) => setEveryInfo({ pseudo: e.target.value })}
+              onChange={onValuechange}
+              // onChange={(e) => setEveryInfo({ pseudo: e.target.value })}
             />
             <input
               type="text"
+              name="firstname"
               placeholder="Prénom"
               value={everyInfo.firstname}
-              onChange={(e) => setEveryInfo({ firstname: e.target.value })}
+              onChange={onValuechange}
+
+              // onChange={(e) => setEveryInfo({ firstname: e.target.value })}
             />
             <input
               type="text"
               placeholder="Nom"
+              name="lastname"
               value={everyInfo.lastname}
-              onChange={(e) => setEveryInfo({ lastname: e.target.value })}
+              onChange={onValuechange}
+
+              // onChange={(e) => setEveryInfo({ lastname: e.target.value })}
             />
             <input
               type="email"
               placeholder="Email"
+              name="email"
               value={everyInfo.email}
-              onChange={(e) => setEveryInfo({ email: e.target.value })}
+              onChange={onValuechange}
+
+              // onChange={(e) => setEveryInfo({ email: e.target.value })}
             />
             <input
               type="password"
+              name="password"
+              value={everyInfo.password}
               placeholder="Mot de passe"
-              onChange={(e) => setEveryInfo({ password: e.target.value })} // eslint-disable-line
+              onChange={onValuechange}
+
+              // onChange={(e) => setEveryInfo({ password: e.target.value })} // eslint-disable-line
             />
-            <button type="submit" className="accept-modifications">
+            <button
+              type="submit"
+              className="accept-modifications"
+              onClick={sendChanges}
+            >
               Modifier
             </button>
             <button
