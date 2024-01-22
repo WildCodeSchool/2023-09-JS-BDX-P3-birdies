@@ -1,0 +1,128 @@
+.container-filter {
+  max-width: 100%;
+  margin: 10px 20%;
+  display: flex;
+
+  .scroll-bar {
+    display: flex;
+    width: 100%;
+    max-height: 50px;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: white;
+    }
+
+    .button-filter {
+      text-align: center;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      width: 20%;
+      min-width: 200px;
+      border: none;
+
+      &.active {
+        background: black;
+        color: #fff;
+      }
+    }
+  }
+}
+.boxFilter {
+  margin: 10px 20%;
+  border: none;
+  background: none;
+
+  img {
+    border: none;
+    background: none;
+  }
+}
+
+.container-filter-page {
+  left: 20%;
+  right: 20%;
+  position: absolute;
+  height: 100vh;
+  background: #fff;
+  z-index: 111;
+
+  .flowerFiltre {
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+  }
+  .btn-close {
+    z-index: 111;
+    position: absolute;
+    right: 20px;
+
+    button {
+      border: none;
+    }
+  }
+  h1 {
+    font-size: 1.3rem;
+  }
+  .container-filter-main {
+    width: 100%;
+    max-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 33% 33% 33%;
+    .particularity-container {
+      grid-column: 3;
+      z-index: 111;
+    }
+    .meal-container {
+      grid-column: 2;
+      grid-row: 2;
+      z-index: 111;
+    }
+    .style-container {
+      grid-column: 1;
+      grid-row: 3;
+      z-index: 111;
+    }
+
+    .particularity-container,
+    .meal-container,
+    .style-container {
+      min-width: 150px;
+      min-height: 200px;
+      text-align: center;
+      line-height: 25px;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+
+      .button-filter-page {
+        border: none;
+        background: none;
+      }
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  #particularity {
+    grid-column: 2;
+  }
+  #style {
+    grid-column: 2;
+  }
+}
+@media screen and (max-width: 600px) {
+  #filter-main {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+}

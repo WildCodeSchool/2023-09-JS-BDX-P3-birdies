@@ -1,0 +1,203 @@
+body {
+  margin-top: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background-color: #ece8da;
+}
+
+.img-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 1;
+  position: absolute;
+  margin-bottom: 10rem;
+}
+
+.img-container-registration {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 1;
+  position: absolute;
+  margin-bottom: 9.8rem;
+}
+
+.logo {
+  border-radius: 25px;
+}
+
+.cookies {
+  width: 100%;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  margin: 4rem 4rem 0 4rem;
+}
+
+.input {
+  padding: 0.2rem 0;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.input-email,
+.input-password,
+.input-pseudo {
+  border: none;
+  border-radius: 15px;
+  padding: 0.3rem;
+  width: 100%;
+}
+.error-message-container {
+  height: 1.2rem;
+  .error-format-pseudo,
+  .error-email-format,
+  .error-password-format,
+  .error-check-password {
+    margin: 0;
+    font-size: x-small;
+    color: red;
+    &.checked {
+      display: none;
+    }
+  }
+}
+.wrong-identification {
+  height: 3rem;
+  .error-identification {
+    margin: 0;
+    color: red;
+    &.checked {
+      display: none;
+    }
+  }
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .error-Msg-existing {
+    height: 1.5rem;
+    text-align: center;
+    color: red;
+    &.checked {
+      display: none;
+    }
+  }
+  .register-title {
+    text-align: center;
+  }
+}
+.submit {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-form {
+  margin-top: 0.2rem;
+  border-radius: 20px;
+  border: none;
+  background-color: #d56c06;
+  color: white;
+  padding: 0 1rem 0 1rem;
+}
+
+.not-connected {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4rem;
+  font-size: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-connected-registration {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  font-size: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-member {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.lost-password {
+  margin-bottom: 0.2rem;
+}
+
+.CGV {
+  font-size: 12px;
+  text-decoration: underline;
+  color: #d56c06;
+}
+
+.click-here {
+  color: blue;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.popup-container {
+  background-color: rgba(255, 255, 255, 0);
+  position: absolute;
+  margin-top: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .img-container {
+    width: auto;
+    margin: 0;
+  }
+
+  .logo {
+    width: 150px;
+  }
+
+  .cookies {
+    width: 768px;
+    height: 450px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .img-container {
+    width: auto;
+    margin: 0;
+  }
+
+  .logo {
+    width: 150px;
+  }
+
+  .cookies {
+    width: 700px;
+    height: 450px;
+    border-radius: 20px;
+    margin-top: 4rem;
+  }
+
+  .login-container {
+    margin-top: 0.8rem;
+  }
+}

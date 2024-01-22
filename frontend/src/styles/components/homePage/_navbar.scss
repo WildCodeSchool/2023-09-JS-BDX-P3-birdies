@@ -1,0 +1,43 @@
+.navbar-container {
+  margin: 20px 10%;
+  max-width: 100%;
+  display: flex;
+
+  .search-logo,
+  .burger-logo,
+  .logo-appli-main {
+    @include center;
+    min-width: 33%;
+    background: none;
+    border: none;
+
+    .btn-search {
+      border: none;
+      background: none;
+    }
+  }
+  .input-search {
+    border: none;
+    background: none;
+    border-radius: 10px;
+    padding: 5px;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .search-logo {
+    flex-direction: column;
+  }
+  .input-search {
+    width: 140px;
+    text-align: center;
+  }
+}
+@media screen and (max-width: 550px) {
+  .navbar-container {
+    margin: 20px 0;
+  }
+
+  .input-search {
+    width: 100px;
+  }
+}

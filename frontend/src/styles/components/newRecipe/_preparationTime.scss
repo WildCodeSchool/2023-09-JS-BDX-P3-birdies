@@ -1,0 +1,9 @@
+.time-container {
+  display: flex;
+  margin-bottom: 16px;
+  gap: 5px;
+  .time-input {
+    height: 1.8rem;
+    width: 60px;
+  }
+}

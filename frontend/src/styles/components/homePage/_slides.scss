@@ -1,0 +1,13 @@
+.slide-container {
+  margin: 30px 20%;
+
+  p {
+    font-size: 1.5rem;
+  }
+  .container-img {
+    min-width: 100%;
+    min-height: 10rem;
+    @include center;
+    overflow-x: auto;
+  }
+}

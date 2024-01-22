@@ -1,0 +1,266 @@
+@import "./components/RecipePage/recipeHeader";
+@import "../styles/components/textInput";
+@import "../styles/components/ValidateButton.scss";
+@import "../styles/components/commentCard";
+
+body {
+  background-color: #ece8da;
+}
+.recipe-title {
+  font-size: 20px;
+  padding: 0.2rem 0;
+
+  p {
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+}
+
+.recipe-img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  min-width: 100%;
+  height: 20vh;
+  background-color: black;
+  img {
+    height: 100%;
+  }
+  .like-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: black;
+    border: none;
+  }
+}
+.recipe-body-container {
+  flex-flow: column;
+  margin: 0 15px;
+  ul {
+    min-height: 500px; // PROBLEME !!!!!!!!!!!!!!!!!!!!!!!!
+  }
+
+  .rate-nutri-container {
+    min-width: 100%;
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    img {
+      height: 20px;
+      margin-top: 3px;
+    }
+    .rate-container {
+      display: flex;
+      gap: 18px;
+
+      .stars {
+        display: flex;
+        gap: 5px;
+        img {
+          margin-top: 2px;
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+
+  .time-difficulty-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 25%;
+
+    .prep-time-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .difficulty {
+        text-align: center;
+      }
+    }
+    .difficulty-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .prep-time {
+        text-align: center;
+      }
+    }
+  }
+
+  .all-ingredients-container {
+    margin: 10px 15%;
+
+    button {
+      padding: 0.2rem;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+    }
+
+    .ingredients-title-pdf-container {
+      display: flex;
+      justify-content: space-between;
+
+      .ingredients-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: 0.5rem 0;
+      }
+      .printer-img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .printer {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+    .people-number-selection {
+      display: flex;
+
+      .people-number {
+        padding: 3px 20px;
+      }
+      button {
+        line-height: 10px;
+      }
+    }
+    .ingredient-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.2rem 0;
+
+      .ingred-qtty-mesure-container {
+        display: flex;
+        gap: 2px;
+      }
+    }
+  }
+
+  .all-steps-container {
+    display: block;
+    margin: 10px 15%;
+
+    .steps-title-pdf-container {
+      display: flex;
+      justify-content: space-between;
+
+      .steps-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: 0.5rem 0;
+      }
+      .printer-img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .printer {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+    .step-container {
+      padding-bottom: 1rem;
+      min-height: 300px;
+
+      .step-text {
+        display: flex;
+        justify-content: center;
+        min-height: 300px;
+      }
+    }
+  }
+  .chevron-btn {
+    border: none;
+    background-color: #ece8da;
+    .chevron {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .leave-comments-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: black solid 1px;
+
+    .leave-comments-picture-area {
+      display: flex;
+      justify-content: center;
+      img {
+        margin-top: 8px;
+        width: 60px;
+      }
+    }
+  }
+  .leave-comment-notes-area {
+    &.inactive {
+      display: none;
+    }
+
+    .all-notes-area {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+      gap: 10px;
+
+      .notes-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 5px;
+        min-width: 40%;
+        padding: 10px 0;
+
+        &.clicked {
+          background-color: #d56c06;
+        }
+      }
+    }
+    .comment-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      p {
+        padding: 20px;
+        font-size: 1.1rem;
+        font-weight: bold;
+      }
+    }
+  }
+  .open-close-btn {
+    display: flex;
+    justify-content: center;
+    border-bottom: black 1px solid;
+  }
+
+  .comments-bloc {
+    &.inactive {
+      display: none;
+    }
+    .commenter-name {
+      margin-bottom: 0;
+    }
+  }
+
+  .all-comments-title {
+    text-align: center;
+  }
+  .comments-bloc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

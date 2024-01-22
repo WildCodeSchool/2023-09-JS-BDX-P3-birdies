@@ -1,0 +1,75 @@
+.slide-one-container {
+  margin: 0 20%;
+  display: flex;
+  min-height: 300px;
+  max-width: 100%;
+  gap: 20px;
+
+  .card-container {
+    text-align: center;
+    min-width: 200px;
+    min-height: 400px;
+
+    .content-container {
+      min-height: 150px;
+      background: black;
+      border-radius: 20px 20px 0 0;
+
+      color: rgb(165, 147, 147);
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h1 {
+        font-size: 1.3rem;
+      }
+      .note-container {
+        display: flex;
+        align-items: center;
+        min-width: 10%;
+        .star-picture {
+          width: 15px;
+          height: 15px;
+        }
+        .average {
+          margin-left: 10px;
+          font-size: 1rem;
+        }
+      }
+      .votes-container {
+        #votes-content {
+          font-size: 0.8rem;
+        }
+      }
+    }
+    img {
+      max-width: 200px;
+      height: 150px;
+    }
+  }
+  .container-icon-recipe {
+    min-height: 80px;
+    border-radius: 0 0 20px 20px;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .slide-one-container {
+    .slide-one-container .card-container {
+      max-width: 250px;
+      height: 250px;
+      overflow: auto;
+      gap: 20px;
+      .slide-one-container .card-container img {
+        width: 250px;
+        height: 250px;
+        border-radius: 10px;
+      }
+    }
+  }
+}

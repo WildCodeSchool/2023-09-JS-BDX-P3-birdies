@@ -1,0 +1,32 @@
+.comment {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: #97bf0d;
+  margin: 20px;
+
+  .comment-header {
+    display: flex;
+
+    .user-picture {
+      width: 40px;
+      height: 40px;
+    }
+    .comment-title {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      padding-left: 0.5rem;
+      .commenter-name {
+        font-weight: bold;
+      }
+    }
+  }
+  .comment-text {
+    .the-comment {
+      padding: 0.5rem;
+    }
+  }
+}
