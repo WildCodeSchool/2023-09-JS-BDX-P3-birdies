@@ -43,7 +43,7 @@ class UserManager extends AbstractManager {
 
   async updateRole(id, user) {
     return this.database.query(
-      `UPDATE ${this.table} SET role = ? WHERE id = ?`,
+      `UPDATE ${this.table} SET pseudo = ?, firstname = ?, lastname = ?, email = ?, password = ?, role = ? WHERE id = ?`,
       [user.role, id]
     );
   }

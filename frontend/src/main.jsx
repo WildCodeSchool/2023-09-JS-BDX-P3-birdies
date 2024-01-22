@@ -117,7 +117,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/UserSettings",
+        path: "/UserSettings/:id",
         element: <UserSettings />,
       },
       // {
