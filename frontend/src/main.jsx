@@ -32,7 +32,9 @@ const router = createBrowserRouter([
     path: "/",
     loader: async () => {
       try {
-        const data = await apiService.get(`http://localhost:3310/api/users/me`);
+        const data = await apiService.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/me`
+        );
         return { preloadUser: data ?? null };
       } catch (err) {
         return { preloadUser: null };
@@ -57,11 +59,23 @@ const router = createBrowserRouter([
         loader: async ({ params }) => {
           const [response1, response2, response3, response4] =
             await Promise.all([
-              axios.get(`http://localhost:3310/api/recipes/${params.id}`),
-              axios.get(`http://localhost:3310/api/evaluations/${params.id}`),
-              axios.get(`http://localhost:3310/api/recipes/${params.id}/steps`),
               axios.get(
-                `http://localhost:3310/api/recipesIngredients/${params.id}`
+                `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${params.id}`
+              ),
+              axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/api/evaluations/${
+                  params.id
+                }`
+              ),
+              axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${
+                  params.id
+                }/steps`
+              ),
+              axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/api/recipesIngredients/${
+                  params.id
+                }`
               ),
             ]);
           return {
@@ -79,7 +93,7 @@ const router = createBrowserRouter([
         loader: async () => {
           try {
             const data = await apiService.get(
-              `http://localhost:3310/api/users/me`
+              `${import.meta.env.VITE_BACKEND_URL}/api/users/me`
             );
             if (data.role === "user") {
               return redirect("/user");
@@ -99,10 +113,18 @@ const router = createBrowserRouter([
         path: "/modifyrecipes/:id",
         loader: async ({ params }) => {
           const [response1, response2, response3] = await Promise.all([
-            axios.get(`http://localhost:3310/api/recipes/${params.id}`),
-            axios.get(`http://localhost:3310/api/recipes/${params.id}/steps`),
             axios.get(
-              `http://localhost:3310/api/recipesIngredients/${params.id}`
+              `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${params.id}`
+            ),
+            axios.get(
+              `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${
+                params.id
+              }/steps`
+            ),
+            axios.get(
+              `${import.meta.env.VITE_BACKEND_URL}/api/recipesIngredients/${
+                params.id
+              }`
             ),
           ]);
           return {
@@ -131,7 +153,7 @@ const router = createBrowserRouter([
         loader: async () => {
           try {
             const data = await apiService.get(
-              `http://localhost:3310/api/users/me`
+              `${import.meta.env.VITE_BACKEND_URL}/api/users/me`
             );
             if (data.role === "user") {
               return redirect("/");

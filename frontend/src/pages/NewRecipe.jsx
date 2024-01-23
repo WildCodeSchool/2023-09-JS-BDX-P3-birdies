@@ -44,7 +44,7 @@ function NewRecipe() {
   const handleRecipeSubmit = async (credentials) => {
     try {
       const response = await axios.post(
-        `http://localhost:3310/api/recipes`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes`,
         credentials
       );
       return response.data.id;
@@ -69,7 +69,7 @@ function NewRecipe() {
   const handleSubmitPicture = async (id, data) => {
     try {
       const response = await axios.post(
-        `http://localhost:3310/api/recipes/${id}/uploads`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${id}/uploads`,
         data
       );
       console.info(response.data);

@@ -101,7 +101,7 @@ function Recipe() {
         </button>
         {/* C:\Users\sylva\Documents\2023-09-JS-BDX-P3-Birdies\backend\public\uploads\a3c2c731e0b4950403d1b5862eac52dc.jpg */}
         <img
-          src={`http://localhost:3310/${recipePicture.url}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}/${recipePicture.url}`}
           alt="recipe-img"
         />
       </div>

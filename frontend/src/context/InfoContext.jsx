@@ -84,12 +84,14 @@ export function InfoContextProvider({ apiService }) {
   const handleLoginSubmit = async (credentials) => {
     try {
       const data = await apiService.post(
-        `http://localhost:3310/api/login`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/login`,
         credentials
       );
       localStorage.setItem("token", data.token);
       apiService.setToken(data.token);
-      const result = await apiService.get(`http://localhost:3310/api/users/me`);
+      const result = await apiService.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/me`
+      );
 
       setInfoLogin((prev) => !prev);
       setUser(result.data);
@@ -116,7 +118,7 @@ export function InfoContextProvider({ apiService }) {
   const createUser = async (credentials) => {
     try {
       const { newData } = await axios.post(
-        `http://localhost:3310/api/users`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/users`,
         credentials
       );
       console.info(`this is : ${newData}`);
@@ -147,7 +149,9 @@ export function InfoContextProvider({ apiService }) {
 
   const getRecipes = async () => {
     try {
-      const res = await axios.get("http://localhost:3310/api/recipes");
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes`
+      );
       setGetData(res.data);
     } catch (err) {
       console.error(err);
@@ -157,20 +161,22 @@ export function InfoContextProvider({ apiService }) {
 
   const getRecipePicture = async (recipePictureId) => {
     const response = await axios.get(
-      `http://localhost:3310/api/uploads/${recipePictureId})`
+      `${import.meta.env.VITE_BACKEND_URL}/api/uploads/${recipePictureId})`
     );
     setRecipePicture(response.data);
   };
 
   const getRecipeByID = async (id) => {
-    const res = await axios.get(`http://localhost:3310/api/recipes/${id}`);
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${id}`
+    );
     setChosenRecipe(res.data);
   };
 
   const getRecipesName = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3310/api/recipes/${inputSearchValue}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${inputSearchValue}`
       );
       setGetDataName(res.data);
     } catch (err) {
@@ -182,7 +188,7 @@ export function InfoContextProvider({ apiService }) {
   const getRecipesDifficulty = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3310/api/recipes/${valueDifficulty}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${valueDifficulty}`
       );
       console.info(response.data);
       setGetDataName(response.data);
@@ -195,7 +201,7 @@ export function InfoContextProvider({ apiService }) {
   const handleSubmitSteps = async (id, credentials) => {
     try {
       const response = await axios.post(
-        `http://localhost:3310/api/recipes/${id}/steps`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${id}/steps`,
         credentials
       );
       console.info(`recipeId : ${response.data.recipeId}`);
@@ -208,7 +214,7 @@ export function InfoContextProvider({ apiService }) {
 
   const handleDeleteSteps = async (recipeId) => {
     const response = await axios.delete(
-      `http://localhost:3310/api/recipes/${recipeId}/steps`
+      `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${recipeId}/steps`
     );
     return response;
   };
@@ -216,7 +222,7 @@ export function InfoContextProvider({ apiService }) {
   const handleUpdateRecipe = async (data, recipeId) => {
     try {
       const updatedRecipe = await axios.put(
-        `http://localhost:3310/api/recipes/recipe/${recipeId})`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/recipe/${recipeId})`,
         data
       );
       console.info(updatedRecipe);
@@ -228,7 +234,10 @@ export function InfoContextProvider({ apiService }) {
 
   const postComment = async (evaluation) => {
     try {
-      await axios.post(`http://localhost:3310/api/evaluations`, evaluation);
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/evaluations`,
+        evaluation
+      );
     } catch (err) {
       console.error(err);
     }
