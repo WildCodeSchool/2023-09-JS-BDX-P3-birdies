@@ -57,6 +57,13 @@ CREATE table `upload` (
     created_at TIMESTAMP default CURRENT_TIMESTAMP
 );
 
+alter TABLE
+    `recipes`
+MODIFY
+    picture INT,
+ADD
+    CONSTRAINT fk_picture_upload_id FOREIGN KEY (picture) REFERENCES upload(id);
+
 CREATE table `ingredients` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `ingredientName` VARCHAR(255) NOT NULL
