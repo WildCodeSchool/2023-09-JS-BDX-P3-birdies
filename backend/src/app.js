@@ -1,6 +1,7 @@
 // Load the express module to create a web application
 
 const express = require("express");
+const path = require("path");
 
 const app = express();
 
@@ -105,7 +106,7 @@ app.use("/api", router);
 // 1. Uncomment the lines related to serving static files and redirecting unhandled requests.
 // 2. Ensure that the `reactBuildPath` points to the correct directory where your frontend's build artifacts are located.
 
-const reactBuildPath = `${__dirname}/../../frontend/dist`;
+const reactBuildPath = path.join(__dirname, "../../frontend/dist");
 
 // Serve react resources
 
@@ -117,7 +118,7 @@ app.get("*", (req, res) => {
   res.sendFile(`${reactBuildPath}/index.html`);
 });
 
-app.use(express.static(`${__dirname}/../../backend/public`));
+app.use(express.static(path.join(__dirname, "public")));
 /* ************************************************************************* */
 
 // Middleware for Error Logging (Uncomment to enable)
