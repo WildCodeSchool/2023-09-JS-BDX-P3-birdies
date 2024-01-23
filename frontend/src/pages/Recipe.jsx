@@ -100,7 +100,10 @@ function Recipe() {
           {favoriteRecipes.includes(id) ? "❤️" : "🤍"}
         </button>
         {/* C:\Users\sylva\Documents\2023-09-JS-BDX-P3-Birdies\backend\public\uploads\a3c2c731e0b4950403d1b5862eac52dc.jpg */}
-        <img src={recipePicture.url} alt="recipe-img" />
+        <img
+          src={`http://localhost:3310/${recipePicture.url}`}
+          alt="recipe-img"
+        />
       </div>
 
       <div className="recipe-body-container">

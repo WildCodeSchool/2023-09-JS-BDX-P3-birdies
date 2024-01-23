@@ -252,7 +252,7 @@ function NewRecipe() {
     try {
       const response = await handleRecipeSubmit(recipe);
       const answer = await handleSubmitSteps(response, stepsInfos);
-      console.info(answer);
+      // console.info(answer);
       const formData = new FormData();
       formData.append("picture", image);
 
@@ -261,6 +261,8 @@ function NewRecipe() {
         formData
       );
       console.info(imgResponse);
+      console.info(answer.data.recipeId);
+      // console.info(imgResponse);
     } catch (err) {
       console.error(err);
       throw err;
