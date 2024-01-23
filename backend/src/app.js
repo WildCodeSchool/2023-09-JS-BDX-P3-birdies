@@ -117,10 +117,6 @@ app.get("*", (req, res) => {
   res.sendFile(`${reactBuildPath}/index.html`);
 });
 
-*/
-
-
-
 app.use(express.static(`${__dirname}/../../backend/public`));
 /* ************************************************************************* */
 

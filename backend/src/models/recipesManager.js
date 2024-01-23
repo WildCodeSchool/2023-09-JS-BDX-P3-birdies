@@ -46,6 +46,11 @@ class RecipeManager extends AbstractManager {
       `SELECT * from ${this.table} WHERE name like"%${name}%" `
     );
   }
+  async findByDifficult(difficult) {
+    return this.database.query(
+      `SELECT * from ${this.table} WHERE difficulty = ${difficult}`
+    );
+  }
 }
 
 module.exports = RecipeManager;

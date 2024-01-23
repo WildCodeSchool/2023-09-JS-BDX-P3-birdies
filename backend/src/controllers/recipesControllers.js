@@ -1,9 +1,9 @@
 // const { compareSync } = require("bcrypt");
 const models = require("../models");
 
-const getRecipes = (_, res) => {
+const getRecipes = (req, res) => {
   models.recipe
-    .findAll()
+    .findAll(req.query)
     .then(([response]) => {
       res.status(200).send(response);
     })
@@ -23,7 +23,16 @@ const getRecipesName = (req, res) => {
     }
   });
 };
-
+const getRecipesDifficulty = (req, res) => {
+  const { difficult } = req.params;
+  models.recipe.findByDifficult(difficult).then(([result]) => {
+    if (result !== null) {
+      res.json(result);
+    } else {
+      res.sendStatus(404);
+    }
+  });
+};
 const getRecipeById = (req, res) => {
   const { id } = req.params;
   models.recipe
@@ -89,10 +98,11 @@ const deleteRecipe = (req, res) => {
 };
 
 module.exports = {
-  getRecipes,
-  getRecipesName,
-  getRecipeById,
-  postRecipe,
   deleteRecipe,
+  getRecipeById,
+  getRecipes,
+  getRecipesDifficulty,
+  getRecipesName,
+  postRecipe,
   updateRecipe,
 };

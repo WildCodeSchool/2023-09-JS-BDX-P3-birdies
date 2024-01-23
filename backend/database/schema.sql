@@ -1,3 +1,4 @@
+-- Active: 1704703244465@@127.0.0.1@3306@birdies
 -- SQLBook: Code
 -- SQLBook: Code
 create table `users` (
@@ -49,8 +50,6 @@ create table `recipes` (
     `prepTime` INT not NULL
 );
 
-drop TABLE recipes;
-
 CREATE table `upload` (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     url VARCHAR(255) NOT NULL,
@@ -79,8 +78,6 @@ CREATE TABLE `recipes_ingredients` (
     Foreign Key (`ingredient_id`) REFERENCES ingredients(id)
 );
 
-drop table `recipes_ingredients`;
-
 CREATE TABLE `cathegories` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL
@@ -93,8 +90,6 @@ CREATE TABLE `recipes_cathegories` (
     Foreign Key (`cathegory_id`) REFERENCES cathegories(id)
 );
 
-drop TABLE `recipes_cathegories`;
-
 CREATE TABLE `favorite_Recipes` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `user_id` INT NOT NULL,
@@ -102,8 +97,6 @@ CREATE TABLE `favorite_Recipes` (
     Foreign Key (user_id) REFERENCES users(id),
     Foreign Key (recipe_id) REFERENCES recipes(id)
 );
-
-drop table `favorite_Recipes`;
 
 CREATE table `evaluations` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -117,8 +110,6 @@ CREATE table `evaluations` (
     Foreign Key (recipe_id) REFERENCES recipes(id)
 );
 
-drop table `evaluations`;
-
 CREATE TABLE `steps` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `recipe_id` INT NOT NULL,
@@ -126,8 +117,6 @@ CREATE TABLE `steps` (
     `position` INT NOT NULL,
     Foreign Key (recipe_id) REFERENCES recipes(id)
 );
-
-drop table `steps`;
 
 INSERT INTO
     `recipes` (
@@ -196,93 +185,93 @@ VALUES
     );
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Très facile");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Facile");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Moyen");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Difficile");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("-30 minutes");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("-1 heure");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Gourmand");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Festif");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Sportif");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("De saison");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("BBQ");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Végétarien");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Sans lactose");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Végan");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Sans gluten");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Entrée");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Snack"),
     ("Plat");
 
 INSERT INTO
-    `cathegories`(`name`)
+    `cathegories` (`name`)
 VALUES
     ("Dessert"),
     ("Boissons"),
@@ -319,7 +308,7 @@ VALUES
         "5",
         "Croziflette",
         "11/01/2024",
-        1,
+        "null",
         "4",
         "240",
         "Facile",
@@ -329,7 +318,7 @@ VALUES
         "6",
         "Recette soufflé au Grand Marnier",
         "11/01/2024",
-        1,
+        "null",
         "6",
         "120",
         "Difficile",
@@ -339,9 +328,74 @@ VALUES
         "7",
         " Recette pastilla de pigeon aux raisins blancs",
         "11/01/2024",
-        1,
+        "null",
         "6",
         "200",
         "Difficile",
         "45"
     );
+
+UPDATE
+    `recipes`
+SET
+    `name` = "Soufflé au Grand Marnier"
+WHERE
+    `id` = 6;
+
+UPDATE
+    `recipes`
+SET
+    `name` = "Pastilla de pigeon aux raisins blancs"
+WHERE
+    `id` = 7;
+
+SELECT
+    recipes.name,
+    cathegories.name
+FROM
+    recipes
+    JOIN cathegories ON recipes.difficulty = cathegories.name;
+
+UPDATE
+    `recipes`
+SET
+    `difficulty` = "Très facile"
+WHERE
+    `id` = 4;
+
+DELETE FROM
+    `cathegories`
+WHERE
+    `id` = 1;
+
+DELETE FROM
+    `cathegories`
+WHERE
+    `id` = 2;
+
+DELETE FROM
+    `cathegories`
+WHERE
+    `id` = 3;
+
+DELETE FROM
+    `cathegories`
+WHERE
+    `id` = 4;
+
+INSERT INTO
+    `recipes_cathegories` (recipe_id, cathegory_id)
+VALUES
+    (1, 7),
+    (2, 9),
+    (3, 23);
+
+INSERT INTO
+    `recipes_cathegories` (recipe_id, cathegory_id)
+VALUES
+    (1, 18),
+    (2, 13),
+    (3, 9),
+    (3, 11),
+    (2, 26),
+    (1, 20);
