@@ -13,11 +13,10 @@ import { Useinfo } from "../context/InfoContext";
 import FilterBar from "../components/NewRecice/FilterBar";
 
 function NewRecipe() {
-  const { displayDate, setBasicSuccess, user } = Useinfo();
+  const { displayDate, setBasicSuccess, user, handleSubmitSteps } = Useinfo();
   const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
-  const [image, setImage] = useState({}); // ---> IMAGE A RECUPERER
-  console.info(image);
+  const [image, setImage] = useState(); // ---> IMAGE A RECUPERER
   const [duration, setDuration] = useState(""); // ---> TEMPS A RECUPERER
   const [difficultyEvaluation, setDifficultyEvaluation] = useState([]); // ---> DIFFICULTE A RECUPERER
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
@@ -54,18 +53,42 @@ function NewRecipe() {
       throw err;
     }
   };
-  const handleSubmitSteps = async (id, credentials) => {
+  // const handleSubmitSteps = async (id, credentials) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `http://localhost:3310/api/recipes/${id}/steps`,
+  //       credentials
+  //     );
+  //     console.info(`recipeId : ${response.data.recipeId}`);
+  //     return response;
+  //   } catch (err) {
+  //     console.error(err);
+  //     throw err;
+  //   }
+  // };
+  const handleSubmitPicture = async (id, data) => {
     try {
       const response = await axios.post(
-        `http://localhost:3310/api/recipes/${id}/steps`,
-        credentials
+        `http://localhost:3310/api/recipes/${id}/uploads`,
+        data
       );
-      console.info(`Seconde response steps : ${response.data.id}`);
+      console.info(response.data);
     } catch (err) {
       console.error(err);
       throw err;
     }
   };
+  // const handleSubmitIngredients = async (element) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:3310/api/ingredients/${element}`
+  //     );
+  //     console.info(response);
+  //   } catch (err) {
+  //     console.error(err);
+  //     throw err;
+  //   }
+  // };
   // création du nom de la recette
   const handleNameChange = (e) => {
     setRecipeName(e.target.value);
@@ -217,26 +240,33 @@ function NewRecipe() {
       userId: user.id,
       name: recipeName,
       publicationDate: displayDate(),
-      picture: "image",
       peopleNumber: guestsNumber,
       energyPerPerson: getEnergeticValuePerPerson(recipeIngredients),
       difficulty: difficultyEvaluation,
       prepTime: duration,
-      ingredients: ingredientsInfos,
-      steps: stepsInfos,
       cathegories: filtersInfo,
+      ingredients: recipeIngredients,
     };
     console.info(recipe);
     setBasicSuccess((prev) => !prev);
     try {
-      handleRecipeSubmit(recipe).then((response) =>
-        handleSubmitSteps(response, stepsInfos)
+      const response = await handleRecipeSubmit(recipe);
+      const answer = await handleSubmitSteps(response, stepsInfos);
+      console.info(answer);
+      const formData = new FormData();
+      formData.append("picture", image);
+
+      const imgResponse = await handleSubmitPicture(
+        answer.data.recipeId,
+        formData
       );
+      console.info(imgResponse);
     } catch (err) {
       console.error(err);
       throw err;
     }
   };
+  console.info(image);
   return (
     <div className="page">
       <RecipeHeader />
@@ -248,7 +278,7 @@ function NewRecipe() {
           value={recipeName}
           onChange={handleNameChange}
         />
-        <MDBFileUpload getInputFiles={(file) => setImage(file)} />
+        <MDBFileUpload getInputFiles={(file) => setImage(file[0])} />
         <label>
           Nombre de personnes :{/*  */}
           <div className="people-number-selection">

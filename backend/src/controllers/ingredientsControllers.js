@@ -10,6 +10,24 @@ const getIngredients = (_, res) => {
       res.status(500).send({ error: err.message });
     });
 };
+
+const findIngredient = (req, res) => {
+  const { name } = req.params;
+  models.ingredient
+    .findByName(name)
+    .then(([response]) => {
+      const result = response[0];
+      if (result !== null) {
+        res.send({ id: result.id });
+      } else {
+        res.status(404).send({ id: 0 });
+      }
+    })
+    .catch(() => {
+      res.status(404).send({ id: 0 });
+    });
+};
+
 const postIngredient = (req, res) => {
   models.ingredient
     .create(req.body)
@@ -23,5 +41,6 @@ const postIngredient = (req, res) => {
 };
 module.exports = {
   getIngredients,
+  findIngredient,
   postIngredient,
 };

@@ -18,6 +18,12 @@ class StepManager extends AbstractManager {
       [id]
     );
   }
+
+  async deleteAll(recipeId) {
+    return this.database.query(`delete from ${this.table} where recipe_id= ?`, [
+      recipeId,
+    ]);
+  }
 }
 
 module.exports = StepManager;

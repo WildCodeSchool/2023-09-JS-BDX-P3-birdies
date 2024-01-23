@@ -33,7 +33,9 @@ const UserManager = require("./UserManager");
 const RecipeManager = require("./recipesManager");
 const StepManager = require("./stepsManager");
 const IngredientManager = require("./ingredientsManager");
+const RecipesIngredientsManager = require("./RecipesIngredientsManager");
 const EvaluationManager = require("./evaluationsManager");
+const UploadManager = require("./uploadManager");
 // models.item = new ItemManager();
 // models.item.setDatabase(pool);
 
@@ -49,8 +51,14 @@ models.step.setDatabase(pool);
 models.ingredient = new IngredientManager();
 models.ingredient.setDatabase(pool);
 
+models.recipesIngredients = new RecipesIngredientsManager();
+models.recipesIngredients.setDatabase(pool);
+
 models.evaluation = new EvaluationManager();
 models.evaluation.setDatabase(pool);
+
+models.upload = new UploadManager();
+models.upload.setDatabase(pool);
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 
