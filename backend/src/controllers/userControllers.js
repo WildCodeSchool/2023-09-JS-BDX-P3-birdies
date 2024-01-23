@@ -86,6 +86,22 @@ const deleteUser = (req, res) => {
     });
 };
 
+const updateUser = (req, res) => {
+  const { id } = req.params;
+  const user = req.body;
+  try {
+    models.user.updateUser(id, user).then((response) => {
+      if (response.affectedRows === 0) {
+        res.sendStatus(404);
+      } else {
+        res.status(204).send({ message: "User modified" });
+      }
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 module.exports = {
   getUsers,
   getUserById,
@@ -93,4 +109,5 @@ module.exports = {
   postUser,
   postLogin,
   deleteUser,
+  updateUser,
 };

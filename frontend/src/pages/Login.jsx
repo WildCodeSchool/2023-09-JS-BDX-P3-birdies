@@ -17,78 +17,89 @@ function Login() {
   };
 
   return (
-    <div className="container">
-      <img className="cookies" src={cookies} alt="" />
-      <div className="img-container">
-        <img className="logo" src={logo} alt="" />
-      </div>
-      <div className="login-container">
-        <div className="inputs">
-          <div className="wrong-identification">
-            <p
-              className={
-                passwordError
-                  ? "error-identification"
-                  : "error-identification checked"
+    <form>
+      <div className="container">
+        <img className="cookies" src={cookies} alt="" />
+        <div className="img-container">
+          <img className="logo" src={logo} alt="" />
+        </div>
+        <div className="login-container">
+          <div className="inputs">
+            <div className="wrong-identification">
+              <p
+                className={
+                  passwordError
+                    ? "error-identification"
+                    : "error-identification checked"
+                }
+              >
+                Identifiants incorrects
+              </p>
+            </div>
+            <div className="header">
+              <div className="text">Connexion</div>
+            </div>
+
+            <div className="input">
+              <input
+                value={formValue.email}
+                name="email"
+                className="input-email"
+                type="email"
+                placeholder="Email"
+                onChange={onChange}
+              />
+            </div>
+            <div className="input">
+              <input
+                value={formValue.password}
+                name="password"
+                className="input-password"
+                type="password"
+                placeholder="Mot de passe"
+                onChange={onChange}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter")
+                    handleLoginSubmit({
+                      email: formValue.email,
+                      password: formValue.password,
+                    });
+                }}
+              />
+            </div>
+          </div>
+          <div className="submit">
+            <button
+              className="submit-form"
+              type="button"
+              onClick={() =>
+                handleLoginSubmit({
+                  email: formValue.email,
+                  password: formValue.password,
+                })
               }
             >
-              Identifiants incorrects
-            </p>
+              Se connecter
+            </button>
+            <Popup />
           </div>
-          <div className="header">
-            <div className="text">Connexion</div>
+
+          <div className="not-connected">
+            <div className="lost-password">
+              Mot de passe oublié?
+              <span className="click-here"> Cliquez ici </span>
+            </div>
+            <div className="not-member">
+              Toujours pas membre?
+              <Link to="/register" className="link">
+                <span className="click-here"> S'enregistrer </span>
+              </Link>
+            </div>
+            <p className="CGV">Conditions générales d'utilisation</p>
           </div>
-          <div className="input">
-            <input
-              value={formValue.email}
-              name="email"
-              className="input-email"
-              type="email"
-              placeholder="Email"
-              onChange={onChange}
-            />
-          </div>
-          <div className="input">
-            <input
-              value={formValue.password}
-              name="password"
-              className="input-password"
-              type="password"
-              placeholder="Mot de passe"
-              onChange={onChange}
-            />
-          </div>
-        </div>
-        <div className="submit">
-          <button
-            className="submit-form"
-            type="button"
-            onClick={() =>
-              handleLoginSubmit({
-                email: formValue.email,
-                password: formValue.password,
-              })
-            }
-          >
-            Se connecter
-          </button>
-          <Popup />
-        </div>
-        <div className="not-connected">
-          <div className="lost-password">
-            Mot de passe oublié?
-            <span className="click-here"> Cliquez ici </span>
-          </div>
-          <div className="not-member">
-            Toujours pas membre?
-            <Link to="/register" className="link">
-              <span className="click-here"> S'enregistrer </span>
-            </Link>
-          </div>
-          <p className="CGV">Conditions générales d'utilisation</p>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 
