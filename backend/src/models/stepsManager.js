@@ -11,6 +11,19 @@ class StepManager extends AbstractManager {
       [steps.map((step) => [id, step.description, step.position])]
     );
   }
+
+  async get(id) {
+    return this.database.query(
+      `select * from ${this.table} where recipe_id = ?`,
+      [id]
+    );
+  }
+
+  async deleteAll(recipeId) {
+    return this.database.query(`delete from ${this.table} where recipe_id= ?`, [
+      recipeId,
+    ]);
+  }
 }
 
 module.exports = StepManager;

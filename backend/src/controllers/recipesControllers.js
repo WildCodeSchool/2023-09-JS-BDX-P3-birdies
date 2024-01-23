@@ -63,7 +63,23 @@ const postRecipe = (req, res) => {
       res.status(422).send({ error: err.message });
     });
 };
-
+const updateRecipe = (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  console.info(typeof id);
+  models.recipe
+    .update(req.body, id)
+    .then(([response]) => {
+      if (response.affectedRows === 0) {
+        res.sendStatus(404);
+      } else {
+        res.sendStatus(204);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
 const deleteRecipe = (req, res) => {
   const { id } = req.params;
   models.recipe
@@ -82,10 +98,11 @@ const deleteRecipe = (req, res) => {
 };
 
 module.exports = {
-  getRecipes,
-  getRecipesName,
-  getRecipeById,
-  postRecipe,
   deleteRecipe,
+  getRecipeById,
+  getRecipes,
   getRecipesDifficulty,
+  getRecipesName,
+  postRecipe,
+  updateRecipe,
 };

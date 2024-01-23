@@ -33,7 +33,7 @@ export function InfoContextProvider({ apiService }) {
   // ou l'on stock les id des recettes favorites
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   // où l'on stock la recette choisie
-  // const [chosenRecipe, setChosenRecipe] = useState({})
+  const [chosenRecipe, setChosenRecipe] = useState({});
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
@@ -60,6 +60,8 @@ export function InfoContextProvider({ apiService }) {
   const [errorOrigin, setErrorOrigin] = useState("");
   const [formatError, setFormatError] = useState("");
   const [noMatchPassword, setNoMatchPassword] = useState(false);
+  const [currentRecipeId, setCurrentRecipeId] = useState();
+  const [recipePicture, setRecipePicture] = useState("");
 
   // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
   useEffect(() => {
@@ -148,22 +150,28 @@ export function InfoContextProvider({ apiService }) {
       const res = await axios.get("http://localhost:3310/api/recipes");
       setGetData(res.data);
     } catch (err) {
-      console.error(err.res.data);
+      console.error(err);
       setGetData();
     }
   };
 
-  // const getRecipeByID = async (id) => {
-  //   const res = await axios.get(`http://localhost:3310/api/recipes/${id}`);
-  //   console.log(res.data);
-  //   setChosenRecipe(res.data)
-  // };
+  const getRecipePicture = async (recipePictureId) => {
+    const response = await axios.get(
+      `http://localhost:3310/api/uploads/${recipePictureId})`
+    );
+    setRecipePicture(response.data);
+  };
+
+  const getRecipeByID = async (id) => {
+    const res = await axios.get(`http://localhost:3310/api/recipes/${id}`);
+    setChosenRecipe(res.data);
+  };
+
   const getRecipesName = async () => {
     try {
       const res = await axios.get(
         `http://localhost:3310/api/recipes/${inputSearchValue}`
       );
-      console.info(res.data);
       setGetDataName(res.data);
     } catch (err) {
       console.error(err.res.data);
@@ -184,6 +192,47 @@ export function InfoContextProvider({ apiService }) {
     }
   };
   console.info(foodFilter);
+  const handleSubmitSteps = async (id, credentials) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3310/api/recipes/${id}/steps`,
+        credentials
+      );
+      console.info(`recipeId : ${response.data.recipeId}`);
+      return response;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+
+  const handleDeleteSteps = async (recipeId) => {
+    const response = await axios.delete(
+      `http://localhost:3310/api/recipes/${recipeId}/steps`
+    );
+    return response;
+  };
+
+  const handleUpdateRecipe = async (data, recipeId) => {
+    try {
+      const updatedRecipe = await axios.put(
+        `http://localhost:3310/api/recipes/recipe/${recipeId})`,
+        data
+      );
+      console.info(updatedRecipe);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+
+  const postComment = async (evaluation) => {
+    try {
+      await axios.post(`http://localhost:3310/api/evaluations`, evaluation);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   function filterListModify(e) {
     const targetedFilter = e.target.innerText;
@@ -872,23 +921,22 @@ export function InfoContextProvider({ apiService }) {
     return `${date}/${month}/${year}  ${hours}:${min}`;
   };
 
-  function sendEvaluation(e) {
-    const commentId = e.target.getAttribute("data-value");
+  function sendEvaluation() {
     const commentContent = {
-      userId: "????",
+      userId: user.id,
       commentMessage: recipeComment,
-      CommentNote: recipeNote,
+      commentNote: recipeNote,
       commentDate: displayDate(),
-      RecipeId: commentId,
+      recipeId: currentRecipeId,
     };
 
-    console.info(commentContent);
+    postComment(commentContent);
+    // window.location.reload(true);
     setRecipeComment("");
     setRecipeNote("");
     setAddCommentVisible(false);
     setBasicSuccess((prev) => !prev);
   }
-
   const contextValues = useMemo(
     () => ({
       Average,
@@ -897,8 +945,10 @@ export function InfoContextProvider({ apiService }) {
       apiService,
       basicSuccess,
       checkPassword,
+      chosenRecipe,
       convertMinutesToTime,
       createUser,
+      currentRecipeId,
       difficulties,
       difficultyListModify,
       displayDate,
@@ -913,10 +963,15 @@ export function InfoContextProvider({ apiService }) {
       getData,
       getDataDifficulty,
       getDataName,
+      getRecipeByID,
+      getRecipePicture,
       handleChangeComment,
       handleChangeFavorite,
       handleChangeSearch,
+      handleDeleteSteps,
       handleLoginSubmit,
+      handleSubmitSteps,
+      handleUpdateRecipe,
       infoLogin,
       infoSuccess,
       inputSearchValue,
@@ -927,12 +982,14 @@ export function InfoContextProvider({ apiService }) {
       popupContent,
       recipeComment,
       recipeNote,
+      recipePicture,
       recipes,
       recipesPepites,
       sendEvaluation,
       setAddCommentVisible,
       setBasicSuccess,
       setCheckPassword,
+      setCurrentRecipeId,
       setDisplayFilter,
       setEmail,
       setErrorOrigin,
@@ -948,6 +1005,7 @@ export function InfoContextProvider({ apiService }) {
       setPopupContent,
       setRecipeComment,
       setRecipeNote,
+      setRecipePicture,
       setShowAllRecipes,
       setShowComments,
       setShowUserList,
@@ -977,6 +1035,7 @@ export function InfoContextProvider({ apiService }) {
       checkPassword,
       convertMinutesToTime,
       createUser,
+      currentRecipeId,
       difficulties,
       difficultyListModify,
       displayDate,
@@ -991,10 +1050,15 @@ export function InfoContextProvider({ apiService }) {
       getData,
       getDataDifficulty,
       getDataName,
+      getRecipeByID,
+      getRecipePicture,
       handleChangeComment,
       handleChangeFavorite,
       handleChangeSearch,
+      handleDeleteSteps,
       handleLoginSubmit,
+      handleSubmitSteps,
+      handleUpdateRecipe,
       infoLogin,
       infoSuccess,
       inputSearchValue,
@@ -1004,12 +1068,14 @@ export function InfoContextProvider({ apiService }) {
       passwordError,
       popupContent,
       recipeComment,
+      recipePicture,
       recipes,
       recipesPepites,
       sendEvaluation,
       setAddCommentVisible,
       setBasicSuccess,
       setCheckPassword,
+      setCurrentRecipeId,
       setDisplayFilter,
       setEmail,
       setErrorOrigin,
@@ -1023,6 +1089,7 @@ export function InfoContextProvider({ apiService }) {
       setNoMatchPassword,
       setPassword,
       setPopupContent,
+      setRecipePicture,
       setShowAllRecipes,
       setShowComments,
       setShowUserList,
@@ -1043,7 +1110,6 @@ export function InfoContextProvider({ apiService }) {
       valueDifficulty,
     ]
   );
-
   return (
     <InfoContext.Provider value={contextValues}>
       <Outlet />
