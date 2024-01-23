@@ -37,6 +37,7 @@ export default function UserSettings() {
       console.error("Error saving changes:", error);
     }
   };
+
   function onValuechange(e) {
     setEveryInfo({ ...everyInfo, [e.target.name]: e.target.value });
   }
