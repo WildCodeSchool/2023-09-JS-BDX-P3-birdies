@@ -3,7 +3,12 @@ import blocFiltre from "../styles/icons/Bloc lien filtres.png";
 import { Useinfo } from "../context/InfoContext";
 
 function Filter() {
-  const { filterListModify, displayFilter, setDisplayFilter } = Useinfo();
+  const {
+    difficultyListModify,
+    filterListModify,
+    displayFilter,
+    setDisplayFilter,
+  } = Useinfo();
 
   return (
     <>
@@ -12,44 +17,30 @@ function Filter() {
           <button
             className="button-filter"
             type="button"
-            onClick={filterListModify}
+            onClick={difficultyListModify}
           >
             Très facile
           </button>
           <button
             className="button-filter"
             type="button"
-            onClick={filterListModify}
+            onClick={difficultyListModify}
           >
             Facile
           </button>
           <button
             className="button-filter"
             type="button"
-            onClick={filterListModify}
+            onClick={difficultyListModify}
           >
             Moyen
           </button>
           <button
             className="button-filter"
             type="button"
-            onClick={filterListModify}
+            onClick={difficultyListModify}
           >
             Difficile
-          </button>
-          <button
-            className="button-filter"
-            type="button"
-            onClick={filterListModify}
-          >
-            -30 minutes
-          </button>
-          <button
-            className="button-filter"
-            type="button"
-            onClick={filterListModify}
-          >
-            -1 heure
           </button>
         </div>
       </div>
@@ -96,6 +87,20 @@ function Filter() {
             onClick={filterListModify}
           >
             BBQ
+          </button>
+          <button
+            className="button-filter"
+            type="button"
+            onClick={filterListModify}
+          >
+            -30 minutes
+          </button>
+          <button
+            className="button-filter"
+            type="button"
+            onClick={filterListModify}
+          >
+            -1 heure
           </button>
         </div>
       </div>

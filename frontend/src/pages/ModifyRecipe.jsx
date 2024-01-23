@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { MDBAutocomplete } from "mdb-react-ui-kit";
 import { MDBFileUpload } from "mdb-react-file-upload";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLoaderData, useParams } from "react-router-dom";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
@@ -11,54 +11,46 @@ import DifficultiesList from "../components/NewRecice/DificultiesList";
 import PreparationTime from "../components/NewRecice/PreparationTime";
 
 function ModifyRecipe() {
-  const { recipes, setInfoSuccess } = Useinfo();
+  const {
+    setInfoSuccess,
+    handleUpdateRecipe,
+    handleSubmitSteps,
+    handleDeleteSteps,
+  } = Useinfo();
   const { id } = useParams();
-  // const [chosenRecipe, setChosenRecipe] = useState({});
-  // Récupération de la recete à modifier
-  const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
-  console.info(chosenRecipe);
+  const { recipeToModify, steps, ingredients } = useLoaderData();
 
-  // FONCTION POUR RECUPERER LES RECETTES DU BACK
-  // const getRecipe = async () => {
-  //   const result = await axios.get(`http://localhost:3310/api/recipes/${id}`);
-  //   setChosenRecipe(result.data);
-  // };
-  // useEffect(() => {
-  //   getRecipe();
-  // }, []);
-
-  // console.info(chosenRecipe);
-  // Récupération des étapes originales de la recette
-  const originalStepsList = [];
-  for (const step of chosenRecipe.steps) {
-    originalStepsList.push(step.description.toString());
-  }
-  // Récupération des quantités et mesures originales
-  const originalQuantities = [];
-  const originalUnites = [];
-  for (const ingredient of chosenRecipe.ingredients) {
-    originalQuantities.push(ingredient.quantity);
-    originalUnites.push(ingredient.mesure);
-  }
-
-  const [ingreds, setIngreds] = useState(chosenRecipe.ingredients);
-  const [recipeName, setRecipeName] = useState(chosenRecipe.name);
-  const [image, setImage] = useState(undefined); // ---> IMAGE A RECUPERER
-  const [duration, setDuration] = useState(chosenRecipe.prepTime); // ---> TEMPS A RECUPERER
-  const [difficultyEvaluation, setDifficultyEvaluation] = useState(
-    chosenRecipe.difficulty
+  // Récupérer tous les ingrédients de la recette
+  const actualIngredients = ingredients.map(
+    (ingredient) => ingredient.ingredientName
   );
+  // récupérer toutes les quantités des ingrédients actuels
+  const actualQuantities = ingredients.map((ingredient) => ingredient.quantity);
+  // Récupère toutes les unités des ingrédients actuels
+  const actualUnites = ingredients.map((ingredient) => ingredient.unite);
+  // récupère les descriptions des étapes actuelles
+  const actualSteps = steps.map((step) => step.description);
+  const modDifficulty =
+    recipeToModify.difficulty[0].toUpperCase() +
+    recipeToModify.difficulty.slice(1);
+  console.info(recipeToModify);
+  const [ingreds, setIngreds] = useState(ingredients);
+  const [recipeName, setRecipeName] = useState(recipeToModify.name);
+  const [image, setImage] = useState(undefined); // ---> IMAGE A RECUPERER
+  console.info(image);
+  const [duration, setDuration] = useState(recipeToModify.prepTime); // ---> TEMPS A RECUPERER
+  const [difficultyEvaluation, setDifficultyEvaluation] =
+    useState(modDifficulty);
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
-  const [recipeIngredients, setRecipeIngredients] = useState(
-    chosenRecipe.ingredients
-  ); // ---> INGREDIENTS A RECUPERER
-  const [quantityValues, setQuantityValues] = useState(originalQuantities);
-  const [uniteValues, setUniteValues] = useState(originalUnites);
+  const [recipeIngredients, setRecipeIngredients] = useState(actualIngredients); // ---> INGREDIENTS A RECUPERER
+  const [quantityValues, setQuantityValues] = useState(actualQuantities);
+  const [uniteValues, setUniteValues] = useState(actualUnites);
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
-  const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
-  const [inputs, setInputs] = useState(originalStepsList); // ---> ETAPES A RECUPERER
+  const [guestsNumber, setGuestsNumber] = useState(recipeToModify.peopleNumber);
+  const [inputs, setInputs] = useState(actualSteps); // ---> ETAPES A RECUPERER
+  const stepsInfos = [];
 
   // Appel de l'API selon l'ingrédient et filtrer si contient un nutritin grade
   const apiCall = async (ingredient) => {
@@ -75,11 +67,10 @@ function ModifyRecipe() {
     console.info(withEnergyPdct);
     setIngredientsFound(productsList);
   };
-  // création du nom de la recette
+
   const handleNameChange = (e) => {
     setRecipeName(e.target.value);
   };
-
   // change le nombre de personnes pour lequel est prévue la recette
   function changeGuestsNumber(e) {
     if (e.target.innerHTML === "+") {
@@ -88,13 +79,11 @@ function ModifyRecipe() {
       setGuestsNumber(guestsNumber - 1);
     }
   }
-
   // definit le temps de préparation de la recete
   const handleChangeTime = (e) => {
     console.info(duration);
     setDuration(e.target.value);
   };
-
   // Définie la difficulté de la recette
   const handleChangeDifficulty = (e) => {
     const difficultySelected = e.target.value;
@@ -181,14 +170,14 @@ function ModifyRecipe() {
     apiCall(ingredientSearch);
   }, [ingredientSearch]);
 
-  const showAll = () => {
+  const showAll = async () => {
     const ingredientsInfos = [];
 
     // créer les objets ingrédients : nom, quantité, mesure
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < recipeIngredients.length; i++) {
       const ingredientLine = {
-        name: recipeIngredients[i].name,
+        name: recipeIngredients[i],
         // energy: recipeIngredients[i].energy,
         quantity: quantityValues[i],
         mesure: uniteValues[i],
@@ -197,23 +186,35 @@ function ModifyRecipe() {
     }
 
     const recipe = {
-      id,
+      // id,
       userId: "???",
       name: recipeName,
-      PublicationDate: chosenRecipe.date,
-      picture: image[0] === undefined ? chosenRecipe.picture : image[0],
+      // PublicationDate: chosenRecipe.date,
+      // picture: image[0] === undefined ? chosenRecipe.picture : image[0],
       peopleNumber: guestsNumber,
       energyPerPerson:
-        chosenRecipe.energyPerPerson === undefined
+        recipeToModify.energyPerPerson === undefined
           ? 42
-          : chosenRecipe.energyPerPerson,
+          : recipeToModify.energyPerPerson,
       difficulty: difficultyEvaluation,
       prepTime: duration === undefined ? 42 : duration,
       ingredients: ingredientsInfos,
       steps: inputs,
     };
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < inputs.length; i++) {
+      const stepLine = {
+        description: inputs[i],
+        position: i + 1,
+      };
+      stepsInfos.push(stepLine);
+    }
+
     setInfoSuccess((prev) => !prev);
     console.info(recipe);
+    await handleUpdateRecipe(recipe, id);
+    await handleDeleteSteps(id);
+    await handleSubmitSteps(id, stepsInfos);
   };
   return (
     <div className="page">
@@ -228,7 +229,7 @@ function ModifyRecipe() {
         />
         <MDBFileUpload
           getInputFiles={(file) => setImage(file)}
-          defaultFile={chosenRecipe.picture}
+          // defaultFile={chosenRecipe.picture}
         />
         <label>
           Nombre de personnes :{/*  */}

@@ -6,14 +6,15 @@ import "../styles/components/userPage/userPage.scss";
 import OptionsMenu from "../components/userPage/OptionsMenu";
 import AllUsers from "../components/admin/AllUsers";
 import AllRecipes from "../components/admin/AllRecipes";
+import { Useinfo } from "../context/InfoContext";
 
 function AdminPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
-  const [showUserList, setShowUserList] = useState(false);
-  const [showAllRecipes, setShowAllRecipes] = useState(false);
+  const { showAllRecipes, setShowAllRecipes, showUserList, setShowUserList } =
+    Useinfo();
 
   function handleChangeOptionsMenu() {
     setMenuVisible(!menuVisible);
@@ -22,10 +23,12 @@ function AdminPage() {
 
   const handleUserList = () => {
     setShowUserList(!showUserList);
+    setShowAllRecipes(!showAllRecipes);
   };
 
   const handleAllRecipes = () => {
     setShowAllRecipes(!showAllRecipes);
+    setShowUserList(!showUserList);
   };
   return (
     <>

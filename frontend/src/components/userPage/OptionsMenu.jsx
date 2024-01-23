@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Useinfo } from "../../context/InfoContext";
 
 function OptionsMenu({ menuVisible }) {
+  const { user } = Useinfo();
+
   return (
     <div
       className={menuVisible ? "option-menu-box visible" : "option-menu-box"}
@@ -10,7 +13,7 @@ function OptionsMenu({ menuVisible }) {
         <Link to="/newrecipe">
           <li className="option-menu-line">Ajouter une recette</li>
         </Link>
-        <Link to="/userSettings">
+        <Link to={`/userSettings/${user.id}`}>
           <li className="option-menu-line">modif de compte</li>
         </Link>
         <Link to="/slideone">

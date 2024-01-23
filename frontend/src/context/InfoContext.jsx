@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { Outlet, useNavigate, useLoaderData } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import ApiService from "../services/api.service";
 
 const InfoContext = createContext();
@@ -33,7 +33,7 @@ export function InfoContextProvider({ apiService }) {
   // ou l'on stock les id des recettes favorites
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   // où l'on stock la recette choisie
-  // const [chosenRecipe, setChosenRecipe] = useState({})
+  const [chosenRecipe, setChosenRecipe] = useState({});
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
@@ -43,9 +43,13 @@ export function InfoContextProvider({ apiService }) {
   const [showComments, setShowComments] = useState(false);
   const [getData, setGetData] = useState([]);
   const [getDataName, setGetDataName] = useState([]);
+  const [getDataDifficulty, setGetDataDifficulty] = useState([]);
+  const [valueDifficulty, setValueDifficulty] = useState([]);
   const [foodFilter, setFoodFilter] = useState([]);
+  const [foodDifficulty, setFoodDiddiculty] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
-
+  const [showUserList, setShowUserList] = useState(true);
+  const [showAllRecipes, setShowAllRecipes] = useState(false);
   const [checkPassword, setCheckPassword] = useState("");
   const [formValue, setFormValue] = useState({
     email: "",
@@ -56,6 +60,8 @@ export function InfoContextProvider({ apiService }) {
   const [errorOrigin, setErrorOrigin] = useState("");
   const [formatError, setFormatError] = useState("");
   const [noMatchPassword, setNoMatchPassword] = useState(false);
+  const [currentRecipeId, setCurrentRecipeId] = useState();
+  const [recipePicture, setRecipePicture] = useState("");
 
   // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
   useEffect(() => {
@@ -78,12 +84,14 @@ export function InfoContextProvider({ apiService }) {
   const handleLoginSubmit = async (credentials) => {
     try {
       const data = await apiService.post(
-        `http://localhost:3310/api/login`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/login`,
         credentials
       );
       localStorage.setItem("token", data.token);
       apiService.setToken(data.token);
-      const result = await apiService.get(`http://localhost:3310/api/users/me`);
+      const result = await apiService.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/me`
+      );
 
       setInfoLogin((prev) => !prev);
       setUser(result.data);
@@ -110,7 +118,7 @@ export function InfoContextProvider({ apiService }) {
   const createUser = async (credentials) => {
     try {
       const { newData } = await axios.post(
-        `http://localhost:3310/api/users`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/users`,
         credentials
       );
       console.info(`this is : ${newData}`);
@@ -141,32 +149,100 @@ export function InfoContextProvider({ apiService }) {
 
   const getRecipes = async () => {
     try {
-      const res = await axios.get("http://localhost:3310/api/recipes");
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes`
+      );
       setGetData(res.data);
     } catch (err) {
-      console.error(err.res.data);
+      console.error(err);
       setGetData();
     }
   };
 
-  // const getRecipeByID = async (id) => {
-  //   const res = await axios.get(`http://localhost:3310/api/recipes/${id}`);
-  //   console.log(res.data);
-  //   setChosenRecipe(res.data)
-  // };
+  const getRecipePicture = async (recipePictureId) => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/uploads/${recipePictureId})`
+    );
+    setRecipePicture(response.data);
+  };
+
+  const getRecipeByID = async (id) => {
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${id}`
+    );
+    setChosenRecipe(res.data);
+  };
+
   const getRecipesName = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3310/api/recipes/${inputSearchValue}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${inputSearchValue}`
       );
-      console.info(res.data);
       setGetDataName(res.data);
     } catch (err) {
       console.error(err.res.data);
       setGetDataName();
     }
   };
+
+  const getRecipesDifficulty = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${valueDifficulty}`
+      );
+      console.info(response.data);
+      setGetDataName(response.data);
+    } catch (err) {
+      console.error(err.response.data);
+      setGetDataName();
+    }
+  };
   console.info(foodFilter);
+  const handleSubmitSteps = async (id, credentials) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${id}/steps`,
+        credentials
+      );
+      console.info(`recipeId : ${response.data.recipeId}`);
+      return response;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+
+  const handleDeleteSteps = async (recipeId) => {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${recipeId}/steps`
+    );
+    return response;
+  };
+
+  const handleUpdateRecipe = async (data, recipeId) => {
+    try {
+      const updatedRecipe = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/recipe/${recipeId})`,
+        data
+      );
+      console.info(updatedRecipe);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+
+  const postComment = async (evaluation) => {
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/evaluations`,
+        evaluation
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   function filterListModify(e) {
     const targetedFilter = e.target.innerText;
     if (foodFilter.includes(targetedFilter)) {
@@ -179,8 +255,23 @@ export function InfoContextProvider({ apiService }) {
     getRecipesName();
   }, [inputSearchValue]);
   useEffect(() => {
+    getRecipesDifficulty();
+  }, [valueDifficulty]);
+  useEffect(() => {
     getRecipes();
   }, []);
+  console.info(foodDifficulty);
+  function difficultyListModify(e) {
+    const targetedDifficulty = e.target.innerText;
+    if (foodDifficulty.includes(targetedDifficulty)) {
+      setFoodDiddiculty(
+        foodDifficulty.filter((spec) => spec !== targetedDifficulty)
+      );
+    } else {
+      setFoodDiddiculty([targetedDifficulty]);
+    }
+  }
+
   const recipes = [
     {
       id: 1,
@@ -839,171 +930,195 @@ export function InfoContextProvider({ apiService }) {
     return `${date}/${month}/${year}  ${hours}:${min}`;
   };
 
-  function sendEvaluation(e) {
-    const commentId = e.target.getAttribute("data-value");
+  function sendEvaluation() {
     const commentContent = {
-      userId: "????",
+      userId: user.id,
       commentMessage: recipeComment,
-      CommentNote: recipeNote,
+      commentNote: recipeNote,
       commentDate: displayDate(),
-      RecipeId: commentId,
+      recipeId: currentRecipeId,
     };
 
-    console.info(commentContent);
+    postComment(commentContent);
+    // window.location.reload(true);
     setRecipeComment("");
     setRecipeNote("");
     setAddCommentVisible(false);
     setBasicSuccess((prev) => !prev);
   }
-
   const contextValues = useMemo(
     () => ({
-      getData,
-      userId,
-      setUserId,
-      user,
-      setUser,
-      recipes,
-      difficulties,
-      evaluations,
-      handleChangeSearch,
+      Average,
       HandleRecipeNote,
-      recipeNote,
-      setRecipeNote,
+      addCommentVisible,
+      apiService,
+      basicSuccess,
+      checkPassword,
+      chosenRecipe,
+      convertMinutesToTime,
+      createUser,
+      currentRecipeId,
+      difficulties,
+      difficultyListModify,
+      displayDate,
+      displayFilter,
+      email,
+      errorOrigin,
+      evaluations,
+      favoriteRecipes,
+      filterListModify,
+      formValue,
+      formatError,
+      getData,
+      getDataDifficulty,
+      getDataName,
+      getRecipeByID,
+      getRecipePicture,
       handleChangeComment,
       handleChangeFavorite,
-      recipeComment,
-      inputSearchValue,
-      setInputSearchValue,
-      getDataName,
-      favoriteRecipes,
-      setFavoriteRecipes,
-      basicSuccess,
-      setBasicSuccess,
-      infoSuccess,
+      handleChangeSearch,
+      handleDeleteSteps,
+      handleLoginSubmit,
+      handleSubmitSteps,
+      handleUpdateRecipe,
       infoLogin,
+      infoSuccess,
+      inputSearchValue,
+      logout,
+      noMatchPassword,
+      password,
+      passwordError,
+      popupContent,
+      recipeComment,
+      recipeNote,
+      recipePicture,
+      recipes,
+      recipesPepites,
+      sendEvaluation,
+      setAddCommentVisible,
+      setBasicSuccess,
+      setCheckPassword,
+      setCurrentRecipeId,
+      setDisplayFilter,
+      setEmail,
+      setErrorOrigin,
+      setFavoriteRecipes,
+      setFormValue,
+      setFormatError,
+      setGetDataDifficulty,
       setInfoLogin,
       setInfoSuccess,
-      setRecipeComment,
-      sendEvaluation,
-      displayDate,
-      users,
-      setUsers,
-      email,
-      setEmail,
-      password,
+      setInputSearchValue,
+      setNoMatchPassword,
       setPassword,
+      setPopupContent,
+      setRecipeComment,
+      setRecipeNote,
+      setRecipePicture,
+      setShowAllRecipes,
+      setShowComments,
+      setShowUserList,
+      setUser,
+      setUserId,
+      setUserPicture,
+      setUsers,
+      setValueDifficulty,
+      showAllRecipes,
+      showComments,
+      showUserList,
+      user,
+      userId,
+      userPicture,
+      users,
       validEmail,
       validPassword,
       validPseudo,
-      setPopupContent,
-      convertMinutesToTime,
-      Average,
-      recipesPepites,
-      popupContent,
-      userPicture,
-      setUserPicture,
-      addCommentVisible,
-      setAddCommentVisible,
-      showComments,
-      setShowComments,
-      filterListModify,
-      displayFilter,
-      setDisplayFilter,
-      apiService,
-      formValue,
-      setFormValue,
-      handleLoginSubmit,
-      createUser,
-      checkPassword,
-      setCheckPassword,
-      passwordError,
-      errorOrigin,
-      formatError,
-      setFormatError,
-      setErrorOrigin,
-      noMatchPassword,
-      setNoMatchPassword,
-      logout,
-      // getRecipeByID,
+      valueDifficulty,
     }),
     [
-      getData,
-      getDataName,
-      userId,
-      setUserId,
-      user,
-      setUser,
-      recipes,
-      evaluations,
+      Average,
       HandleRecipeNote,
+      addCommentVisible,
+      apiService,
+      basicSuccess,
+      checkPassword,
+      convertMinutesToTime,
+      createUser,
+      currentRecipeId,
       difficulties,
+      difficultyListModify,
+      displayDate,
+      displayFilter,
+      email,
+      errorOrigin,
       evaluations,
-      handleChangeSearch,
-      HandleRecipeNote,
+      favoriteRecipes,
+      filterListModify,
+      formValue,
+      formatError,
+      getData,
+      getDataDifficulty,
+      getDataName,
+      getRecipeByID,
+      getRecipePicture,
       handleChangeComment,
       handleChangeFavorite,
-      recipeComment,
-      inputSearchValue,
-      setInputSearchValue,
-      favoriteRecipes,
-      setFavoriteRecipes,
-      basicSuccess,
-      setBasicSuccess,
-      infoSuccess,
-      setInfoSuccess,
+      handleChangeSearch,
+      handleDeleteSteps,
+      handleLoginSubmit,
+      handleSubmitSteps,
+      handleUpdateRecipe,
       infoLogin,
-      setInfoLogin,
-      sendEvaluation,
-      displayDate,
-      users,
-      email,
-      setEmail,
+      infoSuccess,
+      inputSearchValue,
+      logout,
+      noMatchPassword,
       password,
+      passwordError,
+      popupContent,
+      recipeComment,
+      recipePicture,
+      recipes,
+      recipesPepites,
+      sendEvaluation,
+      setAddCommentVisible,
+      setBasicSuccess,
+      setCheckPassword,
+      setCurrentRecipeId,
+      setDisplayFilter,
+      setEmail,
+      setErrorOrigin,
+      setFavoriteRecipes,
+      setFormValue,
+      setFormatError,
+      setGetDataDifficulty,
+      setInfoLogin,
+      setInfoSuccess,
+      setInputSearchValue,
+      setNoMatchPassword,
       setPassword,
+      setPopupContent,
+      setRecipePicture,
+      setShowAllRecipes,
+      setShowComments,
+      setShowUserList,
+      setUser,
+      setUserId,
+      setUserPicture,
+      setValueDifficulty,
+      showAllRecipes,
+      showComments,
+      showUserList,
+      user,
+      userId,
+      userPicture,
+      users,
       validEmail,
       validPassword,
       validPseudo,
-      popupContent,
-      convertMinutesToTime,
-      Average,
-      recipesPepites,
-      Average,
-      recipesPepites,
-      popupContent,
-      Average,
-      recipesPepites,
-      Average,
-      recipesPepites,
-      setPopupContent,
-      userPicture,
-      setUserPicture,
-      addCommentVisible,
-      setAddCommentVisible,
-      showComments,
-      setShowComments,
-      filterListModify,
-      displayFilter,
-      setDisplayFilter,
-      apiService,
-      formValue,
-      setFormValue,
-      handleLoginSubmit,
-      createUser,
-      checkPassword,
-      setCheckPassword,
-      passwordError,
-      errorOrigin,
-      formatError,
-      setFormatError,
-      setErrorOrigin,
-      noMatchPassword,
-      setNoMatchPassword,
-      logout,
-      // getRecipeByID,
+      valueDifficulty,
     ]
   );
-
   return (
     <InfoContext.Provider value={contextValues}>
       <Outlet />

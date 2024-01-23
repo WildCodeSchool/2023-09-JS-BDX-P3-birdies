@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useLoaderData, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import { MDBStepper, MDBStepperStep, MDBAlert } from "mdb-react-ui-kit";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import TextInput from "../components/Text-input";
@@ -10,14 +10,14 @@ import chefHat from "../styles/icons/Chef Hat.png";
 import star from "../styles/icons/Star.png";
 import pdf from "../styles/icons/Downloads Folder.png";
 import deliveryTime from "../styles/icons/Delivery Time.png";
-import blocNutri from "../styles/icons/Bloc nutriscore.png";
+// import blocNutri from "../styles/icons/Bloc nutriscore.png";
 import logo from "../styles/icons/logo.png";
 import { Useinfo } from "../context/InfoContext";
 import CommentCard from "../components/CommentCard";
 
 function Recipe() {
   const {
-    recipes,
+    // recipes,
     evaluations,
     recipeNote,
     HandleRecipeNote,
@@ -31,16 +31,27 @@ function Recipe() {
     showComments,
     setShowComments,
     convertMinutesToTime,
+    setCurrentRecipeId,
+    getRecipePicture,
+    recipePicture,
   } = Useinfo();
-  const { id } = useParams();
-  const chosenRecipe = recipes.find((recipe) => recipe.id.toString() === id);
-  const averageNote = Average(chosenRecipe.notes);
-  const totalVotes = chosenRecipe.notes.length;
-  const recipeQuantities = chosenRecipe.ingredients;
 
-  const [guestsNumber, setGuestsNumber] = useState(chosenRecipe.peopleNumber);
-  // const [addCommentVisible, setAddCommentVisible] = useState(false);
-  // const [showComments, setShowComments] = useState(false);
+  const { id } = useParams();
+
+  const { recipe, comments, steps, ingredients } = useLoaderData();
+
+  useEffect(() => {
+    setCurrentRecipeId(recipe.id);
+    getRecipePicture(recipe.picture);
+  }, []);
+  console.info(recipePicture);
+
+  const notation = comments.map((comment) => (comment.note ? comment.note : 0));
+  console.info(notation);
+  const averageNote = Average(notation);
+  const totalVotes = notation.length;
+  const recipeIngredients = ingredients;
+  const [guestsNumber, setGuestsNumber] = useState(recipe.peopleNumber);
   const swiperElRef = useRef(null);
 
   // Modie le nombre de personnes pour la recete
@@ -62,7 +73,6 @@ function Recipe() {
       setAddCommentVisible(false);
     }
   }
-
   return (
     <>
       <RecipeHeader />
@@ -78,7 +88,7 @@ function Recipe() {
         Merci pour votre participation !
       </MDBAlert>
       <div className="recipe-title">
-        <p>{chosenRecipe.name}</p>
+        <p>{recipe.name}</p>
       </div>
       <div className="recipe-img-container">
         <button
@@ -89,13 +99,17 @@ function Recipe() {
         >
           {favoriteRecipes.includes(id) ? "❤️" : "🤍"}
         </button>
-
-        <img src={chosenRecipe.picture} alt="recipe-img" />
+        {/* C:\Users\sylva\Documents\2023-09-JS-BDX-P3-Birdies\backend\public\uploads\a3c2c731e0b4950403d1b5862eac52dc.jpg */}
+        <img
+          src={`${import.meta.env.VITE_BACKEND_URL}/${recipePicture.url}`}
+          alt="recipe-img"
+        />
       </div>
 
       <div className="recipe-body-container">
         <div className="rate-nutri-container">
-          <img src={blocNutri} alt="bloc-nutri" />
+          {/* <img src={blocNutri} alt="bloc-nutri" /> */}
+          <p>{recipe.energyPerPerson} kcal/portion</p>
           <div className="rate-container">
             <div className="stars">
               <img src={star} alt="star-img" />
@@ -109,12 +123,12 @@ function Recipe() {
         <div className="time-difficulty-container">
           <div className="prep-time-container">
             <img src={chefHat} alt="chefs-hat" />
-            <div className="difficulty">{chosenRecipe.difficulty}</div>
+            <div className="difficulty">{recipe.difficulty}</div>
           </div>
           <div className="difficulty-container">
             <img src={deliveryTime} alt="chronometer" />
             <div className="prep-time">
-              {convertMinutesToTime(chosenRecipe.prepTime)}
+              {convertMinutesToTime(recipe.prepTime)}
             </div>
           </div>
         </div>
@@ -136,18 +150,24 @@ function Recipe() {
                   +
                 </button>
               </div>
-              {/* <div className="ingredients-list"> */}
-              {recipeQuantities.map((quantity) => (
-                <div key={quantity.name} className="ingredient-container">
-                  <div className="ingredient-name">{quantity.name}</div>
+              {recipeIngredients.map((recipeIngredient) => (
+                <div
+                  key={recipeIngredient.ingredientName}
+                  className="ingredient-container"
+                >
+                  <div className="ingredient-name">
+                    {recipeIngredient.ingredientName}
+                  </div>
                   <div className="ingred-qtty-mesure-container">
                     <div className="ingredient-qtty">
                       {Math.round(
-                        (quantity.quantity / chosenRecipe.peopleNumber) *
+                        (recipeIngredient.quantity / recipe.peopleNumber) *
                           guestsNumber
                       )}
                     </div>
-                    <div className="ingredient-mesure">{quantity.mesure}</div>
+                    <div className="ingredient-mesure">
+                      {recipeIngredient.unite}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -168,8 +188,8 @@ function Recipe() {
                 navigation="true"
                 pagination="true"
               >
-                {chosenRecipe.steps.map((step, index) => (
-                  <swiper-slide autoHeight="true" key={step.description}>
+                {steps.map((step, index) => (
+                  <swiper-slide autoHeight="true" key={steps.description}>
                     <div className="step-container">
                       <div className="step-title">{index + 1}.</div>
                       <div className="step-text">
@@ -223,7 +243,7 @@ function Recipe() {
             <div className="comment-area">
               <p>Un petit commentaire à partager ?</p>
               <TextInput />
-              <ActionButton id={chosenRecipe.id} />
+              <ActionButton id={recipe.id} />
             </div>
           </div>
           <div className="open-close-btn">
@@ -250,8 +270,8 @@ function Recipe() {
                 showComments ? "comments-bloc" : "comments-bloc inactive"
               }
             >
-              {chosenRecipe.comments.map((comment) => (
-                <CommentCard comment={comment} key={comment.message} />
+              {comments.map((comment) => (
+                <CommentCard comment={comment} key={comment.id} />
               ))}
             </div>
             <div className="open-close-btn">
