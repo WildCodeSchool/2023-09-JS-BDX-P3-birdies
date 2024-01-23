@@ -15,14 +15,17 @@ class AbstractManager {
     const values = [];
     console.info("findAll", params, query, values);
     console.info(Object.entries(params));
+
     for (const [key, value] of Object.entries(dataValue)) {
       query += `${values.length ? "," : ""} ${key} = ?`;
 
       values.push(value);
     }
 
-    query += `WHERE ${dataValue} = ?`;
-    values.push(dataValue);
+    if (values?.length) {
+      query += `WHERE ${dataValue} = ?`;
+      values.push(dataValue);
+    }
 
     return this.database.query(query, values);
   }
