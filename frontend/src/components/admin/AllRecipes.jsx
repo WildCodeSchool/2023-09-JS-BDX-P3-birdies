@@ -12,7 +12,7 @@ function AllRecipes() {
   useEffect(() => {
     try {
       axios
-        .get("http://localhost:3310/api/recipes")
+        .get(`${import.meta.env.VITE_BACKEND_URL}/api/recipes`)
         .then((res) => setAllRecipes(res.data));
     } catch (err) {
       console.warn(err);
@@ -21,7 +21,9 @@ function AllRecipes() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3310/api/recipes/${id}`);
+      await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${id}`
+      );
     } catch (err) {
       console.warn(err);
     }

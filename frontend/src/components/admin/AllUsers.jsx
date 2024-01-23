@@ -11,13 +11,13 @@ function AllUsers() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3310/api/users")
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/users`)
       .then((res) => setDbUsers(res?.data));
   }, [dbUsers]);
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3310/api/users/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/users/${id}`);
     } catch (err) {
       console.error(err);
     }

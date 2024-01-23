@@ -15,7 +15,7 @@ export default function UserSettings() {
 
   const fetchData = async (userId) => {
     const response = await axios.get(
-      `http://localhost:3310/api/users/${userId}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`
     );
     setEveryInfo(response.data);
   };
@@ -26,7 +26,10 @@ export default function UserSettings() {
 
   const sendChanges = async () => {
     try {
-      await axios.put(`http://localhost:3310/api/users/${id}`, everyInfo);
+      await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${id}`,
+        everyInfo
+      );
     } catch (error) {
       console.error("Error saving changes:", error);
     }
