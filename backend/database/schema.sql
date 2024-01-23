@@ -50,6 +50,13 @@ create table `recipes` (
     `prepTime` INT not NULL
 );
 
+CREATE table `upload` (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    url VARCHAR(255) NOT NULL,
+    UNIQUE(url),
+    created_at TIMESTAMP default CURRENT_TIMESTAMP
+);
+
 CREATE table `ingredients` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `ingredientName` VARCHAR(255) NOT NULL
