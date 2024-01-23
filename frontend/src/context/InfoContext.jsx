@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { Outlet, useNavigate, useLoaderData } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import ApiService from "../services/api.service";
 
 const InfoContext = createContext();
@@ -45,7 +45,8 @@ export function InfoContextProvider({ apiService }) {
   const [getDataName, setGetDataName] = useState([]);
   const [foodFilter, setFoodFilter] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
-
+  const [showUserList, setShowUserList] = useState(true);
+  const [showAllRecipes, setShowAllRecipes] = useState(false);
   const [checkPassword, setCheckPassword] = useState("");
   const [formValue, setFormValue] = useState({
     email: "",
@@ -166,7 +167,6 @@ export function InfoContextProvider({ apiService }) {
       setGetDataName();
     }
   };
-  console.info(foodFilter);
   function filterListModify(e) {
     const targetedFilter = e.target.innerText;
     if (foodFilter.includes(targetedFilter)) {
@@ -925,6 +925,10 @@ export function InfoContextProvider({ apiService }) {
       noMatchPassword,
       setNoMatchPassword,
       logout,
+      showUserList,
+      setShowUserList,
+      showAllRecipes,
+      setShowAllRecipes,
       // getRecipeByID,
     }),
     [
@@ -1000,6 +1004,10 @@ export function InfoContextProvider({ apiService }) {
       noMatchPassword,
       setNoMatchPassword,
       logout,
+      showUserList,
+      setShowUserList,
+      showAllRecipes,
+      setShowAllRecipes,
       // getRecipeByID,
     ]
   );

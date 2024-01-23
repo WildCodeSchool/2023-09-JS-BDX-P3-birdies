@@ -56,14 +56,14 @@ const postRecipe = (req, res) => {
 };
 
 const deleteRecipe = (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   models.recipe
     .delete(id)
     .then(([response]) => {
       if (response.affectedRows === 0) {
         res.sendStatus(404);
       } else {
-        res.status(204).send({ message: "good" });
+        res.status(204).send({ message: "Recipe deleted" });
       }
     })
     .catch((err) => {
