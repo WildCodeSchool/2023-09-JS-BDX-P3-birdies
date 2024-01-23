@@ -177,7 +177,7 @@ VALUES
         "4",
         "Pâtes au pesto",
         "10/01/2024",
-        NULL,
+        "null",
         "4",
         "185",
         "intermédiare",
