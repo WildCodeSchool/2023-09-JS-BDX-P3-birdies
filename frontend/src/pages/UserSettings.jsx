@@ -103,16 +103,17 @@ export default function UserSettings() {
               name="email"
               value={everyInfo.email}
               onChange={onValuechange}
+            />
+            {everyInfo.role === "user" && (
+              <input
+                type="password"
+                name="password"
+                value={everyInfo.password}
+                placeholder="Mot de passe"
+                onChange={onValuechange}
+              />
+            )}
 
-              // onChange={(e) => setEveryInfo({ email: e.target.value })}
-            />
-            <input
-              type="password"
-              name="password"
-              value={everyInfo.password}
-              placeholder="Mot de passe"
-              onChange={onValuechange}
-            />
             <button
               type="submit"
               className="accept-modifications"

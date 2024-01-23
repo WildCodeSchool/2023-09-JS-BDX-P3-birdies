@@ -190,14 +190,12 @@ export function InfoContextProvider({ apiService }) {
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${valueDifficulty}`
       );
-      console.info(response.data);
       setGetDataName(response.data);
     } catch (err) {
       console.error(err.response.data);
       setGetDataName();
     }
   };
-  console.info(foodFilter);
   const handleSubmitSteps = async (id, credentials) => {
     try {
       const response = await axios.post(
