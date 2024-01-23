@@ -18,7 +18,7 @@ const getUsers = (_, res) => {
 const getUserById = (req, res) => {
   const { id } = req.params;
   models.user
-    .find(id)
+    .getProfile(id)
     .then(([response]) => {
       if (response[0] !== null) {
         res.json(response[0]);
@@ -102,6 +102,22 @@ const updateUser = (req, res) => {
   }
 };
 
+const updateUserRole = (req, res) => {
+  const { id } = req.params;
+  const user = req.body;
+  try {
+    models.user.updateUserRole(id, user).then((response) => {
+      if (response.affectedRows === 0) {
+        res.sendStatus(404);
+      } else {
+        res.status(204).send({ message: "User Role modified" });
+      }
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 module.exports = {
   getUsers,
   getUserById,
@@ -110,4 +126,5 @@ module.exports = {
   postLogin,
   deleteUser,
   updateUser,
+  updateUserRole,
 };

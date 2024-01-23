@@ -32,7 +32,7 @@ class UserManager extends AbstractManager {
 
   getProfile(id) {
     return this.database.query(
-      `SELECT id, email, pseudo, role FROM ${this.table} WHERE id = ?`,
+      `SELECT id, email, pseudo, firstname, lastname, role FROM ${this.table} WHERE id = ?`,
       [id]
     );
   }
@@ -42,6 +42,7 @@ class UserManager extends AbstractManager {
   }
 
   async updateUser(id, user) {
+    const hash = await UserManager.hashPassword(user.password);
     return this.database.query(
       `UPDATE ${this.table} SET pseudo = ?, firstname = ?, lastname = ?, email = ?, password = ?, role = ? WHERE id = ?`,
       [
@@ -49,10 +50,17 @@ class UserManager extends AbstractManager {
         user.firstname,
         user.lastname,
         user.email,
-        user.password,
+        hash,
         user.role,
         id,
       ]
+    );
+  }
+
+  async updateUserRole(id, user) {
+    return this.database.query(
+      `UPDATE ${this.table} SET role = ? WHERE id = ?`,
+      [user.role, id]
     );
   }
 }
