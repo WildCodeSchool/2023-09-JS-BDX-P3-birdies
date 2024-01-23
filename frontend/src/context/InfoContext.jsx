@@ -43,7 +43,10 @@ export function InfoContextProvider({ apiService }) {
   const [showComments, setShowComments] = useState(false);
   const [getData, setGetData] = useState([]);
   const [getDataName, setGetDataName] = useState([]);
+  const [getDataDifficulty, setGetDataDifficulty] = useState([]);
+  const [valueDifficulty, setValueDifficulty] = useState([]);
   const [foodFilter, setFoodFilter] = useState([]);
+  const [foodDifficulty, setFoodDiddiculty] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
 
   const [checkPassword, setCheckPassword] = useState("");
@@ -166,6 +169,18 @@ export function InfoContextProvider({ apiService }) {
       setGetDataName();
     }
   };
+  const getRecipesDifficulty = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3310/api/recipes/${valueDifficulty}`
+      );
+      console.info(response.data);
+      setGetDataName(response.data);
+    } catch (err) {
+      console.error(err.response.data);
+      setGetDataName();
+    }
+  };
   console.info(foodFilter);
   function filterListModify(e) {
     const targetedFilter = e.target.innerText;
@@ -179,8 +194,23 @@ export function InfoContextProvider({ apiService }) {
     getRecipesName();
   }, [inputSearchValue]);
   useEffect(() => {
+    getRecipesDifficulty();
+  }, [valueDifficulty]);
+  useEffect(() => {
     getRecipes();
   }, []);
+  console.info(foodDifficulty);
+  function difficultyListModify(e) {
+    const targetedDifficulty = e.target.innerText;
+    if (foodDifficulty.includes(targetedDifficulty)) {
+      setFoodDiddiculty(
+        foodDifficulty.filter((spec) => spec !== targetedDifficulty)
+      );
+    } else {
+      setFoodDiddiculty([targetedDifficulty]);
+    }
+  }
+
   const recipes = [
     {
       id: 1,
@@ -925,6 +955,11 @@ export function InfoContextProvider({ apiService }) {
       noMatchPassword,
       setNoMatchPassword,
       logout,
+      difficultyListModify,
+      getDataDifficulty,
+      setGetDataDifficulty,
+      valueDifficulty,
+      setValueDifficulty,
       // getRecipeByID,
     }),
     [
@@ -1000,6 +1035,11 @@ export function InfoContextProvider({ apiService }) {
       noMatchPassword,
       setNoMatchPassword,
       logout,
+      difficultyListModify,
+      getDataDifficulty,
+      setGetDataDifficulty,
+      valueDifficulty,
+      setValueDifficulty,
       // getRecipeByID,
     ]
   );
