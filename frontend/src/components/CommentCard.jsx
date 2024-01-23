@@ -7,12 +7,12 @@ function CommentCard({ comment }) {
       <div className="comment-header">
         <img className="user-picture" src={undefinedUser} alt="user" />
         <div className="comment-title">
-          <p className="commenter-name">{comment.userName}</p>
-          <div className="date-heure-area">{comment.messageDate}</div>
+          <p className="commenter-name">{comment.user_id}</p>
+          <div className="date-heure-area">{comment.transformedDate}</div>
         </div>
       </div>
       <div className="comment-text">
-        <p className="the-comment">{comment.message}</p>
+        <p className="the-comment">{comment.comment}</p>
       </div>
     </div>
   );

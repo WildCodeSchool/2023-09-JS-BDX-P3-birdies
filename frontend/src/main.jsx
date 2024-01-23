@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import "./styles/app.scss";
+import axios from "axios";
 import App from "./App";
 import Login from "./pages/Login";
 import Recipe from "./pages/Recipe";
@@ -53,6 +54,23 @@ const router = createBrowserRouter([
       },
       {
         path: "/recipes/:id",
+        loader: async ({ params }) => {
+          const [response1, response2, response3, response4] =
+            await Promise.all([
+              axios.get(`http://localhost:3310/api/recipes/${params.id}`),
+              axios.get(`http://localhost:3310/api/evaluations/${params.id}`),
+              axios.get(`http://localhost:3310/api/recipes/${params.id}/steps`),
+              axios.get(
+                `http://localhost:3310/api/recipesIngredients/${params.id}`
+              ),
+            ]);
+          return {
+            recipe: response1.data,
+            comments: response2.data,
+            steps: response3.data,
+            ingredients: response4.data,
+          };
+        },
         element: <Recipe />,
         errorElement: <ErrorPage />,
       },
@@ -79,6 +97,20 @@ const router = createBrowserRouter([
       },
       {
         path: "/modifyrecipes/:id",
+        loader: async ({ params }) => {
+          const [response1, response2, response3] = await Promise.all([
+            axios.get(`http://localhost:3310/api/recipes/${params.id}`),
+            axios.get(`http://localhost:3310/api/recipes/${params.id}/steps`),
+            axios.get(
+              `http://localhost:3310/api/recipesIngredients/${params.id}`
+            ),
+          ]);
+          return {
+            recipeToModify: response1.data,
+            steps: response2.data,
+            ingredients: response3.data,
+          };
+        },
         element: <ModifyRecipe />,
         errorElement: <ErrorPage />,
       },

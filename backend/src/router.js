@@ -1,4 +1,8 @@
 const express = require("express");
+const multer = require("multer");
+// multer sert à upload des images dans un dossier que l'on choisit avant le transfert vers la bdd (ici avec les autres images et assets dans public)
+// c'est un midleware que l'on met dans notre route juste avant notre middleware controller
+const upload = multer({ dest: "public/uploads/" });
 
 const router = express.Router();
 
@@ -23,7 +27,9 @@ const userControllers = require("./controllers/userControllers");
 const recipeControllers = require("./controllers/recipesControllers");
 const stepControllers = require("./controllers/stepControllers");
 const ingredientControllers = require("./controllers/ingredientsControllers");
+const recipesIngredientsControllers = require("./controllers/RecipesIngredientsControllers");
 const evaluationControllers = require("./controllers/evaluationsControllers");
+const uploadControllers = require("./controllers/upload.controller");
 const { authMiddleware } = require("./middlewares/security/auth.middleware");
 
 router.get("/users", userControllers.getUsers);
@@ -35,15 +41,39 @@ router.delete("/users/:id([0-9]+)", userControllers.deleteUser);
 router.put("/users/:id([0-9]+)", userControllers.updateUser);
 
 router.get("/recipes", recipeControllers.getRecipes);
-router.get("/recipes/:name(a-z)+", recipeControllers.getRecipesName);
+router.get("/recipes/:name([a-z]+)", recipeControllers.getRecipesName);
 router.get("/recipes/:id([0-9]+)", recipeControllers.getRecipeById);
 router.post("/recipes", recipeControllers.postRecipe);
-router.delete("/recipes/:id([0-9]+)", recipeControllers.deleteRecipe);
+
+router.put("/recipes/recipe/:id", recipeControllers.updateRecipe);
+router.delete("/recipes", recipeControllers.deleteRecipe);
+
 
 router.post("/recipes/:id([0-9]+)/steps", stepControllers.postStep);
+router.get("/recipes/:id([0-9]+)/steps", stepControllers.getStep);
+router.delete("/recipes/:id/steps", stepControllers.deleteSteps);
 
 router.get("/ingredients", ingredientControllers.getIngredients);
+router.get("/ingredients/:name", ingredientControllers.findIngredient);
 router.post("/ingredients", ingredientControllers.postIngredient);
 
+router.get(
+  "/recipesIngredients/:id",
+  recipesIngredientsControllers.getRecipeIngredient
+);
+router.post(
+  "/recipesIngredients/:recipeId/:ingredientId",
+  recipesIngredientsControllers.postrecipeIngredient
+);
 router.post("/evaluations", evaluationControllers.postEvaluation);
+router.get("/evaluations/:recipeId", evaluationControllers.getByRecipe);
+
+router.get("/uploads", uploadControllers.getList);
+router.get("/uploads/:id", uploadControllers.getRecipeImage);
+router.post(
+  "/recipes/:id([0-9]+)/uploads",
+  upload.single("picture"),
+  uploadControllers.create
+);
+
 module.exports = router;

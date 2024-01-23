@@ -49,6 +49,15 @@ create table
         `difficulty` VARCHAR(255) NOT NULL,
         `prepTime` INT not NULL
     );
+    drop TABLE recipes;
+
+CREATE table `upload` (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    url VARCHAR(255) NOT NULL,
+    UNIQUE(url),
+    created_at TIMESTAMP default CURRENT_TIMESTAMP
+);
+alter TABLE `recipes` MODIFY picture INT, ADD CONSTRAINT fk_picture_upload_id FOREIGN KEY (picture) REFERENCES upload(id);
 
 CREATE table
     `ingredients` (
@@ -60,10 +69,12 @@ CREATE TABLE
     `recipes_ingredients` (
         `recipe_id` INT NOT NULL,
         `ingredient_id` INT NOT NULL,
-        `unite` INT NOT NULL,
-        `quantity` INT NOT NULL
+        `unite` VARCHAR(255) NOT NULL,
+        `quantity` INT NOT NULL,
+        Foreign Key (`recipe_id`) REFERENCES recipes(id),
+        Foreign Key (`ingredient_id`) REFERENCES ingredients(id)
     );
-
+drop table `recipes_ingredients`;
 CREATE TABLE
     `cathegories` (
         `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -73,34 +84,42 @@ CREATE TABLE
 CREATE TABLE
     `recipes_cathegories` (
         `recipe_id` INT NOT NULL,
-        `cathegory_id` INT NOT NULL
+        `cathegory_id` INT NOT NULL,
+        Foreign Key (`recipe_id`) REFERENCES recipes(id),
+        Foreign Key (`cathegory_id`) REFERENCES cathegories(id)
     );
-
+drop TABLE `recipes_cathegories`;
 CREATE TABLE
     `favorite_Recipes` (
         `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         `user_id` INT NOT NULL,
-        `recipe_id` INT NOT NULL
+        `recipe_id` INT NOT NULL,
+        Foreign Key (user_id) REFERENCES users(id),
+        Foreign Key (recipe_id) REFERENCES recipes(id)
     );
-
-CREATE table
+drop table `favorite_Recipes`;
+CREATE table 
     `evaluations` (
         `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         `user_id` INT NOT NULL,
         `recipe_id` INT NOT NULL,
         `comment` VARCHAR(255),
         `note` INT NOT NULL,
-        `commentDate` VARCHAR(255) NOT NULL
+        `commentDate` timestamp default CURRENT_TIMESTAMP,
+        `transformedDate` VARCHAR(255),
+        Foreign Key (user_id) REFERENCES users(id),
+        Foreign Key (recipe_id) REFERENCES recipes(id)
     );
-
+drop table `evaluations`;
 CREATE TABLE
     `steps` (
         `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         `recipe_id` INT NOT NULL,
         `description` VARCHAR(500) NOT NULL,
-        `position` INT NOT NULL
+        `position` INT NOT NULL,
+        Foreign Key (recipe_id) REFERENCES recipes(id)
     );
-
+drop table `steps`;
 INSERT INTO
     `recipes` (
         `userId`,
@@ -116,7 +135,7 @@ VALUES (
         "1",
         "Pâtes carbonara",
         "08/01/2024",
-        "null",
+        NULL,
         "4",
         "188",
         "facile",
@@ -125,7 +144,7 @@ VALUES (
         "2",
         "Pâtes bolognaise",
         "08/01/2024",
-        "null",
+        NULL,
         "4",
         "150",
         "facile",
@@ -134,13 +153,12 @@ VALUES (
         "3",
         "Pâtes au saumon",
         "08/01/2024",
-        "null",
+        NULL,
         "4",
         "100",
         "facile",
         "25"
     );
-
 INSERT INTO
     `recipes` (
         `userId`,
@@ -220,7 +238,7 @@ VALUES (
         "5",
         "Croziflette",
         "11/01/2024",
-        "null",
+        1,
         "4",
         "240",
         "Facile",
@@ -229,7 +247,7 @@ VALUES (
         "6",
         "Recette soufflé au Grand Marnier",
         "11/01/2024",
-        "null",
+        1,
         "6",
         "120",
         "Difficile",
@@ -238,9 +256,11 @@ VALUES (
         "7",
         " Recette pastilla de pigeon aux raisins blancs",
         "11/01/2024",
-        "null",
+        1,
         "6",
         "200",
         "Difficile",
         "45"
     );
+
+    
