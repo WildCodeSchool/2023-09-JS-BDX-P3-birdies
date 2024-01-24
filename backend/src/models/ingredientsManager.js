@@ -12,10 +12,10 @@ class IngredientManager extends AbstractManager {
     );
   }
 
-  async create(ingredients) {
+  async create(ingredient) {
     return this.database.query(
-      `insert into ${this.table} (ingredientName) values ?`,
-      [ingredients.map((ingredient) => [ingredient.name])]
+      `insert into ${this.table} (ingredientName) values (?)`,
+      [ingredient]
     );
   }
 }

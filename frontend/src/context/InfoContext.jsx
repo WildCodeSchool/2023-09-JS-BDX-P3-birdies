@@ -47,6 +47,7 @@ export function InfoContextProvider({ apiService }) {
   const [valueDifficulty, setValueDifficulty] = useState([]);
   const [foodFilter, setFoodFilter] = useState([]);
   const [foodDifficulty, setFoodDiddiculty] = useState([]);
+  const [cathegories, setCathegories] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
   const [showUserList, setShowUserList] = useState(true);
   const [showAllRecipes, setShowAllRecipes] = useState(false);
@@ -62,6 +63,22 @@ export function InfoContextProvider({ apiService }) {
   const [noMatchPassword, setNoMatchPassword] = useState(false);
   const [currentRecipeId, setCurrentRecipeId] = useState();
   const [recipePicture, setRecipePicture] = useState("");
+
+  useEffect(() => {
+    const getCathegories = async () => {
+      try {
+        const cath = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/cathegories`
+        );
+        setCathegories(cath.data);
+      } catch (err) {
+        console.error(err);
+        throw err;
+      }
+    };
+    getCathegories();
+  }, []);
+  console.info(cathegories);
 
   // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
   useEffect(() => {
@@ -202,7 +219,6 @@ export function InfoContextProvider({ apiService }) {
         `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${id}/steps`,
         credentials
       );
-      console.info(`recipeId : ${response.data.recipeId}`);
       return response;
     } catch (err) {
       console.error(err);
@@ -216,7 +232,49 @@ export function InfoContextProvider({ apiService }) {
     );
     return response;
   };
+  // recherche si un ingredient existe dans la table sinon le rajoute
+  const handleSubmitIngredients = async (element) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/ingredients/${element}`
+      );
+      return response;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+  // ajoute un ingredient à la table de jonction recipe_ingredient
+  const handleSubmitRecipeIngredients = async (
+    recipeId,
+    ingredientId,
+    product
+  ) => {
+    try {
+      const response = await axios.post(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/recipesIngredients/${recipeId}/${ingredientId}`,
+        product
+      );
+      console.info(response);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
 
+  const handleDeleteRecipeIngredients = async (id) => {
+    try {
+      const deletedRecipes = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipesIngredients/${id}`
+      );
+      return deletedRecipes;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
   const handleUpdateRecipe = async (data, recipeId) => {
     try {
       const updatedRecipe = await axios.put(
@@ -230,6 +288,18 @@ export function InfoContextProvider({ apiService }) {
     }
   };
 
+  const handleSubmitPicture = async (id, data) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${id}/uploads`,
+        data
+      );
+      return response;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
   const postComment = async (evaluation) => {
     try {
       await axios.post(
@@ -951,6 +1021,7 @@ export function InfoContextProvider({ apiService }) {
       addCommentVisible,
       apiService,
       basicSuccess,
+      cathegories,
       checkPassword,
       chosenRecipe,
       convertMinutesToTime,
@@ -975,9 +1046,13 @@ export function InfoContextProvider({ apiService }) {
       handleChangeComment,
       handleChangeFavorite,
       handleChangeSearch,
+      handleDeleteRecipeIngredients,
       handleDeleteSteps,
       handleLoginSubmit,
+      handleSubmitPicture,
       handleSubmitSteps,
+      handleSubmitIngredients,
+      handleSubmitRecipeIngredients,
       handleUpdateRecipe,
       infoLogin,
       infoSuccess,
@@ -1039,6 +1114,7 @@ export function InfoContextProvider({ apiService }) {
       addCommentVisible,
       apiService,
       basicSuccess,
+      cathegories,
       checkPassword,
       convertMinutesToTime,
       createUser,
@@ -1062,8 +1138,12 @@ export function InfoContextProvider({ apiService }) {
       handleChangeComment,
       handleChangeFavorite,
       handleChangeSearch,
+      handleDeleteRecipeIngredients,
       handleDeleteSteps,
       handleLoginSubmit,
+      handleSubmitIngredients,
+      handleSubmitRecipeIngredients,
+      handleSubmitPicture,
       handleSubmitSteps,
       handleUpdateRecipe,
       infoLogin,

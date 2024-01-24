@@ -13,7 +13,15 @@ import { Useinfo } from "../context/InfoContext";
 import FilterBar from "../components/NewRecice/FilterBar";
 
 function NewRecipe() {
-  const { displayDate, setBasicSuccess, user, handleSubmitSteps } = Useinfo();
+  const {
+    displayDate,
+    setBasicSuccess,
+    user,
+    handleSubmitSteps,
+    handleSubmitIngredients,
+    handleSubmitPicture,
+    handleSubmitRecipeIngredients,
+  } = Useinfo();
   const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
   const [image, setImage] = useState(); // ---> IMAGE A RECUPERER
@@ -30,6 +38,7 @@ function NewRecipe() {
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
   const stepsInfos = [];
   const filtersInfo = [];
+  const ingredientsInfos = [];
   const [chosenFilters, setChosenFilters] = useState([]);
   const newApiCall = async (ingredient) => {
     const response = await axios.get(
@@ -40,7 +49,7 @@ function NewRecipe() {
     );
     setIngredientsFound(productsList);
   };
-
+  console.info(ingreds);
   const handleRecipeSubmit = async (credentials) => {
     try {
       const response = await axios.post(
@@ -53,42 +62,7 @@ function NewRecipe() {
       throw err;
     }
   };
-  // const handleSubmitSteps = async (id, credentials) => {
-  //   try {
-  //     const response = await axios.post(
-  //       `http://localhost:3310/api/recipes/${id}/steps`,
-  //       credentials
-  //     );
-  //     console.info(`recipeId : ${response.data.recipeId}`);
-  //     return response;
-  //   } catch (err) {
-  //     console.error(err);
-  //     throw err;
-  //   }
-  // };
-  const handleSubmitPicture = async (id, data) => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${id}/uploads`,
-        data
-      );
-      console.info(response.data);
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  };
-  // const handleSubmitIngredients = async (element) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:3310/api/ingredients/${element}`
-  //     );
-  //     console.info(response);
-  //   } catch (err) {
-  //     console.error(err);
-  //     throw err;
-  //   }
-  // };
+
   // création du nom de la recette
   const handleNameChange = (e) => {
     setRecipeName(e.target.value);
@@ -209,7 +183,6 @@ function NewRecipe() {
   }
 
   const showAll = async () => {
-    const ingredientsInfos = [];
     // créer les objets ingrédients : nom, quantité, mesure
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < recipeIngredients.length; i++) {
@@ -245,9 +218,10 @@ function NewRecipe() {
       difficulty: difficultyEvaluation,
       prepTime: duration,
       cathegories: filtersInfo,
-      ingredients: recipeIngredients,
+      ingredients: ingredientsInfos,
     };
     console.info(recipe);
+    console.info(recipe.ingredients);
     setBasicSuccess((prev) => !prev);
     try {
       const response = await handleRecipeSubmit(recipe);
@@ -260,15 +234,29 @@ function NewRecipe() {
         answer.data.recipeId,
         formData
       );
-      console.info(imgResponse);
-      console.info(answer.data.recipeId);
-      // console.info(imgResponse);
+      // TODO fix this
+      for (const ingredient of recipe.ingredients) {
+        // eslint-disable-next-line no-await-in-loop
+        const ingredientsAnswer = await handleSubmitIngredients(
+          ingredient.name
+        );
+        console.info(ingredient);
+        console.info(imgResponse);
+        console.info(ingredientsInfos);
+        // eslint-disable-next-line no-await-in-loop
+        const recipeIngredient = await handleSubmitRecipeIngredients(
+          answer.data.recipeId,
+          ingredientsAnswer.data.id,
+          ingredient
+        );
+        console.info(recipeIngredient);
+      }
     } catch (err) {
       console.error(err);
       throw err;
     }
   };
-  console.info(image);
+
   return (
     <div className="page">
       <RecipeHeader />

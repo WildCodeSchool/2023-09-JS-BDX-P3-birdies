@@ -30,6 +30,7 @@ const ingredientControllers = require("./controllers/ingredientsControllers");
 const recipesIngredientsControllers = require("./controllers/RecipesIngredientsControllers");
 const evaluationControllers = require("./controllers/evaluationsControllers");
 const uploadControllers = require("./controllers/upload.controller");
+const cathegoriesControllers = require("./controllers/cathegoriesControllers");
 const { authMiddleware } = require("./middlewares/security/auth.middleware");
 
 router.get("/users", userControllers.getUsers);
@@ -58,8 +59,7 @@ router.get("/recipes/:id([0-9]+)/steps", stepControllers.getStep);
 router.delete("/recipes/:id/steps", stepControllers.deleteSteps);
 
 router.get("/ingredients", ingredientControllers.getIngredients);
-router.get("/ingredients/:name", ingredientControllers.findIngredient);
-router.post("/ingredients", ingredientControllers.postIngredient);
+router.get("/ingredients/:name", ingredientControllers.postIngredient);
 
 router.get(
   "/recipesIngredients/:id",
@@ -68,6 +68,10 @@ router.get(
 router.post(
   "/recipesIngredients/:recipeId/:ingredientId",
   recipesIngredientsControllers.postrecipeIngredient
+);
+router.delete(
+  "/recipesIngredients/:recipeId",
+  recipesIngredientsControllers.deleteRecipeIngredients
 );
 router.post("/evaluations", evaluationControllers.postEvaluation);
 router.get("/evaluations/:recipeId", evaluationControllers.getByRecipe);
@@ -85,5 +89,6 @@ router.post(
   upload.single("avatar"),
   uploadControllers.createAvatar
 );
+router.get("/cathegories", cathegoriesControllers.getCathegories);
 
 module.exports = router;
