@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
+import { Useinfo } from "../../context/InfoContext";
 
 function FilterBar({ chosenFilters, setChosenFilters }) {
+  const { cathegories } = Useinfo();
+
   const handleChangeFilter = (e) => {
     if (chosenFilters.includes(e.target.value)) {
       setChosenFilters(
@@ -10,21 +13,22 @@ function FilterBar({ chosenFilters, setChosenFilters }) {
       setChosenFilters([...chosenFilters, e.target.value]);
     }
   };
-  const filtersSelection = [
-    { name: "-30minutes" },
-    { name: "-1heure" },
-    { name: "Gourmand" },
-    { name: "Santé" },
-    { name: "Festif" },
-    { name: "Sportif" },
-    { name: "De saison" },
-    { name: "BBQ" },
-  ];
+  // const filtersSelection = [
+  //   { name: "-30minutes" },
+  //   { name: "-1heure" },
+  //   { name: "Gourmand" },
+  //   { name: "Santé" },
+  //   { name: "Festif" },
+  //   { name: "Sportif" },
+  //   { name: "De saison" },
+  //   { name: "BBQ" },
+  // ];
+
   return (
     <div className="tags">
       <h5>Tags :</h5>
       <div className="tags-container">
-        {filtersSelection.map((filter) => (
+        {cathegories.map((filter) => (
           <button
             type="button"
             key={filter.name}

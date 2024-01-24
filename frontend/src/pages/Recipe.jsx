@@ -99,7 +99,6 @@ function Recipe() {
         >
           {favoriteRecipes.includes(id) ? "❤️" : "🤍"}
         </button>
-        {/* C:\Users\sylva\Documents\2023-09-JS-BDX-P3-Birdies\backend\public\uploads\a3c2c731e0b4950403d1b5862eac52dc.jpg */}
         <img
           src={`${import.meta.env.VITE_BACKEND_URL}/${recipePicture.url}`}
           alt="recipe-img"
@@ -108,7 +107,6 @@ function Recipe() {
 
       <div className="recipe-body-container">
         <div className="rate-nutri-container">
-          {/* <img src={blocNutri} alt="bloc-nutri" /> */}
           <p>{recipe.energyPerPerson} kcal/portion</p>
           <div className="rate-container">
             <div className="stars">

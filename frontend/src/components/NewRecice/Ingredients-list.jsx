@@ -11,8 +11,10 @@ function IngredientsList({
   return (
     <div className="ingredients-list">
       {ingreds.map((ing, i) => (
-        <div key={ing.name} className="ingredient-line">
-          <div className="ingredient-line-name">- {ing.ingredientName}</div>
+        <div key={ing.name ?? ing.ingredientName} className="ingredient-line">
+          <div className="ingredient-line-name">
+            - {ing.name ?? ing.ingredientName}
+          </div>
           <div className="quantity_unite-area">
             <input
               type="text"
