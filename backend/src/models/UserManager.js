@@ -63,5 +63,12 @@ class UserManager extends AbstractManager {
       [user.role, id]
     );
   }
+
+  async addAvatar(user, id) {
+    return this.database.query(
+      `UPDATE ${this.table} SET avatar = ? WHERE id = ?`,
+      [user.avatar, id]
+    );
+  }
 }
 module.exports = UserManager;

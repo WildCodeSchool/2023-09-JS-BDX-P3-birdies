@@ -80,4 +80,10 @@ router.post(
   uploadControllers.create
 );
 
+router.post(
+  "/users/:id([0-9]+)/uploads",
+  upload.single("avatar"),
+  uploadControllers.createAvatar
+);
+
 module.exports = router;
