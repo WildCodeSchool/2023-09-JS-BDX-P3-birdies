@@ -36,6 +36,8 @@ export function InfoContextProvider({ apiService }) {
   const [chosenRecipe, setChosenRecipe] = useState({});
   // valeur de l'alerte pour post de commentaire
   const [basicSuccess, setBasicSuccess] = useState(false);
+  // où l'on stock les filtres cathégories des recettes
+  const [chosenFilters, setChosenFilters] = useState([]);
   const [infoSuccess, setInfoSuccess] = useState(false);
   const [infoLogin, setInfoLogin] = useState(false);
   const [userPicture, setUserPicture] = useState();
@@ -261,6 +263,18 @@ export function InfoContextProvider({ apiService }) {
         product
       );
       console.info(response);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+  const handleSubmitRecipeCathegories = async (id, array) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${id}/cathegories`,
+        array
+      );
+      return response;
     } catch (err) {
       console.error(err);
       throw err;
@@ -1027,6 +1041,8 @@ export function InfoContextProvider({ apiService }) {
       cathegories,
       checkPassword,
       chosenRecipe,
+      chosenFilters,
+      setChosenFilters,
       convertMinutesToTime,
       createUser,
       currentRecipeId,
@@ -1052,6 +1068,7 @@ export function InfoContextProvider({ apiService }) {
       handleDeleteRecipeIngredients,
       handleDeleteSteps,
       handleLoginSubmit,
+      handleSubmitRecipeCathegories,
       handleSubmitPicture,
       handleSubmitSteps,
       handleSubmitIngredients,
@@ -1119,6 +1136,8 @@ export function InfoContextProvider({ apiService }) {
       basicSuccess,
       cathegories,
       checkPassword,
+      chosenFilters,
+      setChosenFilters,
       convertMinutesToTime,
       createUser,
       currentRecipeId,
@@ -1144,6 +1163,7 @@ export function InfoContextProvider({ apiService }) {
       handleDeleteRecipeIngredients,
       handleDeleteSteps,
       handleLoginSubmit,
+      handleSubmitRecipeCathegories,
       handleSubmitIngredients,
       handleSubmitRecipeIngredients,
       handleSubmitPicture,

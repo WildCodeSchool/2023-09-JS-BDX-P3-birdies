@@ -14,9 +14,12 @@ import FilterBar from "../components/NewRecice/FilterBar";
 
 function NewRecipe() {
   const {
+    chosenFilters,
+    setChosenFilters,
     displayDate,
     setBasicSuccess,
     user,
+    handleSubmitRecipeCathegories,
     handleSubmitSteps,
     handleSubmitIngredients,
     handleSubmitPicture,
@@ -39,7 +42,7 @@ function NewRecipe() {
   const stepsInfos = [];
   const filtersInfo = [];
   const ingredientsInfos = [];
-  const [chosenFilters, setChosenFilters] = useState([]);
+  // const [chosenFilters, setChosenFilters] = useState([]);
   const newApiCall = async (ingredient) => {
     const response = await axios.get(
       `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriments`
@@ -251,6 +254,12 @@ function NewRecipe() {
         );
         console.info(recipeIngredient);
       }
+      const recipeCathegories = await handleSubmitRecipeCathegories(
+        answer.data.recipeId,
+        chosenFilters
+      );
+      setChosenFilters([]);
+      console.info(recipeCathegories);
     } catch (err) {
       console.error(err);
       throw err;
