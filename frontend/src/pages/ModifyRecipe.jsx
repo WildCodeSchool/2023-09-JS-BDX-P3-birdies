@@ -16,6 +16,9 @@ function ModifyRecipe() {
     handleUpdateRecipe,
     handleSubmitSteps,
     handleDeleteSteps,
+    handleDeleteRecipeIngredients,
+    handleSubmitIngredients,
+    handleSubmitRecipeIngredients,
   } = Useinfo();
   const { id } = useParams();
   const { recipeToModify, steps, ingredients } = useLoaderData();
@@ -33,10 +36,9 @@ function ModifyRecipe() {
   const modDifficulty =
     recipeToModify.difficulty[0].toUpperCase() +
     recipeToModify.difficulty.slice(1);
-  console.info(recipeToModify);
   const [ingreds, setIngreds] = useState(ingredients);
   const [recipeName, setRecipeName] = useState(recipeToModify.name);
-  const [image, setImage] = useState(undefined); // ---> IMAGE A RECUPERER
+  const [image, setImage] = useState(recipeToModify.url); // ---> IMAGE A RECUPERER
   console.info(image);
   const [duration, setDuration] = useState(recipeToModify.prepTime); // ---> TEMPS A RECUPERER
   const [difficultyEvaluation, setDifficultyEvaluation] =
@@ -109,7 +111,6 @@ function ModifyRecipe() {
           ? 0
           : filteredTry[0].nutriscore_data.energy,
     };
-    console.info(newIngredient);
     setRecipeIngredients([...ingreds, newIngredient]);
     setIngreds([...ingreds, { name: ingredientSearch }]);
     setIngredientSearch("");
@@ -187,7 +188,7 @@ function ModifyRecipe() {
 
     const recipe = {
       // id,
-      userId: "???",
+      userId: id,
       name: recipeName,
       // PublicationDate: chosenRecipe.date,
       // picture: image[0] === undefined ? chosenRecipe.picture : image[0],
@@ -209,12 +210,27 @@ function ModifyRecipe() {
       };
       stepsInfos.push(stepLine);
     }
-
     setInfoSuccess((prev) => !prev);
-    console.info(recipe);
     await handleUpdateRecipe(recipe, id);
     await handleDeleteSteps(id);
     await handleSubmitSteps(id, stepsInfos);
+    await handleDeleteRecipeIngredients(id);
+    // TODO: fix this lines
+    for (const ingredient of recipe.ingredients) {
+      // eslint-disable-next-line no-await-in-loop
+      const ingredientsAnswer = await handleSubmitIngredients(
+        ingredient.name.name
+      );
+      console.info(ingredient);
+      console.info(ingredientsInfos);
+      // eslint-disable-next-line no-await-in-loop
+      const recipeIngredient = await handleSubmitRecipeIngredients(
+        id,
+        ingredientsAnswer.data.id,
+        ingredient
+      );
+      console.info(recipeIngredient);
+    }
   };
   return (
     <div className="page">
@@ -229,7 +245,9 @@ function ModifyRecipe() {
         />
         <MDBFileUpload
           getInputFiles={(file) => setImage(file)}
-          // defaultFile={chosenRecipe.picture}
+          defaultFile={`${import.meta.env.VITE_BACKEND_URL}/${
+            recipeToModify.url
+          }`}
         />
         <label>
           Nombre de personnes :{/*  */}

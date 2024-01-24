@@ -8,7 +8,7 @@ class RecipesIngredientsManager extends AbstractManager {
   async create(ingredient, recipeId, ingredientId) {
     return this.database.query(
       `insert into ${this.table} (recipe_id, ingredient_id, unite, quantity) values (?, ?, ?, ?)`,
-      [recipeId, ingredientId, ingredient.unite, ingredient.quantity]
+      [recipeId, ingredientId, ingredient.mesure, ingredient.quantity]
     );
   }
 
@@ -19,6 +19,13 @@ class RecipesIngredientsManager extends AbstractManager {
       join ingredients as i on i.id = ri.ingredient_id 
       where recipe_id = ?`,
       [id]
+    );
+  }
+
+  async deleteAll(recipeId) {
+    return this.database.query(
+      `delete from ${this.table} where recipe_id = ?`,
+      [recipeId]
     );
   }
 }
