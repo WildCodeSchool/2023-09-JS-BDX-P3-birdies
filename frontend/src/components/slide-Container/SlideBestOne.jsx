@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { Link } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
 import star from "../../styles/icons/Star.png";
 
@@ -23,34 +24,35 @@ function SlideBestOne() {
     toogleFavorite(name);
     setReload(!reload);
   }
-
   return (
     <div className="slide-one-container">
       {getData.map((recipe) => (
-        <div className="card-container" key={recipe.id}>
-          <div className="content-container">
-            <h1>{recipe.name}</h1>
-            <div className="note-container">
-              <img className="star-picture" src={star} alt="star-img" />
-              {/* <div className="average">{Average(recipe.notes)}/5</div> */}
-            </div>
-            {/* <div className="votes-container">
+        <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
+          <div className="card-container">
+            <div className="content-container">
+              <h1>{recipe.name}</h1>
+              <div className="note-container">
+                <img className="star-picture" src={star} alt="star-img" />
+                {/* <div className="average">{Average(recipe.notes)}/5</div> */}
+              </div>
+              {/* <div className="votes-container">
                 <p id="votes-content">Date{recipe.publicationDate}</p>
               </div> */}
-          </div>
+            </div>
 
-          {/* <img src={} alt={recipe.name} /> */}
-          <div className="container-icon-recipe">
-            <button
-              className="btn-like-box"
-              type="button"
-              onClick={() => onLike(recipe.name)}
-            >
-              {likeBoites.get(recipe.name) ? "❤️" : "🤍"}
-            </button>
-            <span>{recipe.icon}</span>
+            {/* <img src={} alt={recipe.name} /> */}
+            <div className="container-icon-recipe">
+              <button
+                className="btn-like-box"
+                type="button"
+                onClick={() => onLike(recipe.name)}
+              >
+                {likeBoites.get(recipe.name) ? "❤️" : "🤍"}
+              </button>
+              <span>{recipe.icon}</span>
+            </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

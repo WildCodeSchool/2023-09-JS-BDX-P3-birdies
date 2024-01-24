@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import imgflower from "../styles/img/flower.png";
 import blocFiltre from "../styles/icons/Bloc lien filtres.png";
 import { Useinfo } from "../context/InfoContext";
@@ -8,8 +9,15 @@ function Filter() {
     filterListModify,
     displayFilter,
     setDisplayFilter,
+    getData,
   } = Useinfo();
-
+  const displayDifficult = (difficulty) => {
+    getData.filter((filter) => filter.difficulty === difficulty);
+    setDisplayFilter(displayFilter);
+  };
+  useEffect(() => {
+    displayDifficult();
+  }, []);
   return (
     <>
       <div className="container-filter">
