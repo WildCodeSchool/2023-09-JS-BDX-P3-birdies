@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
 import { Useinfo } from "../../context/InfoContext";
 
-function FilterBar({ chosenFilters, setChosenFilters }) {
-  const { cathegories } = Useinfo();
+function FilterBar() {
+  const { cathegories, chosenFilters, setChosenFilters } = Useinfo();
 
   const handleChangeFilter = (e) => {
+    console.info(typeof e.target.value, e.target.value);
     if (chosenFilters.includes(e.target.value)) {
       setChosenFilters(
         chosenFilters.filter((filter) => filter !== e.target.value)
@@ -13,16 +13,6 @@ function FilterBar({ chosenFilters, setChosenFilters }) {
       setChosenFilters([...chosenFilters, e.target.value]);
     }
   };
-  // const filtersSelection = [
-  //   { name: "-30minutes" },
-  //   { name: "-1heure" },
-  //   { name: "Gourmand" },
-  //   { name: "Santé" },
-  //   { name: "Festif" },
-  //   { name: "Sportif" },
-  //   { name: "De saison" },
-  //   { name: "BBQ" },
-  // ];
 
   return (
     <div className="tags">
@@ -32,9 +22,9 @@ function FilterBar({ chosenFilters, setChosenFilters }) {
           <button
             type="button"
             key={filter.name}
-            value={filter.name}
+            value={filter.id}
             className={
-              chosenFilters.includes(filter.name)
+              chosenFilters.includes(filter.id)
                 ? "filter-button clicked"
                 : "filter-button"
             }
@@ -47,9 +37,5 @@ function FilterBar({ chosenFilters, setChosenFilters }) {
     </div>
   );
 }
-FilterBar.propTypes = {
-  chosenFilters: PropTypes.arrayOf.isRequired,
-  setChosenFilters: PropTypes.func.isRequired,
-};
 
 export default FilterBar;
