@@ -31,6 +31,7 @@ const recipesIngredientsControllers = require("./controllers/RecipesIngredientsC
 const evaluationControllers = require("./controllers/evaluationsControllers");
 const uploadControllers = require("./controllers/upload.controller");
 const cathegoriesControllers = require("./controllers/cathegoriesControllers");
+const recipesCathegoriesControllers = require("./controllers/recipeCathegoriesControllers");
 const { authMiddleware } = require("./middlewares/security/auth.middleware");
 
 router.get("/users", userControllers.getUsers);
@@ -54,27 +55,27 @@ router.post("/recipes", recipeControllers.postRecipe);
 router.put("/recipes/recipe/:id", recipeControllers.updateRecipe);
 router.delete("/recipes", recipeControllers.deleteRecipe);
 
-router.post("/recipes/:id([0-9]+)/steps", stepControllers.postStep);
 router.get("/recipes/:id([0-9]+)/steps", stepControllers.getStep);
+router.post("/recipes/:id([0-9]+)/steps", stepControllers.postStep);
 router.delete("/recipes/:id/steps", stepControllers.deleteSteps);
 
 router.get("/ingredients", ingredientControllers.getIngredients);
 router.get("/ingredients/:name", ingredientControllers.postIngredient);
 
 router.get(
-  "/recipesIngredients/:id",
+  "/recipesIngredients/:id([0-9]+)",
   recipesIngredientsControllers.getRecipeIngredient
 );
 router.post(
-  "/recipesIngredients/:recipeId/:ingredientId",
+  "/recipesIngredients/:recipeId([0-9]+)/:ingredientId([0-9]+)",
   recipesIngredientsControllers.postrecipeIngredient
 );
 router.delete(
-  "/recipesIngredients/:recipeId",
+  "/recipesIngredients/:recipeId([0-9]+)",
   recipesIngredientsControllers.deleteRecipeIngredients
 );
+router.get("/evaluations/:recipeId([0-9]+)", evaluationControllers.getByRecipe);
 router.post("/evaluations", evaluationControllers.postEvaluation);
-router.get("/evaluations/:recipeId", evaluationControllers.getByRecipe);
 
 router.get("/uploads", uploadControllers.getList);
 router.get("/uploads/:id", uploadControllers.getRecipeImage);
@@ -90,5 +91,8 @@ router.post(
   uploadControllers.createAvatar
 );
 router.get("/cathegories", cathegoriesControllers.getCathegories);
-
+router.post(
+  "/recipes/:id([0-9]+)/cathegories",
+  recipesCathegoriesControllers.postRecipeCathegories
+);
 module.exports = router;
