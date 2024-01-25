@@ -199,23 +199,23 @@ export function InfoContextProvider({ apiService }) {
       );
       setGetDataName(res.data);
     } catch (err) {
-      console.error(err.res.data);
+      console.error(err);
       setGetDataName();
     }
   };
 
-  const getRecipesDifficulty = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${valueDifficulty}`
-      );
-      console.info(response.data);
-      setGetDataName(response.data);
-    } catch (err) {
-      console.error(err.response.data);
-      setGetDataName();
-    }
-  };
+  // const getRecipesDifficulty = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${valueDifficulty}`
+  //     );
+  //     console.info(response.data);
+  //     setGetDataName(response.data);
+  //   } catch (err) {
+  //     console.error(err.response.data);
+  //     setGetDataName();
+  //   }
+  // };
   console.info(foodFilter);
 
   const handleSubmitSteps = async (id, credentials) => {
@@ -339,9 +339,9 @@ export function InfoContextProvider({ apiService }) {
   useEffect(() => {
     getRecipesName();
   }, [inputSearchValue]);
-  useEffect(() => {
-    getRecipesDifficulty();
-  }, [valueDifficulty]);
+  // useEffect(() => {
+  //   getRecipesDifficulty();
+  // }, [valueDifficulty]);
   useEffect(() => {
     getRecipes();
   }, []);

@@ -26,31 +26,33 @@ function SlideBestThree() {
   return (
     <div className="slide-one-container">
       {recipes.map((recipe) => (
-        <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
-          <div className="card-container">
-            <div className="content-container">
-              <h1>{recipe.name}</h1>
-              <div className="note-container">
-                <img className="star-picture" src={star} alt="star-img" />
-                <div className="average">{Average(recipe.notes)}/5</div>
+        <div className="slide-best-one-conatiner" key={recipe.id}>
+          <Link to={`/recipes/${recipe.id}`}>
+            <div className="card-container">
+              <div className="content-container">
+                <h1>{recipe.name}</h1>
+                <div className="note-container">
+                  <img className="star-picture" src={star} alt="star-img" />
+                  <div className="average">{Average(recipe.notes)}/5</div>
+                </div>
+                <div className="votes-container">
+                  <p id="votes-content">{recipe.notes.length} votes</p>
+                </div>
               </div>
-              <div className="votes-container">
-                <p id="votes-content">{recipe.notes.length} votes</p>
-              </div>
+              <img src={recipe.picture} alt={recipe.name} />
             </div>
-            <img src={recipe.picture} alt={recipe.name} />
-            <div className="container-icon-recipe">
-              <button
-                className="btn-like-box"
-                type="button"
-                onClick={() => onLike(recipe.name)}
-              >
-                {likeBoites.get(recipe.name) ? "❤️" : "🤍"}
-              </button>
-              <span>{recipe.icon}</span>
-            </div>
+          </Link>
+          <div className="container-icon-recipe">
+            <button
+              className="btn-like-box"
+              type="button"
+              onClick={() => onLike(recipe.name)}
+            >
+              {likeBoites.get(recipe.name) ? "❤️" : "🤍"}
+            </button>
+            <span>{recipe.icon}</span>
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );
