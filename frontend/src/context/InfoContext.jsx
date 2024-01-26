@@ -1013,11 +1013,11 @@ export function InfoContextProvider({ apiService }) {
         user.id
       }/favoriteRecipes/${e.target.value}`
     );
-    // const userFavoriteRecipes = answer.data;
-    // const favoriteIds = userFavoritesRecipes.map(
-    //   (userFavorite) => userFavorite.recipe_id
-    // );
-    // setFavoriteRecipes(favoriteIds);
+    const userFavoriteRecipes = answer.data;
+    const favoriteIds = userFavoriteRecipes.map(
+      (userFavorite) => userFavorite.recipe_id
+    );
+    setFavoriteRecipes(favoriteIds);
     console.info(answer);
   };
 

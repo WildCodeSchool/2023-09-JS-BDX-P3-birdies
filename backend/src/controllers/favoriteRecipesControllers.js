@@ -15,22 +15,18 @@ const getFavorite = async (req, res) => {
   const recipeId = parseInt(req.params.recipeId, 10);
   try {
     const [response] = await models.favoriteRecipes.find(userId, recipeId);
-    if (response.length !== 0) {
-      const [answer] = await models.favoriteRecipes.delete(userId, recipeId);
-      res.status(204).send(answer);
-    } else {
-      const [newAnswer] = await models.favoriteRecipes.post(userId, recipeId);
-      res.status(200).send(newAnswer);
-    }
+    await models.favoriteRecipes[response.length ? "delete" : "post"](
+      userId,
+      recipeId
+    );
     const [favoriteRecipes] = await models.favoriteRecipes.findAllFavorites(
       userId
     );
     console.info(favoriteRecipes);
-    return favoriteRecipes;
+    return res.send(favoriteRecipes);
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).send(err);
   }
-  return null;
 };
 
 const postFavorite = async (req, res) => {
