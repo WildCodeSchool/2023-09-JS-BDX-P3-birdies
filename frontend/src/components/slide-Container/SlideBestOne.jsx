@@ -1,28 +1,20 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 import { Useinfo } from "../../context/InfoContext";
 import star from "../../styles/icons/Star.png";
 
 function SlideBestOne() {
-  const { getData } = Useinfo();
+  const { getData, favoriteRecipes, manageFavoriteRecipes } = Useinfo();
 
   // const [apiBoites, setApiBoites] = useState([]);
-  const [likeBoites, setLikeBoites] = useState(new Map());
+  // const [likeBoites, setLikeBoites] = useState(new Map());
 
-  async function toogleFavorite(name) {
-    likeBoites.set(name, likeBoites.has(name) ? !likeBoites.get(name) : true); // fonction favorite
+  // async function toogleFavorite(name) {
+  //   likeBoites.set(name, likeBoites.has(name) ? !likeBoites.get(name) : true); // fonction favorite
 
-    setLikeBoites(likeBoites);
-    // setApiBoites(apiBoites);
-  }
-
-  const [reload, setReload] = useState(false);
-
-  useEffect(() => {}, [reload]);
-  function onLike(name) {
-    toogleFavorite(name);
-    setReload(!reload);
-  }
+  //   setLikeBoites(likeBoites);
+  // setApiBoites(apiBoites);
+  // }
 
   return (
     <div className="slide-one-container">
@@ -44,9 +36,10 @@ function SlideBestOne() {
             <button
               className="btn-like-box"
               type="button"
-              onClick={() => onLike(recipe.name)}
+              value={recipe.id}
+              onClick={manageFavoriteRecipes}
             >
-              {likeBoites.get(recipe.name) ? "❤️" : "🤍"}
+              {favoriteRecipes.includes(parseInt(recipe.id, 10)) ? "❤️" : "🤍"}
             </button>
             <span>{recipe.icon}</span>
           </div>
