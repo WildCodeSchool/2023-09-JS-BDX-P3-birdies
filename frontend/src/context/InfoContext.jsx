@@ -1018,7 +1018,6 @@ export function InfoContextProvider({ apiService }) {
       (userFavorite) => userFavorite.recipe_id
     );
     setFavoriteRecipes(favoriteIds);
-    console.info(answer);
   };
 
   function convertMinutesToTime(value) {

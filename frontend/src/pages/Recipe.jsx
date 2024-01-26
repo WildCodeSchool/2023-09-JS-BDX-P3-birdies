@@ -10,7 +10,6 @@ import chefHat from "../styles/icons/Chef Hat.png";
 import star from "../styles/icons/Star.png";
 import pdf from "../styles/icons/Downloads Folder.png";
 import deliveryTime from "../styles/icons/Delivery Time.png";
-// import blocNutri from "../styles/icons/Bloc nutriscore.png";
 import logo from "../styles/icons/logo.png";
 import { Useinfo } from "../context/InfoContext";
 import CommentCard from "../components/CommentCard";
@@ -22,7 +21,6 @@ function Recipe() {
     HandleRecipeNote,
     Average,
     favoriteRecipes,
-    // handleChangeFavorite,
     basicSuccess,
     setBasicSuccess,
     addCommentVisible,
@@ -44,9 +42,8 @@ function Recipe() {
     setCurrentRecipeId(recipe.id);
     getRecipePicture(recipe.picture);
   }, []);
-
   const notation = comments.map((comment) => (comment.note ? comment.note : 0));
-  const averageNote = Average(notation);
+  const averageNote = comments.length === 0 ? 0 : Average(notation);
   const totalVotes = notation.length;
   const recipeIngredients = ingredients;
   const [guestsNumber, setGuestsNumber] = useState(recipe.peopleNumber);
@@ -185,7 +182,7 @@ function Recipe() {
                 pagination="true"
               >
                 {steps.map((step, index) => (
-                  <swiper-slide autoHeight="true" key={steps.description}>
+                  <swiper-slide autoHeight="true" key={step.description}>
                     <div className="step-container">
                       <div className="step-title">{index + 1}.</div>
                       <div className="step-text">

@@ -22,7 +22,6 @@ const getFavorite = async (req, res) => {
     const [favoriteRecipes] = await models.favoriteRecipes.findAllFavorites(
       userId
     );
-    console.info(favoriteRecipes);
     return res.send(favoriteRecipes);
   } catch (err) {
     return res.status(500).send(err);
