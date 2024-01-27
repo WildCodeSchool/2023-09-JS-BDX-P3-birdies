@@ -95,4 +95,7 @@ router.post(
   "/recipes/:id([0-9]+)/cathegories",
   recipesCathegoriesControllers.postRecipeCathegories
 );
+
+router.get("/users/:email/userRecipes", recipeControllers.recipeByUserEmail);
+
 module.exports = router;

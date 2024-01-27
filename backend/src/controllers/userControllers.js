@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const models = require("../models");
 
 function generateAccessToken(data) {
-  return jwt.sign(data, process.env.APP_SECRET, { expiresIn: "3600s" });
+  return jwt.sign(data, process.env.APP_SECRET, { expiresIn: "36000s" });
 }
 const getUsers = (_, res) => {
   models.user

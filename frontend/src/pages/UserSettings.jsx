@@ -58,7 +58,7 @@ export default function UserSettings() {
       {everyInfo ? (
         <>
           <div className="info-parameters">
-            <Link className="back-arrow" to="/">
+            <Link className="back-arrow" to="/userpage">
               <img src={replyArrow} alt="Retour" />
             </Link>
             <MDBFileUpload

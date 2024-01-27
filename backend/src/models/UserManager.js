@@ -30,6 +30,22 @@ class UserManager extends AbstractManager {
     return result ? user : undefined;
   }
 
+  async getUserByEmail(email) {
+    const [rows] = await this.database.query(
+      `select * from ${this.table} where email like ?`,
+      [email]
+    );
+
+    if (!rows.length) {
+      return undefined;
+    }
+
+    const user = rows[0];
+    delete user.password;
+
+    return user;
+  }
+
   getProfile(id) {
     return this.database.query(
       `SELECT id, email, pseudo, firstname, lastname, role FROM ${this.table} WHERE id = ?`,
