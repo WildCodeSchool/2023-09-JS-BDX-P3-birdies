@@ -1,6 +1,6 @@
 // const { compareSync } = require("bcrypt");
 const models = require("../models");
-
+// a supprimer ???????
 const getRecipes = (req, res) => {
   models.recipe
     .findAll(req.query)
@@ -11,6 +11,17 @@ const getRecipes = (req, res) => {
       console.error(err);
       res.status(500).send({ error: err.message });
     });
+};
+
+const getLastRecipes = (req, res) => {
+  const number = parseInt(req.params.number, 10);
+  try {
+    models.recipe.findLastRecipes(number).then(([response]) => {
+      res.send(response);
+    });
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
 const getRecipesName = (req, res) => {
@@ -127,6 +138,7 @@ const recipeByUserEmail = async (req, res) => {
 
 module.exports = {
   deleteRecipe,
+  getLastRecipes,
   getRecipeById,
   getRecipes,
   getRecipesDifficulty,

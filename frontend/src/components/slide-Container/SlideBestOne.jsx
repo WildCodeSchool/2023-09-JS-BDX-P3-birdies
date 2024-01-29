@@ -5,7 +5,7 @@ import { Useinfo } from "../../context/InfoContext";
 import star from "../../styles/icons/Star.png";
 
 function SlideBestOne() {
-  const { getData, favoriteRecipes, manageFavoriteRecipes } = Useinfo();
+  const { lastRecipes, favoriteRecipes, manageFavoriteRecipes } = Useinfo();
 
   // const [apiBoites, setApiBoites] = useState([]);
   // const [likeBoites, setLikeBoites] = useState(new Map());
@@ -19,7 +19,7 @@ function SlideBestOne() {
 
   return (
     <div className="slide-one-container">
-      {(getData ?? []).map((recipe) => (
+      {(lastRecipes ?? []).map((recipe) => (
         <div className="slide-best-one-conatiner" key={recipe.id}>
           <Link to={`/recipes/${recipe.id}`}>
             <div className="card-container">

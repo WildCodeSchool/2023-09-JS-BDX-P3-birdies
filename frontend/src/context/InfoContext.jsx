@@ -38,6 +38,7 @@ export function InfoContextProvider({ apiService }) {
   const [basicSuccess, setBasicSuccess] = useState(false);
   // où l'on stock les filtres cathégories des recettes
   const [chosenFilters, setChosenFilters] = useState([]);
+  const [lastRecipes, setLastRecipes] = useState([]);
   const [infoSuccess, setInfoSuccess] = useState(false);
   const [infoLogin, setInfoLogin] = useState(false);
   const [userPicture, setUserPicture] = useState();
@@ -164,7 +165,7 @@ export function InfoContextProvider({ apiService }) {
     localStorage.clear();
     return navigate("/slideone");
   };
-
+  // a supprimer ????
   const getRecipes = async () => {
     try {
       const res = await axios.get(
@@ -176,6 +177,19 @@ export function InfoContextProvider({ apiService }) {
       setGetData();
     }
   };
+  const getLastRecipes = async (number) => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/lastRecipes/${number}`
+      );
+      setLastRecipes(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    getLastRecipes(5);
+  }, []);
 
   const getRecipePicture = async (recipePictureId) => {
     const response = await axios.get(
@@ -252,13 +266,12 @@ export function InfoContextProvider({ apiService }) {
     product
   ) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `${
           import.meta.env.VITE_BACKEND_URL
         }/api/recipesIngredients/${recipeId}/${ingredientId}`,
         product
       );
-      console.info(response);
     } catch (err) {
       console.error(err);
       throw err;
@@ -342,13 +355,11 @@ export function InfoContextProvider({ apiService }) {
   useEffect(() => {
     getRecipes();
   }, []);
-
+  // donne la liste de toutes les recettes favorites de l'utilisateur
   useEffect(() => {
     const showFavorites = async (person) => {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/user/${
-          person.id
-        }/favoriteRecipes`
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${person.id}/userRecipes`
       );
       const favs = response.data;
       const favoritesIds = favs.map((fav) => parseInt(fav.recipe_id, 10));
@@ -1101,6 +1112,8 @@ export function InfoContextProvider({ apiService }) {
       infoLogin,
       infoSuccess,
       inputSearchValue,
+      lastRecipes,
+      setLastRecipes,
       logout,
       manageFavoriteRecipes,
       noMatchPassword,
@@ -1198,6 +1211,8 @@ export function InfoContextProvider({ apiService }) {
       infoLogin,
       infoSuccess,
       inputSearchValue,
+      lastRecipes,
+      setLastRecipes,
       logout,
       manageFavoriteRecipes,
       noMatchPassword,
