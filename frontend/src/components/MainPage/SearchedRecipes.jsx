@@ -1,19 +1,23 @@
 import TinderCard from "react-tinder-card";
 import React, { useMemo, useRef, useState } from "react";
 // import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
 import star from "../../styles/icons/Star.png";
 
 function SearchedRecipes() {
-  const { getDataName, getRecipeByID } = Useinfo();
-  const [currentIndex, setCurrentIndex] = useState(getDataName.length - 1);
+  const { getData } = Useinfo();
+  const [currentIndex, setCurrentIndex] = useState(getData.length - 1);
   const [lastDirection, setLastDirection] = useState();
   // used for out of frame closure
   const currentIndexRef = useRef(currentIndex);
   console.info(lastDirection);
+
+  const navigate = useNavigate();
+
   const childRefs = useMemo(
     () =>
-      Array(getDataName.length)
+      Array(getData.length)
         .fill(0)
         .map(() => React.createRef()),
     []
@@ -24,7 +28,7 @@ function SearchedRecipes() {
     currentIndexRef.current = val;
   };
 
-  const canGoBack = currentIndex < getDataName.length - 1;
+  const canGoBack = currentIndex < getData.length - 1;
 
   const canSwipe = currentIndex >= 0;
 
@@ -40,7 +44,7 @@ function SearchedRecipes() {
     // currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
   const swipe = async (dir) => {
-    if (canSwipe && currentIndex < getDataName.length) {
+    if (canSwipe && currentIndex < getData.length) {
       await childRefs[currentIndex].current.swipe(dir); // swipe the card !
     }
   };
@@ -78,11 +82,11 @@ function SearchedRecipes() {
       </div>
 
       <div className="card-container">
-        {getDataName.map((recipe, index) => (
+        {getData.map((recipe, index) => (
           <TinderCard
             className="swipe"
             ref={childRefs[index]}
-            key={recipe.name}
+            key={recipe.id}
             onSwipe={(dir) => swiped(dir, recipe.name, index)}
             onCardLeftScreen={() => outOfFrame(recipe.name, index)}
           >
@@ -90,7 +94,7 @@ function SearchedRecipes() {
               <button
                 type="button"
                 className="pressable"
-                onClick={() => getRecipeByID(recipe.id)}
+                onClick={() => navigate(`/recipes/${recipe.id}`)}
               >
                 Voir
               </button>
