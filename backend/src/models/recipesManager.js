@@ -51,7 +51,11 @@ class RecipeManager extends AbstractManager {
       `SELECT * from ${this.table} WHERE difficulty = ${difficult}`
     );
   }
-
+  async findLastRecipes(number) {
+    return this.database.query(
+      `SELECT * from ${this.table} ORDER BY id DESC limit ${number}`
+    );
+  }
   async findAllByUserId(userId) {
     return this.database.query(
       `SELECT * from ${this.table} WHERE userId = ${userId}`

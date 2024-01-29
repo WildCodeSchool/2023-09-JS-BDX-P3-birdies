@@ -62,7 +62,7 @@ router.delete("/recipes/:id/steps", stepControllers.deleteSteps);
 
 router.get("/ingredients", ingredientControllers.getIngredients);
 router.get("/ingredients/:name", ingredientControllers.postIngredient);
-
+router.get("/lastRecipes/:number", recipeControllers.getLastRecipes);
 router.get(
   "/recipesIngredients/:id([0-9]+)",
   recipesIngredientsControllers.getRecipeIngredient
