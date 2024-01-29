@@ -17,7 +17,7 @@ function AllRecipes() {
     } catch (err) {
       console.warn(err);
     }
-  }, [allRecipes]);
+  }, []);
 
   const handleDelete = async (id) => {
     try {

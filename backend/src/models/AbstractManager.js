@@ -10,11 +10,9 @@ class AbstractManager {
     ]);
   }
 
-  findAll(params = {}, dataValue = {}) {
+  findAll(dataValue = {}) {
     let query = `select * from  ${this.table}`;
     const values = [];
-    console.info("findAll", params, query, values);
-    console.info(Object.entries(params));
 
     for (const [key, value] of Object.entries(dataValue)) {
       query += `${values.length ? "," : ""} ${key} = ?`;

@@ -42,6 +42,7 @@ router.post("/users", userControllers.postUser);
 router.post("/login", userControllers.postLogin);
 router.delete("/users/:id([0-9]+)", userControllers.deleteUser);
 router.put("/users/:id([0-9]+)", userControllers.updateUser);
+router.patch("/users/:id([0-9]+)", userControllers.updateUserRole);
 
 router.get("/recipes", recipeControllers.getRecipes);
 router.get(
@@ -85,6 +86,11 @@ router.post(
   uploadControllers.create
 );
 
+router.post(
+  "/users/:id([0-9]+)/uploads",
+  upload.single("avatar"),
+  uploadControllers.createAvatar
+);
 router.get("/cathegories", cathegoriesControllers.getCathegories);
 router.post(
   "/recipes/:id([0-9]+)/cathegories",
