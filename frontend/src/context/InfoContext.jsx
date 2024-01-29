@@ -198,7 +198,7 @@ export function InfoContextProvider({ apiService }) {
       );
       setGetDataName(res.data);
     } catch (err) {
-      console.error(err.res.data);
+      console.error(err);
       setGetDataName();
     }
   };
@@ -337,9 +337,9 @@ export function InfoContextProvider({ apiService }) {
   useEffect(() => {
     getRecipesName();
   }, [inputSearchValue]);
-  useEffect(() => {
-    getRecipesDifficulty();
-  }, [valueDifficulty]);
+  // useEffect(() => {
+  //   getRecipesDifficulty();
+  // }, [valueDifficulty]);
   useEffect(() => {
     getRecipes();
   }, []);

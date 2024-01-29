@@ -1,5 +1,6 @@
 // import { useEffect, useState } from "react";
 
+import { Link } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
 import star from "../../styles/icons/Star.png";
 
@@ -19,19 +20,23 @@ function SlideBestOne() {
   return (
     <div className="slide-one-container">
       {getData.map((recipe) => (
-        <div className="card-container" key={recipe.id}>
-          <div className="content-container">
-            <h1>{recipe.name}</h1>
-            <div className="note-container">
-              <img className="star-picture" src={star} alt="star-img" />
-              {/* <div className="average">{Average(recipe.notes)}/5</div> */}
-            </div>
-            {/* <div className="votes-container">
+        <div className="slide-best-one-conatiner" key={recipe.id}>
+          <Link to={`/recipes/${recipe.id}`}>
+            <div className="card-container">
+              <div className="content-container">
+                <h1>{recipe.name}</h1>
+                <div className="note-container">
+                  <img className="star-picture" src={star} alt="star-img" />
+                  {/* <div className="average">{Average(recipe.notes)}/5</div> */}
+                </div>
+                {/* <div className="votes-container">
                 <p id="votes-content">Date{recipe.publicationDate}</p>
               </div> */}
-          </div>
+              </div>
 
-          {/* <img src={} alt={recipe.name} /> */}
+              {/* <img src={} alt={recipe.name} /> */}
+            </div>
+          </Link>
           <div className="container-icon-recipe">
             <button
               className="btn-like-box"
