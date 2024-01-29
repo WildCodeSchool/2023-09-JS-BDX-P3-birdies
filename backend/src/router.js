@@ -49,7 +49,7 @@ router.get(
   "/recipes/:difficulty([a-z]+)",
   recipeControllers.getRecipesDifficulty
 );
-router.get("/recipes/:name([a-z]+)", recipeControllers.getRecipesName);
+// router.get("/recipes/:name([a-z]+)", recipeControllers.getRecipesName);
 router.get("/recipes/:id([0-9]+)", recipeControllers.getRecipeById);
 router.post("/recipes", recipeControllers.postRecipe);
 
@@ -62,7 +62,7 @@ router.delete("/recipes/:id/steps", stepControllers.deleteSteps);
 
 router.get("/ingredients", ingredientControllers.getIngredients);
 router.get("/ingredients/:name", ingredientControllers.postIngredient);
-
+router.get("/lastRecipes/:number", recipeControllers.getLastRecipes);
 router.get(
   "/recipesIngredients/:id([0-9]+)",
   recipesIngredientsControllers.getRecipeIngredient

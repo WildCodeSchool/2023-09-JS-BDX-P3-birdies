@@ -1,16 +1,25 @@
 // const { compareSync } = require("bcrypt");
 const models = require("../models");
 
-const getRecipes = (req, res) => {
-  models.recipe
-    .findAll(req.query)
-    .then(([response]) => {
-      res.status(200).send(response);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send({ error: err.message });
+const getRecipes = async (req, res) => {
+  try {
+    const [response] = await models.recipe.findAll(req.query);
+    res.status(200).send(response);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: err.message });
+  }
+};
+
+const getLastRecipes = (req, res) => {
+  const number = parseInt(req.params.number, 10);
+  try {
+    models.recipe.findLastRecipes(number).then(([response]) => {
+      res.send(response);
     });
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
 const getRecipesName = (req, res) => {
@@ -127,6 +136,7 @@ const recipeByUserEmail = async (req, res) => {
 
 module.exports = {
   deleteRecipe,
+  getLastRecipes,
   getRecipeById,
   getRecipes,
   getRecipesDifficulty,

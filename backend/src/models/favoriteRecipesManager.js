@@ -5,6 +5,16 @@ class FavoriteRecipesManager extends AbstractManager {
     super({ table: "favorite_recipes" });
   }
 
+  async findUserFavorites(userId) {
+    return this.database.query(
+      `select recipe_id, recipes.name, recipes.publicationDate, recipes.picture 
+      from ${this.table}
+      join recipes on favorite_recipes.recipe_id = recipes.id 
+      where user_id = ?`,
+      [userId]
+    );
+  }
+
   async findAllFavorites(userId) {
     return this.database.query(
       `select * from ${this.table} where user_id = ?`,

@@ -9,6 +9,7 @@ import SearchedRecipes from "./components/MainPage/SearchedRecipes";
 function App() {
   const {
     user,
+    // foodDifficulty,
     inputSearchValue,
     basicSuccess,
     setBasicSuccess,
@@ -57,7 +58,7 @@ function App() {
       </MDBAlert>
 
       <Filter />
-      {inputSearchValue === "" ? <Slides /> : <SearchedRecipes />}
+      {inputSearchValue !== "" ? <SearchedRecipes /> : <Slides />}
     </>
   );
 }
