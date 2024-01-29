@@ -114,4 +114,6 @@ router.delete(
   favoriteRecipesControllers.deleteFavorite
 );
 
+router.get("/users/:email/userRecipes", recipeControllers.recipeByUserEmail);
+
 module.exports = router;
