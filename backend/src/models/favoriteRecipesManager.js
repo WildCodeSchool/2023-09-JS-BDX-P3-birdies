@@ -7,7 +7,10 @@ class FavoriteRecipesManager extends AbstractManager {
 
   async findAllFavorites(userId) {
     return this.database.query(
-      `select * from ${this.table} where user_id = ?`,
+      `select favorite_recipes.user_id, recipes.name, recipes.publicationDate, recipes.picture 
+      from ${this.table}
+      join recipes on favorite_recipes.id = recipes.id 
+      where user_id = ?`,
       [userId]
     );
   }
