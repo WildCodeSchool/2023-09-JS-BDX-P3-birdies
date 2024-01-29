@@ -51,6 +51,21 @@ class RecipeManager extends AbstractManager {
       `SELECT * from ${this.table} WHERE difficulty = ${difficult}`
     );
   }
+
+  async findAllByUserId(userId) {
+    return this.database.query(
+      `SELECT * from ${this.table} WHERE userId = ${userId}`
+    );
+  }
+
+  async findAllByUserEmail(email) {
+    const [user] = await this.database.query(
+      `SELECT * from users WHERE email = '${email}'`
+    );
+    return this.database.query(
+      `SELECT * from recipes WHERE userId = ${user[0].id}`
+    );
+  }
 }
 
 module.exports = RecipeManager;

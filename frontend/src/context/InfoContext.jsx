@@ -214,7 +214,6 @@ export function InfoContextProvider({ apiService }) {
       setGetDataName();
     }
   };
-
   const handleSubmitSteps = async (id, credentials) => {
     try {
       const response = await axios.post(
@@ -1153,6 +1152,7 @@ export function InfoContextProvider({ apiService }) {
       validPassword,
       validPseudo,
       valueDifficulty,
+      getRecipesDifficulty,
     }),
     [
       Average,
@@ -1245,6 +1245,7 @@ export function InfoContextProvider({ apiService }) {
       validPassword,
       validPseudo,
       valueDifficulty,
+      getRecipesDifficulty,
     ]
   );
   return (

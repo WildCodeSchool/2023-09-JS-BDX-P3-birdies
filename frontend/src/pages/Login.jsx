@@ -87,7 +87,9 @@ function Login() {
           <div className="not-connected">
             <div className="lost-password">
               Mot de passe oublié?
-              <span className="click-here"> Cliquez ici </span>
+              <Link to="/lostPassword">
+                <span className="click-here"> Cliquez ici </span>
+              </Link>
             </div>
             <div className="not-member">
               Toujours pas membre?

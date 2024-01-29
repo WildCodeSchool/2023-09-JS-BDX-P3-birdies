@@ -97,6 +97,34 @@ const deleteRecipe = (req, res) => {
     });
 };
 
+const recipeByUser = async (req, res) => {
+  try {
+    const id = +req.params.id;
+
+    // if (!user) {
+    //   return res.status(404).json({ error: "User not found" });
+    // }
+    const [recipes] = await models.recipe.findAllByUserId(id);
+
+    return res.status(200).json(recipes);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const recipeByUserEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const [recipes] = await models.recipe.findAllByUserEmail(email);
+
+    return res.status(200).json(recipes);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   deleteRecipe,
   getRecipeById,
@@ -105,4 +133,6 @@ module.exports = {
   getRecipesName,
   postRecipe,
   updateRecipe,
+  recipeByUser,
+  recipeByUserEmail,
 };

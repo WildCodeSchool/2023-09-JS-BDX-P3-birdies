@@ -1,28 +1,55 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
 import Filter from "../components/Filter";
 import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
 import OptionsMenu from "../components/userPage/OptionsMenu";
+import { Useinfo } from "../context/InfoContext";
 // import { Useinfo } from "../context/InfoContext";
 
 function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
-  const [kindOfRecipes, setKinfOfRecipes] = useState("favs"); // "favs"
+  const [kindOfRecipes, setKinfOfRecipes] = useState("favs"); // eslint-disable-line
+  const [userByRecipe, setUserByRecipe] = useState([]);
+  const [userFavorites, setUserFavorites] = useState([]);
+  const { user } = Useinfo();
+  const [toggle, setToggle] = useState(true);
+
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
 
-  const handleUserRecipes = () => {
-    setKinfOfRecipes("mines");
-    console.info("Affiche les recettes postées par l'utilisateur");
+  const showUserFavorites = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3310/api/users/${user.id}/userRecipes`
+      );
+      setUserFavorites(data);
+      setToggle(!toggle);
+    } catch (err) {
+      console.error(err);
+    }
   };
-  const handleUserFavs = () => {
-    setKinfOfRecipes("favs");
-    console.info("Affiche les recettes favorites de l'utilisateur");
+
+  const showUserRecipes = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3310/api/users/${user.email}/userRecipes`
+      );
+      setUserByRecipe(data);
+      setToggle(!toggle);
+    } catch (err) {
+      console.error(err);
+    }
   };
+
+  // const handleUserFavs = () => {
+  //   setKinfOfRecipes("favs");
+  //   console.info("Affiche les recettes favorites de l'utilisateur");
+  // };
   function handleChangeOptionsMenu() {
     setMenuVisible(!menuVisible);
     setRotateWheel(!rotateWheel);
@@ -70,14 +97,14 @@ function UserPage() {
           <button
             type="button"
             className="coups-de-coeur"
-            onClick={handleUserFavs}
+            onClick={showUserFavorites}
           >
             Mes coup de coeur
           </button>
           <button
             type="button"
             className="mes-recettes"
-            onClick={handleUserRecipes}
+            onClick={showUserRecipes}
           >
             Mes recettes
           </button>
@@ -87,7 +114,19 @@ function UserPage() {
         <Filter />
       </div>
       <div className="userPage-recipes">
-        <FavoriteRecipesList kindOfRecipes={kindOfRecipes} />
+        {toggle && <FavoriteRecipesList kindOfRecipes={kindOfRecipes} />}
+        <div className="user-recipes">
+          {userByRecipe.map((e) => (
+            <>
+              <div>{e.name}</div>
+              <div>{e.picture}</div>
+              <div>{e.publicationDate}</div>
+            </>
+          ))}
+        </div>
+        <div className="user-favorites-list">
+          {userFavorites.map((e) => e.name)}
+        </div>
       </div>
     </>
   );

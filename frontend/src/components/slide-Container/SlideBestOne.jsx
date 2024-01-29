@@ -19,7 +19,7 @@ function SlideBestOne() {
 
   return (
     <div className="slide-one-container">
-      {getData.map((recipe) => (
+      {(getData ?? []).map((recipe) => (
         <div className="slide-best-one-conatiner" key={recipe.id}>
           <Link to={`/recipes/${recipe.id}`}>
             <div className="card-container">

@@ -32,8 +32,6 @@ app.use(
   cors({
     origin: [
       process.env.FRONTEND_URL, // keep this one, after checking the value in `backend/.env`
-      "http://mysite.com",
-      "http://another-domain.com",
     ],
   })
 );
@@ -109,6 +107,7 @@ app.use("/api", router);
 const reactBuildPath = path.join(__dirname, "../../frontend/dist");
 
 // Serve react resources
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.static(reactBuildPath));
 
@@ -118,7 +117,6 @@ app.get("*", (req, res) => {
   res.sendFile(`${reactBuildPath}/index.html`);
 });
 
-app.use(express.static(path.join(__dirname, "public")));
 /* ************************************************************************* */
 
 // Middleware for Error Logging (Uncomment to enable)
