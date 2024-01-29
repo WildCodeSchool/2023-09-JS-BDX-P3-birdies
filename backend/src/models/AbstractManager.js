@@ -10,19 +10,46 @@ class AbstractManager {
     ]);
   }
 
+  // findAll(dataValue = {}) {
+  //   console.info(dataValue);
+  //   let query = `select * from  ${this.table} `;
+  //   const values = [];
+
+  //   for (const [key, value] of Object.entries(dataValue)) {
+  //     if (key === "name") {
+  //       query += `${values.length ? " AND" : ""} name LIKE ?`;
+  //       values.push(`${value}%`);
+  //     } else {
+  //       query += `${values.length ? "," : ""} ${key} = ?`;
+  //       values.push(value);
+  //     }
+  //   }
+
+  //   if (values?.length) {
+  //     query += ` WHERE ${dataValue} = ?`;
+  //     values.push(dataValue);
+  //   }
+
+  //   return this.database.query(query, values);
+  // }
+
   findAll(dataValue = {}) {
+    console.info(dataValue);
     let query = `select * from  ${this.table}`;
     const values = [];
 
-    for (const [key, value] of Object.entries(dataValue)) {
-      query += `${values.length ? "," : ""} ${key} = ?`;
+    if (Object.keys(dataValue).length > 0) {
+      query += " WHERE";
 
-      values.push(value);
-    }
-
-    if (values?.length) {
-      query += `WHERE ${dataValue} = ?`;
-      values.push(dataValue);
+      for (const [key, value] of Object.entries(dataValue)) {
+        if (key === "name") {
+          query += `${values.length ? " AND" : ""} name LIKE ?`;
+          values.push(`${value}%`);
+        } else {
+          query += `${values.length ? "AND" : ""} ${key} = ?`;
+          values.push(value);
+        }
+      }
     }
 
     return this.database.query(query, values);

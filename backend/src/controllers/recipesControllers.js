@@ -1,16 +1,14 @@
 // const { compareSync } = require("bcrypt");
 const models = require("../models");
-// a supprimer ???????
-const getRecipes = (req, res) => {
-  models.recipe
-    .findAll(req.query)
-    .then(([response]) => {
-      res.status(200).send(response);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send({ error: err.message });
-    });
+
+const getRecipes = async (req, res) => {
+  try {
+    const [response] = await models.recipe.findAll(req.query);
+    res.status(200).send(response);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: err.message });
+  }
 };
 
 const getLastRecipes = (req, res) => {

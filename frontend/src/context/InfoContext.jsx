@@ -24,7 +24,7 @@ export function InfoContextProvider({ apiService }) {
   const [user, setUser] = useState(
     preloadUser?.data?.role ? preloadUser.data : { role: "visitor" }
   );
-  const [popupContent, setPopupContent] = useState(null);
+  const [popupContent, setPopupContent] = useState("");
   // ou l'on stock le commentaire & la note d'une recette
   const [recipeNote, setRecipeNote] = useState("");
   const [recipeComment, setRecipeComment] = useState("");
@@ -51,7 +51,8 @@ export function InfoContextProvider({ apiService }) {
   const [getDataDifficulty, setGetDataDifficulty] = useState([]);
   const [valueDifficulty, setValueDifficulty] = useState([]);
   const [foodFilter, setFoodFilter] = useState([]);
-  const [foodDifficulty, setFoodDiddiculty] = useState([]);
+  const [foodDifficulty, setFoodDiddiculty] = useState("");
+  console.info(foodDifficulty);
   const [cathegories, setCathegories] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
   const [showUserList, setShowUserList] = useState(true);
@@ -69,6 +70,7 @@ export function InfoContextProvider({ apiService }) {
   const [currentRecipeId, setCurrentRecipeId] = useState();
   const [recipePicture, setRecipePicture] = useState("");
 
+  // recupere toutes les cathegories de filtres
   useEffect(() => {
     const getCathegories = async () => {
       try {
@@ -167,18 +169,7 @@ export function InfoContextProvider({ apiService }) {
     localStorage.clear();
     return navigate("/slideone");
   };
-  // a supprimer ????
-  const getRecipes = async () => {
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/recipes`
-      );
-      setGetData(res.data);
-    } catch (err) {
-      console.error(err);
-      setGetData();
-    }
-  };
+
   const getLastRecipes = async (number) => {
     try {
       const res = await axios.get(
@@ -206,18 +197,23 @@ export function InfoContextProvider({ apiService }) {
     );
     setChosenRecipe(res.data);
   };
-
-  const getRecipesName = async () => {
+  // permet de recuperer des recettes par filtre ou texte
+  const getChosenrecipes = async (word, difficulty) => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${inputSearchValue}`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/recipes?name=${word}&difficulty=${difficulty}`
       );
-      setGetDataName(res.data);
+      setGetData(res.data);
     } catch (err) {
       console.error(err);
-      setGetDataName();
     }
   };
+  console.info(getData);
+  useEffect(() => {
+    getChosenrecipes(inputSearchValue, foodDifficulty);
+  }, [inputSearchValue, foodDifficulty]);
 
   const getRecipesDifficulty = async () => {
     try {
@@ -348,15 +344,6 @@ export function InfoContextProvider({ apiService }) {
     }
   }
 
-  useEffect(() => {
-    getRecipesName();
-  }, [inputSearchValue]);
-  // useEffect(() => {
-  //   getRecipesDifficulty();
-  // }, [valueDifficulty]);
-  useEffect(() => {
-    getRecipes();
-  }, []);
   // donne la liste de toutes les recettes favorites de l'utilisateur
   useEffect(() => {
     const showFavorites = async (person) => {
@@ -370,15 +357,15 @@ export function InfoContextProvider({ apiService }) {
     };
     showFavorites(user);
   }, []);
+
   console.info(favoriteRecipesComplete);
+
   function difficultyListModify(e) {
     const targetedDifficulty = e.target.innerText;
-    if (foodDifficulty.includes(targetedDifficulty)) {
-      setFoodDiddiculty(
-        foodDifficulty.filter((spec) => spec !== targetedDifficulty)
-      );
+    if (foodDifficulty === targetedDifficulty) {
+      setFoodDiddiculty("");
     } else {
-      setFoodDiddiculty([targetedDifficulty]);
+      setFoodDiddiculty(targetedDifficulty);
     }
   }
 
@@ -1019,7 +1006,7 @@ export function InfoContextProvider({ apiService }) {
       setFavoriteRecipes([...favoriteRecipes, e.target.value]);
     }
   };
-
+  // gere les recettes favorites (ajout/suppression/stock en states)
   const manageFavoriteRecipes = async (e) => {
     const answer = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/user/${
@@ -1093,7 +1080,10 @@ export function InfoContextProvider({ apiService }) {
       errorOrigin,
       evaluations,
       favoriteRecipes,
+      favoriteRecipesComplete,
+      setFavoriteRecipesComplete,
       filterListModify,
+      foodDifficulty,
       formValue,
       formatError,
       getData,
@@ -1192,7 +1182,10 @@ export function InfoContextProvider({ apiService }) {
       errorOrigin,
       evaluations,
       favoriteRecipes,
+      favoriteRecipesComplete,
+      setFavoriteRecipesComplete,
       filterListModify,
+      foodDifficulty,
       formValue,
       formatError,
       getData,
