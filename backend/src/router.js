@@ -98,7 +98,7 @@ router.post(
 );
 
 router.get(
-  "/user/:userId/favoriteRecipes",
+  "/users/:userId/userRecipes",
   favoriteRecipesControllers.getAllUserFavorites
 );
 router.get(

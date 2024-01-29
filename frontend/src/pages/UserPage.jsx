@@ -13,13 +13,22 @@ import { Useinfo } from "../context/InfoContext";
 function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
-  const [kindOfRecipes, setKinfOfRecipes] = useState("favs"); // "favs"
+  const [kindOfRecipes, setKinfOfRecipes] = useState("favs"); // eslint-disable-line
   const [userByRecipe, setUserByRecipe] = useState([]);
+  const [userFavorites, setUserFavorites] = useState([]);
   const { user } = Useinfo();
   const [toggle, setToggle] = useState(true);
 
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
+
+  const showUserFavorites = async () => {
+    const { data } = await axios.get(
+      `http://localhost:3310/api/users/${user.id}/userRecipes`
+    );
+    setUserFavorites(data);
+    setToggle(!toggle);
+  };
 
   const showUserRecipes = async () => {
     const { data } = await axios.get(
@@ -29,10 +38,10 @@ function UserPage() {
     setToggle(!toggle);
   };
 
-  const handleUserFavs = () => {
-    setKinfOfRecipes("favs");
-    console.info("Affiche les recettes favorites de l'utilisateur");
-  };
+  // const handleUserFavs = () => {
+  //   setKinfOfRecipes("favs");
+  //   console.info("Affiche les recettes favorites de l'utilisateur");
+  // };
   function handleChangeOptionsMenu() {
     setMenuVisible(!menuVisible);
     setRotateWheel(!rotateWheel);
@@ -80,7 +89,7 @@ function UserPage() {
           <button
             type="button"
             className="coups-de-coeur"
-            onClick={handleUserFavs}
+            onClick={showUserFavorites}
           >
             Mes coup de coeur
           </button>
@@ -106,6 +115,9 @@ function UserPage() {
               <div>{e.publicationDate}</div>
             </>
           ))}
+        </div>
+        <div className="user-favorites-list">
+          {userFavorites.map((e) => e.name)}
         </div>
       </div>
     </>
