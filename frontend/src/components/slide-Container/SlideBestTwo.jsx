@@ -24,7 +24,7 @@ function SlideBestTwo() {
   }
   return (
     <div className="slide-one-container">
-      {getData
+      {(getData ?? [])
         .sort((a, b) => b.id - a.id)
         .slice(0, 5)
         .map((recipe) => (

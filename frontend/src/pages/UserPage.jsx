@@ -23,19 +23,27 @@ function UserPage() {
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
 
   const showUserFavorites = async () => {
-    const { data } = await axios.get(
-      `http://localhost:3310/api/users/${user.id}/userRecipes`
-    );
-    setUserFavorites(data);
-    setToggle(!toggle);
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3310/api/users/${user.id}/userRecipes`
+      );
+      setUserFavorites(data);
+      setToggle(!toggle);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const showUserRecipes = async () => {
-    const { data } = await axios.get(
-      `http://localhost:3310/api/users/${user.email}/userRecipes`
-    );
-    setUserByRecipe(data);
-    setToggle(!toggle);
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3310/api/users/${user.email}/userRecipes`
+      );
+      setUserByRecipe(data);
+      setToggle(!toggle);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // const handleUserFavs = () => {

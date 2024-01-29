@@ -98,19 +98,19 @@ router.post(
 );
 
 router.get(
-  "/users/:userId/userRecipes",
+  "/users/:userId([0-9]+)/userRecipes",
   favoriteRecipesControllers.getAllUserFavorites
 );
 router.get(
-  "/user/:userId/favoriteRecipes/:recipeId",
+  "/user/:userId([0-9]+)/favoriteRecipes/:recipeId([0-9]+)",
   favoriteRecipesControllers.getFavorite
 );
 router.post(
-  "/user/:userId/favoriteRecipes/:recipeId",
+  "/user/:userId([0-9]+)/favoriteRecipes/:recipeId([0-9]+)",
   favoriteRecipesControllers.postFavorite
 );
 router.delete(
-  "/user/:userId/favoriteRecipes/:recipeId",
+  "/user/:userId([0-9]+)/favoriteRecipes/:recipeId([0-9]+)",
   favoriteRecipesControllers.deleteFavorite
 );
 

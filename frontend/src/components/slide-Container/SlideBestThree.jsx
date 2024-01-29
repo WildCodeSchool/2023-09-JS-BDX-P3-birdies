@@ -25,7 +25,7 @@ function SlideBestThree() {
 
   return (
     <div className="slide-one-container">
-      {recipes.map((recipe) => (
+      {(recipes ?? []).map((recipe) => (
         <div className="slide-best-one-conatiner" key={recipe.id}>
           <Link to={`/recipes/${recipe.id}`}>
             <div className="card-container">
