@@ -80,7 +80,6 @@ export function InfoContextProvider({ apiService }) {
     };
     getCathegories();
   }, []);
-  console.info(cathegories);
 
   // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
   useEffect(() => {
@@ -199,7 +198,7 @@ export function InfoContextProvider({ apiService }) {
       );
       setGetDataName(res.data);
     } catch (err) {
-      console.error(err.res.data);
+      console.error(err);
       setGetDataName();
     }
   };
@@ -333,16 +332,31 @@ export function InfoContextProvider({ apiService }) {
       setFoodFilter([...foodFilter, targetedFilter]);
     }
   }
+
   useEffect(() => {
     getRecipesName();
   }, [inputSearchValue]);
-  useEffect(() => {
-    getRecipesDifficulty();
-  }, [valueDifficulty]);
+  // useEffect(() => {
+  //   getRecipesDifficulty();
+  // }, [valueDifficulty]);
   useEffect(() => {
     getRecipes();
   }, []);
-  console.info(foodDifficulty);
+
+  useEffect(() => {
+    const showFavorites = async (person) => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/${
+          person.id
+        }/favoriteRecipes`
+      );
+      const favs = response.data;
+      const favoritesIds = favs.map((fav) => parseInt(fav.recipe_id, 10));
+      setFavoriteRecipes(favoritesIds);
+    };
+    showFavorites(user);
+  }, []);
+
   function difficultyListModify(e) {
     const targetedDifficulty = e.target.innerText;
     if (foodDifficulty.includes(targetedDifficulty)) {
@@ -992,6 +1006,19 @@ export function InfoContextProvider({ apiService }) {
     }
   };
 
+  const manageFavoriteRecipes = async (e) => {
+    const answer = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/user/${
+        user.id
+      }/favoriteRecipes/${e.target.value}`
+    );
+    const userFavoriteRecipes = answer.data;
+    const favoriteIds = userFavoriteRecipes.map(
+      (userFavorite) => userFavorite.recipe_id
+    );
+    setFavoriteRecipes(favoriteIds);
+  };
+
   function convertMinutesToTime(value) {
     const timeAsANumber = parseInt(value, 10);
     const hours = Math.floor(timeAsANumber / 60);
@@ -1075,6 +1102,7 @@ export function InfoContextProvider({ apiService }) {
       infoSuccess,
       inputSearchValue,
       logout,
+      manageFavoriteRecipes,
       noMatchPassword,
       password,
       passwordError,
@@ -1124,6 +1152,7 @@ export function InfoContextProvider({ apiService }) {
       validPassword,
       validPseudo,
       valueDifficulty,
+      getRecipesDifficulty,
     }),
     [
       Average,
@@ -1170,6 +1199,7 @@ export function InfoContextProvider({ apiService }) {
       infoSuccess,
       inputSearchValue,
       logout,
+      manageFavoriteRecipes,
       noMatchPassword,
       password,
       passwordError,
@@ -1215,6 +1245,7 @@ export function InfoContextProvider({ apiService }) {
       validPassword,
       validPseudo,
       valueDifficulty,
+      getRecipesDifficulty,
     ]
   );
   return (

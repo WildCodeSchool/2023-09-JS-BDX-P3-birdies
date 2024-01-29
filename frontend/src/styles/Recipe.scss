@@ -41,7 +41,7 @@ body {
   flex-flow: column;
   margin: 0 15px;
   ul {
-    min-height: 500px; // PROBLEME !!!!!!!!!!!!!!!!!!!!!!!!
+    min-height: 400px; // PROBLEME !!!!!!!!!!!!!!!!!!!!!!!!
   }
 
   .rate-nutri-container {
@@ -170,12 +170,12 @@ body {
     }
     .step-container {
       padding-bottom: 1rem;
-      min-height: 300px;
+      min-height: 180px;
 
       .step-text {
         display: flex;
         justify-content: center;
-        min-height: 300px;
+        min-height: 180px;
       }
     }
   }

@@ -32,6 +32,7 @@ const evaluationControllers = require("./controllers/evaluationsControllers");
 const uploadControllers = require("./controllers/upload.controller");
 const cathegoriesControllers = require("./controllers/cathegoriesControllers");
 const recipesCathegoriesControllers = require("./controllers/recipeCathegoriesControllers");
+const favoriteRecipesControllers = require("./controllers/favoriteRecipesControllers");
 const { authMiddleware } = require("./middlewares/security/auth.middleware");
 
 router.get("/users", userControllers.getUsers);
@@ -96,6 +97,21 @@ router.post(
   recipesCathegoriesControllers.postRecipeCathegories
 );
 
-router.get("/users/:email/userRecipes", recipeControllers.recipeByUserEmail);
+router.get(
+  "/user/:userId/favoriteRecipes",
+  favoriteRecipesControllers.getAllUserFavorites
+);
+router.get(
+  "/user/:userId/favoriteRecipes/:recipeId",
+  favoriteRecipesControllers.getFavorite
+);
+router.post(
+  "/user/:userId/favoriteRecipes/:recipeId",
+  favoriteRecipesControllers.postFavorite
+);
+router.delete(
+  "/user/:userId/favoriteRecipes/:recipeId",
+  favoriteRecipesControllers.deleteFavorite
+);
 
 module.exports = router;
