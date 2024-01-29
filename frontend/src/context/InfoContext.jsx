@@ -30,6 +30,8 @@ export function InfoContextProvider({ apiService }) {
   const [recipeComment, setRecipeComment] = useState("");
   // ou l'on stock le texte de recherche de recette
   const [inputSearchValue, setInputSearchValue] = useState("");
+  // ou l'on stock les recettes favorites entieres
+  const [favoriteRecipesComplete, setFavoriteRecipesComplete] = useState([]);
   // ou l'on stock les id des recettes favorites
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   // où l'on stock la recette choisie
@@ -362,12 +364,13 @@ export function InfoContextProvider({ apiService }) {
         `${import.meta.env.VITE_BACKEND_URL}/api/users/${person.id}/userRecipes`
       );
       const favs = response.data;
+      setFavoriteRecipesComplete(favs);
       const favoritesIds = favs.map((fav) => parseInt(fav.recipe_id, 10));
       setFavoriteRecipes(favoritesIds);
     };
     showFavorites(user);
   }, []);
-
+  console.info(favoriteRecipesComplete);
   function difficultyListModify(e) {
     const targetedDifficulty = e.target.innerText;
     if (foodDifficulty.includes(targetedDifficulty)) {
@@ -1024,6 +1027,7 @@ export function InfoContextProvider({ apiService }) {
       }/favoriteRecipes/${e.target.value}`
     );
     const userFavoriteRecipes = answer.data;
+    setFavoriteRecipesComplete(userFavoriteRecipes);
     const favoriteIds = userFavoriteRecipes.map(
       (userFavorite) => userFavorite.recipe_id
     );

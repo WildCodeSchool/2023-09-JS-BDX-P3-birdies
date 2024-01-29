@@ -9,7 +9,7 @@ class FavoriteRecipesManager extends AbstractManager {
     return this.database.query(
       `select recipe_id, recipes.name, recipes.publicationDate, recipes.picture 
       from ${this.table}
-      join recipes on favorite_recipes.user_id = recipes.id 
+      join recipes on favorite_recipes.recipe_id = recipes.id 
       where user_id = ?`,
       [userId]
     );
