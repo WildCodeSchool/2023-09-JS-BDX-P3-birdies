@@ -69,6 +69,7 @@ export function InfoContextProvider({ apiService }) {
   const [noMatchPassword, setNoMatchPassword] = useState(false);
   const [currentRecipeId, setCurrentRecipeId] = useState();
   const [recipePicture, setRecipePicture] = useState("");
+  const [userByRecipe, setUserByRecipe] = useState([]);
 
   // recupere toutes les cathegories de filtres
   useEffect(() => {
@@ -183,6 +184,17 @@ export function InfoContextProvider({ apiService }) {
   useEffect(() => {
     getLastRecipes(5);
   }, []);
+
+  const fetchUserRecipes = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3310/api/users/${user.email}/userRecipes`
+      );
+      setUserByRecipe(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const getRecipePicture = async (recipePictureId) => {
     const response = await axios.get(
@@ -1160,6 +1172,9 @@ export function InfoContextProvider({ apiService }) {
       validPseudo,
       valueDifficulty,
       getRecipesDifficulty,
+      setUserByRecipe,
+      userByRecipe,
+      fetchUserRecipes,
     }),
     [
       Average,
@@ -1258,6 +1273,9 @@ export function InfoContextProvider({ apiService }) {
       validPseudo,
       valueDifficulty,
       getRecipesDifficulty,
+      setUserByRecipe,
+      userByRecipe,
+      fetchUserRecipes,
     ]
   );
   return (
