@@ -52,7 +52,6 @@ export function InfoContextProvider({ apiService }) {
   const [valueDifficulty, setValueDifficulty] = useState([]);
   const [foodFilter, setFoodFilter] = useState([]);
   const [foodDifficulty, setFoodDiddiculty] = useState("");
-  console.info(foodDifficulty);
   const [cathegories, setCathegories] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
   const [showUserList, setShowUserList] = useState(true);
@@ -145,7 +144,7 @@ export function InfoContextProvider({ apiService }) {
         `${import.meta.env.VITE_BACKEND_URL}/api/users`,
         credentials
       );
-      console.info(`this is : ${newData}`);
+      console.info(newData);
       const newCredentials = {
         email: credentials.email,
         password: credentials.password,
@@ -214,22 +213,22 @@ export function InfoContextProvider({ apiService }) {
     setChosenRecipe(res.data);
   };
   // permet de recuperer des recettes par filtre ou texte
-  const getChosenrecipes = async (word, difficulty) => {
+  const getChosenrecipes = async (word, difficulty, filter) => {
     try {
       const res = await axios.get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/api/recipes?name=${word}&difficulty=${difficulty}`
+        }/api/recipes?name=${word}&difficulty=${difficulty}&prepTime=${filter}`
       );
       setGetData(res.data);
     } catch (err) {
       console.error(err);
     }
   };
-  console.info(getData);
+
   useEffect(() => {
-    getChosenrecipes(inputSearchValue, foodDifficulty);
-  }, [inputSearchValue, foodDifficulty]);
+    getChosenrecipes(inputSearchValue, foodDifficulty, foodFilter);
+  }, [inputSearchValue, foodDifficulty, foodFilter]);
 
   const getRecipesDifficulty = async () => {
     try {
@@ -352,11 +351,11 @@ export function InfoContextProvider({ apiService }) {
   };
 
   function filterListModify(e) {
-    const targetedFilter = e.target.innerText;
-    if (foodFilter.includes(targetedFilter)) {
-      setFoodFilter(foodFilter.filter((spec) => spec !== targetedFilter));
+    const targetedFilter = e.target.value;
+    if (targetedFilter === foodFilter) {
+      setFoodFilter("");
     } else {
-      setFoodFilter([...foodFilter, targetedFilter]);
+      setFoodFilter(targetedFilter);
     }
   }
 
@@ -373,8 +372,6 @@ export function InfoContextProvider({ apiService }) {
     };
     showFavorites(user);
   }, []);
-
-  console.info(favoriteRecipesComplete);
 
   function difficultyListModify(e) {
     const targetedDifficulty = e.target.innerText;
