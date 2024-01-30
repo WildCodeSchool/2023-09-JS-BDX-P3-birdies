@@ -77,10 +77,6 @@ function UserPage() {
       <div className="userPage-recipes">
         <FavoriteRecipesList />
         <UserRecipesList />
-        <div className="user-recipes">prout</div>
-        <div className="user-favorites-list">
-          {/* {userFavorites.map((e) => e.name)} */}
-        </div>
       </div>
     </>
   );
