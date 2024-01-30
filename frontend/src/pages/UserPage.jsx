@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
@@ -7,18 +8,50 @@ import Filter from "../components/Filter";
 import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
 import OptionsMenu from "../components/userPage/OptionsMenu";
 import UserRecipesList from "../components/userPage/UserRecipesList";
+import { Useinfo } from "../context/InfoContext";
 
 function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
+  const { user } = Useinfo();
 
   function handleChangeOptionsMenu() {
     setMenuVisible(!menuVisible);
     setRotateWheel(!rotateWheel);
   }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewUrl(null);
+    }
+  };
+
+  const handleSave = () => {
+    const avatar = selectedFile;
+    const formData = new FormData();
+    formData.append("picture", avatar);
+    try {
+      axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${user.id}/uploads`,
+        formData
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <div className="userPage-header">
@@ -30,12 +63,11 @@ function UserPage() {
           >
             <img src={replyArrow} alt="Retour" />
           </button>
-
-          <img
-            className="pfp"
-            src="https://64.media.tumblr.com/9c1d74026bb52921106ca79e61737183/5f8a57cbf4d0c6d5-2d/s540x810/ec4df470e2ee56091e6419ec24c90dbe7479b64e.jpg"
-            alt="Moi"
-          />
+          <input type="file" name="file" onChange={handleFileChange} />
+          <img src={previewUrl} alt="Preview" />
+          <button type="button" onClick={handleSave}>
+            s
+          </button>
           <button
             type="button"
             className="option-menu-btn"
