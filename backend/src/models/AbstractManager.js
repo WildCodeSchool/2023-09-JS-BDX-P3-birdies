@@ -38,16 +38,22 @@ class AbstractManager {
     let query = `select * from  ${this.table}`;
     const values = [];
 
-    if (Object.keys(dataValue).length > 0) {
+    if (Object.entries(dataValue).length > 0) {
       query += " WHERE";
 
       for (const [key, value] of Object.entries(dataValue)) {
-        if (key === "name") {
+        if (key === "name" && key === "difficulty") {
           query += `${values.length ? " AND" : ""} name LIKE ?`;
           values.push(`${value}%`);
+        } else if (key === "name") {
+          query += `${values.length ? " AND" : ""} name LIKE ?`;
+          values.push(`${value}%`);
+        } else if (key === "difficulty" && key.length > 0) {
+          query += `${values.length ? " AND" : ""} difficulty LIKE ?`;
+          values.push(`${value}%`);
         } else {
-          query += `${values.length ? "AND" : ""} ${key} = ?`;
-          values.push(value);
+          query += `${values.length ? " AND" : ""} ${key} = ?`;
+          values.push(value ?? "");
         }
       }
     }
