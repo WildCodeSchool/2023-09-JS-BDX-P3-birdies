@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
 import star from "../../styles/icons/Star.png";
+import recipes from "../../constants/recipes.constants";
 
 function SlideBestThree() {
-  const { recipes, Average } = Useinfo();
+  const { Average } = Useinfo();
   const [apiBoites, setApiBoites] = useState([]);
   const [likeBoites, setLikeBoites] = useState(new Map());
 

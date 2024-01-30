@@ -1,9 +1,7 @@
 import PropTypes from "prop-types";
-import { Useinfo } from "../../context/InfoContext";
+import difficulties from "../../constants/difficulties.constant";
 
 function DifficultiesList({ handleChangeDifficulty, difficultyEvaluation }) {
-  const { difficulties } = Useinfo();
-
   return (
     <div className="difficulties">
       <h5>Difficulté :</h5>
