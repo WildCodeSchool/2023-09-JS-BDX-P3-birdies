@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { Useinfo } from "../../context/InfoContext";
 import PenImg from "../../styles/icons/Pen-img.png";
 import star from "../../styles/icons/Star.png";
+import recipes from "../../constants/recipes.constants";
 
 function FavoriteRecipesList({ kindOfRecipes, favRecListVisible }) {
-  const { recipes, Average } = Useinfo();
+  const { Average } = Useinfo();
 
   function handleDeleteRecipe() {
     console.info("recette supprimée");
