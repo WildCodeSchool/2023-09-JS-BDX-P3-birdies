@@ -48,7 +48,7 @@ class UserManager extends AbstractManager {
 
   getProfile(id) {
     return this.database.query(
-      `SELECT id, email, pseudo, firstname, lastname, role FROM ${this.table} WHERE id = ?`,
+      `SELECT id, email, pseudo, firstname, lastname, role, avatar FROM ${this.table} WHERE id = ?`,
       [id]
     );
   }
@@ -83,7 +83,7 @@ class UserManager extends AbstractManager {
   async addAvatar(user, id) {
     return this.database.query(
       `UPDATE ${this.table} SET avatar = ? WHERE id = ?`,
-      [user.avatar, id]
+      [id, user]
     );
   }
 }

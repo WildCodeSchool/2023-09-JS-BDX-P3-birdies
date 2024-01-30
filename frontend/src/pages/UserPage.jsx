@@ -14,7 +14,6 @@ function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
   const { user } = Useinfo();
@@ -28,30 +27,17 @@ function UserPage() {
     const file = e.target.files[0];
     if (file) {
       setSelectedFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setPreviewUrl(null);
     }
   };
 
   const handleSave = () => {
-    const avatar = selectedFile;
     const formData = new FormData();
-    formData.append("picture", avatar);
-    try {
-      axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users/${user.id}/uploads`,
-        formData
-      );
-    } catch (err) {
-      console.error(err);
-    }
+    formData.append("picture", selectedFile);
+    axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.id}/uploads`,
+      formData
+    );
   };
-
   return (
     <>
       <div className="userPage-header">
@@ -64,7 +50,7 @@ function UserPage() {
             <img src={replyArrow} alt="Retour" />
           </button>
           <input type="file" name="file" onChange={handleFileChange} />
-          <img src={previewUrl} alt="Preview" />
+          <img src={user.avatar} alt="Preview" />
           <button type="button" onClick={handleSave}>
             s
           </button>
