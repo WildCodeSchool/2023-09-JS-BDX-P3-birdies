@@ -34,7 +34,10 @@ function SlideBestOne() {
               </div> */}
               </div>
 
-              {/* <img src={} alt={recipe.name} /> */}
+              <img
+                src={`${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`}
+                alt={recipe.name}
+              />
             </div>
           </Link>
           <div className="container-icon-recipe">
