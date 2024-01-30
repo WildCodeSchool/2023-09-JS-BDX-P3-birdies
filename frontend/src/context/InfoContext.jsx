@@ -185,16 +185,20 @@ export function InfoContextProvider({ apiService }) {
     getLastRecipes(5);
   }, []);
 
-  const fetchUserRecipes = async () => {
-    try {
-      const { data } = await axios.get(
-        `http://localhost:3310/api/users/${user.email}/userRecipes`
-      );
-      setUserByRecipe(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3310/api/users/${user.email}/userRecipes`
+        );
+        setUserByRecipe(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData(); // Call the async function to fetch data
+  }, []);
 
   const getRecipePicture = async (recipePictureId) => {
     const response = await axios.get(
@@ -563,7 +567,6 @@ export function InfoContextProvider({ apiService }) {
       getRecipesDifficulty,
       setUserByRecipe,
       userByRecipe,
-      fetchUserRecipes,
     }),
     [
       Average,
@@ -659,7 +662,6 @@ export function InfoContextProvider({ apiService }) {
       getRecipesDifficulty,
       setUserByRecipe,
       userByRecipe,
-      fetchUserRecipes,
     ]
   );
   return (
