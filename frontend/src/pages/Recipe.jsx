@@ -13,10 +13,10 @@ import deliveryTime from "../styles/icons/Delivery Time.png";
 import logo from "../styles/icons/logo.png";
 import { Useinfo } from "../context/InfoContext";
 import CommentCard from "../components/CommentCard";
+import evaluations from "../constants/evaluations.constant";
 
 function Recipe() {
   const {
-    evaluations,
     recipeNote,
     HandleRecipeNote,
     Average,
