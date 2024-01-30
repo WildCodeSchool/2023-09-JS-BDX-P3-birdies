@@ -53,7 +53,7 @@ class RecipeManager extends AbstractManager {
   }
   async findLastRecipes(number) {
     return this.database.query(
-      `SELECT * from ${this.table} ORDER BY id DESC limit ${number}`
+      `SELECT recipes.id, recipes.name, upload.url from ${this.table} LEFT JOIN upload  ON recipes.picture = upload.id ORDER BY id DESC limit ${number}`
     );
   }
   async findAllByUserId(userId) {
