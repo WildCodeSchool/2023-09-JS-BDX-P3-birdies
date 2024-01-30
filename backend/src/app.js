@@ -28,13 +28,7 @@ const app = express();
 
 const cors = require("cors");
 
-app.use(
-  cors({
-    origin: [
-      process.env.FRONTEND_URL, // keep this one, after checking the value in `backend/.env`
-    ],
-  })
-);
+app.use(cors());
 
 /* ************************************************************************* */
 
@@ -107,7 +101,7 @@ app.use("/api", router);
 const reactBuildPath = path.join(__dirname, "../../frontend/dist");
 
 // Serve react resources
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../../backend/public")));
 
 app.use(express.static(reactBuildPath));
 
