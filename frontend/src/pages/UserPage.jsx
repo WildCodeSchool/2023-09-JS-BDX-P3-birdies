@@ -6,23 +6,15 @@ import "../styles/components/userPage/userPage.scss";
 import Filter from "../components/Filter";
 import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
 import OptionsMenu from "../components/userPage/OptionsMenu";
-// import { Useinfo } from "../context/InfoContext";
+import UserRecipesList from "../components/userPage/UserRecipesList";
 
 function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
-  const [kindOfRecipes, setKinfOfRecipes] = useState("favs"); // "favs"
+
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
 
-  const handleUserRecipes = () => {
-    setKinfOfRecipes("mines");
-    console.info("Affiche les recettes postées par l'utilisateur");
-  };
-  const handleUserFavs = () => {
-    setKinfOfRecipes("favs");
-    console.info("Affiche les recettes favorites de l'utilisateur");
-  };
   function handleChangeOptionsMenu() {
     setMenuVisible(!menuVisible);
     setRotateWheel(!rotateWheel);
@@ -70,15 +62,11 @@ function UserPage() {
           <button
             type="button"
             className="coups-de-coeur"
-            onClick={handleUserFavs}
+            // onClick={showUserFavorites}
           >
             Mes coup de coeur
           </button>
-          <button
-            type="button"
-            className="mes-recettes"
-            onClick={handleUserRecipes}
-          >
+          <button type="button" className="mes-recettes">
             Mes recettes
           </button>
         </div>
@@ -87,7 +75,8 @@ function UserPage() {
         <Filter />
       </div>
       <div className="userPage-recipes">
-        <FavoriteRecipesList kindOfRecipes={kindOfRecipes} />
+        <FavoriteRecipesList />
+        <UserRecipesList />
       </div>
     </>
   );

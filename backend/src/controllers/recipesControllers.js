@@ -1,16 +1,25 @@
 // const { compareSync } = require("bcrypt");
 const models = require("../models");
 
-const getRecipes = (req, res) => {
-  models.recipe
-    .findAll(req.query)
-    .then(([response]) => {
-      res.status(200).send(response);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send({ error: err.message });
+const getRecipes = async (req, res) => {
+  try {
+    const [response] = await models.recipe.findAll(req.query);
+    res.status(200).send(response);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: err.message });
+  }
+};
+
+const getLastRecipes = (req, res) => {
+  const number = parseInt(req.params.number, 10);
+  try {
+    models.recipe.findLastRecipes(number).then(([response]) => {
+      res.send(response);
     });
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
 const getRecipesName = (req, res) => {
@@ -97,12 +106,43 @@ const deleteRecipe = (req, res) => {
     });
 };
 
+const recipeByUser = async (req, res) => {
+  try {
+    const id = +req.params.id;
+
+    // if (!user) {
+    //   return res.status(404).json({ error: "User not found" });
+    // }
+    const [recipes] = await models.recipe.findAllByUserId(id);
+
+    return res.status(200).json(recipes);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const recipeByUserEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const [recipes] = await models.recipe.findAllByUserEmail(email);
+
+    return res.status(200).json(recipes);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   deleteRecipe,
+  getLastRecipes,
   getRecipeById,
   getRecipes,
   getRecipesDifficulty,
   getRecipesName,
   postRecipe,
   updateRecipe,
+  recipeByUser,
+  recipeByUserEmail,
 };

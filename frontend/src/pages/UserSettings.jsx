@@ -11,12 +11,6 @@ export default function UserSettings() {
   const { setUserPicture } = Useinfo();
   // lines disabled for eslint because values are not changing anything yet
   const [everyInfo, setEveryInfo] = useState({});
-  const [nickname, setNickname] = useState(); // eslint-disable-line
-  const [firstname, setFirstname] = useState(); // eslint-disable-line
-  const [lastname, setLastname] = useState(); // eslint-disable-line
-  const [modifiedEmail, setModifiedEmail] = useState(); // eslint-disable-line
-  const [modifiedPassword, setModifiedPassword] = useState(); // eslint-disable-line
-  const [modifyRole, setModifyRole] = useState(); // eslint-disable-line
   const { id } = useParams();
 
   const fetchData = async (userId) => {
@@ -45,12 +39,26 @@ export default function UserSettings() {
     setEveryInfo({ ...everyInfo, [e.target.name]: e.target.value });
   }
 
+  const sendChangesRole = async () => {
+    try {
+      const newRole = everyInfo.role === "admin" ? "user" : "admin";
+
+      // Envoyer la requête PATCH avec le nouveau rôle
+      await axios.patch(`http://localhost:3310/api/users/${id}`, {
+        role: newRole,
+      });
+      // Afficher le nouveau rôle après la mise à jour
+    } catch (error) {
+      console.error("Error saving changes:", error);
+    }
+  };
+
   return (
     <div>
       {everyInfo ? (
         <>
           <div className="info-parameters">
-            <Link className="back-arrow" to="/">
+            <Link className="back-arrow" to="/userpage">
               <img src={replyArrow} alt="Retour" />
             </Link>
             <MDBFileUpload
@@ -95,18 +103,17 @@ export default function UserSettings() {
               name="email"
               value={everyInfo.email}
               onChange={onValuechange}
-
-              // onChange={(e) => setEveryInfo({ email: e.target.value })}
             />
-            <input
-              type="password"
-              name="password"
-              value={everyInfo.password}
-              placeholder="Mot de passe"
-              onChange={onValuechange}
+            {everyInfo.role === "user" && (
+              <input
+                type="password"
+                name="password"
+                value={everyInfo.password}
+                placeholder="Mot de passe"
+                onChange={onValuechange}
+              />
+            )}
 
-              // onChange={(e) => setEveryInfo({ password: e.target.value })} // eslint-disable-line
-            />
             <button
               type="submit"
               className="accept-modifications"
@@ -114,13 +121,15 @@ export default function UserSettings() {
             >
               Modifier
             </button>
-            <button
-              type="submit"
-              className="accept-role-modification"
-              onClick={() => (everyInfo.role === "admin" ? "user" : "admin")}
-            >
-              Modifier Rôle
-            </button>
+            {everyInfo?.role === "admin" && (
+              <button
+                type="submit"
+                className="accept-role-modification"
+                onClick={sendChangesRole}
+              >
+                Modifier Rôle
+              </button>
+            )}
           </div>
         </>
       ) : (

@@ -4,7 +4,7 @@ const models = require("../../models");
 const authMiddleware = (req, res, next) => {
   // Step 1: denied access without token
   if (!req.headers.authorization) {
-    return res.status(401).json({ error: "Tu rentres pas !" });
+    return res.status(401).json({ error: "Vous n'êtes pas connecté" });
   }
   // step 2: verify token then set user data in req
   return jwt.verify(
@@ -17,7 +17,7 @@ const authMiddleware = (req, res, next) => {
       // step 3: get user data from token payload
       models.user.getProfile(data.id).then(([result]) => {
         if (!result.length) {
-          return res.status(401).json({ error: "tu n'existes plus" });
+          return res.status(401).json({ error: "Ce compte n'existe pas" });
         }
         // step 4: share user data from different middlewares
         const [firstResult] = result;

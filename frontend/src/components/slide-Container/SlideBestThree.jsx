@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
 import star from "../../styles/icons/Star.png";
+import recipes from "../../constants/recipes.constants";
 
 function SlideBestThree() {
-  const { recipes, Average } = Useinfo();
+  const { Average } = Useinfo();
   const [apiBoites, setApiBoites] = useState([]);
   const [likeBoites, setLikeBoites] = useState(new Map());
 
@@ -24,19 +26,23 @@ function SlideBestThree() {
 
   return (
     <div className="slide-one-container">
-      {recipes.map((recipe) => (
-        <div className="card-container" key={recipe.id}>
-          <div className="content-container">
-            <h1>{recipe.name}</h1>
-            <div className="note-container">
-              <img className="star-picture" src={star} alt="star-img" />
-              <div className="average">{Average(recipe.notes)}/5</div>
+      {(recipes ?? []).map((recipe) => (
+        <div className="slide-best-one-conatiner" key={recipe.id}>
+          <Link to={`/recipes/${recipe.id}`}>
+            <div className="card-container">
+              <div className="content-container">
+                <h1>{recipe.name}</h1>
+                <div className="note-container">
+                  <img className="star-picture" src={star} alt="star-img" />
+                  <div className="average">{Average(recipe.notes)}/5</div>
+                </div>
+                <div className="votes-container">
+                  <p id="votes-content">{recipe.notes.length} votes</p>
+                </div>
+              </div>
+              <img src={recipe.picture} alt={recipe.name} />
             </div>
-            <div className="votes-container">
-              <p id="votes-content">{recipe.notes.length} votes</p>
-            </div>
-          </div>
-          <img src={recipe.picture} alt={recipe.name} />
+          </Link>
           <div className="container-icon-recipe">
             <button
               className="btn-like-box"

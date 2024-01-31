@@ -5,15 +5,15 @@ import { Useinfo } from "../../context/InfoContext";
 import edit from "../../styles/img/kisspng-computer-icons-pencil-icon-design-material-design-5b09679fe42b46.8810328815273430079346.png";
 
 function AllUsers() {
-  const [dbUsers, setDbUsers] = useState([]);
   const { showUserList } = Useinfo();
+  const [dbUsers, setDbUsers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/users`)
       .then((res) => setDbUsers(res?.data));
-  }, [dbUsers]);
+  }, []);
 
   const handleDelete = async (id) => {
     try {

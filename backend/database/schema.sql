@@ -1,4 +1,4 @@
--- Active: 1704703244465@@127.0.0.1@3306@birdies
+-- Active: 1701095195024@@127.0.0.1@3306@birdies
 -- SQLBook: Code
 -- SQLBook: Code
 create table `users` (
@@ -8,8 +8,9 @@ create table `users` (
     `pseudo` VARCHAR(255) UNIQUE,
     `email` VARCHAR(255) UNIQUE NOT NULL,
     `password` VARCHAR(255) NOT NULL,
-    `role` VARCHAR(255) NOT NULL
-);
+    `role` VARCHAR(255) NOT NULL,
+    `avatar` VARCHAR(255)
+    );
 
 INSERT INTO
     `users` (

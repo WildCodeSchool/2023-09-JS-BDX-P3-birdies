@@ -10,45 +10,31 @@ class AbstractManager {
     ]);
   }
 
-  findAll(params = {}, dataValue = {}) {
-    let query = `select * from  ${this.table}`;
+  // trouve les recettes par critères
+  findAll(dataValue = {}) {
+    console.info(dataValue);
+    let query = `select recipes.id, recipes.name, upload.url from  ${this.table} LEFT JOIN upload ON recipes.picture = upload.id`;
     const values = [];
-    console.info("findAll", params, query, values);
-    console.info(Object.entries(params));
 
-    for (const [key, value] of Object.entries(dataValue)) {
-      query += `${values.length ? "," : ""} ${key} = ?`;
-
-      values.push(value);
+    if (Object.entries(dataValue).length > 0) {
+      query += " WHERE";
+      for (const [key, value] of Object.entries(dataValue)) {
+        switch (key) {
+          case "prepTime":
+            if (value !== "") {
+              query += `${values.length ? " AND" : ""} ${key} < ?`;
+              values.push(`${value}`);
+            }
+            break;
+          default:
+            query += `${values.length ? " AND" : ""} ${key} LIKE ?`;
+            values.push(`${value}%`);
+            break;
+        }
+      }
     }
-
-    if (values?.length) {
-      query += `WHERE ${dataValue} = ?`;
-      values.push(dataValue);
-    }
-
     return this.database.query(query, values);
   }
-
-  // findAll(params = {}) {
-  //   let query = `SELECT * FROM ${this.table}`;
-  //   const values = [];
-  //   const conditions = [];
-
-  //   console.log("findAll", params, query, values);
-  //   console.log(Object.entries(params));
-
-  //   for (const [key, value] of Object.entries(params)) {
-  //     conditions.push(`${key} = ?`);
-  //     values.push(value);
-  //   }
-
-  //   if (conditions.length > 0) {
-  //     query += ` WHERE ${conditions.join(" AND ")}`;
-  //   }
-
-  //   return this.database.query(query, values);
-  // }
 
   delete(id) {
     return this.database.query(`delete from ${this.table} where id = ?`, [id]);

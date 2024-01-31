@@ -11,36 +11,31 @@ const getIngredients = (_, res) => {
     });
 };
 
-const findIngredient = (req, res) => {
+const postIngredient = (req, res) => {
   const { name } = req.params;
   models.ingredient
     .findByName(name)
     .then(([response]) => {
       const result = response[0];
-      if (result !== null) {
-        res.send({ id: result.id });
+      if (result) {
+        res.status(200).send(result);
       } else {
-        res.status(404).send({ id: 0 });
+        models.ingredient.create(name).then(([newResponse]) => {
+          const results = newResponse[0];
+          if (results !== null) {
+            res.send({ id: newResponse.insertId });
+          } else {
+            res.sendStatus(404);
+          }
+        });
       }
     })
-    .catch(() => {
-      res.status(404).send({ id: 0 });
+    .catch((err) => {
+      res.status(500).send({ error: err.message });
     });
 };
 
-const postIngredient = (req, res) => {
-  models.ingredient
-    .create(req.body)
-    .then(([response]) => {
-      res.send({ id: response.insertId });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(422).json({ error: err.message });
-    });
-};
 module.exports = {
   getIngredients,
-  findIngredient,
   postIngredient,
 };

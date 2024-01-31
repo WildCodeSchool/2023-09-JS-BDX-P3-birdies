@@ -23,6 +23,8 @@ import ModifyRecipe from "./pages/ModifyRecipe";
 import ErrorPage from "./pages/errorPage";
 import UserSettings from "./pages/UserSettings";
 import ApiService from "./services/api.service";
+import LostPassword from "./pages/LostPassword";
+import sessionLoader from "./loaders/session.loader";
 // import AdminEditUser from "./pages/AdminEditUser";
 
 const apiService = new ApiService();
@@ -30,16 +32,7 @@ const apiService = new ApiService();
 const router = createBrowserRouter([
   {
     path: "/",
-    loader: async () => {
-      try {
-        const data = await apiService.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/users/me`
-        );
-        return { preloadUser: data ?? null };
-      } catch (err) {
-        return { preloadUser: null };
-      }
-    },
+    loader: async () => sessionLoader(apiService),
     element: <InfoContextProvider apiService={apiService} />,
     children: [
       {
@@ -137,18 +130,6 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: "/slideone",
-        element: <SlideOne />,
-      },
-      {
-        path: "/slidetwo",
-        element: <SlideTwo />,
-      },
-      {
-        path: "/slidethree",
-        element: <SlideThree />,
-      },
-      {
         path: "/admin",
         loader: async () => {
           try {
@@ -182,7 +163,23 @@ const router = createBrowserRouter([
       //     </AdminContextProvider>
       //   ),
       // },
+      {
+        path: "/lostPassword",
+        element: <LostPassword />,
+      },
     ],
+  },
+  {
+    path: "/slideone",
+    element: <SlideOne />,
+  },
+  {
+    path: "/slidetwo",
+    element: <SlideTwo />,
+  },
+  {
+    path: "/slidethree",
+    element: <SlideThree />,
   },
 ]);
 

@@ -36,6 +36,9 @@ const IngredientManager = require("./ingredientsManager");
 const RecipesIngredientsManager = require("./RecipesIngredientsManager");
 const EvaluationManager = require("./evaluationsManager");
 const UploadManager = require("./uploadManager");
+const CathegoriesManager = require("./cathegoriesManager");
+const RecipesCathegoriesManager = require("./recipeCathegoriesManager");
+const FavoriteRecipesManager = require("./favoriteRecipesManager");
 // models.item = new ItemManager();
 // models.item.setDatabase(pool);
 
@@ -59,8 +62,16 @@ models.evaluation.setDatabase(pool);
 
 models.upload = new UploadManager();
 models.upload.setDatabase(pool);
+
+models.cathegories = new CathegoriesManager();
+models.cathegories.setDatabase(pool);
+
+models.recipeCathegories = new RecipesCathegoriesManager();
+models.recipeCathegories.setDatabase(pool);
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
+models.favoriteRecipes = new FavoriteRecipesManager();
+models.favoriteRecipes.setDatabase(pool);
 
 const handler = {
   get(obj, prop) {
