@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
@@ -7,18 +8,38 @@ import Filter from "../components/Filter";
 import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
 import OptionsMenu from "../components/userPage/OptionsMenu";
 import UserRecipesList from "../components/userPage/UserRecipesList";
+import { Useinfo } from "../context/InfoContext";
 
 function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [fileVisible, setFileVisible] = useState(false); // eslint-disable-line
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
+  const { user } = Useinfo();
 
   function handleChangeOptionsMenu() {
     setMenuVisible(!menuVisible);
     setRotateWheel(!rotateWheel);
   }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  const handleSave = () => {
+    const formData = new FormData();
+    formData.append("picture", selectedFile);
+    axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.id}/uploads`,
+      formData
+    );
+  };
+
   return (
     <>
       <div className="userPage-header">
@@ -30,12 +51,26 @@ function UserPage() {
           >
             <img src={replyArrow} alt="Retour" />
           </button>
-
-          <img
-            className="pfp"
-            src="https://64.media.tumblr.com/9c1d74026bb52921106ca79e61737183/5f8a57cbf4d0c6d5-2d/s540x810/ec4df470e2ee56091e6419ec24c90dbe7479b64e.jpg"
-            alt="Moi"
-          />
+          <div className="container-pfp">
+            <input
+              type="file"
+              name="file"
+              className="file-visible file-hidden"
+              onChange={handleFileChange}
+            />
+            <img
+              className="user-pfp"
+              src={`${import.meta.env.VITE_BACKEND_URL}/${user.avatar}`}
+              alt="Preview"
+            />
+            <button
+              type="button"
+              className="hide-confirm-button"
+              onClick={handleSave}
+            >
+              Confirmer
+            </button>
+          </div>
           <button
             type="button"
             className="option-menu-btn"
@@ -48,7 +83,10 @@ function UserPage() {
               style={{ transform: rotate, transition: "all 0.2s linear" }}
             />
           </button>
-          <OptionsMenu menuVisible={menuVisible} />
+          <OptionsMenu
+            menuVisible={menuVisible}
+            setFileVisible={setFileVisible}
+          />
         </div>
         <div className="evals-recipes">
           <p>

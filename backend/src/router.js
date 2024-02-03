@@ -88,7 +88,7 @@ router.post(
 
 router.post(
   "/users/:id([0-9]+)/uploads",
-  upload.single("avatar"),
+  upload.single("picture"),
   uploadControllers.createAvatar
 );
 router.get("/cathegories", cathegoriesControllers.getCathegories);
