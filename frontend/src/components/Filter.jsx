@@ -49,58 +49,34 @@ function Filter() {
           <button
             className="button-filter"
             type="button"
+            value="30"
             onClick={filterListModify}
           >
-            Gourmand
+            - 30 minutes
           </button>
           <button
             className="button-filter"
             type="button"
+            value="60"
             onClick={filterListModify}
           >
-            Santé
+            - 1 heure
           </button>
           <button
             className="button-filter"
             type="button"
+            value="120"
             onClick={filterListModify}
           >
-            Festif
+            - 2 heures
           </button>
           <button
             className="button-filter"
             type="button"
+            value="121"
             onClick={filterListModify}
           >
-            Sportif
-          </button>
-          <button
-            className="button-filter"
-            type="button"
-            onClick={filterListModify}
-          >
-            De saison
-          </button>
-          <button
-            className="button-filter"
-            type="button"
-            onClick={filterListModify}
-          >
-            BBQ
-          </button>
-          <button
-            className="button-filter"
-            type="button"
-            onClick={filterListModify}
-          >
-            -30 minutes
-          </button>
-          <button
-            className="button-filter"
-            type="button"
-            onClick={filterListModify}
-          >
-            -1 heure
+            + 2 heures
           </button>
         </div>
       </div>
