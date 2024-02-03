@@ -14,6 +14,7 @@ function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [rotateWheel, setRotateWheel] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [fileVisible, setFileVisible] = useState(false); // eslint-disable-line
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
   const { user } = Useinfo();
@@ -38,6 +39,7 @@ function UserPage() {
       formData
     );
   };
+
   return (
     <>
       <div className="userPage-header">
@@ -49,11 +51,26 @@ function UserPage() {
           >
             <img src={replyArrow} alt="Retour" />
           </button>
-          <input type="file" name="file" onChange={handleFileChange} />
-          <img src={user.avatar} alt="Preview" />
-          <button type="button" onClick={handleSave}>
-            s
-          </button>
+          <div className="container-pfp">
+            <input
+              type="file"
+              name="file"
+              className="file-visible file-hidden"
+              onChange={handleFileChange}
+            />
+            <img
+              className="user-pfp"
+              src={`${import.meta.env.VITE_BACKEND_URL}/${user.avatar}`}
+              alt="Preview"
+            />
+            <button
+              type="button"
+              className="hide-confirm-button"
+              onClick={handleSave}
+            >
+              Confirmer
+            </button>
+          </div>
           <button
             type="button"
             className="option-menu-btn"
@@ -66,7 +83,10 @@ function UserPage() {
               style={{ transform: rotate, transition: "all 0.2s linear" }}
             />
           </button>
-          <OptionsMenu menuVisible={menuVisible} />
+          <OptionsMenu
+            menuVisible={menuVisible}
+            setFileVisible={setFileVisible}
+          />
         </div>
         <div className="evals-recipes">
           <p>

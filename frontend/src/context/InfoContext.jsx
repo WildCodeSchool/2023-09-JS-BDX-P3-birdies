@@ -468,6 +468,7 @@ export function InfoContextProvider({ apiService }) {
     setAddCommentVisible(false);
     setBasicSuccess((prev) => !prev);
   }
+
   const contextValues = useMemo(
     () => ({
       Average,
