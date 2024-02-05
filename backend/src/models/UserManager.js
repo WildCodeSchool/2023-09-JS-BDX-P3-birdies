@@ -46,12 +46,19 @@ class UserManager extends AbstractManager {
     return user;
   }
 
-  getProfile(id) {
+  getProfileWithImage(id) {
     return this.database.query(
       `SELECT users.id, users.email, users.pseudo, users.firstname, users.lastname, users.role, upload.url as avatar
        FROM ${this.table} as users
        JOIN upload ON users.avatar = upload.id
        WHERE users.id = ?`,
+      [id]
+    );
+  }
+
+  getProfile(id) {
+    return this.database.query(
+      `SELECT id, email, pseudo, firstname, lastname, role FROM ${this.table} WHERE id = ?`,
       [id]
     );
   }
