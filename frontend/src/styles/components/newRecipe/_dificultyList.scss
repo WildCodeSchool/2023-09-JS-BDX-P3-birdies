@@ -1,16 +1,20 @@
 .difficulties-container {
   display: flex;
+  justify-content: space-around;
   gap: 10px;
   .difficulty-button {
+    border: none;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 1.5rem;
     border-radius: 25px;
     background-color: #ece8da;
+    padding: 15px 20px;
 
     &.clicked {
-      border-color: #d56c06;
+      background: #d56c06;
+      border: none;
       border-width: 1.8px;
     }
   }

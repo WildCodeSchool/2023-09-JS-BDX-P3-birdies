@@ -30,16 +30,25 @@
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
+        display: flex;
+        align-items: center;
         .pressable {
-          margin-left: 12px;
+          width: 50%;
+          margin-left: 0;
           margin-top: 6px;
+          background: black;
+          color: white;
+          border: none;
         }
         h3 {
           position: absolute;
-          top: 5px;
+          top: 60px;
           left: 50%;
           transform: translateX(-50%);
           color: rgba(245, 245, 245, 0.874);
+          text-align: center;
+          border: 1px solid white;
+          width: 100%;
         }
         .rate-container {
           display: flex;

@@ -5,6 +5,8 @@
   min-height: 100vh;
 }
 .add-remove-button {
+  margin-top: 10px;
+  border: none;
   line-height: 10px;
   padding: 0.2rem;
   border-radius: 50%;
@@ -20,10 +22,11 @@
 }
 
 .recipe-step {
-  margin-top: 15px;
-
-  .delete-button {
-    border-radius: 50px;
+  margin: 20px 0 0 0;
+  .textarea-btn {
+    .delete-button {
+      border-radius: 5px;
+    }
   }
 }
 
@@ -44,22 +47,53 @@
       width: 80%;
     }
   }
-  .new-recipe-title {
-    text-align: center;
-  }
-  .people-number-selection {
+  .new-recipe-form-input {
+    margin: 0 0 20px 0;
     display: flex;
-
-    .people-number {
-      padding: 1px 10px;
+    justify-content: center;
+    .new-recipe-title {
+      text-align: center;
+      min-width: 50%;
+      border-radius: 5px;
+      border: transparent;
     }
-    button {
-      line-height: 10px;
-      padding: 0.2rem;
-      border-radius: 50%;
-      width: 25px;
-      height: 25px;
-      // background-color: #ece8da;
+  }
+  .file-upload-input {
+    background-size: cover;
+    background-position: center;
+    object-fit: cover;
+    left: 20px;
+    right: 20px;
+  }
+  .persons-minutes {
+    margin: 20px 0 0 0;
+    display: flex;
+    justify-content: space-around;
+    .label-container {
+      max-width: 50%;
+      .title-persons-number {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+      .people-number-selection {
+        display: flex;
+        justify-content: center;
+        .people-number {
+          padding: 1px 10px;
+        }
+        button {
+          margin: 0 10px;
+          border: none;
+          line-height: 10px;
+          padding: 0.2rem;
+          border-radius: 50%;
+          width: 25px;
+          height: 25px;
+          // background-color: #ece8da;
+        }
+      }
+    }
+    .prepTime-Container {
     }
   }
   .new-ingredients-container {
@@ -72,7 +106,7 @@
         justify-content: space-between;
       }
       .ingredient-line-quantity {
-        width: 4rem;
+        width: 50%;
       }
 
       .ingredient-line-unite {
@@ -82,6 +116,6 @@
     }
   }
   .send-recipe-btn {
-    border-radius: 50px;
+    border-radius: 5px;
   }
 }

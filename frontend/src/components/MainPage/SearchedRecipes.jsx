@@ -3,7 +3,7 @@ import React, { useMemo, useRef, useState } from "react";
 // import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
-import star from "../../styles/icons/Star.png";
+// import star from "../../styles/icons/Star.png";
 
 function SearchedRecipes() {
   const { getData } = Useinfo();
@@ -101,7 +101,7 @@ function SearchedRecipes() {
               <h3>{recipe.name}</h3>
               <div className="rate-container">
                 <div className="stars">
-                  <img src={star} alt="star-img" />
+                  {/* <img src={star} alt="star-img" /> */}
                   {/* <div>{Average(recipe.notes)}/5</div> */}
                 </div>
                 {/* <div className="votes">
