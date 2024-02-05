@@ -42,6 +42,7 @@ function Recipe() {
     setCurrentRecipeId(recipe.id);
     getRecipePicture(recipe.picture);
   }, []);
+
   const notation = comments.map((comment) => (comment.note ? comment.note : 0));
   const averageNote = comments.length === 0 ? 0 : Average(notation);
   const totalVotes = notation.length;

@@ -32,7 +32,10 @@
         background-position: center;
         display: flex;
         align-items: center;
+        justify-content: center;
         .pressable {
+          position: absolute;
+          top: 6px;
           width: 50%;
           margin-left: 0;
           margin-top: 6px;
@@ -47,7 +50,6 @@
           transform: translateX(-50%);
           color: rgba(245, 245, 245, 0.874);
           text-align: center;
-          border: 1px solid white;
           width: 100%;
         }
         .rate-container {
@@ -64,8 +66,12 @@
               margin-top: 2px;
               width: 20px;
               height: 20px;
+              width: 100%;
             }
           }
+        }
+        .chosen-recipe-img {
+          width: 100%;
         }
       }
     }

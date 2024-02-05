@@ -22,7 +22,7 @@ function ModifyRecipe() {
   } = Useinfo();
   const { id } = useParams();
   const { recipeToModify, steps, ingredients } = useLoaderData();
-
+  console.info(recipeToModify);
   // Récupérer tous les ingrédients de la recette
   const actualIngredients = ingredients.map(
     (ingredient) => ingredient.ingredientName
@@ -38,7 +38,9 @@ function ModifyRecipe() {
     recipeToModify.difficulty.slice(1);
   const [ingreds, setIngreds] = useState(ingredients);
   const [recipeName, setRecipeName] = useState(recipeToModify.name);
-  const [image, setImage] = useState(recipeToModify.url); // ---> IMAGE A RECUPERER
+  const [image, setImage] = useState(
+    `${import.meta.env.VITE_BACKEND_URL}/${recipeToModify.url}`
+  ); // ---> IMAGE A RECUPERER
   console.info(image);
   const [duration, setDuration] = useState(recipeToModify.prepTime); // ---> TEMPS A RECUPERER
   const [difficultyEvaluation, setDifficultyEvaluation] =

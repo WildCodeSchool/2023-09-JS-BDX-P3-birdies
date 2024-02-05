@@ -15,9 +15,9 @@ function NewRecipe() {
   const {
     chosenFilters,
     displayDate,
+    setNewRecipesChanged,
     setBasicSuccess,
     user,
-    // handleSubmitRecipeCathegories,
     handleSubmitSteps,
     handleSubmitIngredients,
     handleSubmitPicture,
@@ -55,7 +55,6 @@ function NewRecipe() {
     setIngredientsFound(productsList);
     setIsLoading(false);
   };
-  console.info(ingreds);
   const handleRecipeSubmit = async (credentials) => {
     try {
       const response = await axios.post(
@@ -248,7 +247,6 @@ function NewRecipe() {
         answer.data.recipeId,
         formData
       );
-      // TODO fix this
       for (const ingredient of recipe.ingredients) {
         // eslint-disable-next-line no-await-in-loop
         const ingredientsAnswer = await handleSubmitIngredients(
@@ -265,9 +263,11 @@ function NewRecipe() {
         );
         console.info(recipeIngredient);
       }
+      setNewRecipesChanged(true);
       navigate("/");
     } catch (err) {
       console.error(err);
+      setNewRecipesChanged(true);
       navigate("/");
       throw err;
     }
@@ -317,7 +317,7 @@ function NewRecipe() {
           <h2 className="recipe-part">Ingrédients</h2>
           <div className="search-area">
             <MDBAutocomplete
-              noResults="aucun résultat"
+              noResults=""
               isLoading={isLoading}
               data={ingredientsFound} // valeur retour de l'appel d'API utiliséé pour le display value
               label="Ingrédient"

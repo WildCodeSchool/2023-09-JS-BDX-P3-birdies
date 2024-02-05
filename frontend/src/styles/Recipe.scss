@@ -265,3 +265,8 @@ body {
     align-items: center;
   }
 }
+@media screen and (min-width: 450px) {
+  .recipe-img-container {
+    height: 50vh;
+  }
+}

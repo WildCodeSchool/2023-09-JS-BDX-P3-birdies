@@ -41,6 +41,7 @@ export function InfoContextProvider({ apiService }) {
   // où l'on stock les filtres cathégories des recettes
   const [chosenFilters, setChosenFilters] = useState([]);
   const [lastRecipes, setLastRecipes] = useState([]);
+  const [newRecipesChanged, setNewRecipesChanged] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
   const [infoLogin, setInfoLogin] = useState(false);
   const [userPicture, setUserPicture] = useState();
@@ -164,10 +165,16 @@ export function InfoContextProvider({ apiService }) {
       console.error(err);
     }
   };
+  // recupere les 5 dernières recettes à l'ouverture de l'appli
   console.info(lastRecipes);
   useEffect(() => {
     getLastRecipes(5);
   }, []);
+
+  if (newRecipesChanged === true) {
+    getLastRecipes(5);
+    setNewRecipesChanged(false);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -527,6 +534,8 @@ export function InfoContextProvider({ apiService }) {
       setNoMatchPassword,
       setPassword,
       setPopupContent,
+      newRecipesChanged,
+      setNewRecipesChanged,
       setRecipeComment,
       setRecipeNote,
       setRecipePicture,
@@ -624,6 +633,8 @@ export function InfoContextProvider({ apiService }) {
       setNoMatchPassword,
       setPassword,
       setPopupContent,
+      newRecipesChanged,
+      setNewRecipesChanged,
       setRecipePicture,
       setShowAllRecipes,
       setShowComments,

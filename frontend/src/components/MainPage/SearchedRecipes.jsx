@@ -98,17 +98,18 @@ function SearchedRecipes() {
               >
                 Voir
               </button>
-              <h3>{recipe.name}</h3>
+              <h3 className="chosen-recipe-title">{recipe.name}</h3>
               <div className="rate-container">
-                <div className="stars">
-                  {/* <img src={star} alt="star-img" /> */}
-                  {/* <div>{Average(recipe.notes)}/5</div> */}
-                </div>
-                {/* <div className="votes">
+                {/* <div className="stars"> */}
+                {/* <img src={star} alt="star-img" /> */}
+                {/* <div>{Average(recipe.notes)}/5</div> */}
+              </div>
+              {/* <div className="votes">
                   <p>{recipe.notes.length} votes</p>
                 </div> */}
-              </div>
+              {/* </div> */}
               <img
+                className="chosen-recipe-img"
                 src={`${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`}
                 alt="recipe-img"
               />
