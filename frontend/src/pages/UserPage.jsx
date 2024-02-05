@@ -4,7 +4,6 @@ import axios from "axios";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
-import Filter from "../components/Filter";
 import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
 import OptionsMenu from "../components/userPage/OptionsMenu";
 import UserRecipesList from "../components/userPage/UserRecipesList";
@@ -15,9 +14,20 @@ function UserPage() {
   const [rotateWheel, setRotateWheel] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileVisible, setFileVisible] = useState(false); // eslint-disable-line
+  const [favoriteRecipesVisible, setFavoriteRecipesVisible] = useState(false);
+  const [userRecipesVisible, setUserRecipesVisible] = useState(false);
+
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
   const { user } = Useinfo();
+
+  const handleToggleFavoriteRecipes = () => {
+    setFavoriteRecipesVisible(!favoriteRecipesVisible);
+  };
+
+  const handleToggleUserRecipes = () => {
+    setUserRecipesVisible(!userRecipesVisible);
+  };
 
   function handleChangeOptionsMenu() {
     setMenuVisible(!menuVisible);
@@ -100,21 +110,22 @@ function UserPage() {
           <button
             type="button"
             className="coups-de-coeur"
-            // onClick={showUserFavorites}
+            onClick={handleToggleFavoriteRecipes}
           >
             Mes coup de coeur
           </button>
-          <button type="button" className="mes-recettes">
+          <button
+            type="button"
+            className="mes-recettes"
+            onClick={handleToggleUserRecipes}
+          >
             Mes recettes
           </button>
         </div>
       </div>
-      <div className="filters-slide">
-        <Filter />
-      </div>
       <div className="userPage-recipes">
-        <FavoriteRecipesList />
-        <UserRecipesList />
+        {favoriteRecipesVisible && <FavoriteRecipesList />}
+        {userRecipesVisible && <UserRecipesList />}
       </div>
     </>
   );
