@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
@@ -14,8 +14,10 @@ function UserPage() {
   const [rotateWheel, setRotateWheel] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileVisible, setFileVisible] = useState(false); // eslint-disable-line
+  const [image, setImage] = useState("");
   const [favoriteRecipesVisible, setFavoriteRecipesVisible] = useState(false);
   const [userRecipesVisible, setUserRecipesVisible] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
 
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
@@ -41,14 +43,27 @@ function UserPage() {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const formData = new FormData();
     formData.append("picture", selectedFile);
-    axios.post(
+    const result = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.id}/uploads`,
       formData
     );
+    setImage(result.data[0].avatar);
   };
+
+  const getCurrentUser = async (id) => {
+    const result = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${id}/uploads`
+    );
+
+    setCurrentUser(result.data.avatar);
+  };
+
+  useEffect(() => {
+    getCurrentUser(user.id);
+  }, []);
 
   return (
     <>
@@ -65,17 +80,26 @@ function UserPage() {
             <input
               type="file"
               name="file"
-              className="file-visible file-hidden"
+              className="file-visible"
               onChange={handleFileChange}
             />
-            <img
-              className="user-pfp"
-              src={`${import.meta.env.VITE_BACKEND_URL}/${user.avatar}`}
-              alt="Preview"
-            />
+            {image ? (
+              <img
+                className="user-pfp"
+                src={`${import.meta.env.VITE_BACKEND_URL}/${image}  `}
+                alt="Preview"
+              />
+            ) : (
+              <img
+                className="user-pfp"
+                src={`${import.meta.env.VITE_BACKEND_URL}/${currentUser}  `}
+                alt="Preview"
+              />
+            )}
+
             <button
               type="button"
-              className="hide-confirm-button"
+              // className="hide-confirm-button"
               onClick={handleSave}
             >
               Confirmer

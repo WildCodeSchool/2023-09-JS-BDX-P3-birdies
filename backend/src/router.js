@@ -91,6 +91,9 @@ router.post(
   upload.single("picture"),
   uploadControllers.createAvatar
 );
+
+router.get("/users/:id([0-9]+)/uploads", userControllers.getUserWithUpload);
+
 router.get("/cathegories", cathegoriesControllers.getCathegories);
 router.post(
   "/recipes/:id([0-9]+)/cathegories",

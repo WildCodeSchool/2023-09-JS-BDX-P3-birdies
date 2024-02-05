@@ -25,7 +25,7 @@ const createAvatar = async (req, res) => {
   try {
     const result = await models.upload.create(req.file);
     await models.user.addAvatar(req.params.id, result.id);
-    const [rows] = await models.user.getProfileWithImage(req.user.id);
+    const [rows] = await models.user.getProfileWithImage(req.params.id);
     res.status(201).send(rows);
   } catch (err) {
     console.info(err);
