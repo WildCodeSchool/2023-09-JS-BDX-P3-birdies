@@ -10,7 +10,6 @@ import IngredientsList from "../components/NewRecice/Ingredients-list";
 import DifficultiesList from "../components/NewRecice/DificultiesList";
 import PreparationTime from "../components/NewRecice/PreparationTime";
 import { Useinfo } from "../context/InfoContext";
-import FilterBar from "../components/NewRecice/FilterBar";
 
 function NewRecipe() {
   const {
@@ -383,10 +382,10 @@ function NewRecipe() {
             </div>
           ))}
         </div>
-        <FilterBar
+        {/* <FilterBar
           chosenFilters={chosenFilters}
           setChosenFilters={setChosenFilters}
-        />
+        /> */}
         <div className="send-recipe-btn-container">
           <Link to="/">
             <button className="send-recipe-btn" type="button" onClick={showAll}>
