@@ -83,8 +83,9 @@ function ModifyRecipe() {
   }
   // definit le temps de préparation de la recete
   const handleChangeTime = (e) => {
-    console.info(duration);
-    setDuration(e.target.value);
+    const timeInNumeric = e.target.value.replace(/[^0-9]/g, "");
+    const time = timeInNumeric === "" ? 0 : parseFloat(timeInNumeric);
+    setDuration(time);
   };
   // Définie la difficulté de la recette
   const handleChangeDifficulty = (e) => {
@@ -118,8 +119,12 @@ function ModifyRecipe() {
   // modifie l'array de quantité des aliments
   const handleChangeQuantity = (e, i) => {
     const quantityData = [...quantityValues];
-    quantityData[i] = parseFloat(e.target.value);
-    setQuantityValues(quantityData);
+    const regex = /[0-9]+$/;
+    const quantity = e.target.value;
+    if (quantity.match(regex) || quantity === "") {
+      quantityData[i] = quantity === "" ? 0 : parseFloat(quantity);
+      setQuantityValues(quantityData);
+    }
   };
   // modifie l'array d'unité de mesure ds aliments
   const handleChangeUnite = (e, i) => {
@@ -150,12 +155,19 @@ function ModifyRecipe() {
   // supprime l'ingrédient de notre choix
   const handleDeleteIngredient = (i) => {
     const deleteIngreds = [...ingreds];
-    deleteIngreds.splice(i, 1);
-
+    const deleteQuantity = [...quantityValues];
     const deleteRecipeIngredients = [...recipeIngredients];
+    const deleteUnite = [...uniteValues];
+
+    deleteIngreds.splice(i, 1);
+    deleteQuantity.splice(i, 1);
     deleteRecipeIngredients.splice(i, 1);
+    deleteUnite.splice(i, 1);
+
     setIngreds(deleteIngreds);
     setRecipeIngredients(deleteRecipeIngredients);
+    setQuantityValues(deleteQuantity);
+    setUniteValues(deleteUnite);
   };
 
   const searchIngredient = (value) => {
