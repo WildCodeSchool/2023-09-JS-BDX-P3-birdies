@@ -169,7 +169,7 @@ export function InfoContextProvider({ apiService }) {
     localStorage.clear();
     return navigate("/slideone");
   };
-
+  // Récupère une liste des dernières recettes (id/name/image)
   const getLastRecipes = async (number) => {
     try {
       const res = await axios.get(
@@ -180,6 +180,7 @@ export function InfoContextProvider({ apiService }) {
       console.error(err);
     }
   };
+  console.info(lastRecipes);
   useEffect(() => {
     getLastRecipes(5);
   }, []);
@@ -465,6 +466,7 @@ export function InfoContextProvider({ apiService }) {
     setAddCommentVisible(false);
     setBasicSuccess((prev) => !prev);
   }
+
   const contextValues = useMemo(
     () => ({
       Average,

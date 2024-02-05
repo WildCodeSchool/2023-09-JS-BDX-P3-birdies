@@ -108,6 +108,10 @@ function SearchedRecipes() {
                   <p>{recipe.notes.length} votes</p>
                 </div> */}
               </div>
+              <img
+                src={`${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`}
+                alt="recipe-img"
+              />
             </div>
           </TinderCard>
         ))}

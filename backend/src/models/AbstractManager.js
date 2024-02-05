@@ -11,23 +11,26 @@ class AbstractManager {
   }
 
   // trouve les recettes par critères
-
   findAll(dataValue = {}) {
     console.info(dataValue);
-    let query = `select * from  ${this.table}`;
+    let query = `select recipes.id, recipes.name, upload.url from  ${this.table} LEFT JOIN upload ON recipes.picture = upload.id`;
     const values = [];
 
     if (Object.entries(dataValue).length > 0) {
       query += " WHERE";
       for (const [key, value] of Object.entries(dataValue)) {
-        if (key !== "prepTime") {
-          query += `${values.length ? " AND" : ""} ${key} LIKE ?`;
-          values.push(`${value}%`);
-        } else {
-          query += `${values.length ? " AND" : ""} ${key} < ?`;
-          values.push(value === "" ? 525600 : `${value}`);
+        switch (key) {
+          case "prepTime":
+            if (value !== "") {
+              query += `${values.length ? " AND" : ""} ${key} < ?`;
+              values.push(`${value}`);
+            }
+            break;
+          default:
+            query += `${values.length ? " AND" : ""} ${key} LIKE ?`;
+            values.push(`${value}%`);
+            break;
         }
-        // }
       }
     }
     return this.database.query(query, values);
