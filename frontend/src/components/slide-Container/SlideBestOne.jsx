@@ -2,7 +2,7 @@
 
 import { Link } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
-import star from "../../styles/icons/Star.png";
+import img from "../../styles/img/slide2.jpg";
 
 function SlideBestOne() {
   const { lastRecipes, favoriteRecipes, manageFavoriteRecipes } = Useinfo();
@@ -20,24 +20,25 @@ function SlideBestOne() {
   return (
     <div className="slide-one-container">
       {(lastRecipes ?? []).map((recipe) => (
-        <div className="slide-best-one-conatiner" key={recipe.id}>
+        <div className="slide-best-one-container" key={recipe.id}>
           <Link to={`/recipes/${recipe.id}`}>
             <div className="card-container">
               <div className="content-container">
                 <h1>{recipe.name}</h1>
                 <div className="note-container">
-                  <img className="star-picture" src={star} alt="star-img" />
+                  {/* <img className="star-picture" src={star} alt="star-img" /> */}
                   {/* <div className="average">{Average(recipe.notes)}/5</div> */}
                 </div>
                 {/* <div className="votes-container">
                 <p id="votes-content">Date{recipe.publicationDate}</p>
               </div> */}
               </div>
+              <img src={img} alt="" />
 
-              <img
+              {/* <img
                 src={`${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`}
                 alt={recipe.name}
-              />
+              /> */}
             </div>
           </Link>
           <div className="container-icon-recipe">

@@ -372,11 +372,13 @@ function NewRecipe() {
           chosenFilters={chosenFilters}
           setChosenFilters={setChosenFilters}
         />
-        <Link to="/">
-          <button className="send-recipe-btn" type="button" onClick={showAll}>
-            ENVOYER
-          </button>
-        </Link>
+        <div className="send-recipe-btn-container">
+          <Link to="/">
+            <button className="send-recipe-btn" type="button" onClick={showAll}>
+              ENVOYER
+            </button>
+          </Link>
+        </div>
       </form>
     </div>
   );
