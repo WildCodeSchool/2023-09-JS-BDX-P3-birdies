@@ -168,7 +168,11 @@ function Recipe() {
               {/* </div> */}
             </div>
           </MDBStepperStep>
-          <MDBStepperStep headText="Etapes" itemId={2}>
+          <MDBStepperStep
+            className="container-steps-ingred"
+            headText="Etapes"
+            itemId={2}
+          >
             <div className="all-steps-container">
               <div className="steps-title-pdf-container">
                 <div className="steps-title">Etapes</div>
