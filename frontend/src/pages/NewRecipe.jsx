@@ -39,11 +39,13 @@ function NewRecipe() {
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
+  const [isLoading, setIsLoading] = useState(false);
   const stepsInfos = [];
   const filtersInfo = [];
   const ingredientsInfos = [];
-  // const [chosenFilters, setChosenFilters] = useState([]);
+
   const newApiCall = async (ingredient) => {
+    setIsLoading(true);
     const response = await axios.get(
       `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriments`
     );
@@ -51,6 +53,7 @@ function NewRecipe() {
       (products) => products.nutriments.energy_unit === "kJ"
     );
     setIngredientsFound(productsList);
+    setIsLoading(false);
   };
   console.info(ingreds);
   const handleRecipeSubmit = async (credentials) => {
@@ -81,8 +84,9 @@ function NewRecipe() {
   }
   // definit le temps de préparation de la recete
   const handleChangeTime = (e) => {
-    console.info(e.target.value);
-    setDuration(e.target.value);
+    const timeInNumeric = e.target.value.replace(/[^0-9]/g, "");
+    const time = timeInNumeric === "" ? 0 : parseFloat(timeInNumeric);
+    setDuration(time);
   };
   // Définit la difficulté de la recette
   const handleChangeDifficulty = (e) => {
@@ -115,16 +119,18 @@ function NewRecipe() {
   // modifie l'array de quantité des aliments
   const handleChangeQuantity = (e, i) => {
     const quantityData = [...quantityValues];
-    quantityData[i] = parseFloat(e.target.value);
+    const quantity = e.target.value.replace(/[^0-9]/g, "");
+    quantityData[i] = quantity === "" ? 0 : parseFloat(quantity);
     setQuantityValues(quantityData);
   };
+
   // modifie l'array d'unité de mesure ds aliments
   const handleChangeUnite = (e, i) => {
     const uniteData = [...uniteValues];
     uniteData[i] = e.target.value;
     setUniteValues(uniteData);
   };
-
+  console.info(quantityValues);
   // ajoute une ligne d'étape de la recette
   const handleAdd = () => {
     const text = [...inputs, []];
@@ -147,12 +153,19 @@ function NewRecipe() {
   // supprime l'ingrédient de notre choix
   const handleDeleteIngredient = (i) => {
     const deleteIngreds = [...ingreds];
-    deleteIngreds.splice(i, 1);
-
+    const deleteQuantity = [...quantityValues];
     const deleteRecipeIngredients = [...recipeIngredients];
+    const deleteUnite = [...uniteValues];
+
+    deleteIngreds.splice(i, 1);
+    deleteQuantity.splice(i, 1);
     deleteRecipeIngredients.splice(i, 1);
+    deleteUnite.splice(i, 1);
+
     setIngreds(deleteIngreds);
     setRecipeIngredients(deleteRecipeIngredients);
+    setQuantityValues(deleteQuantity);
+    setUniteValues(deleteUnite);
   };
 
   const searchIngredient = (value) => {
@@ -310,6 +323,8 @@ function NewRecipe() {
           <h2 className="recipe-part">Ingrédients</h2>
           <div className="search-area">
             <MDBAutocomplete
+              noResults="aucun résultat"
+              isLoading={isLoading}
               data={ingredientsFound} // valeur retour de l'appel d'API utiliséé pour le display value
               label="Ingrédient"
               value={ingredientSearch} // affiche le texte écrit dans onSearch
