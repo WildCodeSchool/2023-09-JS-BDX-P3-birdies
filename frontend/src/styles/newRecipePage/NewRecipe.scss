@@ -26,6 +26,9 @@
   .textarea-btn {
     .delete-button {
       border-radius: 5px;
+
+      padding: 5px 15px;
+
     }
   }
 }
@@ -115,7 +118,17 @@
       } /* Firefox */
     }
   }
+
+  .send-recipe-btn-container {
+    display: flex;
+    justify-content: center;
+    .send-recipe-btn {
+      border-radius: 5px;
+      padding: 5px 15px;
+    }
+
   .send-recipe-btn {
     border-radius: 5px;
+
   }
 }

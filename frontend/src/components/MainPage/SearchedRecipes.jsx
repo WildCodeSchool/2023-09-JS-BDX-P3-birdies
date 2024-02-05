@@ -58,26 +58,26 @@ function SearchedRecipes() {
   return (
     <div className="swipe-container">
       <div className="buttons">
-        <button
+        {/* <button
           type="button"
           style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
           onClick={() => swipe("left")}
         >
           J'aime !
-        </button>
+        </button> */}
         <button
           type="button"
-          style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
+          style={{ backgroundColor: !canSwipe && "#c3c4d3", marginRight: 20 }}
           onClick={() => goBack()}
         >
-          Oops !
+          Précédent
         </button>
         <button
           type="button"
           style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
           onClick={() => swipe("right")}
         >
-          Bof...
+          Suivant
         </button>
       </div>
 
