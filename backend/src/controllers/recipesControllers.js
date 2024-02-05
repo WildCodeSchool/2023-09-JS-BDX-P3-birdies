@@ -45,7 +45,7 @@ const getRecipesDifficulty = (req, res) => {
 const getRecipeById = (req, res) => {
   const { id } = req.params;
   models.recipe
-    .find(id)
+    .findById(id)
     .then(([result]) => {
       if (result[0] !== null) {
         res.json(result[0]);
