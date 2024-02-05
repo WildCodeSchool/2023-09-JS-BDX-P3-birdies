@@ -265,7 +265,6 @@ function NewRecipe() {
         );
         console.info(recipeIngredient);
       }
-      // setChosenFilters([]);
       navigate("/");
     } catch (err) {
       console.error(err);

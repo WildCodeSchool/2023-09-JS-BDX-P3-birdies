@@ -2,11 +2,10 @@
 
 import { Link } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
-import img from "../../styles/img/slide2.jpg";
+// import img from "../../styles/img/slide2.jpg";
 
 function SlideBestOne() {
   const { lastRecipes, favoriteRecipes, manageFavoriteRecipes } = Useinfo();
-
   // const [apiBoites, setApiBoites] = useState([]);
   // const [likeBoites, setLikeBoites] = useState(new Map());
 
@@ -33,7 +32,10 @@ function SlideBestOne() {
                 <p id="votes-content">Date{recipe.publicationDate}</p>
               </div> */}
               </div>
-              <img src={img} alt="" />
+              <img
+                src={`${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`}
+                alt=""
+              />
 
               {/* <img
                 src={`${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`}

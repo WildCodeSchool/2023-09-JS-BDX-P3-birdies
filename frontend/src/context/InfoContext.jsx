@@ -52,7 +52,7 @@ export function InfoContextProvider({ apiService }) {
   const [valueDifficulty, setValueDifficulty] = useState([]);
   const [foodFilter, setFoodFilter] = useState([]);
   const [foodDifficulty, setFoodDiddiculty] = useState("");
-  const [cathegories, setCathegories] = useState([]);
+  // const [cathegories, setCathegories] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
   const [showUserList, setShowUserList] = useState(true);
   const [showAllRecipes, setShowAllRecipes] = useState(false);
@@ -69,22 +69,6 @@ export function InfoContextProvider({ apiService }) {
   const [currentRecipeId, setCurrentRecipeId] = useState();
   const [recipePicture, setRecipePicture] = useState("");
   const [userByRecipe, setUserByRecipe] = useState([]);
-
-  // recupere toutes les cathegories de filtres
-  useEffect(() => {
-    const getCathegories = async () => {
-      try {
-        const cath = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/cathegories`
-        );
-        setCathegories(cath.data);
-      } catch (err) {
-        console.error(err);
-        throw err;
-      }
-    };
-    getCathegories();
-  }, []);
 
   // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
   useEffect(() => {
@@ -474,7 +458,7 @@ export function InfoContextProvider({ apiService }) {
       addCommentVisible,
       apiService,
       basicSuccess,
-      cathegories,
+      // cathegories,
       checkPassword,
       chosenRecipe,
       chosenFilters,
@@ -573,7 +557,7 @@ export function InfoContextProvider({ apiService }) {
       addCommentVisible,
       apiService,
       basicSuccess,
-      cathegories,
+      // cathegories,
       checkPassword,
       chosenFilters,
       setChosenFilters,
