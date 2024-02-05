@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { MDBAutocomplete } from "mdb-react-ui-kit";
 import { MDBFileUpload } from "mdb-react-file-upload";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
@@ -14,11 +14,10 @@ import { Useinfo } from "../context/InfoContext";
 function NewRecipe() {
   const {
     chosenFilters,
-    setChosenFilters,
     displayDate,
     setBasicSuccess,
     user,
-    handleSubmitRecipeCathegories,
+    // handleSubmitRecipeCathegories,
     handleSubmitSteps,
     handleSubmitIngredients,
     handleSubmitPicture,
@@ -42,6 +41,8 @@ function NewRecipe() {
   const stepsInfos = [];
   const filtersInfo = [];
   const ingredientsInfos = [];
+
+  const navigate = useNavigate();
 
   const newApiCall = async (ingredient) => {
     setIsLoading(true);
@@ -129,7 +130,6 @@ function NewRecipe() {
     uniteData[i] = e.target.value;
     setUniteValues(uniteData);
   };
-  console.info(quantityValues);
   // ajoute une ligne d'étape de la recette
   const handleAdd = () => {
     const text = [...inputs, []];
@@ -241,7 +241,6 @@ function NewRecipe() {
     try {
       const response = await handleRecipeSubmit(recipe);
       const answer = await handleSubmitSteps(response, stepsInfos);
-      // console.info(answer);
       const formData = new FormData();
       formData.append("picture", image);
 
@@ -266,14 +265,11 @@ function NewRecipe() {
         );
         console.info(recipeIngredient);
       }
-      const recipeCathegories = await handleSubmitRecipeCathegories(
-        answer.data.recipeId,
-        chosenFilters
-      );
-      setChosenFilters([]);
-      console.info(recipeCathegories);
+      // setChosenFilters([]);
+      navigate("/");
     } catch (err) {
       console.error(err);
+      navigate("/");
       throw err;
     }
   };
@@ -385,14 +381,12 @@ function NewRecipe() {
         {/* <FilterBar
           chosenFilters={chosenFilters}
           setChosenFilters={setChosenFilters}
-        /> */}
-        <div className="send-recipe-btn-container">
-          <Link to="/">
-            <button className="send-recipe-btn" type="button" onClick={showAll}>
-              ENVOYER
-            </button>
-          </Link>
-        </div>
+        />
+        {/* <Link to="/"> */}
+        <button className="send-recipe-btn" type="button" onClick={showAll}>
+          ENVOYER
+        </button>
+        {/* </Link> */}
       </form>
     </div>
   );
