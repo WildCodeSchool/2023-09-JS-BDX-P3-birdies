@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { DebounceInput } from "react-debounce-input";
-import burger from "../styles/icons/burger.png";
+import menu from "../assets/Menu.png";
 import logo from "../styles/icons/logo.png";
 import BoxLogin from "./BoxLogin";
 import search from "../styles/icons/Search.png";
@@ -35,7 +35,7 @@ function Navigation() {
         className="burger-logo"
         onClick={() => setLogin(!login)}
       >
-        <img className="logo" src={burger} alt="icon Burger" />
+        <img className="logo" src={menu} alt="menu" />
       </button>
       {login && <BoxLogin />}
       <div className="logo-appli-main">

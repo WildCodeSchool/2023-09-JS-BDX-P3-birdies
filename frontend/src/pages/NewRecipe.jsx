@@ -270,30 +270,38 @@ function NewRecipe() {
     <div className="page">
       <RecipeHeader />
       <form className="new-recipe-form" action="">
-        <input
-          type="text"
-          className="new-recipe-title"
-          placeholder="Votre titre de recette"
-          value={recipeName}
-          onChange={handleNameChange}
+        <div className="new-recipe-form-input">
+          <input
+            type="text"
+            className="new-recipe-title"
+            placeholder="Votre titre de recette"
+            value={recipeName}
+            onChange={handleNameChange}
+          />
+        </div>
+        <MDBFileUpload
+          className="upload-container"
+          getInputFiles={(file) => setImage(file[0])}
         />
-        <MDBFileUpload getInputFiles={(file) => setImage(file[0])} />
-        <label>
-          Nombre de personnes :{/*  */}
-          <div className="people-number-selection">
-            <button type="button" onClick={changeGuestsNumber}>
-              -
-            </button>
-            <p className="people-number">{guestsNumber}</p>
-            <button type="button" onClick={changeGuestsNumber}>
-              +
-            </button>
-          </div>
-        </label>
-        <PreparationTime
-          handleChangeTime={handleChangeTime}
-          duration={duration}
-        />
+        <div className="persons-minutes">
+          <label className="label-container">
+            <h4 className="title-persons-number">Nombre de personnes :</h4>
+            {/*  */}
+            <div className="people-number-selection">
+              <button type="button" onClick={changeGuestsNumber}>
+                -
+              </button>
+              <p className="people-number">{guestsNumber}</p>
+              <button type="button" onClick={changeGuestsNumber}>
+                +
+              </button>
+            </div>
+          </label>
+          <PreparationTime
+            handleChangeTime={handleChangeTime}
+            duration={duration}
+          />
+        </div>
         <DifficultiesList
           handleChangeDifficulty={handleChangeDifficulty}
           difficultyEvaluation={difficultyEvaluation}
@@ -338,21 +346,25 @@ function NewRecipe() {
           {inputs.map((input, i) => (
             <div className="recipe-step">
               <h5>Etape {i + 1}</h5>
-              <textarea
-                name=""
-                id=""
-                cols="38"
-                rows="2"
-                value={input}
-                onChange={(e) => handleChange(e, i)}
-              />
-              <button
-                className="delete-button"
-                type="button"
-                onClick={() => handleDelete(i)}
-              >
-                supprimer
-              </button>
+              <div className="textarea-btn">
+                <textarea
+                  name=""
+                  id=""
+                  cols="38"
+                  rows="2"
+                  value={input}
+                  onChange={(e) => handleChange(e, i)}
+                />
+                <div className="btn-delete">
+                  <button
+                    className="delete-button"
+                    type="button"
+                    onClick={() => handleDelete(i)}
+                  >
+                    supprimer
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </div>
