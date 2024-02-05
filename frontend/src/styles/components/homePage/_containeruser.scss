@@ -10,18 +10,29 @@
   flex-direction: column;
   border-radius: 5px;
   li {
+    border: none;
     margin-top: 10px;
     color: black;
+  }
+  #box-login {
+    min-width: 100px;
+    margin-bottom: 10px;
   }
 }
 @media screen and (max-width: 1000px) {
   .box-login {
-    left: 20%;
+    left: 0;
+    min-width: 20%;
 
     li {
       font-size: 0.8rem;
       text-align: center;
       background: none;
+      border: none;
+    }
+    button {
+      background-color: white;
+      border: none;
     }
   }
 }
@@ -31,6 +42,9 @@
     padding: 0 50px;
     font-size: 0.8rem;
     text-align: center;
+    li {
+      border: none;
+    }
 
     button {
       background-color: white;

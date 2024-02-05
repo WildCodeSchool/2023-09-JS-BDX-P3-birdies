@@ -234,8 +234,8 @@ function NewRecipe() {
       cathegories: filtersInfo,
       ingredients: ingredientsInfos,
     };
-    console.info(recipe);
-    console.info(recipe.ingredients);
+    // console.info(recipe);
+    // console.info(recipe.ingredients);
     setBasicSuccess((prev) => !prev);
     try {
       const response = await handleRecipeSubmit(recipe);
@@ -252,9 +252,9 @@ function NewRecipe() {
         const ingredientsAnswer = await handleSubmitIngredients(
           ingredient.name
         );
-        console.info(ingredient);
+        // console.info(ingredient);
         console.info(imgResponse);
-        console.info(ingredientsInfos);
+        // console.info(ingredientsInfos);
         // eslint-disable-next-line no-await-in-loop
         const recipeIngredient = await handleSubmitRecipeIngredients(
           answer.data.recipeId,

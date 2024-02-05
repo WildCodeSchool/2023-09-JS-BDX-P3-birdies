@@ -37,7 +37,7 @@ function Navigation() {
       >
         <img className="logo" src={menu} alt="menu" />
       </button>
-      {login && <BoxLogin />}
+      {login ? <BoxLogin /> : !(<BoxLogin />)}
       <div className="logo-appli-main">
         <img src={logo} alt="Lodo appli" />
       </div>

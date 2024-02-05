@@ -63,6 +63,7 @@ function ModifyRecipe() {
     const productsList = response.data.products.filter(
       (products) => products.nutriscore_data !== undefined
     );
+    const withEnergyPdct = productsList.filter(
     console.info(productsList);
     productsList.filter(
       (product) => product.nutriscore_data.energy !== undefined
@@ -234,7 +235,6 @@ function ModifyRecipe() {
       const ingredientsAnswer = await handleSubmitIngredients(
         ingredient.name.name
       );
-
       // eslint-disable-next-line no-await-in-loop
       const recipeIngredient = await handleSubmitRecipeIngredients(
         id,

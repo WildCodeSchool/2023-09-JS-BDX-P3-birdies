@@ -166,7 +166,7 @@ export function InfoContextProvider({ apiService }) {
     }
   };
   // recupere les 5 dernières recettes à l'ouverture de l'appli
-  console.info(lastRecipes);
+  // console.info(lastRecipes);
   useEffect(() => {
     getLastRecipes(5);
   }, []);
