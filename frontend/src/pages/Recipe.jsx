@@ -37,7 +37,7 @@ function Recipe() {
   const { id } = useParams();
 
   const { recipe, comments, steps, ingredients } = useLoaderData();
-
+  console.info(ingredients);
   useEffect(() => {
     setCurrentRecipeId(recipe.id);
     getRecipePicture(recipe.picture);

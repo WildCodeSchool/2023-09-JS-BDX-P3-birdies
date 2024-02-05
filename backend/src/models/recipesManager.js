@@ -40,7 +40,12 @@ class RecipeManager extends AbstractManager {
       [pictureId, recipeId]
     );
   }
-
+  async findById(id) {
+    return this.database.query(
+      `select *, upload.url from  ${this.table} left join upload on upload.id = recipes.picture where ${this.table}.id = ?`,
+      [id]
+    );
+  }
   async findByName(name) {
     return this.database.query(
       `SELECT * from ${this.table} WHERE name like"%${name}%" `

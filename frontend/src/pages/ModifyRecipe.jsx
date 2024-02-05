@@ -22,7 +22,6 @@ function ModifyRecipe() {
   } = Useinfo();
   const { id } = useParams();
   const { recipeToModify, steps, ingredients } = useLoaderData();
-  console.info(recipeToModify);
   // Récupérer tous les ingrédients de la recette
   const actualIngredients = ingredients.map(
     (ingredient) => ingredient.ingredientName
@@ -65,10 +64,10 @@ function ModifyRecipe() {
       (products) => products.nutriscore_data !== undefined
     );
     console.info(productsList);
-    const withEnergyPdct = productsList.filter(
+    productsList.filter(
       (product) => product.nutriscore_data.energy !== undefined
     );
-    console.info(withEnergyPdct);
+    // console.info(withEnergyPdct);
     setIngredientsFound(productsList);
   };
 
@@ -235,15 +234,14 @@ function ModifyRecipe() {
       const ingredientsAnswer = await handleSubmitIngredients(
         ingredient.name.name
       );
-      console.info(ingredient);
-      console.info(ingredientsInfos);
+
       // eslint-disable-next-line no-await-in-loop
       const recipeIngredient = await handleSubmitRecipeIngredients(
         id,
         ingredientsAnswer.data.id,
         ingredient
       );
-      console.info(recipeIngredient);
+      console.info(typeof recipeIngredient);
     }
   };
   return (
