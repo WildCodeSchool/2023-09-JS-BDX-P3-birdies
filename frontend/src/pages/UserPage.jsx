@@ -15,7 +15,7 @@ function UserPage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileVisible, setFileVisible] = useState(false); // eslint-disable-line
   const [favoriteRecipesVisible, setFavoriteRecipesVisible] = useState(false);
-  const [userRecipesVisible, setUserRecipesVisible] = useState(true);
+  const [userRecipesVisible, setUserRecipesVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
 
   const navigate = useNavigate();
@@ -23,11 +23,13 @@ function UserPage() {
   const { user } = Useinfo();
 
   const handleToggleFavoriteRecipes = () => {
-    setFavoriteRecipesVisible(!favoriteRecipesVisible);
+    setFavoriteRecipesVisible(true);
+    setUserRecipesVisible(false);
   };
 
   const handleToggleUserRecipes = () => {
-    setUserRecipesVisible(!userRecipesVisible);
+    setFavoriteRecipesVisible(false);
+    setUserRecipesVisible(true);
   };
 
   function handleChangeOptionsMenu() {
@@ -84,6 +86,7 @@ function UserPage() {
               className="file-visible"
               onChange={handleFileChange}
             />
+
             {selectedFile ? (
               <img
                 className="user-pfp"
@@ -100,7 +103,7 @@ function UserPage() {
 
             <button
               type="button"
-              // className="hide-confirm-button"
+              className="confirm-button"
               onClick={handleSave}
             >
               Confirmer

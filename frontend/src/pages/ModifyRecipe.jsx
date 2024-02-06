@@ -64,11 +64,11 @@ function ModifyRecipe() {
       (products) => products.nutriscore_data !== undefined
     );
     const withEnergyPdct = productsList.filter(
-    console.info(productsList);
-    productsList.filter(
-      (product) => product.nutriscore_data.energy !== undefined
+      productsList.filter(
+        (product) => product.nutriscore_data.energy !== undefined
+      )
     );
-    // console.info(withEnergyPdct);
+    console.info(withEnergyPdct);
     setIngredientsFound(productsList);
   };
 
