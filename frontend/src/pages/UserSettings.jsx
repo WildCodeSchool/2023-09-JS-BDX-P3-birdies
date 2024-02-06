@@ -1,14 +1,11 @@
 import { Link, useParams } from "react-router-dom";
+import { MDBBtn } from "mdb-react-ui-kit";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { MDBFileUpload } from "mdb-react-file-upload";
-import { Useinfo } from "../context/InfoContext";
 import "../styles/components/UserSettings/userSettings.scss";
 import replyArrow from "../styles/icons/Reply Arrow.png";
-import settingsWheel from "../styles/icons/settingsWheel.png";
 
 export default function UserSettings() {
-  const { setUserPicture } = Useinfo();
   // lines disabled for eslint because values are not changing anything yet
   const [everyInfo, setEveryInfo] = useState({});
   const { id } = useParams();
@@ -61,14 +58,6 @@ export default function UserSettings() {
             <Link className="back-arrow" to="/userpage">
               <img src={replyArrow} alt="Retour" />
             </Link>
-            <MDBFileUpload
-              getInputFiles={(file) => setUserPicture(file.find((e) => e.name))}
-            />
-            <img
-              src={settingsWheel}
-              alt="Paramètres"
-              className="setting-wheel"
-            />
           </div>
           <div className="user-settings-container">
             <input
@@ -114,13 +103,14 @@ export default function UserSettings() {
               />
             )}
 
-            <button
+            <MDBBtn
+              color="warning"
               type="submit"
               className="accept-modifications"
               onClick={sendChanges}
             >
               Modifier
-            </button>
+            </MDBBtn>
             {everyInfo?.role === "admin" && (
               <button
                 type="submit"
