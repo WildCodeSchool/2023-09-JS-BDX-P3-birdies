@@ -59,6 +59,7 @@ export function InfoContextProvider({ apiService }) {
   const [showAllRecipes, setShowAllRecipes] = useState(false);
   const [checkPassword, setCheckPassword] = useState("");
   const [formValue, setFormValue] = useState({
+    pseudo: "",
     email: "",
     password: "",
     role: "user",
@@ -176,22 +177,11 @@ export function InfoContextProvider({ apiService }) {
     setNewRecipesChanged(false);
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3310/api/users/${user.email}/userRecipes`
-        );
-        setUserByRecipe(response.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchData(); // Call the async function to fetch data
-  }, []);
-
   const getRecipePicture = async (recipePictureId) => {
+    if (!recipePictureId) {
+      return;
+    }
+
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/uploads/${recipePictureId})`
     );
@@ -353,16 +343,38 @@ export function InfoContextProvider({ apiService }) {
 
   // donne la liste de toutes les recettes favorites de l'utilisateur
   useEffect(() => {
-    const showFavorites = async (person) => {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${person.id}/userRecipes`
-      );
-      const favs = response.data;
-      setFavoriteRecipesComplete(favs);
-      const favoritesIds = favs.map((fav) => parseInt(fav.recipe_id, 10));
-      setFavoriteRecipes(favoritesIds);
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/${
+            user.email
+          }/userRecipes`
+        );
+        setUserByRecipe(data);
+      } catch (err) {
+        console.error(err);
+      }
     };
-    showFavorites(user);
+
+    const showFavorites = async () => {
+      try {
+        const { data } = await apiService.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.id}/userRecipes`
+        );
+        setFavoriteRecipesComplete(data);
+        setFavoriteRecipes(data.map((fav) => parseInt(fav.recipe_id, 10)));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (user?.email) {
+      fetchData(); // Call the async function to fetch data
+    }
+
+    if (user?.id) {
+      showFavorites(user);
+    }
   }, []);
 
   function difficultyListModify(e) {

@@ -1,6 +1,12 @@
 import { useLoaderData, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { MDBStepper, MDBStepperStep, MDBAlert } from "mdb-react-ui-kit";
+import {
+  MDBStepper,
+  MDBStepperStep,
+  MDBAlert,
+  MDBBtn,
+  MDBIcon,
+} from "mdb-react-ui-kit";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import TextInput from "../components/Text-input";
 import ActionButton from "../components/action-button";
@@ -39,8 +45,8 @@ function Recipe() {
   const { recipe, comments, steps, ingredients } = useLoaderData();
   console.info(ingredients);
   useEffect(() => {
-    setCurrentRecipeId(recipe.id);
-    getRecipePicture(recipe.picture);
+    setCurrentRecipeId(recipe?.id);
+    getRecipePicture(recipe?.picture);
   }, []);
 
   const notation = comments.map((comment) => (comment.note ? comment.note : 0));
@@ -136,6 +142,16 @@ function Recipe() {
                 </div>
               </div>
               <div className="people-number-selection">
+                <MDBBtn
+                  floating
+                  outline
+                  tag="a"
+                  color="dark"
+                  size="sm"
+                  onClick={() => setGuestsNumber(guestsNumber - 1)}
+                >
+                  <MDBIcon fas icon="minus" />
+                </MDBBtn>
                 <button type="button" onClick={changeGuestsNumber}>
                   -
                 </button>

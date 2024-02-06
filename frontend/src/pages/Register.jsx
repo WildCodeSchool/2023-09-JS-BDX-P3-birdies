@@ -1,3 +1,4 @@
+import { MDBBtn, MDBInput } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
@@ -22,11 +23,14 @@ function Register() {
   } = Useinfo();
 
   const onChange = (e) => {
+    console.error(e.target.name);
     setErrorOrigin("");
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
     if (
       formValue.password !== checkPassword ||
       !formValue.password.match(validPassword)
@@ -48,107 +52,113 @@ function Register() {
         <img className="logo" src={logo} alt="" />
       </div>
       <div className="login-container">
-        <div className="inputs">
-          <div className="header">
-            <div className="error-Msg-existing">
-              {errorOrigin !== "" && <p>{`${errorOrigin} déjà existant`}</p>}
-              {formatError !== "" && <p>{`${formatError} format incorrect`}</p>}
-              {noMatchPassword && <p>Mot de passe incorrect</p>}
+        <form onSubmit={handleSubmit}>
+          <div className="inputs">
+            <div className="header">
+              <div className="error-Msg-existing">
+                {errorOrigin !== "" && <p>{`${errorOrigin} déjà existant`}</p>}
+                {formatError !== "" && (
+                  <p>{`${formatError} format incorrect`}</p>
+                )}
+                {noMatchPassword && <p>Mot de passe incorrect</p>}
+              </div>
+              <div className="text register-title">Créer mon compte</div>
             </div>
-            <div className="text register-title">Créer mon compte</div>
+            <div className="input">
+              <MDBInput
+                value={formValue.pseudo}
+                onChange={onChange}
+                name="pseudo"
+                label="Pseudo"
+                type="text"
+              />
+            </div>
+            <div className="error-message-container">
+              <p
+                className={
+                  formValue.pseudo === undefined ||
+                  !formValue.pseudo.match(validPseudo)
+                    ? "error-format-pseudo"
+                    : "error-format-pseudo checked"
+                }
+              >
+                Min 8 caractères, 1 Maj, 1 Min, 1 Chiffre
+              </p>
+            </div>
+            <div className="input">
+              <input
+                autoComplete="username"
+                name="email"
+                className="input-email"
+                type="email"
+                placeholder="Email"
+                value={formValue.email}
+                onChange={onChange}
+              />
+            </div>
+            <div className="error-message-container">
+              <p
+                className={
+                  formValue.email === undefined ||
+                  !formValue.email.match(validEmail)
+                    ? "error-format-pseudo"
+                    : "error-format-pseudo checked"
+                }
+              >
+                Format d' e-mail invalide
+              </p>
+            </div>
+            <div className="input">
+              <input
+                name="password"
+                autoComplete="new-password"
+                className="input-password"
+                type="password"
+                placeholder="Mot de passe"
+                value={formValue.password}
+                onChange={onChange}
+              />
+            </div>
+            <div className="error-message-container">
+              <p
+                className={
+                  formValue.password === undefined ||
+                  !formValue.password.match(validPassword)
+                    ? "error-format-pseudo"
+                    : "error-format-pseudo checked"
+                }
+              >
+                doit contenir 1 caractere spé
+              </p>
+            </div>
+            <div className="input">
+              <input
+                className="input-password"
+                autoComplete="new-password"
+                type="password"
+                placeholder="Vérifier mot de passe"
+                value={checkPassword}
+                onChange={(e) => setCheckPassword(e.target.value)}
+              />
+            </div>
+            <div className="error-message-container">
+              <p
+                className={
+                  checkPassword !== formValue.password
+                    ? "error-check-password"
+                    : "error-check-password checked"
+                }
+              >
+                Vérification incorrecte
+              </p>
+            </div>
           </div>
-          <div className="input">
-            <input
-              name="pseudo"
-              className="input-pseudo"
-              type="text"
-              placeholder="pseudo"
-              value={formValue.pseudo}
-              onChange={onChange}
-            />
+          <div className="submit">
+            <MDBBtn outline rounded color="warning" type="submit">
+              S'enregistrer
+            </MDBBtn>
           </div>
-          <div className="error-message-container">
-            <p
-              className={
-                formValue.pseudo === undefined ||
-                !formValue.pseudo.match(validPseudo)
-                  ? "error-format-pseudo"
-                  : "error-format-pseudo checked"
-              }
-            >
-              Min 8 caractères, 1 Maj, 1 Min, 1 Chiffre
-            </p>
-          </div>
-          <div className="input">
-            <input
-              name="email"
-              className="input-email"
-              type="email"
-              placeholder="Email"
-              value={formValue.email}
-              onChange={onChange}
-            />
-          </div>
-          <div className="error-message-container">
-            <p
-              className={
-                formValue.email === undefined ||
-                !formValue.email.match(validEmail)
-                  ? "error-format-pseudo"
-                  : "error-format-pseudo checked"
-              }
-            >
-              Format d' e-mail invalide
-            </p>
-          </div>
-          <div className="input">
-            <input
-              name="password"
-              className="input-password"
-              type="password"
-              placeholder="Mot de passe"
-              value={formValue.password}
-              onChange={onChange}
-            />
-          </div>
-          <div className="error-message-container">
-            <p
-              className={
-                formValue.password === undefined ||
-                !formValue.password.match(validPassword)
-                  ? "error-format-pseudo"
-                  : "error-format-pseudo checked"
-              }
-            >
-              doit contenir 1 caractere spé
-            </p>
-          </div>
-          <div className="input">
-            <input
-              className="input-password"
-              type="password"
-              placeholder="Vérifier mot de passe"
-              value={checkPassword}
-              onChange={(e) => setCheckPassword(e.target.value)}
-            />
-          </div>
-          <div className="error-message-container">
-            <p
-              className={
-                checkPassword !== formValue.password
-                  ? "error-check-password"
-                  : "error-check-password checked"
-              }
-            >
-              Vérification incorrecte
-            </p>
-          </div>
-        </div>
-        <div className="submit">
-          <button className="submit-form" type="submit" onClick={handleSubmit}>
-            S'enregistrer
-          </button>
-        </div>
+        </form>
 
         <div className="not-connected not-connected-registration">
           <div className="not-member">
