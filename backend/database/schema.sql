@@ -91,6 +91,11 @@ CREATE TABLE `recipes_cathegories` (
     Foreign Key (`cathegory_id`) REFERENCES cathegories(id)
 );
 
+ALTER TABLE `recipes_cathegories`
+ADD CONSTRAINT `fk_recipes_cathegories_recipe_id`
+FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
+
+
 CREATE TABLE `favorite_Recipes` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `user_id` INT NOT NULL,
@@ -400,3 +405,4 @@ VALUES
     (3, 11),
     (2, 26),
     (1, 20);
+

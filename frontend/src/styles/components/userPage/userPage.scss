@@ -54,3 +54,14 @@
 .flowerFiltre {
   z-index: 111;
 }
+
+.user-recipe-container {
+  background: red;
+  display: flex;
+  flex-direction: column;
+}
+
+.delete-btn {
+  width: 2rem;
+  border-radius: 50%;
+}
