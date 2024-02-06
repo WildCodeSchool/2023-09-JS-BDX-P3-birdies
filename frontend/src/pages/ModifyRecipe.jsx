@@ -63,10 +63,12 @@ function ModifyRecipe() {
     const productsList = response.data.products.filter(
       (products) => products.nutriscore_data !== undefined
     );
+    
     console.info(productsList);
 
     const withEnergyPdct = productsList.filter(
       (product) => product.nutriscore_data.energy !== undefined
+
     );
     console.info(withEnergyPdct);
     setIngredientsFound(productsList);
