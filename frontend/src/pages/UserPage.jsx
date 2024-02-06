@@ -14,9 +14,8 @@ function UserPage() {
   const [rotateWheel, setRotateWheel] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileVisible, setFileVisible] = useState(false); // eslint-disable-line
-  const [image, setImage] = useState("");
   const [favoriteRecipesVisible, setFavoriteRecipesVisible] = useState(false);
-  const [userRecipesVisible, setUserRecipesVisible] = useState(false);
+  const [userRecipesVisible, setUserRecipesVisible] = useState(true);
   const [currentUser, setCurrentUser] = useState({});
 
   const navigate = useNavigate();
@@ -40,6 +39,8 @@ function UserPage() {
     const file = e.target.files[0];
     if (file) {
       setSelectedFile(file);
+      const fileUrl = URL.createObjectURL(file);
+      setCurrentUser(fileUrl);
     }
   };
 
@@ -50,7 +51,7 @@ function UserPage() {
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.id}/uploads`,
       formData
     );
-    setImage(result.data[0].avatar);
+    setCurrentUser(result.data[0].avatar);
   };
 
   const getCurrentUser = async (id) => {
@@ -83,11 +84,11 @@ function UserPage() {
               className="file-visible"
               onChange={handleFileChange}
             />
-            {image ? (
+            {selectedFile ? (
               <img
                 className="user-pfp"
-                src={`${import.meta.env.VITE_BACKEND_URL}/${image}  `}
-                alt="Preview"
+                src={URL.createObjectURL(selectedFile)}
+                alt="test"
               />
             ) : (
               <img
