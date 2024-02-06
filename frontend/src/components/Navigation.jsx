@@ -35,7 +35,7 @@ function Navigation() {
         className="burger-logo"
         onClick={() => setLogin(!login)}
       >
-        <img className="logo" src={menu} alt="menu" />
+        <img className="logo-burger" src={menu} alt="menu" />
       </button>
       {login ? <BoxLogin /> : !(<BoxLogin />)}
       <div className="logo-appli-main">

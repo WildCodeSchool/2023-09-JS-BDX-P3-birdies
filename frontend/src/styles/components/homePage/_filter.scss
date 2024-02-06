@@ -1,7 +1,8 @@
 .container-filter {
   max-width: 100%;
   margin: 10px 20%;
-  display: flex;
+  // display: flex;
+  margin: 0 25%;
 
   .scroll-bar {
     display: flex;
@@ -110,6 +111,8 @@
       }
     }
   }
+}
+@media screen and (min-width: 1000px) {
 }
 @media screen and (max-width: 800px) {
   #particularity {
