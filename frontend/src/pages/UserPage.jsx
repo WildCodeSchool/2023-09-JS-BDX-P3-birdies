@@ -77,7 +77,7 @@ function UserPage() {
           <button
             type="button"
             className="back-arrow"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
           >
             <img src={replyArrow} alt="Retour" />
           </button>

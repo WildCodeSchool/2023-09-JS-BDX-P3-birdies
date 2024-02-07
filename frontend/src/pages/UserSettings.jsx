@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { MDBBtn } from "mdb-react-ui-kit";
+import { MDBBtn, MDBAlert } from "mdb-react-ui-kit";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "../styles/components/UserSettings/userSettings.scss";
@@ -14,6 +14,9 @@ export default function UserSettings() {
     password: "", // ou toute autre valeur par défaut pertinente pour le mot de passe
     role: "",
   });
+
+  const [test, setTest] = useState();
+
   const { id } = useParams();
 
   const fetchData = async (userId) => {
@@ -34,6 +37,7 @@ export default function UserSettings() {
         `${import.meta.env.VITE_BACKEND_URL}/api/users/${id}`,
         everyInfo
       );
+      setTest(true);
     } catch (error) {
       console.error("Error saving changes:", error);
     }
@@ -104,6 +108,18 @@ export default function UserSettings() {
             >
               Modifier
             </MDBBtn>
+
+            <MDBAlert
+              color="success"
+              autohide
+              position="top-right"
+              delay={2000}
+              appendToBody
+              open={test}
+              onClose={() => setTest(false)}
+            >
+              Modifications acceptées
+            </MDBAlert>
             {everyInfo?.role === "admin" && (
               <button
                 type="submit"
