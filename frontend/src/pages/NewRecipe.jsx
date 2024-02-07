@@ -284,7 +284,7 @@ function NewRecipe() {
     <div className="page">
       <RecipeHeader />
       <form className="new-recipe-form" action="">
-        <div className="new-recipe-form-input w-50 p-3">
+        <div className="new-recipe-form-input w-100 p-3">
           <MDBInput
             type="text"
             className="new-recipe-title "
@@ -387,21 +387,14 @@ function NewRecipe() {
                   value={input}
                   onChange={(e) => handleChange(e, i)}
                 /> */}
-                <MDBBtn
-                  className="mx-2"
-                  color="dark"
-                  onClick={() => handleDelete(i)}
-                >
-                  supprimer
-                </MDBBtn>
-                <div className="btn-delete">
-                  {/* <button
-                    className="delete-button"
-                    type="button"
+                <div className="mx-2-container">
+                  <MDBBtn
+                    className="mx-2"
+                    color="danger"
                     onClick={() => handleDelete(i)}
                   >
                     supprimer
-                  </button> */}
+                  </MDBBtn>
                 </div>
               </div>
             </div>
@@ -412,9 +405,17 @@ function NewRecipe() {
           setChosenFilters={setChosenFilters}
         />
         {/* <Link to="/"> */}
-        <button className="send-recipe-btn" type="button" onClick={showAll}>
+        <MDBBtn
+          color="dark"
+          className="send-recipe-btn"
+          onClick={showAll}
+          mt-20
+        >
           ENVOYER
-        </button>
+        </MDBBtn>
+        {/* <button className="send-recipe-btn" type="button" onClick={showAll}>
+          ENVOYER
+        </button> */}
         {/* </Link> */}
       </form>
     </div>
