@@ -10,7 +10,7 @@ create table `users` (
     `password` VARCHAR(255) NOT NULL,
     `role` VARCHAR(255) NOT NULL,
     `avatar` VARCHAR(255)
-    );
+);
 
 INSERT INTO
     `users` (
@@ -61,7 +61,7 @@ CREATE table `upload` (
 alter TABLE
     `recipes`
 MODIFY
-    picture INT,
+    picture VARCHAR(255),
 ADD
     CONSTRAINT fk_picture_upload_id FOREIGN KEY (picture) REFERENCES upload(id);
 
@@ -91,10 +91,10 @@ CREATE TABLE `recipes_cathegories` (
     Foreign Key (`cathegory_id`) REFERENCES cathegories(id)
 );
 
-ALTER TABLE `recipes_cathegories`
-ADD CONSTRAINT `fk_recipes_cathegories_recipe_id`
-FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
-
+ALTER TABLE
+    `recipes_cathegories`
+ADD
+    CONSTRAINT `fk_recipes_cathegories_recipe_id` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
 
 CREATE TABLE `favorite_Recipes` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -406,3 +406,7 @@ VALUES
     (2, 26),
     (1, 20);
 
+alter TABLE
+    `recipes`
+MODIFY
+    picture VARCHAR(255);

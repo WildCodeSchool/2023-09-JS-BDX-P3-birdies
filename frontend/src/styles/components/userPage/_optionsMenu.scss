@@ -1,16 +1,17 @@
 .option-menu-box {
   position: absolute;
+  border-radius: 5px;
   top: 85px;
-  right: -150px;
+  right: -200px;
   min-height: 120px;
   transition: all 0.2s ease-in-out;
 
   &.visible {
     position: absolute;
-    top: 85px;
+    top: 150px;
     right: 0px;
     min-height: 120px;
-    width: 150px;
+    width: 180px;
     background-color: white;
     transition: all 0.2s ease-in-out;
   }
@@ -43,9 +44,14 @@
 }
 
 .user-pfp {
+  margin: 20px 0;
+  padding: 5px;
   height: 100px;
   width: 100px;
   border-radius: 50%;
+  border: 3px solid black;
+  background-size: cover;
+  background-position: center;
 }
 
 .hide-confirm-button {

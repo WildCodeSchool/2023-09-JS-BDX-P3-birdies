@@ -1,7 +1,12 @@
 /* eslint-disable import/no-unresolved */
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { MDBAutocomplete } from "mdb-react-ui-kit";
+import {
+  MDBAutocomplete,
+  MDBBtn,
+  MDBInput,
+  MDBTextArea,
+} from "mdb-react-ui-kit";
 import { MDBFileUpload } from "mdb-react-file-upload";
 import { useNavigate } from "react-router-dom";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
@@ -278,13 +283,20 @@ function NewRecipe() {
       <RecipeHeader />
       <form className="new-recipe-form" action="">
         <div className="new-recipe-form-input">
-          <input
+          <MDBInput
+            type="text"
+            className="new-recipe-title"
+            label="Votre titre de recette"
+            value={recipeName}
+            onChange={handleNameChange}
+          />
+          {/* <input
             type="text"
             className="new-recipe-title"
             placeholder="Votre titre de recette"
             value={recipeName}
             onChange={handleNameChange}
-          />
+          /> */}
         </div>
         <MDBFileUpload
           className="upload-container"
@@ -356,22 +368,38 @@ function NewRecipe() {
             <div className="recipe-step">
               <h5>Etape {i + 1}</h5>
               <div className="textarea-btn">
-                <textarea
+                <MDBTextArea
+                  name=""
+                  label="Message"
+                  id="textAreaExample"
+                  cols="38"
+                  rows={2}
+                  value={input}
+                  onChange={(e) => handleChange(e, i)}
+                />
+                {/* <textarea
                   name=""
                   id=""
                   cols="38"
                   rows="2"
                   value={input}
                   onChange={(e) => handleChange(e, i)}
-                />
+                /> */}
+                <MDBBtn
+                  className="mx-2"
+                  color="dark"
+                  onClick={() => handleDelete(i)}
+                >
+                  supprimer
+                </MDBBtn>
                 <div className="btn-delete">
-                  <button
+                  {/* <button
                     className="delete-button"
                     type="button"
                     onClick={() => handleDelete(i)}
                   >
                     supprimer
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
