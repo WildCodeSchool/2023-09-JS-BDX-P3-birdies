@@ -37,7 +37,7 @@ function Recipe() {
   const { id } = useParams();
 
   const { recipe, comments, steps, ingredients } = useLoaderData();
-  // console.info(ingredients);
+  // console.info(recipe);
   useEffect(() => {
     setCurrentRecipeId(recipe?.id);
     getRecipePicture(recipe?.picture);
@@ -103,7 +103,7 @@ function Recipe() {
 
       <div className="recipe-body-container">
         <div className="rate-nutri-container">
-          <p>{recipe.energyPerPerson} kcal/portion</p>
+          {/* <p>{recipe.energyPerPerson} kcal/portion</p> */}
           <div className="rate-container">
             <div className="stars">
               <img src={star} alt="star-img" />
@@ -131,21 +131,21 @@ function Recipe() {
             <div className="all-ingredients-container">
               <div className="ingredients-title-pdf-container">
                 <div className="ingredients-title">Ingrédients</div>
-                <div className="printer-img-container">
+                {/* <div className="printer-img-container">
                   <img className="printer" src={pdf} alt="printer" />
-                </div>
+                </div> */}
               </div>
               <div className="people-number-selection">
                 <button type="button" onClick={changeGuestsNumber}>
                   -
                 </button>
-                <p className="people-number">{guestsNumber}</p>
+                <p className="people-number">{guestsNumber} personnes</p>
 
                 <button type="button" onClick={changeGuestsNumber}>
                   +
                 </button>
               </div>
-              {recipeIngredients.map((recipeIngredient) => (
+              {recipeIngredients?.map((recipeIngredient) => (
                 <div
                   key={recipeIngredient.ingredientName}
                   className="ingredient-container"
@@ -166,7 +166,6 @@ function Recipe() {
                   </div>
                 </div>
               ))}
-              {/* </div> */}
             </div>
           </MDBStepperStep>
           <MDBStepperStep

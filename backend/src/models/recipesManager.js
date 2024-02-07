@@ -73,7 +73,7 @@ class RecipeManager extends AbstractManager {
       `SELECT * from users WHERE email = '${email}'`
     );
     return this.database.query(
-      `SELECT * from recipes WHERE userId = ${user[0].id}`
+      `SELECT * from ${this.table} LEFT JOIN upload ON recipes.picture = upload.id WHERE userId = ${user[0].id}`
     );
   }
 }
