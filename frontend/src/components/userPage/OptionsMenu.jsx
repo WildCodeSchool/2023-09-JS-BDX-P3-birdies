@@ -22,7 +22,7 @@ function OptionsMenu({ menuVisible, setOnOff, onOff }) {
           className="avatar-btn"
           onClick={() => setOnOff(!onOff)}
         >
-          <li className="option-menu-line avatar-btn">Avatar</li>
+          <li className=" avatar-btn">Avatar</li>
         </button>
         <Link to="/">
           <button type="button" className="avatar-btn" onClick={logout}>
