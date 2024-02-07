@@ -6,7 +6,7 @@ function FavoriteRecipesList() {
   return (
     <div>
       {favoriteRecipesComplete?.map((recipe) => (
-        <div className="recipe-container-show">
+        <div className="recipe-container-show" key={recipe.id}>
           <h3 className="recipe-name">{recipe.name}</h3>
           <div className="recipe-picture">{recipe.picture}</div>
           <div className="publication-date">
