@@ -1,5 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import axios from "axios";
 import {
   MDBAutocomplete,
@@ -282,10 +284,10 @@ function NewRecipe() {
     <div className="page">
       <RecipeHeader />
       <form className="new-recipe-form" action="">
-        <div className="new-recipe-form-input">
+        <div className="new-recipe-form-input w-100 p-3">
           <MDBInput
             type="text"
-            className="new-recipe-title"
+            className="new-recipe-title "
             label="Votre titre de recette"
             value={recipeName}
             onChange={handleNameChange}
@@ -365,7 +367,7 @@ function NewRecipe() {
             +
           </button>
           {inputs.map((input, i) => (
-            <div className="recipe-step">
+            <div className="recipe-step" key={uuidv4()}>
               <h5>Etape {i + 1}</h5>
               <div className="textarea-btn">
                 <MDBTextArea
@@ -385,21 +387,14 @@ function NewRecipe() {
                   value={input}
                   onChange={(e) => handleChange(e, i)}
                 /> */}
-                <MDBBtn
-                  className="mx-2"
-                  color="dark"
-                  onClick={() => handleDelete(i)}
-                >
-                  supprimer
-                </MDBBtn>
-                <div className="btn-delete">
-                  {/* <button
-                    className="delete-button"
-                    type="button"
+                <div className="mx-2-container">
+                  <MDBBtn
+                    className="mx-2"
+                    color="danger"
                     onClick={() => handleDelete(i)}
                   >
                     supprimer
-                  </button> */}
+                  </MDBBtn>
                 </div>
               </div>
             </div>
@@ -410,9 +405,17 @@ function NewRecipe() {
           setChosenFilters={setChosenFilters}
         />
         {/* <Link to="/"> */}
-        <button className="send-recipe-btn" type="button" onClick={showAll}>
+        <MDBBtn
+          color="dark"
+          className="send-recipe-btn"
+          onClick={showAll}
+          mt-20
+        >
           ENVOYER
-        </button>
+        </MDBBtn>
+        {/* <button className="send-recipe-btn" type="button" onClick={showAll}>
+          ENVOYER
+        </button> */}
         {/* </Link> */}
       </form>
     </div>

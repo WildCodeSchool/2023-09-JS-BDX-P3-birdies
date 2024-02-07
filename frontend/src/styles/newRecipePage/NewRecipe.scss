@@ -53,12 +53,12 @@
     margin: 0 0 20px 0;
     display: flex;
     justify-content: center;
-    .new-recipe-title {
-      text-align: center;
-      min-width: 50%;
-      border-radius: 5px;
-      border: transparent;
-    }
+    // .new-recipe-title {
+    //   text-align: center;
+    //   min-width: 50%;
+    //   border-radius: 5px;
+    //   border: transparent;
+    // }
   }
   .file-upload-input {
     background-size: cover;
@@ -123,5 +123,15 @@
       border-radius: 5px;
       padding: 5px 15px;
     }
+  }
+  .mx-2-container {
+    .mx-2 {
+      margin-top: 20px;
+    }
+  }
+  .send-recipe-btn {
+    border-radius: 5px;
+    padding: 5px 15px;
+    margin-top: 20px;
   }
 }

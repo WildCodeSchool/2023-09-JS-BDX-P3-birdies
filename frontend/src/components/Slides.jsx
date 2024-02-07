@@ -1,5 +1,5 @@
 import SlideBestOne from "./slide-Container/SlideBestOne";
-import SlideBestThree from "./slide-Container/SlideBestThree";
+// import SlideBestThree from "./slide-Container/SlideBestThree";
 
 function Slides() {
   return (
@@ -12,14 +12,14 @@ function Slides() {
           </div>
         </div>
       </div>
-      <div className="slide-container">
+      {/* <div className="slide-container">
         <p>Les coups de coeur</p>
         <div>
           <div className="container-img">
             <SlideBestThree />
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
