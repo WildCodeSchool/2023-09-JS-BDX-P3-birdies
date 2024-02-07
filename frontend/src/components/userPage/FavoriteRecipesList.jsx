@@ -14,8 +14,12 @@ function FavoriteRecipesList() {
     <div>
       {favoriteRecipesComplete?.map((recipe) => (
         <div className="recipe-container-show">
-          <MDBCard className="w-100 p-3">
-            <MDBCardImage src={recipe?.picture} position="top" alt="..." />
+          <MDBCard key={recipe.id} className="w-100 p-3">
+            <MDBCardImage
+              src={recipe?.picture}
+              position="top"
+              alt="picture-recipe"
+            />
             <MDBCardBody>
               <MDBCardTitle>{recipe?.name}</MDBCardTitle>
               <MDBCardText>{recipe?.publicationDate}</MDBCardText>

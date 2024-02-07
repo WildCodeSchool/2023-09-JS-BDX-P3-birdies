@@ -1,6 +1,10 @@
 @import "./favoriteRecipesList";
 @import "./optionsMenu";
 
+.userPage-header {
+  max-width: 100%;
+}
+
 .info-parameters {
   display: flex;
   justify-content: space-around;

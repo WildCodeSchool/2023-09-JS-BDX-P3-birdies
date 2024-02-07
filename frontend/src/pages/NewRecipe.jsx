@@ -1,5 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import axios from "axios";
 import {
   MDBAutocomplete,
@@ -282,10 +284,10 @@ function NewRecipe() {
     <div className="page">
       <RecipeHeader />
       <form className="new-recipe-form" action="">
-        <div className="new-recipe-form-input">
+        <div className="new-recipe-form-input w-50 p-3">
           <MDBInput
             type="text"
-            className="new-recipe-title"
+            className="new-recipe-title "
             label="Votre titre de recette"
             value={recipeName}
             onChange={handleNameChange}
@@ -365,7 +367,7 @@ function NewRecipe() {
             +
           </button>
           {inputs.map((input, i) => (
-            <div className="recipe-step">
+            <div className="recipe-step" key={uuidv4()}>
               <h5>Etape {i + 1}</h5>
               <div className="textarea-btn">
                 <MDBTextArea

@@ -19,7 +19,8 @@ function PreparationTime({ duration, handleChangeTime }) {
 }
 
 PreparationTime.propTypes = {
-  duration: PropTypes.number.isRequired,
+  duration: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
   handleChangeTime: PropTypes.func.isRequired,
 };
 export default PreparationTime;
