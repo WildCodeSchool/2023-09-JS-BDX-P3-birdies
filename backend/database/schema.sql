@@ -342,14 +342,14 @@ VALUES
         "45"
     );
 
-UPDATE
+UPDATE IGNORE
     `recipes`
 SET
     `name` = "Soufflé au Grand Marnier"
 WHERE
     `id` = 6;
 
-UPDATE
+UPDATE IGNORE
     `recipes`
 SET
     `name` = "Pastilla de pigeon aux raisins blancs"
