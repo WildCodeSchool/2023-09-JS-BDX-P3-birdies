@@ -291,13 +291,6 @@ function NewRecipe() {
             value={recipeName}
             onChange={handleNameChange}
           />
-          {/* <input
-            type="text"
-            className="new-recipe-title"
-            placeholder="Votre titre de recette"
-            value={recipeName}
-            onChange={handleNameChange}
-          /> */}
         </div>
         <MDBFileUpload
           className="upload-container"
@@ -344,7 +337,7 @@ function NewRecipe() {
               type="button"
               onClick={createIngredientLine}
             >
-              +
+              Ajouter
             </button>
           </div>
           <IngredientsList
@@ -370,8 +363,8 @@ function NewRecipe() {
           >
             Ajouter
           </button>
-          {inputs.map((input, i) => (
-            <div className="recipe-step">
+          {inputs.map((input, i, index) => (
+            <div className="recipe-step" key={index}>
               <h5 className="recipe-step" style={{ marginBottom: 10 }}>
                 Etape {i + 1}
               </h5>
@@ -385,14 +378,6 @@ function NewRecipe() {
                   value={input}
                   onChange={(e) => handleChange(e, i)}
                 />
-                {/* <textarea
-                  name=""
-                  id=""
-                  cols="38"
-                  rows="2"
-                  value={input}
-                  onChange={(e) => handleChange(e, i)}
-                /> */}
                 <div className="mx-2-container">
                   <MDBBtn
                     className="mx-2"
@@ -416,7 +401,7 @@ function NewRecipe() {
             color="dark"
             className="send-recipe-btn"
             onClick={showAll}
-            mt-20
+            mt-20="true"
           >
             ENVOYER
           </MDBBtn>
