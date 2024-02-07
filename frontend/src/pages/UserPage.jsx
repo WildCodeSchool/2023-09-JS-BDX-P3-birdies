@@ -5,9 +5,9 @@ import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
 import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
-import OptionsMenu from "../components/userPage/OptionsMenu";
 import UserRecipesList from "../components/userPage/UserRecipesList";
 import { Useinfo } from "../context/InfoContext";
+import OptionsMenu from "../components/userPage/OptionsMenu";
 
 function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);

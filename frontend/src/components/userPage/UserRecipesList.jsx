@@ -20,9 +20,6 @@ function UserRecipesList() {
             <MDBCardBody>
               <MDBCardTitle>{recipe?.name}</MDBCardTitle>
               <MDBCardText>{recipe?.publicationDate}</MDBCardText>
-              {/* <MDBBtn color="warning" href="#">
-                x
-              </MDBBtn> */}
             </MDBCardBody>
           </MDBCard>
         </div>

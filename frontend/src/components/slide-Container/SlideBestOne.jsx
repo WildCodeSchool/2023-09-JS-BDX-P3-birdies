@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 // import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
@@ -33,8 +34,9 @@ function SlideBestOne() {
               </div> */}
               </div>
               <img
+                className="content-container-picture"
                 src={`${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`}
-                alt=""
+                alt="picture recipe"
               />
 
               {/* <img

@@ -1,12 +1,6 @@
 import { useLoaderData, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import {
-  MDBStepper,
-  MDBStepperStep,
-  MDBAlert,
-  MDBBtn,
-  MDBIcon,
-} from "mdb-react-ui-kit";
+import { MDBStepper, MDBStepperStep, MDBAlert } from "mdb-react-ui-kit";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import TextInput from "../components/Text-input";
 import ActionButton from "../components/action-button";
@@ -43,7 +37,7 @@ function Recipe() {
   const { id } = useParams();
 
   const { recipe, comments, steps, ingredients } = useLoaderData();
-  console.info(ingredients);
+  // console.info(ingredients);
   useEffect(() => {
     setCurrentRecipeId(recipe?.id);
     getRecipePicture(recipe?.picture);
@@ -56,7 +50,7 @@ function Recipe() {
   const [guestsNumber, setGuestsNumber] = useState(recipe.peopleNumber);
   const swiperElRef = useRef(null);
 
-  // Modie le nombre de personnes pour la recete
+  // Modie le nombre de personnes pour la recette
   function changeGuestsNumber(e) {
     if (e.target.innerHTML === "+") {
       setGuestsNumber(guestsNumber + 1);
@@ -142,20 +136,11 @@ function Recipe() {
                 </div>
               </div>
               <div className="people-number-selection">
-                <MDBBtn
-                  floating
-                  outline
-                  tag="a"
-                  color="dark"
-                  size="sm"
-                  onClick={() => setGuestsNumber(guestsNumber - 1)}
-                >
-                  <MDBIcon fas icon="minus" />
-                </MDBBtn>
                 <button type="button" onClick={changeGuestsNumber}>
                   -
                 </button>
                 <p className="people-number">{guestsNumber}</p>
+
                 <button type="button" onClick={changeGuestsNumber}>
                   +
                 </button>
