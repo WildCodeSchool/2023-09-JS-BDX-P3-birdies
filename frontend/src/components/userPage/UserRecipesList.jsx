@@ -1,4 +1,11 @@
 import React from "react";
+import {
+  MDBCard,
+  MDBCardBody,
+  MDBCardTitle,
+  MDBCardText,
+  MDBCardImage,
+} from "mdb-react-ui-kit";
 import { Useinfo } from "../../context/InfoContext";
 
 function UserRecipesList() {
@@ -7,15 +14,14 @@ function UserRecipesList() {
   return (
     <div>
       {userByRecipe?.map((recipe) => (
-        <div className="user-recipe-container" key={recipe.id}>
-          <h3 className="recipe-name">{recipe.name}</h3>
-          <div className="recipe-picture">{recipe.picture}</div>
-          <div className="publication-date">
-            {recipe.publicationDate}
-            <button type="button" className="delete-btn">
-              x
-            </button>
-          </div>
+        <div className="user-recipe-container" key={recipe.name}>
+          <MDBCard className="w-100 p-3">
+            <MDBCardImage src={recipe?.picture} position="top" alt="..." />
+            <MDBCardBody>
+              <MDBCardTitle>{recipe?.name}</MDBCardTitle>
+              <MDBCardText>{recipe?.publicationDate}</MDBCardText>
+            </MDBCardBody>
+          </MDBCard>
         </div>
       ))}
     </div>

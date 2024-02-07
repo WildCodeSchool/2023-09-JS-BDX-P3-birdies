@@ -44,6 +44,7 @@ function Login() {
               <input
                 value={formValue.email}
                 name="email"
+                autoComplete="username"
                 className="input-email"
                 type="email"
                 placeholder="Email"
@@ -54,6 +55,7 @@ function Login() {
               <input
                 value={formValue.password}
                 name="password"
+                autoComplete="current-password"
                 className="input-password"
                 type="password"
                 placeholder="Mot de passe"
