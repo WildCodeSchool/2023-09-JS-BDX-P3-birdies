@@ -1,14 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { MDBBtn } from "mdb-react-ui-kit";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
 import FavoriteRecipesList from "../components/userPage/FavoriteRecipesList";
-import OptionsMenu from "../components/userPage/OptionsMenu";
 import UserRecipesList from "../components/userPage/UserRecipesList";
 import { Useinfo } from "../context/InfoContext";
+import OptionsMenu from "../components/userPage/OptionsMenu";
 
 function UserPage() {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -16,8 +15,9 @@ function UserPage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileVisible, setFileVisible] = useState(false); // eslint-disable-line
   const [favoriteRecipesVisible, setFavoriteRecipesVisible] = useState(false);
-  const [userRecipesVisible, setUserRecipesVisible] = useState(false);
+  const [userRecipesVisible, setUserRecipesVisible] = useState(true);
   const [currentUser, setCurrentUser] = useState({});
+  const [onOff, setOnOff] = useState(false);
 
   const navigate = useNavigate();
   const rotate = rotateWheel ? "rotate(180deg)" : "rotate(0deg)";
@@ -54,6 +54,7 @@ function UserPage() {
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.id}/uploads`,
       formData
     );
+    setOnOff(false);
     setCurrentUser(result.data[0].avatar);
   };
 
@@ -76,18 +77,19 @@ function UserPage() {
           <button
             type="button"
             className="back-arrow"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
           >
             <img src={replyArrow} alt="Retour" />
           </button>
           <div className="container-pfp">
-            <input
-              type="file"
-              name="file"
-              className="file-visible"
-              onChange={handleFileChange}
-            />
-
+            {onOff && (
+              <input
+                type="file"
+                name="file"
+                className="file-visible"
+                onChange={handleFileChange}
+              />
+            )}
             {selectedFile ? (
               <img
                 className="user-pfp"
@@ -101,14 +103,16 @@ function UserPage() {
                 alt="Preview"
               />
             )}
-            <MDBBtn
-              className="confirm-button"
-              onClick={handleSave}
-              color="dark"
-            >
-              Confirmer
-            </MDBBtn>
-            {/* <button type="button">Confirmer</button> */}
+
+            {onOff && (
+              <button
+                type="button"
+                className="confirm-button"
+                onClick={handleSave}
+              >
+                Confirmer
+              </button>
+            )}
           </div>
           <button
             type="button"
@@ -123,18 +127,19 @@ function UserPage() {
             />
           </button>
           <OptionsMenu
+            setOnOff={setOnOff}
+            onOff={onOff}
             menuVisible={menuVisible}
-            setFileVisible={setFileVisible}
           />
         </div>
-        <div className="evals-recipes">
+        {/* <div className="evals-recipes">
           <p>
             Evaluations <br />0
           </p>
           <p>
             Recettes <br />0
           </p>
-        </div>
+        </div> */}
         <div className="recipes-favs">
           <button
             type="button"
