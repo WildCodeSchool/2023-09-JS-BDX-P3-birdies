@@ -1,16 +1,17 @@
 .option-menu-box {
   position: absolute;
+  border-radius: 5px;
   top: 85px;
-  right: -150px;
-  height: 120px;
+  right: -200px;
+  min-height: 120px;
   transition: all 0.2s ease-in-out;
 
   &.visible {
     position: absolute;
-    top: 85px;
+    top: 150px;
     right: 0px;
-    height: 120px;
-    width: 150px;
+    min-height: 120px;
+    width: 180px;
     background-color: white;
     transition: all 0.2s ease-in-out;
   }
@@ -20,7 +21,47 @@
     padding-inline-start: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: center;
+    position: relative;
+    z-index: 2;
+
+    .option-menu-line {
+      margin-top: 10px;
+      padding-left: 5px;
+      min-width: 100%;
+      color: black;
+    }
   }
+}
+
+.container-pfp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-hidden {
+  display: none;
+}
+
+.user-pfp {
+  margin: 20px 0;
+  padding: 5px;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  border: 3px solid black;
+  background-size: cover;
+  background-position: center;
+}
+
+.hide-confirm-button {
+  display: none;
+}
+
+.avatar-btn {
+  background-color: rgba($color: red, $alpha: 0);
+  border: none;
+  color: rgb(89, 89, 183);
 }

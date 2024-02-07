@@ -16,12 +16,14 @@ function IngredientsList({
             - {ing.name ?? ing.ingredientName}
           </div>
           <div className="quantity_unite-area">
-            <input
-              type="text"
-              className="ingredient-line-quantity"
-              value={quantityValues[i]}
-              onChange={(e) => handleChangeQuantity(e, i)}
-            />
+            <div>
+              <input
+                type="text"
+                className="ingredient-line-quantity"
+                value={quantityValues[i]}
+                onChange={(e) => handleChangeQuantity(e, i)}
+              />
+            </div>
             <select
               name="unite"
               id="0"
@@ -48,7 +50,7 @@ function IngredientsList({
   );
 }
 IngredientsList.propTypes = {
-  ingreds: PropTypes.arrayOf.isRequired,
+  ingreds: PropTypes.func.isRequired,
   handleDeleteIngredient: PropTypes.func.isRequired,
   handleChangeQuantity: PropTypes.func.isRequired,
   handleChangeUnite: PropTypes.func.isRequired,

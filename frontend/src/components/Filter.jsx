@@ -1,14 +1,9 @@
 import imgflower from "../styles/img/flower.png";
-import blocFiltre from "../styles/icons/Bloc lien filtres.png";
+// import blocFiltre from "../styles/icons/Bloc lien filtres.png";
 import { Useinfo } from "../context/InfoContext";
 
 function Filter() {
-  const {
-    difficultyListModify,
-    filterListModify,
-    displayFilter,
-    setDisplayFilter,
-  } = Useinfo();
+  const { difficultyListModify, filterListModify, displayFilter } = Useinfo();
 
   return (
     <>
@@ -80,13 +75,13 @@ function Filter() {
           </button>
         </div>
       </div>
-      <button
+      {/* <button
         className="boxFilter"
         type="button"
         onClick={() => setDisplayFilter(!displayFilter)}
       >
         <img src={blocFiltre} alt="Icon Filtre" />
-      </button>
+      </button> */}
       {displayFilter && (
         <div className="container-filter-page">
           <img className="flowerFiltre" src={imgflower} alt="Flower" />

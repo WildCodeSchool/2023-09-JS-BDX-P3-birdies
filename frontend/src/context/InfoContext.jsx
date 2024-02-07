@@ -41,6 +41,7 @@ export function InfoContextProvider({ apiService }) {
   // où l'on stock les filtres cathégories des recettes
   const [chosenFilters, setChosenFilters] = useState([]);
   const [lastRecipes, setLastRecipes] = useState([]);
+  const [newRecipesChanged, setNewRecipesChanged] = useState(false);
   const [infoSuccess, setInfoSuccess] = useState(false);
   const [infoLogin, setInfoLogin] = useState(false);
   const [userPicture, setUserPicture] = useState();
@@ -52,12 +53,13 @@ export function InfoContextProvider({ apiService }) {
   const [valueDifficulty, setValueDifficulty] = useState([]);
   const [foodFilter, setFoodFilter] = useState([]);
   const [foodDifficulty, setFoodDiddiculty] = useState("");
-  const [cathegories, setCathegories] = useState([]);
+  // const [cathegories, setCathegories] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
   const [showUserList, setShowUserList] = useState(true);
   const [showAllRecipes, setShowAllRecipes] = useState(false);
   const [checkPassword, setCheckPassword] = useState("");
   const [formValue, setFormValue] = useState({
+    pseudo: "",
     email: "",
     password: "",
     role: "user",
@@ -69,22 +71,6 @@ export function InfoContextProvider({ apiService }) {
   const [currentRecipeId, setCurrentRecipeId] = useState();
   const [recipePicture, setRecipePicture] = useState("");
   const [userByRecipe, setUserByRecipe] = useState([]);
-
-  // recupere toutes les cathegories de filtres
-  useEffect(() => {
-    const getCathegories = async () => {
-      try {
-        const cath = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/cathegories`
-        );
-        setCathegories(cath.data);
-      } catch (err) {
-        console.error(err);
-        throw err;
-      }
-    };
-    getCathegories();
-  }, []);
 
   // supprimer le message d'erreur d'IDs incorrects dès que l'on retente quelque chose
   useEffect(() => {
@@ -104,6 +90,33 @@ export function InfoContextProvider({ apiService }) {
   const validEmail = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
   const validPassword = /^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$/;
 
+  const fetchData = async (userEmail = null) => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${
+          userEmail ?? user.email
+        }/userRecipes`
+      );
+      setUserByRecipe(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const showFavorites = async (id = null) => {
+    try {
+      const { data } = await apiService.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${
+          id ?? user.id
+        }/userRecipes`
+      );
+      setFavoriteRecipesComplete(data);
+      setFavoriteRecipes(data.map((fav) => parseInt(fav.recipe_id, 10)));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleLoginSubmit = async (credentials) => {
     try {
       const data = await apiService.post(
@@ -120,6 +133,8 @@ export function InfoContextProvider({ apiService }) {
       setUser(result.data);
       setFormValue({ email: "", password: "", role: "user" });
       setPasswordError(false);
+      fetchData(result.data.email);
+      showFavorites(result.data.id);
       if (result.data.role === "admin") {
         return navigate("/admin");
       }
@@ -180,27 +195,17 @@ export function InfoContextProvider({ apiService }) {
       console.error(err);
     }
   };
-  console.info(lastRecipes);
-  useEffect(() => {
+
+  if (newRecipesChanged === true) {
     getLastRecipes(5);
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3310/api/users/${user.email}/userRecipes`
-        );
-        setUserByRecipe(response.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchData(); // Call the async function to fetch data
-  }, []);
+    setNewRecipesChanged(false);
+  }
 
   const getRecipePicture = async (recipePictureId) => {
+    if (!recipePictureId) {
+      return;
+    }
+
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/uploads/${recipePictureId})`
     );
@@ -362,16 +367,16 @@ export function InfoContextProvider({ apiService }) {
 
   // donne la liste de toutes les recettes favorites de l'utilisateur
   useEffect(() => {
-    const showFavorites = async (person) => {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${person.id}/userRecipes`
-      );
-      const favs = response.data;
-      setFavoriteRecipesComplete(favs);
-      const favoritesIds = favs.map((fav) => parseInt(fav.recipe_id, 10));
-      setFavoriteRecipes(favoritesIds);
-    };
-    showFavorites(user);
+    if (user?.email) {
+      fetchData(); // Call the async function to fetch data
+    }
+
+    if (user?.id) {
+      showFavorites(user.id);
+    }
+
+    // recupere les 5 dernières recettes à l'ouverture de l'appli
+    getLastRecipes(5);
   }, []);
 
   function difficultyListModify(e) {
@@ -466,6 +471,7 @@ export function InfoContextProvider({ apiService }) {
     setAddCommentVisible(false);
     setBasicSuccess((prev) => !prev);
   }
+
   const contextValues = useMemo(
     () => ({
       Average,
@@ -473,7 +479,7 @@ export function InfoContextProvider({ apiService }) {
       addCommentVisible,
       apiService,
       basicSuccess,
-      cathegories,
+      // cathegories,
       checkPassword,
       chosenRecipe,
       chosenFilters,
@@ -542,6 +548,8 @@ export function InfoContextProvider({ apiService }) {
       setNoMatchPassword,
       setPassword,
       setPopupContent,
+      newRecipesChanged,
+      setNewRecipesChanged,
       setRecipeComment,
       setRecipeNote,
       setRecipePicture,
@@ -572,7 +580,7 @@ export function InfoContextProvider({ apiService }) {
       addCommentVisible,
       apiService,
       basicSuccess,
-      cathegories,
+      // cathegories,
       checkPassword,
       chosenFilters,
       setChosenFilters,
@@ -639,6 +647,8 @@ export function InfoContextProvider({ apiService }) {
       setNoMatchPassword,
       setPassword,
       setPopupContent,
+      newRecipesChanged,
+      setNewRecipesChanged,
       setRecipePicture,
       setShowAllRecipes,
       setShowComments,

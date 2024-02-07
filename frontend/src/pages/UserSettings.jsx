@@ -1,22 +1,31 @@
+/* eslint-disable react/jsx-no-bind */
 import { Link, useParams } from "react-router-dom";
+import { MDBBtn, MDBAlert, MDBInput } from "mdb-react-ui-kit";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { MDBFileUpload } from "mdb-react-file-upload";
-import { Useinfo } from "../context/InfoContext";
+
 import "../styles/components/UserSettings/userSettings.scss";
 import replyArrow from "../styles/icons/Reply Arrow.png";
-import settingsWheel from "../styles/icons/settingsWheel.png";
 
 export default function UserSettings() {
-  const { setUserPicture } = Useinfo();
-  // lines disabled for eslint because values are not changing anything yet
-  const [everyInfo, setEveryInfo] = useState({});
+  const [everyInfo, setEveryInfo] = useState({
+    pseudo: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "", // ou toute autre valeur par défaut pertinente pour le mot de passe
+    role: "",
+  });
+
+  const [test, setTest] = useState();
+
   const { id } = useParams();
 
   const fetchData = async (userId) => {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`
     );
+
     setEveryInfo(response.data);
   };
 
@@ -30,6 +39,7 @@ export default function UserSettings() {
         `${import.meta.env.VITE_BACKEND_URL}/api/users/${id}`,
         everyInfo
       );
+      setTest(true);
     } catch (error) {
       console.error("Error saving changes:", error);
     }
@@ -61,66 +71,86 @@ export default function UserSettings() {
             <Link className="back-arrow" to="/userpage">
               <img src={replyArrow} alt="Retour" />
             </Link>
-            <MDBFileUpload
-              getInputFiles={(file) => setUserPicture(file.find((e) => e.name))}
-            />
-            <img
-              src={settingsWheel}
-              alt="Paramètres"
-              className="setting-wheel"
-            />
           </div>
           <div className="user-settings-container">
-            <input
+            <MDBInput
+              label="Pseudo"
+              id="typeText"
+              type="text"
+              name="pseudo"
+              value={everyInfo.pseudo}
+              onChange={onValuechange}
+            />
+            {/* <input
               type="text"
               name="pseudo"
               placeholder="Pseudo"
               value={everyInfo.pseudo}
               onChange={onValuechange}
-              // onChange={(e) => setEveryInfo({ pseudo: e.target.value })}
+              onChange={(e) => setEveryInfo({ pseudo: e.target.value })}
+            /> */}
+            <MDBInput
+              label="Prénom"
+              id="typeText"
+              type="text"
+              name="firstname"
+              value={everyInfo.firstname ? everyInfo.firstname : ""}
+              onChange={onValuechange}
             />
-            <input
+            {/* <input
               type="text"
               name="firstname"
               placeholder="Prénom"
               value={everyInfo.firstname}
+              onChange={onValuechange} */}
+            {/* onChange={(e) => setEveryInfo({ firstname: e.target.value })} */}
+            {/* /> */}
+            <MDBInput
+              label="Nom"
+              id="typeText"
+              type="text"
+              name="lastname"
+              value={everyInfo.lastname ? everyInfo.lastname : ""}
               onChange={onValuechange}
-
-              // onChange={(e) => setEveryInfo({ firstname: e.target.value })}
             />
-            <input
+            {/* <input
               type="text"
               placeholder="Nom"
               name="lastname"
-              value={everyInfo.lastname}
+              value={everyInfo.lastname ? everyInfo.lastname : ""}
               onChange={onValuechange}
 
               // onChange={(e) => setEveryInfo({ lastname: e.target.value })}
-            />
-            <input
+            /> */}
+            <MDBInput
+              label="Email"
+              id="typeEmail"
               type="email"
-              placeholder="Email"
               name="email"
               value={everyInfo.email}
               onChange={onValuechange}
             />
-            {everyInfo.role === "user" && (
-              <input
-                type="password"
-                name="password"
-                value={everyInfo.password}
-                placeholder="Mot de passe"
-                onChange={onValuechange}
-              />
-            )}
 
-            <button
+            <MDBBtn
+              color="warning"
               type="submit"
               className="accept-modifications"
               onClick={sendChanges}
             >
               Modifier
-            </button>
+            </MDBBtn>
+
+            <MDBAlert
+              color="success"
+              autohide
+              position="top-right"
+              delay={2000}
+              appendToBody
+              open={test}
+              onClose={() => setTest(false)}
+            >
+              Modifications acceptées
+            </MDBAlert>
             {everyInfo?.role === "admin" && (
               <button
                 type="submit"

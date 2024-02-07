@@ -1,25 +1,30 @@
 /* eslint-disable import/no-unresolved */
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import axios from "axios";
-import { MDBAutocomplete } from "mdb-react-ui-kit";
+import {
+  MDBAutocomplete,
+  MDBBtn,
+  MDBInput,
+  MDBTextArea,
+} from "mdb-react-ui-kit";
 import { MDBFileUpload } from "mdb-react-file-upload";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "../styles/newRecipePage/NewRecipe.scss";
 import IngredientsList from "../components/NewRecice/Ingredients-list";
 import DifficultiesList from "../components/NewRecice/DificultiesList";
 import PreparationTime from "../components/NewRecice/PreparationTime";
 import { Useinfo } from "../context/InfoContext";
-import FilterBar from "../components/NewRecice/FilterBar";
 
 function NewRecipe() {
   const {
     chosenFilters,
-    setChosenFilters,
     displayDate,
+    setNewRecipesChanged,
     setBasicSuccess,
     user,
-    handleSubmitRecipeCathegories,
     handleSubmitSteps,
     handleSubmitIngredients,
     handleSubmitPicture,
@@ -39,11 +44,15 @@ function NewRecipe() {
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(0);
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
+  const [isLoading, setIsLoading] = useState(false);
   const stepsInfos = [];
   const filtersInfo = [];
   const ingredientsInfos = [];
-  // const [chosenFilters, setChosenFilters] = useState([]);
+
+  const navigate = useNavigate();
+
   const newApiCall = async (ingredient) => {
+    setIsLoading(true);
     const response = await axios.get(
       `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriments`
     );
@@ -51,8 +60,8 @@ function NewRecipe() {
       (products) => products.nutriments.energy_unit === "kJ"
     );
     setIngredientsFound(productsList);
+    setIsLoading(false);
   };
-  console.info(ingreds);
   const handleRecipeSubmit = async (credentials) => {
     try {
       const response = await axios.post(
@@ -81,8 +90,9 @@ function NewRecipe() {
   }
   // definit le temps de préparation de la recete
   const handleChangeTime = (e) => {
-    console.info(e.target.value);
-    setDuration(e.target.value);
+    const timeInNumeric = e.target.value.replace(/[^0-9]/g, "");
+    const time = timeInNumeric === "" ? 0 : parseFloat(timeInNumeric);
+    setDuration(time);
   };
   // Définit la difficulté de la recette
   const handleChangeDifficulty = (e) => {
@@ -115,16 +125,17 @@ function NewRecipe() {
   // modifie l'array de quantité des aliments
   const handleChangeQuantity = (e, i) => {
     const quantityData = [...quantityValues];
-    quantityData[i] = parseFloat(e.target.value);
+    const quantity = e.target.value.replace(/[^0-9]/g, "");
+    quantityData[i] = quantity === "" ? 0 : parseFloat(quantity);
     setQuantityValues(quantityData);
   };
+
   // modifie l'array d'unité de mesure ds aliments
   const handleChangeUnite = (e, i) => {
     const uniteData = [...uniteValues];
     uniteData[i] = e.target.value;
     setUniteValues(uniteData);
   };
-
   // ajoute une ligne d'étape de la recette
   const handleAdd = () => {
     const text = [...inputs, []];
@@ -147,12 +158,19 @@ function NewRecipe() {
   // supprime l'ingrédient de notre choix
   const handleDeleteIngredient = (i) => {
     const deleteIngreds = [...ingreds];
-    deleteIngreds.splice(i, 1);
-
+    const deleteQuantity = [...quantityValues];
     const deleteRecipeIngredients = [...recipeIngredients];
+    const deleteUnite = [...uniteValues];
+
+    deleteIngreds.splice(i, 1);
+    deleteQuantity.splice(i, 1);
     deleteRecipeIngredients.splice(i, 1);
+    deleteUnite.splice(i, 1);
+
     setIngreds(deleteIngreds);
     setRecipeIngredients(deleteRecipeIngredients);
+    setQuantityValues(deleteQuantity);
+    setUniteValues(deleteUnite);
   };
 
   const searchIngredient = (value) => {
@@ -223,13 +241,12 @@ function NewRecipe() {
       cathegories: filtersInfo,
       ingredients: ingredientsInfos,
     };
-    console.info(recipe);
-    console.info(recipe.ingredients);
+    // console.info(recipe);
+    // console.info(recipe.ingredients);
     setBasicSuccess((prev) => !prev);
     try {
       const response = await handleRecipeSubmit(recipe);
       const answer = await handleSubmitSteps(response, stepsInfos);
-      // console.info(answer);
       const formData = new FormData();
       formData.append("picture", image);
 
@@ -237,15 +254,14 @@ function NewRecipe() {
         answer.data.recipeId,
         formData
       );
-      // TODO fix this
       for (const ingredient of recipe.ingredients) {
         // eslint-disable-next-line no-await-in-loop
         const ingredientsAnswer = await handleSubmitIngredients(
           ingredient.name
         );
-        console.info(ingredient);
+        // console.info(ingredient);
         console.info(imgResponse);
-        console.info(ingredientsInfos);
+        // console.info(ingredientsInfos);
         // eslint-disable-next-line no-await-in-loop
         const recipeIngredient = await handleSubmitRecipeIngredients(
           answer.data.recipeId,
@@ -254,14 +270,12 @@ function NewRecipe() {
         );
         console.info(recipeIngredient);
       }
-      const recipeCathegories = await handleSubmitRecipeCathegories(
-        answer.data.recipeId,
-        chosenFilters
-      );
-      setChosenFilters([]);
-      console.info(recipeCathegories);
+      setNewRecipesChanged(true);
+      navigate("/");
     } catch (err) {
       console.error(err);
+      setNewRecipesChanged(true);
+      navigate("/");
       throw err;
     }
   };
@@ -270,30 +284,45 @@ function NewRecipe() {
     <div className="page">
       <RecipeHeader />
       <form className="new-recipe-form" action="">
-        <input
-          type="text"
-          className="new-recipe-title"
-          placeholder="Votre titre de recette"
-          value={recipeName}
-          onChange={handleNameChange}
+        <div className="new-recipe-form-input w-100 p-3">
+          <MDBInput
+            type="text"
+            className="new-recipe-title "
+            label="Votre titre de recette"
+            value={recipeName}
+            onChange={handleNameChange}
+          />
+          {/* <input
+            type="text"
+            className="new-recipe-title"
+            placeholder="Votre titre de recette"
+            value={recipeName}
+            onChange={handleNameChange}
+          /> */}
+        </div>
+        <MDBFileUpload
+          className="upload-container"
+          getInputFiles={(file) => setImage(file[0])}
         />
-        <MDBFileUpload getInputFiles={(file) => setImage(file[0])} />
-        <label>
-          Nombre de personnes :{/*  */}
-          <div className="people-number-selection">
-            <button type="button" onClick={changeGuestsNumber}>
-              -
-            </button>
-            <p className="people-number">{guestsNumber}</p>
-            <button type="button" onClick={changeGuestsNumber}>
-              +
-            </button>
-          </div>
-        </label>
-        <PreparationTime
-          handleChangeTime={handleChangeTime}
-          duration={duration}
-        />
+        <div className="persons-minutes">
+          <label className="label-container">
+            <h4 className="title-persons-number">Nombre de personnes :</h4>
+            {/*  */}
+            <div className="people-number-selection">
+              <button type="button" onClick={changeGuestsNumber}>
+                -
+              </button>
+              <p className="people-number">{guestsNumber}</p>
+              <button type="button" onClick={changeGuestsNumber}>
+                +
+              </button>
+            </div>
+          </label>
+          <PreparationTime
+            handleChangeTime={handleChangeTime}
+            duration={duration}
+          />
+        </div>
         <DifficultiesList
           handleChangeDifficulty={handleChangeDifficulty}
           difficultyEvaluation={difficultyEvaluation}
@@ -302,6 +331,8 @@ function NewRecipe() {
           <h2 className="recipe-part">Ingrédients</h2>
           <div className="search-area">
             <MDBAutocomplete
+              noResults=""
+              isLoading={isLoading}
               data={ingredientsFound} // valeur retour de l'appel d'API utiliséé pour le display value
               label="Ingrédient"
               value={ingredientSearch} // affiche le texte écrit dans onSearch
@@ -336,35 +367,56 @@ function NewRecipe() {
             +
           </button>
           {inputs.map((input, i) => (
-            <div className="recipe-step">
+            <div className="recipe-step" key={uuidv4()}>
               <h5>Etape {i + 1}</h5>
-              <textarea
-                name=""
-                id=""
-                cols="38"
-                rows="2"
-                value={input}
-                onChange={(e) => handleChange(e, i)}
-              />
-              <button
-                className="delete-button"
-                type="button"
-                onClick={() => handleDelete(i)}
-              >
-                supprimer
-              </button>
+              <div className="textarea-btn">
+                <MDBTextArea
+                  name=""
+                  label="Message"
+                  id="textAreaExample"
+                  cols="38"
+                  rows={2}
+                  value={input}
+                  onChange={(e) => handleChange(e, i)}
+                />
+                {/* <textarea
+                  name=""
+                  id=""
+                  cols="38"
+                  rows="2"
+                  value={input}
+                  onChange={(e) => handleChange(e, i)}
+                /> */}
+                <div className="mx-2-container">
+                  <MDBBtn
+                    className="mx-2"
+                    color="danger"
+                    onClick={() => handleDelete(i)}
+                  >
+                    supprimer
+                  </MDBBtn>
+                </div>
+              </div>
             </div>
           ))}
         </div>
-        <FilterBar
+        {/* <FilterBar
           chosenFilters={chosenFilters}
           setChosenFilters={setChosenFilters}
         />
-        <Link to="/">
-          <button className="send-recipe-btn" type="button" onClick={showAll}>
-            ENVOYER
-          </button>
-        </Link>
+        {/* <Link to="/"> */}
+        <MDBBtn
+          color="dark"
+          className="send-recipe-btn"
+          onClick={showAll}
+          mt-20
+        >
+          ENVOYER
+        </MDBBtn>
+        {/* <button className="send-recipe-btn" type="button" onClick={showAll}>
+          ENVOYER
+        </button> */}
+        {/* </Link> */}
       </form>
     </div>
   );

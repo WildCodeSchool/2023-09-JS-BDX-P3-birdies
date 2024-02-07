@@ -32,6 +32,23 @@ const getUserById = (req, res) => {
     });
 };
 
+const getUserWithUpload = (req, res) => {
+  const { id } = req.params;
+  models.user
+    .getProfileWithImage(id)
+    .then(([response]) => {
+      if (response[0] !== null) {
+        res.json(response[0]);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(404).send({ error: err.message });
+    });
+};
+
 const getProfile = (req, res) => {
   res.send(req.user);
 };
@@ -127,4 +144,5 @@ module.exports = {
   deleteUser,
   updateUser,
   updateUserRole,
+  getUserWithUpload,
 };

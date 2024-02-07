@@ -54,7 +54,7 @@ router.get("/recipes/:id([0-9]+)", recipeControllers.getRecipeById);
 router.post("/recipes", recipeControllers.postRecipe);
 
 router.put("/recipes/recipe/:id", recipeControllers.updateRecipe);
-router.delete("/recipes", recipeControllers.deleteRecipe);
+router.delete("/recipes/:id", recipeControllers.deleteRecipe);
 
 router.get("/recipes/:id([0-9]+)/steps", stepControllers.getStep);
 router.post("/recipes/:id([0-9]+)/steps", stepControllers.postStep);
@@ -88,9 +88,12 @@ router.post(
 
 router.post(
   "/users/:id([0-9]+)/uploads",
-  upload.single("avatar"),
+  upload.single("picture"),
   uploadControllers.createAvatar
 );
+
+router.get("/users/:id([0-9]+)/uploads", userControllers.getUserWithUpload);
+
 router.get("/cathegories", cathegoriesControllers.getCathegories);
 router.post(
   "/recipes/:id([0-9]+)/cathegories",

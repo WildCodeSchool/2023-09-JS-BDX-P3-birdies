@@ -46,6 +46,16 @@ class UserManager extends AbstractManager {
     return user;
   }
 
+  getProfileWithImage(id) {
+    return this.database.query(
+      `SELECT users.id, users.email, users.pseudo, users.firstname, users.lastname, users.role, upload.url as avatar
+       FROM ${this.table} as users
+       JOIN upload ON users.avatar = upload.id
+       WHERE users.id = ?`,
+      [id]
+    );
+  }
+
   getProfile(id) {
     return this.database.query(
       `SELECT id, email, pseudo, firstname, lastname, role FROM ${this.table} WHERE id = ?`,
@@ -58,18 +68,9 @@ class UserManager extends AbstractManager {
   }
 
   async updateUser(id, user) {
-    const hash = await UserManager.hashPassword(user.password);
     return this.database.query(
-      `UPDATE ${this.table} SET pseudo = ?, firstname = ?, lastname = ?, email = ?, password = ?, role = ? WHERE id = ?`,
-      [
-        user.pseudo,
-        user.firstname,
-        user.lastname,
-        user.email,
-        hash,
-        user.role,
-        id,
-      ]
+      `UPDATE ${this.table} SET pseudo = ?, firstname = ?, lastname = ?, email = ?, role = ? WHERE id = ?`,
+      [user.pseudo, user.firstname, user.lastname, user.email, user.role, id]
     );
   }
 
@@ -83,7 +84,7 @@ class UserManager extends AbstractManager {
   async addAvatar(user, id) {
     return this.database.query(
       `UPDATE ${this.table} SET avatar = ? WHERE id = ?`,
-      [user.avatar, id]
+      [id, user]
     );
   }
 }

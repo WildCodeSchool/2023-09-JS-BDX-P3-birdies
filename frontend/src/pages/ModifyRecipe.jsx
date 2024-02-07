@@ -22,7 +22,6 @@ function ModifyRecipe() {
   } = Useinfo();
   const { id } = useParams();
   const { recipeToModify, steps, ingredients } = useLoaderData();
-
   // Récupérer tous les ingrédients de la recette
   const actualIngredients = ingredients.map(
     (ingredient) => ingredient.ingredientName
@@ -38,7 +37,9 @@ function ModifyRecipe() {
     recipeToModify.difficulty.slice(1);
   const [ingreds, setIngreds] = useState(ingredients);
   const [recipeName, setRecipeName] = useState(recipeToModify.name);
-  const [image, setImage] = useState(recipeToModify.url); // ---> IMAGE A RECUPERER
+  const [image, setImage] = useState(
+    `${import.meta.env.VITE_BACKEND_URL}/${recipeToModify.url}`
+  ); // ---> IMAGE A RECUPERER
   console.info(image);
   const [duration, setDuration] = useState(recipeToModify.prepTime); // ---> TEMPS A RECUPERER
   const [difficultyEvaluation, setDifficultyEvaluation] =
@@ -63,6 +64,7 @@ function ModifyRecipe() {
       (products) => products.nutriscore_data !== undefined
     );
     console.info(productsList);
+
     const withEnergyPdct = productsList.filter(
       (product) => product.nutriscore_data.energy !== undefined
     );
@@ -83,8 +85,9 @@ function ModifyRecipe() {
   }
   // definit le temps de préparation de la recete
   const handleChangeTime = (e) => {
-    console.info(duration);
-    setDuration(e.target.value);
+    const timeInNumeric = e.target.value.replace(/[^0-9]/g, "");
+    const time = timeInNumeric === "" ? 0 : parseFloat(timeInNumeric);
+    setDuration(time);
   };
   // Définie la difficulté de la recette
   const handleChangeDifficulty = (e) => {
@@ -118,8 +121,12 @@ function ModifyRecipe() {
   // modifie l'array de quantité des aliments
   const handleChangeQuantity = (e, i) => {
     const quantityData = [...quantityValues];
-    quantityData[i] = parseFloat(e.target.value);
-    setQuantityValues(quantityData);
+    const regex = /[0-9]+$/;
+    const quantity = e.target.value;
+    if (quantity.match(regex) || quantity === "") {
+      quantityData[i] = quantity === "" ? 0 : parseFloat(quantity);
+      setQuantityValues(quantityData);
+    }
   };
   // modifie l'array d'unité de mesure ds aliments
   const handleChangeUnite = (e, i) => {
@@ -150,12 +157,19 @@ function ModifyRecipe() {
   // supprime l'ingrédient de notre choix
   const handleDeleteIngredient = (i) => {
     const deleteIngreds = [...ingreds];
-    deleteIngreds.splice(i, 1);
-
+    const deleteQuantity = [...quantityValues];
     const deleteRecipeIngredients = [...recipeIngredients];
+    const deleteUnite = [...uniteValues];
+
+    deleteIngreds.splice(i, 1);
+    deleteQuantity.splice(i, 1);
     deleteRecipeIngredients.splice(i, 1);
+    deleteUnite.splice(i, 1);
+
     setIngreds(deleteIngreds);
     setRecipeIngredients(deleteRecipeIngredients);
+    setQuantityValues(deleteQuantity);
+    setUniteValues(deleteUnite);
   };
 
   const searchIngredient = (value) => {
@@ -221,8 +235,8 @@ function ModifyRecipe() {
       const ingredientsAnswer = await handleSubmitIngredients(
         ingredient.name.name
       );
-      console.info(ingredient);
-      console.info(ingredientsInfos);
+      // console.info(ingredient);
+      // console.info(ingredientsInfos);
       // eslint-disable-next-line no-await-in-loop
       const recipeIngredient = await handleSubmitRecipeIngredients(
         id,

@@ -3,7 +3,7 @@ import React, { useMemo, useRef, useState } from "react";
 // import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
-import star from "../../styles/icons/Star.png";
+// import star from "../../styles/icons/Star.png";
 
 function SearchedRecipes() {
   const { getData } = Useinfo();
@@ -58,26 +58,26 @@ function SearchedRecipes() {
   return (
     <div className="swipe-container">
       <div className="buttons">
-        <button
+        {/* <button
           type="button"
           style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
           onClick={() => swipe("left")}
         >
           J'aime !
-        </button>
+        </button> */}
         <button
           type="button"
-          style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
+          style={{ backgroundColor: !canSwipe && "#c3c4d3", marginRight: 20 }}
           onClick={() => goBack()}
         >
-          Oops !
+          Précédent
         </button>
         <button
           type="button"
           style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
           onClick={() => swipe("right")}
         >
-          Bof...
+          Suivant
         </button>
       </div>
 
@@ -98,17 +98,18 @@ function SearchedRecipes() {
               >
                 Voir
               </button>
-              <h3>{recipe.name}</h3>
+              <h3 className="chosen-recipe-title">{recipe.name}</h3>
               <div className="rate-container">
-                <div className="stars">
-                  <img src={star} alt="star-img" />
-                  {/* <div>{Average(recipe.notes)}/5</div> */}
-                </div>
-                {/* <div className="votes">
+                {/* <div className="stars"> */}
+                {/* <img src={star} alt="star-img" /> */}
+                {/* <div>{Average(recipe.notes)}/5</div> */}
+              </div>
+              {/* <div className="votes">
                   <p>{recipe.notes.length} votes</p>
                 </div> */}
-              </div>
+              {/* </div> */}
               <img
+                className="chosen-recipe-img"
                 src={`${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`}
                 alt="recipe-img"
               />

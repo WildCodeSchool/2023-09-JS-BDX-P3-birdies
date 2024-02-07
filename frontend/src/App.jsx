@@ -16,6 +16,7 @@ function App() {
     setInfoSuccess,
     infoLogin,
     setInfoLogin,
+    foodDifficulty,
   } = Useinfo();
   return (
     <>
@@ -31,7 +32,6 @@ function App() {
       >
         Votre recette à bien été ajoutée !
       </MDBAlert>
-
       <MDBAlert
         color="success"
         autohide
@@ -43,7 +43,6 @@ function App() {
       >
         Votre recette à bien été modifiée !
       </MDBAlert>
-
       <MDBAlert
         color="success"
         autohide
@@ -55,9 +54,12 @@ function App() {
       >
         {`Bienvenue ${user.pseudo} !`}
       </MDBAlert>
-
       <Filter />
-      {inputSearchValue !== "" ? <SearchedRecipes /> : <Slides />}
+      {inputSearchValue !== "" || foodDifficulty ? (
+        <SearchedRecipes />
+      ) : (
+        <Slides />
+      )}{" "}
     </>
   );
 }

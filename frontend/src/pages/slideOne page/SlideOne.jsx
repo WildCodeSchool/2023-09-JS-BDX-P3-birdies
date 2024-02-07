@@ -15,7 +15,7 @@ function SlideOne() {
   const swiperElRef = useRef(null);
 
   return (
-    <div>
+    <>
       <img className="logo-slide" src={logo} alt="" />
       <swiper-container
         ref={swiperElRef}
@@ -53,7 +53,7 @@ function SlideOne() {
           </Link>
         </swiper-slide>
       </swiper-container>
-    </div>
+    </>
   );
 }
 

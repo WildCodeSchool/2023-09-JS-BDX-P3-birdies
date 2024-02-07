@@ -40,7 +40,12 @@ class RecipeManager extends AbstractManager {
       [pictureId, recipeId]
     );
   }
-
+  async findById(id) {
+    return this.database.query(
+      `select *, upload.url from  ${this.table} left join upload on upload.id = recipes.picture where ${this.table}.id = ?`,
+      [id]
+    );
+  }
   async findByName(name) {
     return this.database.query(
       `SELECT * from ${this.table} WHERE name like"%${name}%" `
@@ -54,7 +59,7 @@ class RecipeManager extends AbstractManager {
   // a verifier
   async findLastRecipes(number) {
     return this.database.query(
-      `SELECT recipes.id, recipes.name, upload.url, evaluations.note from ${this.table} LEFT JOIN upload ON recipes.picture = upload.id LEFT JOIN evaluations on evaluations.recipe_id = recipes.id ORDER BY id DESC limit ${number}`
+      `SELECT recipes.id, recipes.name, upload.url from ${this.table} LEFT JOIN upload ON recipes.picture = upload.id ORDER BY id DESC limit ${number}`
     );
   }
   async findAllByUserId(userId) {
@@ -68,7 +73,7 @@ class RecipeManager extends AbstractManager {
       `SELECT * from users WHERE email = '${email}'`
     );
     return this.database.query(
-      `SELECT * from recipes WHERE userId = ${user[0].id}`
+      `SELECT * from ${this.table} LEFT JOIN upload ON recipes.picture = upload.id WHERE userId = ${user[0].id}`
     );
   }
 }

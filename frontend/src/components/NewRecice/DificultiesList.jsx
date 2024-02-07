@@ -27,6 +27,7 @@ function DifficultiesList({ handleChangeDifficulty, difficultyEvaluation }) {
 }
 DifficultiesList.propTypes = {
   handleChangeDifficulty: PropTypes.func.isRequired,
-  difficultyEvaluation: PropTypes.arrayOf.isRequired,
+  difficultyEvaluation: PropTypes.oneOfType([PropTypes.func, PropTypes.array])
+    .isRequired,
 };
 export default DifficultiesList;
