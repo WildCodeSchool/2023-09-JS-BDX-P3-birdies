@@ -90,6 +90,33 @@ export function InfoContextProvider({ apiService }) {
   const validEmail = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
   const validPassword = /^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$/;
 
+  const fetchData = async (userEmail = null) => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${
+          userEmail ?? user.email
+        }/userRecipes`
+      );
+      setUserByRecipe(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const showFavorites = async (id = null) => {
+    try {
+      const { data } = await apiService.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/${
+          id ?? user.id
+        }/userRecipes`
+      );
+      setFavoriteRecipesComplete(data);
+      setFavoriteRecipes(data.map((fav) => parseInt(fav.recipe_id, 10)));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleLoginSubmit = async (credentials) => {
     try {
       const data = await apiService.post(
@@ -106,6 +133,8 @@ export function InfoContextProvider({ apiService }) {
       setUser(result.data);
       setFormValue({ email: "", password: "", role: "user" });
       setPasswordError(false);
+      fetchData(result.data.email);
+      showFavorites(result.data.id);
       if (result.data.role === "admin") {
         return navigate("/admin");
       }
@@ -166,11 +195,6 @@ export function InfoContextProvider({ apiService }) {
       console.error(err);
     }
   };
-  // recupere les 5 dernières recettes à l'ouverture de l'appli
-  // console.info(lastRecipes);
-  useEffect(() => {
-    getLastRecipes(5);
-  }, []);
 
   if (newRecipesChanged === true) {
     getLastRecipes(5);
@@ -343,38 +367,16 @@ export function InfoContextProvider({ apiService }) {
 
   // donne la liste de toutes les recettes favorites de l'utilisateur
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/users/${
-            user.email
-          }/userRecipes`
-        );
-        setUserByRecipe(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    const showFavorites = async () => {
-      try {
-        const { data } = await apiService.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.id}/userRecipes`
-        );
-        setFavoriteRecipesComplete(data);
-        setFavoriteRecipes(data.map((fav) => parseInt(fav.recipe_id, 10)));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     if (user?.email) {
       fetchData(); // Call the async function to fetch data
     }
 
     if (user?.id) {
-      showFavorites(user);
+      showFavorites(user.id);
     }
+
+    // recupere les 5 dernières recettes à l'ouverture de l'appli
+    getLastRecipes(5);
   }, []);
 
   function difficultyListModify(e) {
