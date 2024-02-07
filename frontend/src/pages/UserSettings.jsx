@@ -6,14 +6,21 @@ import "../styles/components/UserSettings/userSettings.scss";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 
 export default function UserSettings() {
-  // lines disabled for eslint because values are not changing anything yet
-  const [everyInfo, setEveryInfo] = useState({});
+  const [everyInfo, setEveryInfo] = useState({
+    pseudo: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "", // ou toute autre valeur par défaut pertinente pour le mot de passe
+    role: "",
+  });
   const { id } = useParams();
 
   const fetchData = async (userId) => {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`
     );
+
     setEveryInfo(response.data);
   };
 
@@ -66,25 +73,20 @@ export default function UserSettings() {
               placeholder="Pseudo"
               value={everyInfo.pseudo}
               onChange={onValuechange}
-              // onChange={(e) => setEveryInfo({ pseudo: e.target.value })}
             />
             <input
               type="text"
               name="firstname"
               placeholder="Prénom"
-              value={everyInfo.firstname}
+              value={everyInfo.firstname ? everyInfo.firstname : ""}
               onChange={onValuechange}
-
-              // onChange={(e) => setEveryInfo({ firstname: e.target.value })}
             />
             <input
               type="text"
               placeholder="Nom"
               name="lastname"
-              value={everyInfo.lastname}
+              value={everyInfo.lastname ? everyInfo.lastname : ""}
               onChange={onValuechange}
-
-              // onChange={(e) => setEveryInfo({ lastname: e.target.value })}
             />
             <input
               type="email"
@@ -93,15 +95,6 @@ export default function UserSettings() {
               value={everyInfo.email}
               onChange={onValuechange}
             />
-            {everyInfo.role === "user" && (
-              <input
-                type="password"
-                name="password"
-                value={everyInfo.password}
-                placeholder="Mot de passe"
-                onChange={onValuechange}
-              />
-            )}
 
             <MDBBtn
               color="warning"

@@ -14,7 +14,7 @@ function UserRecipesList() {
   return (
     <div>
       {userByRecipe?.map((recipe) => (
-        <div className="user-recipe-container">
+        <div className="user-recipe-container" key={recipe.name}>
           <MDBCard className="w-100 p-3">
             <MDBCardImage src={recipe?.picture} position="top" alt="..." />
             <MDBCardBody>
