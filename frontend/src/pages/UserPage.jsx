@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { MDBBtn } from "mdb-react-ui-kit";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
@@ -105,13 +106,16 @@ function UserPage() {
             )}
 
             {onOff && (
-              <button
-                type="button"
-                className="confirm-button"
-                onClick={handleSave}
-              >
+              <MDBBtn color="dark" onClick={handleSave}>
                 Confirmer
-              </button>
+              </MDBBtn>
+              // <button
+              //   type="button"
+              //   className="confirm-button"
+              //   onClick={handleSave}
+              // >
+              //   Confirmer
+              // </button>
             )}
           </div>
           <button

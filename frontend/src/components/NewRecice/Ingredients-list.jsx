@@ -50,7 +50,7 @@ function IngredientsList({
   );
 }
 IngredientsList.propTypes = {
-  ingreds: PropTypes.arrayOf.isRequired,
+  ingreds: PropTypes.func.isRequired,
   handleDeleteIngredient: PropTypes.func.isRequired,
   handleChangeQuantity: PropTypes.func.isRequired,
   handleChangeUnite: PropTypes.func.isRequired,
