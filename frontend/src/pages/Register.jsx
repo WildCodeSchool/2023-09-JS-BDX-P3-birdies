@@ -86,7 +86,16 @@ function Register() {
               </p>
             </div>
             <div className="input">
-              <input
+              <MDBInput
+                label="Email "
+                id="typeEmail"
+                type="email"
+                autoComplete="username"
+                value={formValue.email}
+                onChange={onChange}
+                name="email"
+              />
+              {/* <input
                 autoComplete="username"
                 name="email"
                 className="input-email"
@@ -94,7 +103,7 @@ function Register() {
                 placeholder="Email"
                 value={formValue.email}
                 onChange={onChange}
-              />
+              /> */}
             </div>
             <div className="error-message-container">
               <p
@@ -109,15 +118,20 @@ function Register() {
               </p>
             </div>
             <div className="input">
-              <input
+              <MDBInput
+                label="Password "
+                id="typePassword"
+                type="password"
                 name="password"
                 autoComplete="new-password"
-                className="input-password"
-                type="password"
-                placeholder="Mot de passe"
                 value={formValue.password}
                 onChange={onChange}
               />
+              {/* <input
+                className="input-password"
+                type="password"
+                placeholder="Mot de passe"
+              /> */}
             </div>
             <div className="error-message-container">
               <p
@@ -132,14 +146,21 @@ function Register() {
               </p>
             </div>
             <div className="input">
-              <input
+              <MDBInput
+                label="Vérifier mot de passe "
+                id="typePassword"
+                type="password"
+                name="password"
+                autoComplete="new-password"
+                value={checkPassword}
+                onChange={(e) => setCheckPassword(e.target.value)}
+              />
+              {/* <input
                 className="input-password"
                 autoComplete="new-password"
                 type="password"
                 placeholder="Vérifier mot de passe"
-                value={checkPassword}
-                onChange={(e) => setCheckPassword(e.target.value)}
-              />
+              /> */}
             </div>
             <div className="error-message-container">
               <p
