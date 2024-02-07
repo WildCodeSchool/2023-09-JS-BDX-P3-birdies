@@ -94,7 +94,7 @@ export default function UserSettings() {
               id="typeText"
               type="text"
               name="firstname"
-              value={everyInfo.firstname}
+              value={everyInfo.firstname ? everyInfo.firstname : ""}
               onChange={onValuechange}
             />
             {/* <input
@@ -110,7 +110,7 @@ export default function UserSettings() {
               id="typeText"
               type="text"
               name="lastname"
-              value={everyInfo.lastname}
+              value={everyInfo.lastname ? everyInfo.lastname : ""}
               onChange={onValuechange}
             />
             {/* <input
