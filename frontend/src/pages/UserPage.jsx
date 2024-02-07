@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { MDBBtn } from "mdb-react-ui-kit";
 import replyArrow from "../styles/icons/Reply Arrow.png";
 import settingsWheel from "../styles/icons/settingsWheel.png";
 import "../styles/components/userPage/userPage.scss";
@@ -100,14 +101,14 @@ function UserPage() {
                 alt="Preview"
               />
             )}
-
-            <button
-              type="button"
+            <MDBBtn
               className="confirm-button"
               onClick={handleSave}
+              color="dark"
             >
               Confirmer
-            </button>
+            </MDBBtn>
+            {/* <button type="button">Confirmer</button> */}
           </div>
           <button
             type="button"

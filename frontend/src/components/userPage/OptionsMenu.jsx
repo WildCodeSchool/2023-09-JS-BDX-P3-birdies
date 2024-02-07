@@ -32,7 +32,8 @@ function OptionsMenu({ menuVisible, setFileVisible }) {
 }
 OptionsMenu.propTypes = {
   menuVisible: PropTypes.bool.isRequired,
-  setFileVisible: PropTypes.bool.isRequired,
+  // setFileVisible: PropTypes.bool.isRequired,
+  setFileVisible: PropTypes.func.isRequired,
 };
 
 export default OptionsMenu;
