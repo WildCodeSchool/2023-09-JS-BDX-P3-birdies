@@ -12,7 +12,7 @@ create table `users` (
     `avatar` VARCHAR(255)
 );
 
-INSERT INTO
+INSERT IGNORE INTO
     `users` (
         `firstname`,
         `lastname`,
@@ -44,12 +44,13 @@ create table `recipes` (
     `userId` INT NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `publicationDate` VARCHAR(255) NOT NULL,
-    `picture` VARCHAR(255) NOT NULL,
+    `picture` INT NOT NULL,
     `peopleNumber` INT NOT NULL,
     `energyPerPerson` INT NOT NULL,
     `difficulty` VARCHAR(255) NOT NULL,
     `prepTime` INT not NULL
 );
+
 
 CREATE table `upload` (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -61,7 +62,7 @@ CREATE table `upload` (
 alter TABLE
     `recipes`
 MODIFY
-    picture VARCHAR(255),
+    picture INT,
 ADD
     CONSTRAINT fk_picture_upload_id FOREIGN KEY (picture) REFERENCES upload(id);
 
@@ -124,7 +125,7 @@ CREATE TABLE `steps` (
     Foreign Key (recipe_id) REFERENCES recipes(id)
 );
 
-INSERT INTO
+INSERT IGNORE INTO
     `recipes` (
         `userId`,
         `name`,
@@ -167,7 +168,7 @@ VALUES
         "25"
     );
 
-INSERT INTO
+INSERT IGNORE INTO
     `recipes` (
         `userId`,
         `name`,
@@ -220,63 +221,63 @@ INSERT INTO
 VALUES
     ("-1 heure");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("Gourmand");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("Festif");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("Sportif");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("De saison");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("BBQ");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("Végétarien");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("Sans lactose");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("Végan");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("Sans gluten");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("Entrée");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("Snack"),
     ("Plat");
 
-INSERT INTO
+INSERT IGNORE INTO
     `cathegories` (`name`)
 VALUES
     ("Dessert"),
@@ -298,7 +299,7 @@ ADD
 ALTER TABLE
     `recipes` DROP `Gender`;
 
-INSERT INTO
+INSERT IGNORE INTO
     `recipes` (
         `userId`,
         `name`,
@@ -406,7 +407,3 @@ VALUES
     (2, 26),
     (1, 20);
 
-alter TABLE
-    `recipes`
-MODIFY
-    picture VARCHAR(255);
