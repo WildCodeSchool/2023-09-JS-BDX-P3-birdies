@@ -1,6 +1,8 @@
+/* eslint-disable react/jsx-no-bind */
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { MDBInput } from "mdb-react-ui-kit";
 import { MDBFileUpload } from "mdb-react-file-upload";
 import { Useinfo } from "../context/InfoContext";
 import "../styles/components/UserSettings/userSettings.scss";
@@ -71,24 +73,47 @@ export default function UserSettings() {
             />
           </div>
           <div className="user-settings-container">
-            <input
+            <MDBInput
+              label="Pseudo"
+              id="typeText"
+              type="text"
+              name="pseudo"
+              value={everyInfo.pseudo}
+              onChange={onValuechange}
+            />
+            {/* <input
               type="text"
               name="pseudo"
               placeholder="Pseudo"
               value={everyInfo.pseudo}
               onChange={onValuechange}
-              // onChange={(e) => setEveryInfo({ pseudo: e.target.value })}
+              onChange={(e) => setEveryInfo({ pseudo: e.target.value })}
+            /> */}
+            <MDBInput
+              label="Prénom"
+              id="typeText"
+              type="text"
+              name="firstname"
+              value={everyInfo.firstname}
+              onChange={onValuechange}
             />
-            <input
+            {/* <input
               type="text"
               name="firstname"
               placeholder="Prénom"
               value={everyInfo.firstname}
+              onChange={onValuechange} */}
+            {/* onChange={(e) => setEveryInfo({ firstname: e.target.value })} */}
+            {/* /> */}
+            <MDBInput
+              label="Nom"
+              id="typeText"
+              type="text"
+              name="lastname"
+              value={everyInfo.lasttname}
               onChange={onValuechange}
-
-              // onChange={(e) => setEveryInfo({ firstname: e.target.value })}
             />
-            <input
+            {/* <input
               type="text"
               placeholder="Nom"
               name="lastname"
@@ -96,14 +121,22 @@ export default function UserSettings() {
               onChange={onValuechange}
 
               // onChange={(e) => setEveryInfo({ lastname: e.target.value })}
+            /> */}
+            <MDBInput
+              label="Email"
+              id="typeEmail"
+              type="email"
+              name="email"
+              value={everyInfo.email}
+              onChange={onValuechange}
             />
-            <input
+            {/* <input
               type="email"
               placeholder="Email"
               name="email"
               value={everyInfo.email}
               onChange={onValuechange}
-            />
+            /> */}
             {everyInfo.role === "user" && (
               <input
                 type="password"
@@ -113,7 +146,6 @@ export default function UserSettings() {
                 onChange={onValuechange}
               />
             )}
-
             <button
               type="submit"
               className="accept-modifications"
