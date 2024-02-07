@@ -39,7 +39,7 @@ function Recipe() {
   const { recipe, comments, steps, ingredients } = useLoaderData();
   // console.info(recipe);
   useEffect(() => {
-    setCurrentRecipeId(recipe?.id);
+    setCurrentRecipeId(id);
     getRecipePicture(recipe?.picture);
   }, []);
 
@@ -103,7 +103,7 @@ function Recipe() {
 
       <div className="recipe-body-container">
         <div className="rate-nutri-container">
-          {/* <p>{recipe.energyPerPerson} kcal/portion</p> */}
+          <p>{recipe.energyPerPerson} kcal/portion</p>
           <div className="rate-container">
             <div className="stars">
               <img src={star} alt="star-img" />
