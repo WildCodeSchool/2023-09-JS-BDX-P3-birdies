@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import axios from "axios";
 import {
@@ -293,13 +292,6 @@ function NewRecipe() {
             value={recipeName}
             onChange={handleNameChange}
           />
-          {/* <input
-            type="text"
-            className="new-recipe-title"
-            placeholder="Votre titre de recette"
-            value={recipeName}
-            onChange={handleNameChange}
-          /> */}
         </div>
         <MDBFileUpload
           className="upload-container"
@@ -329,7 +321,7 @@ function NewRecipe() {
           difficultyEvaluation={difficultyEvaluation}
         />
         <div className="new-ingredients-container">
-          <h2 className="recipe-part">Ingrédients</h2>
+          <h2 className="recipe-step-title">Ingrédients</h2>
           <div className="search-area">
             <MDBAutocomplete
               noResults=""
@@ -346,7 +338,7 @@ function NewRecipe() {
               type="button"
               onClick={createIngredientLine}
             >
-              +
+              Ajouter
             </button>
           </div>
           <IngredientsList
@@ -359,17 +351,24 @@ function NewRecipe() {
           />
         </div>
         <div className="new-steps-container">
-          <h2 className="recipe-part step3">Étapes</h2>
+          <h2
+            className="recipe-step-title step-margin"
+            style={{ marginTop: 10 }}
+          >
+            Étapes:
+          </h2>
           <button
             className="add-remove-button"
             type="button"
             onClick={() => handleAdd()}
           >
-            +
+            Ajouter
           </button>
-          {inputs.map((input, i) => (
-            <div className="recipe-step" key={uuidv4()}>
-              <h5>Etape {i + 1}</h5>
+          {inputs.map((input, i, index) => (
+            <div className="recipe-step" key={index}>
+              <h5 className="recipe-step" style={{ marginBottom: 10 }}>
+                Etape {i + 1}
+              </h5>
               <div className="textarea-btn">
                 <MDBTextArea
                   name=""
@@ -380,14 +379,6 @@ function NewRecipe() {
                   value={input}
                   onChange={(e) => handleChange(e, i)}
                 />
-                {/* <textarea
-                  name=""
-                  id=""
-                  cols="38"
-                  rows="2"
-                  value={input}
-                  onChange={(e) => handleChange(e, i)}
-                /> */}
                 <div className="mx-2-container">
                   <MDBBtn
                     className="mx-2"

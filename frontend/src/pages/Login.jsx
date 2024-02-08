@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 // import axios from "axios";
 // import { useState } from "react";
 import "reactjs-popup/dist/index.css";
+import { MDBInput } from "mdb-react-ui-kit";
 import cookies from "../styles/icons/cookies.jpg";
 import logo from "../styles/icons/logo.png";
 import Popup from "../components/alerts/Popup";
@@ -41,24 +42,24 @@ function Login() {
             </div>
 
             <div className="input">
-              <input
-                value={formValue.email}
-                name="email"
-                autoComplete="username"
-                className="input-email"
+              <MDBInput
+                label="Email"
+                id="typeEmail"
                 type="email"
-                placeholder="Email"
+                value={formValue.email}
+                autoComplete="username"
                 onChange={onChange}
+                name="email"
               />
             </div>
             <div className="input">
-              <input
+              <MDBInput
+                label="Mot de passe"
+                id="typePassword"
+                type="password"
                 value={formValue.password}
                 name="password"
                 autoComplete="current-password"
-                className="input-password"
-                type="password"
-                placeholder="Mot de passe"
                 onChange={onChange}
                 onKeyDown={(event) => {
                   if (event.key === "Enter")
@@ -68,6 +69,14 @@ function Login() {
                     });
                 }}
               />
+              {/* <input
+                value={formValue.password}
+                name="password"
+                autoComplete="current-password"
+                className="input-password"
+                type="password"
+                placeholder="Mot de passe"
+              /> */}
             </div>
           </div>
           <div className="submit">
@@ -99,7 +108,7 @@ function Login() {
                 <span className="click-here"> S'enregistrer </span>
               </Link>
             </div>
-            <p className="CGV">Conditions générales d'utilisation</p>
+            {/* <p className="CGV">Conditions générales d'utilisation</p> */}
           </div>
         </div>
       </div>

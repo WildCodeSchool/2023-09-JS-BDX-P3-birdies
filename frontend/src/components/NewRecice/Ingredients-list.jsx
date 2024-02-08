@@ -16,7 +16,7 @@ function IngredientsList({
             - {ing.name ?? ing.ingredientName}
           </div>
           <div className="quantity_unite-area">
-            <div>
+            <div className="quantity_unite-contaire">
               <input
                 type="text"
                 className="ingredient-line-quantity"
@@ -37,13 +37,15 @@ function IngredientsList({
               <option value="piece">piece</option>
             </select>
           </div>
-          <button
-            className="remove-button"
-            type="button"
-            onClick={() => handleDeleteIngredient(i)}
-          >
-            x
-          </button>
+          <div className="btn-clear-ingred">
+            <button
+              className="remove-button-ingred"
+              type="button"
+              onClick={() => handleDeleteIngredient(i)}
+            >
+              x
+            </button>
+          </div>
         </div>
       ))}
     </div>
@@ -54,8 +56,8 @@ IngredientsList.propTypes = {
   handleDeleteIngredient: PropTypes.func.isRequired,
   handleChangeQuantity: PropTypes.func.isRequired,
   handleChangeUnite: PropTypes.func.isRequired,
-  quantityValues: PropTypes.arrayOf.isRequired,
-  uniteValues: PropTypes.arrayOf.isRequired,
+  quantityValues: PropTypes.func.isRequired,
+  uniteValues: PropTypes.func.isRequired,
 };
 
 export default IngredientsList;

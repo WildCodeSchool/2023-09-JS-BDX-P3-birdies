@@ -50,9 +50,9 @@
     }
   }
   .new-recipe-form-input {
-    margin: 0 0 20px 0;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;
+
     // .new-recipe-title {
     //   text-align: center;
     //   min-width: 50%;
@@ -100,25 +100,65 @@
     height: 100%;
     .ingredients-list {
       .ingredient-line {
-        width: 75%;
+        width: 100%;
         margin: 10px 0 0 0;
         display: flex;
         justify-content: space-between;
+        max-height: 40px;
       }
-      .ingredient-line-quantity {
-        width: 50%;
+      .ingredient-line-name {
+        min-width: 50%;
+        padding-left: 5px;
+        font-size: 0.75rem;
+        font-weight: bolder;
+        display: flex;
+        align-items: center;
       }
-
-      .ingredient-line-unite {
-        width: 3rem;
-        margin-left: 5px;
-      } /* Firefox */
+      .quantity_unite-area {
+        display: flex;
+        max-height: 40px;
+        .quantity_unite-contaire {
+          min-width: 50%;
+          display: flex;
+          justify-content: end;
+          .ingredient-line-quantity {
+            border: none;
+            text-align: end;
+            width: 40%;
+            background: rgba(255, 255, 255, 0.354);
+          }
+        }
+        .ingredient-line-unite {
+          max-width: 20%;
+          margin-right: 20px;
+          background: transparent;
+          border: none;
+          text-align: center;
+        }
+      }
+      .btn-clear-ingred {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        height: 40px;
+        .remove-button-ingred {
+          border: 1px solid balck;
+          min-width: 35px;
+          height: 35px;
+          border-radius: 50%;
+          padding-bottom: 3px;
+          font-weight: bold;
+        }
+      }
     }
   }
 
   .send-recipe-btn-container {
     display: flex;
     justify-content: center;
+    max-width: 30%;
+
     .send-recipe-btn {
       border-radius: 5px;
       padding: 5px 15px;
@@ -129,9 +169,19 @@
       margin-top: 20px;
     }
   }
-  .send-recipe-btn {
-    border-radius: 5px;
-    padding: 5px 15px;
-    margin-top: 20px;
+  .send-recipe-btn-container {
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 10px;
+
+    .send-recipe-btn {
+      border-radius: 5px;
+      padding: 5px 15px;
+      margin-top: 20px;
+    }
   }
+}
+.recipe-step-title {
+  margin-top: 20px;
+  color: #d56c06;
 }
