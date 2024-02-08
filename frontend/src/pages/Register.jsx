@@ -187,7 +187,7 @@ function Register() {
               <span>Oups, j'ai déjà un compte!</span>
             </Link>
           </div>
-          <p className="CGV">Conditions générales d'utilisation</p>
+          {/* <p className="CGV">Conditions générales d'utilisation</p> */}
         </div>
       </div>
     </div>

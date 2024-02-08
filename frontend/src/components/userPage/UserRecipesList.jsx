@@ -15,7 +15,7 @@ function UserRecipesList() {
     <div>
       {userByRecipe?.map((recipe) => (
         <div className="user-recipe-container" key={recipe.name}>
-          <MDBCard className="w-100 p-3">
+          <MDBCard id="card" className="w-100 p-3">
             <MDBCardImage
               src={`${import.meta.env.VITE_BACKEND_URL}/${recipe?.url}  `}
               position="top"
