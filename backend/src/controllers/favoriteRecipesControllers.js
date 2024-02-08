@@ -2,6 +2,7 @@ const models = require("../models");
 
 const getAllUserFavorites = async (req, res) => {
   const userId = parseInt(req.params.userId, 10);
+
   try {
     const [response] = await models.favoriteRecipes.findUserFavorites(userId);
     console.info(response);

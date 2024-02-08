@@ -16,7 +16,7 @@ function FavoriteRecipesList() {
         <div className="recipe-container-show">
           <MDBCard key={recipe.id} className="w-100 p-3">
             <MDBCardImage
-              src={recipe?.picture}
+              src={`${import.meta.env.VITE_BACKEND_URL}/${recipe?.url}`}
               position="top"
               alt="picture-recipe"
             />

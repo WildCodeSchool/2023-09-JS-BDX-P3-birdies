@@ -5,6 +5,8 @@
   right: -200px;
   min-height: 120px;
   transition: all 0.2s ease-in-out;
+  background: black;
+  z-index: 2;
 
   &.visible {
     position: absolute;
@@ -12,7 +14,8 @@
     right: 0px;
     min-height: 120px;
     width: 180px;
-    background-color: white;
+    background: rgba(0, 0, 0, 0.837);
+    // background-color: white;
     transition: all 0.2s ease-in-out;
   }
   .option-menu-list {
@@ -25,12 +28,13 @@
     justify-content: center;
     position: relative;
     z-index: 2;
+    border-radius: 5px;
 
     .option-menu-line {
       margin-top: 10px;
-      padding-left: 5px;
+      // padding-left: 5px;
       min-width: 100%;
-      color: black;
+      color: white;
     }
   }
 }
@@ -39,6 +43,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 70%;
 }
 
 .file-hidden {
@@ -61,7 +66,8 @@
 }
 
 .avatar-btn {
-  background-color: rgba($color: red, $alpha: 0);
   border: none;
-  color: rgb(89, 89, 183);
+  margin-top: 5px;
+  color: white;
+  background: none;
 }
