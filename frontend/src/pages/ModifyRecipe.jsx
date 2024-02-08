@@ -231,10 +231,14 @@ function ModifyRecipe() {
     await handleDeleteRecipeIngredients(id);
     // TODO: fix this lines
     for (const ingredient of recipe.ingredients) {
-      // eslint-disable-next-line no-await-in-loop
-      const ingredientsAnswer = await handleSubmitIngredients(
-        ingredient.name.name
-      );
+      // création d'une condition pour éviter un ingrédient undefined si juste modifié et pas ajouté
+      const ingredientChecked =
+        ingredient.name.name === undefined
+          ? ingredient.name
+          : ingredient.name.name;
+      const ingredientsAnswer =
+        // eslint-disable-next-line no-await-in-loop
+        await handleSubmitIngredients(ingredientChecked);
       // console.info(ingredient);
       // console.info(ingredientsInfos);
       // eslint-disable-next-line no-await-in-loop
