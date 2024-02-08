@@ -6,6 +6,7 @@
   min-height: 120px;
   transition: all 0.2s ease-in-out;
   background: black;
+  z-index: 2;
 
   &.visible {
     position: absolute;

@@ -19,7 +19,7 @@ CREATE table IF NOT EXISTS `upload` (
     created_at TIMESTAMP default CURRENT_TIMESTAMP
 );
 
-create table IF NOT EXISTS  `recipes` (
+create table IF NOT EXISTS `recipes` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `userId` INT NOT NULL,
     `name` VARCHAR(255) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `cathegories` (
 CREATE TABLE IF NOT EXISTS `recipes_cathegories` (
     `recipe_id` INT NOT NULL,
     `cathegory_id` INT NOT NULL,
-    Foreign Key (`recipe_id`) REFERENCES recipes(id)  ON DELETE CASCADE,
+    Foreign Key (`recipe_id`) REFERENCES recipes(id) ON DELETE CASCADE,
     Foreign Key (`cathegory_id`) REFERENCES cathegories(id)
 );
 
@@ -86,8 +86,8 @@ CREATE TABLE IF NOT EXISTS `steps` (
     Foreign Key (recipe_id) REFERENCES recipes(id)
 );
 
-INSERT IGNORE INTO
-    `cathegories`
+INSERT
+    IGNORE INTO `cathegories`
 VALUES
     (1, "Très facile"),
     (2, "Facile"),

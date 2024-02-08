@@ -364,8 +364,8 @@ function NewRecipe() {
           >
             Ajouter
           </button>
-          {inputs.map((input, i, index) => (
-            <div className="recipe-step" key={index}>
+          {inputs.map((input, i) => (
+            <div className="recipe-step">
               <h5 className="recipe-step" style={{ marginBottom: 10 }}>
                 Etape {i + 1}
               </h5>
