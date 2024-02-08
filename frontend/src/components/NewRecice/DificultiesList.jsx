@@ -3,8 +3,8 @@ import difficulties from "../../constants/difficulties.constant";
 
 function DifficultiesList({ handleChangeDifficulty, difficultyEvaluation }) {
   return (
-    <div className="difficulties">
-      <h5 className="recipe-step-title">Difficulté :</h5>
+    <div className="difficulties container-fluid">
+      <h2 className="recipe-step-title">Difficulté :</h2>
       <div className="difficulties-container">
         {difficulties.map((difficulty) => (
           <button
