@@ -203,7 +203,8 @@ function NewRecipe() {
     return energyPerPerson;
   }
 
-  const showAll = async () => {
+  const showAll = async (event) => {
+    event.preventDefault();
     // créer les objets ingrédients : nom, quantité, mesure
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < recipeIngredients.length; i++) {
@@ -283,7 +284,7 @@ function NewRecipe() {
   return (
     <div className="page">
       <RecipeHeader />
-      <form className="new-recipe-form" action="">
+      <form className="new-recipe-form" onSubmit={showAll}>
         <div className="new-recipe-form-input w-100 p-3">
           <MDBInput
             type="text"
@@ -405,12 +406,7 @@ function NewRecipe() {
           setChosenFilters={setChosenFilters}
         />
         {/* <Link to="/"> */}
-        <MDBBtn
-          color="dark"
-          className="send-recipe-btn"
-          onClick={showAll}
-          mt-20
-        >
+        <MDBBtn color="dark" type="submit" className="send-recipe-btn mt-4">
           ENVOYER
         </MDBBtn>
         {/* <button className="send-recipe-btn" type="button" onClick={showAll}>
