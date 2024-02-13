@@ -131,9 +131,6 @@ function Recipe() {
             <div className="all-ingredients-container">
               <div className="ingredients-title-pdf-container">
                 <div className="ingredients-title">Ingrédients</div>
-                {/* <div className="printer-img-container">
-                  <img className="printer" src={pdf} alt="printer" />
-                </div> */}
               </div>
               <div className="people-number-selection">
                 <button type="button" onClick={changeGuestsNumber}>

@@ -233,8 +233,6 @@ function NewRecipe() {
       cathegories: filtersInfo,
       ingredients: ingredientsInfos,
     };
-    // console.info(recipe);
-    // console.info(recipe.ingredients);
     setBasicSuccess((prev) => !prev);
     try {
       const response = await handleRecipeSubmit(recipe);
