@@ -87,5 +87,9 @@ class UserManager extends AbstractManager {
       [id, user]
     );
   }
+
+  async getAllUsers() {
+    return this.database.query(`SELECT * FROM ${this.table}`);
+  }
 }
 module.exports = UserManager;

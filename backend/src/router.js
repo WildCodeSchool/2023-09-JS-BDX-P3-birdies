@@ -45,6 +45,7 @@ router.put("/users/:id([0-9]+)", userControllers.updateUser);
 router.patch("/users/:id([0-9]+)", userControllers.updateUserRole);
 
 router.get("/recipes", recipeControllers.getRecipes);
+router.get("/allRecipes", recipeControllers.getAllRecipesForAdmins);
 router.get(
   "/recipes/:difficulty([a-z]+)",
   recipeControllers.getRecipesDifficulty

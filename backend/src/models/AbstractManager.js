@@ -12,7 +12,6 @@ class AbstractManager {
 
   // trouve les recettes par critères
   findAll(dataValue = {}) {
-    console.info(dataValue);
     let query = `select recipes.id, recipes.name, upload.url from  ${this.table} LEFT JOIN upload ON recipes.picture = upload.id`;
     const values = [];
 
