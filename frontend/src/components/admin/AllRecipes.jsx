@@ -12,8 +12,8 @@ function AllRecipes() {
   useEffect(() => {
     try {
       axios
-        .get(`${import.meta.env.VITE_BACKEND_URL}/api/recipes`)
-        .then((res) => setAllRecipes(res.data));
+        .get(`${import.meta.env.VITE_BACKEND_URL}/api/allRecipes`)
+        .then((res) => setAllRecipes(res.data[0]));
     } catch (err) {
       console.warn(err);
     }
@@ -40,10 +40,8 @@ function AllRecipes() {
       {allRecipes?.map((e) => (
         <>
           <div>n°{e.id}</div>
-          <div>Utilisateur: {e.userId}</div>
           <div>Nom de la recette: {e.name}</div>
           <div>Date de publication: {e.publicationDate}</div>
-          <div>{e.picture}</div>
           <button
             type="button"
             className="delete-recipe-button"
@@ -64,6 +62,7 @@ function AllRecipes() {
               className="edit-recipe-and-user-pen"
             />
           </button>
+          <div className="recipes-infos-separation" />
         </>
       ))}
     </div>

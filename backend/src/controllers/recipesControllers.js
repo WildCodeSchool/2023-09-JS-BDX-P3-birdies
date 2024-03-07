@@ -11,6 +11,16 @@ const getRecipes = async (req, res) => {
   }
 };
 
+const getAllRecipesForAdmins = async (req, res) => {
+  try {
+    const response = await models.recipe.findAllRecipes();
+    res.send(response);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: err });
+  }
+};
+
 const getLastRecipes = (req, res) => {
   const number = parseInt(req.params.number, 10);
   try {
@@ -145,4 +155,5 @@ module.exports = {
   updateRecipe,
   recipeByUser,
   recipeByUserEmail,
+  getAllRecipesForAdmins,
 };
