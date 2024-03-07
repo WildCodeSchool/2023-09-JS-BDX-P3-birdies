@@ -26,11 +26,6 @@ function AdminPage() {
     <>
       <div className="userPage-header">
         <div className="info-parameters">
-          <img
-            className="pfp"
-            src="https://64.media.tumblr.com/9c1d74026bb52921106ca79e61737183/5f8a57cbf4d0c6d5-2d/s540x810/ec4df470e2ee56091e6419ec24c90dbe7479b64e.jpg"
-            alt="Moi"
-          />
           <button
             type="button"
             className="option-menu-btn"
@@ -40,7 +35,10 @@ function AdminPage() {
               src={settingsWheel}
               alt="Paramètres"
               className="setting-wheel"
-              style={{ transform: rotate, transition: "all 0.2s linear" }}
+              style={{
+                transform: rotate,
+                transition: "all 0.2s linear",
+              }}
             />
           </button>
           <OptionsMenu menuVisible={menuVisible} />

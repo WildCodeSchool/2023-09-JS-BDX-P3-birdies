@@ -14,9 +14,15 @@ function OptionsMenu({ menuVisible, setOnOff, onOff }) {
         <Link to="/newrecipe">
           <li className="option-menu-line">Ajouter recette</li>
         </Link>
-        <Link to={`/userSettings/${user.id}`}>
-          <li className="option-menu-line">Modifier compte</li>
-        </Link>
+
+        {user?.role === "user" ? (
+          <Link to={`/userSettings/${user.id}`}>
+            <li className="option-menu-line">Modifier compte</li>
+          </Link>
+        ) : (
+          <div className="hidden" />
+        )}
+
         <button
           type="button"
           className="avatar-btn"
