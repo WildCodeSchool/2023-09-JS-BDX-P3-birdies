@@ -1,3 +1,4 @@
+import { MDBBtn, MDBIcon, MDBInput, MDBSelect } from "mdb-react-ui-kit";
 import PropTypes from "prop-types";
 
 function IngredientsList({
@@ -11,40 +12,47 @@ function IngredientsList({
   return (
     <div className="ingredients-list">
       {ingreds.map((ing, i) => (
-        <div key={ing.name ?? ing.ingredientName} className="ingredient-line">
-          <div className="ingredient-line-name">
-            - {ing.name ?? ing.ingredientName}
+        <div
+          key={ing.name ?? ing.ingredientName}
+          className="d-flex justify-content-between mb-2"
+        >
+          <div className="col-5">- {ing.name ?? ing.ingredientName}</div>
+          <div className="col-2">
+            <MDBInput
+              label="Qt"
+              id="form1"
+              type="text"
+              value={quantityValues[i]}
+              onChange={(e) => handleChangeQuantity(e, i)}
+            />
           </div>
-          <div className="quantity_unite-area">
-            <div className="quantity_unite-contaire">
-              <input
-                type="text"
-                className="ingredient-line-quantity"
-                value={quantityValues[i]}
-                onChange={(e) => handleChangeQuantity(e, i)}
-              />
-            </div>
-            <select
+          <div className="col-2">
+            <MDBSelect
+              value={uniteValues[i]}
               name="unite"
               id="0"
-              className="ingredient-line-unite"
-              value={uniteValues[i]}
-              onChange={(e) => handleChangeUnite(e, i)}
-            >
-              <option value="-">-</option>
-              <option value="gr">gr</option>
-              <option value="cl">cl</option>
-              <option value="piece">piece</option>
-            </select>
+              data={[
+                { text: "-", value: "-" },
+                { text: "gr", value: "gr" },
+                { text: "cl", value: "cl" },
+                { text: "piece", value: "piece" },
+              ]}
+              onValueChange={(e) => handleChangeUnite({ target: e }, i)}
+            />
           </div>
-          <div className="btn-clear-ingred">
-            <button
-              className="remove-button-ingred"
+          <div className="col-1 d-flex justify-content-center align-items-center">
+            <MDBBtn
+              className="my-auto"
+              outline
+              rounded
+              floating
+              color="danger"
               type="button"
               onClick={() => handleDeleteIngredient(i)}
+              size="sm"
             >
-              x
-            </button>
+              <MDBIcon fas icon="minus" />
+            </MDBBtn>
           </div>
         </div>
       ))}

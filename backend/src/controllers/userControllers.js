@@ -6,7 +6,7 @@ function generateAccessToken(data) {
 }
 const getUsers = (_, res) => {
   models.user
-    .findAll()
+    .getAllUsers()
     .then(([rows]) => {
       res.send(rows);
     })

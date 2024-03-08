@@ -76,6 +76,10 @@ class RecipeManager extends AbstractManager {
       `SELECT * from ${this.table} LEFT JOIN upload ON recipes.picture = upload.id WHERE userId = ${user[0].id}`
     );
   }
+
+  async findAllRecipes() {
+    return this.database.query(`SELECT * FROM ${this.table}`);
+  }
 }
 
 module.exports = RecipeManager;

@@ -5,6 +5,7 @@ import axios from "axios";
 import {
   MDBAutocomplete,
   MDBBtn,
+  MDBIcon,
   MDBInput,
   MDBTextArea,
 } from "mdb-react-ui-kit";
@@ -78,15 +79,6 @@ function NewRecipe() {
   const handleNameChange = (e) => {
     setRecipeName(e.target.value);
   };
-
-  // change le nombre de personnes pour lequel est prévue la recette
-  function changeGuestsNumber(e) {
-    if (e.target.innerHTML === "+") {
-      setGuestsNumber(guestsNumber + 1);
-    } else if (e.target.innerHTML === "-" && guestsNumber > 1) {
-      setGuestsNumber(guestsNumber - 1);
-    }
-  }
   // definit le temps de préparation de la recete
   const handleChangeTime = (e) => {
     const timeInNumeric = e.target.value.replace(/[^0-9]/g, "");
@@ -241,8 +233,6 @@ function NewRecipe() {
       cathegories: filtersInfo,
       ingredients: ingredientsInfos,
     };
-    // console.info(recipe);
-    // console.info(recipe.ingredients);
     setBasicSuccess((prev) => !prev);
     try {
       const response = await handleRecipeSubmit(recipe);
@@ -281,9 +271,12 @@ function NewRecipe() {
   };
 
   return (
-    <div className="page">
+    <div className="page container pb-4">
       <RecipeHeader />
-      <form className="new-recipe-form" onSubmit={showAll}>
+      <form
+        className="new-recipe-form col-sm-12 col-md-8 col-lg-6"
+        onSubmit={showAll}
+      >
         <div className="new-recipe-form-input w-100 p-3">
           <MDBInput
             type="text"
@@ -302,13 +295,33 @@ function NewRecipe() {
             <h4 className="title-persons-number">Nombre de personnes :</h4>
             {/*  */}
             <div className="people-number-selection">
-              <button type="button" onClick={changeGuestsNumber}>
-                -
-              </button>
+              <MDBBtn
+                outline
+                rounded
+                floating
+                tag="a"
+                color="dark"
+                onClick={() =>
+                  setGuestsNumber(
+                    guestsNumber >= 1 ? guestsNumber - 1 : guestsNumber
+                  )
+                }
+                size="sm"
+              >
+                <MDBIcon fas icon="minus" />
+              </MDBBtn>
               <p className="people-number">{guestsNumber}</p>
-              <button type="button" onClick={changeGuestsNumber}>
-                +
-              </button>
+              <MDBBtn
+                outline
+                rounded
+                floating
+                tag="a"
+                color="dark"
+                onClick={() => setGuestsNumber(guestsNumber + 1)}
+                size="sm"
+              >
+                <MDBIcon fas icon="plus" />
+              </MDBBtn>
             </div>
           </label>
           <PreparationTime
@@ -320,7 +333,7 @@ function NewRecipe() {
           handleChangeDifficulty={handleChangeDifficulty}
           difficultyEvaluation={difficultyEvaluation}
         />
-        <div className="new-ingredients-container">
+        <div className="new-ingredients-container container-fluid">
           <h2 className="recipe-step-title">Ingrédients</h2>
           <div className="search-area">
             <MDBAutocomplete
@@ -333,13 +346,17 @@ function NewRecipe() {
               displayValue={(ingredient) => `${ingredient.product_name_fr}`} // affiche les différents ingrédient possibles
               onSelect={handleSelect} // stock le nom de l'ingredient dans <ingredientSelected>
             />
-            <button
-              className="add-remove-button"
+            <MDBBtn
+              className="mt-2"
+              outline
+              rounded
+              color="warning"
               type="button"
               onClick={createIngredientLine}
+              size="sm"
             >
               Ajouter
-            </button>
+            </MDBBtn>
           </div>
           <IngredientsList
             ingreds={ingreds}
@@ -350,42 +367,51 @@ function NewRecipe() {
             uniteValues={uniteValues}
           />
         </div>
-        <div className="new-steps-container">
+        <div className="new-steps-container container-fluid">
           <h2
             className="recipe-step-title step-margin"
             style={{ marginTop: 10 }}
           >
             Étapes:
           </h2>
-          <button
-            className="add-remove-button"
+          <MDBBtn
+            className="mt-2"
+            outline
+            rounded
+            color="warning"
             type="button"
-            onClick={() => handleAdd()}
+            onClick={handleAdd}
+            size="sm"
           >
             Ajouter
-          </button>
+          </MDBBtn>
           {inputs.map((input, i) => (
             <div className="recipe-step">
               <h5 className="recipe-step" style={{ marginBottom: 10 }}>
                 Etape {i + 1}
               </h5>
-              <div className="textarea-btn">
-                <MDBTextArea
-                  name=""
-                  label="Message"
-                  id="textAreaExample"
-                  cols="38"
-                  rows={2}
-                  value={input}
-                  onChange={(e) => handleChange(e, i)}
-                />
-                <div className="mx-2-container">
+              <div className="d-flex justify-content-between">
+                <div className="col-10">
+                  <MDBTextArea
+                    name=""
+                    label="Message"
+                    id="textAreaExample"
+                    cols="38"
+                    rows={2}
+                    value={input}
+                    onChange={(e) => handleChange(e, i)}
+                  />
+                </div>
+                <div className="col-1 d-flex justify-content-end">
                   <MDBBtn
-                    className="mx-2"
+                    className="my-auto"
                     color="danger"
+                    outline
+                    floating
+                    size="sm"
                     onClick={() => handleDelete(i)}
                   >
-                    supprimer
+                    <MDBIcon fas icon="minus" />
                   </MDBBtn>
                 </div>
               </div>
@@ -397,7 +423,7 @@ function NewRecipe() {
           setChosenFilters={setChosenFilters}
         />
         {/* <Link to="/"> */}
-        <MDBBtn color="dark" type="submit" className="send-recipe-btn mt-4">
+        <MDBBtn color="dark" type="submit" className="col-8 mx-auto mt-4">
           ENVOYER
         </MDBBtn>
         {/* <button className="send-recipe-btn" type="button" onClick={showAll}>
