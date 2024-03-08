@@ -57,7 +57,7 @@ const postUser = (req, res) => {
   models.user
     .create(req.body)
     .then(([rows]) => {
-      res.send({
+      res.status(201).send({
         id: rows.insertId,
         email: req.body.email,
         role: req.body.role,
@@ -80,7 +80,7 @@ const postLogin = (req, res) => {
         pseudo,
         banana: "banana !",
       });
-      res.send({ token });
+      res.status(201).send({ token });
     } else {
       res.status(401).send({ error: "identifiant incorrect !" });
     }

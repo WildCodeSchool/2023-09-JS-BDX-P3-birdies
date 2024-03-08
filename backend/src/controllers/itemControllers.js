@@ -16,23 +16,23 @@ const browse = async (req, res, next) => {
 };
 
 // The R of BREAD - Read operation
-const read = async (req, res, next) => {
-  try {
-    // Fetch a specific item from the database based on the provided ID
-    const item = await tables.item.read(req.params.id);
+// const read = async (req, res, next) => {
+//   try {
+//     // Fetch a specific item from the database based on the provided ID
+//     const item = await tables.item.read(req.params.id);
 
-    // If the item is not found, respond with HTTP 404 (Not Found)
-    // Otherwise, respond with the item in JSON format
-    if (item == null) {
-      res.sendStatus(404);
-    } else {
-      res.json(item);
-    }
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
-};
+//     // If the item is not found, respond with HTTP 404 (Not Found)
+//     // Otherwise, respond with the item in JSON format
+//     if (item == null) {
+//       res.sendStatus(404);
+//     } else {
+//       res.json(item);
+//     }
+//   } catch (err) {
+//     // Pass any errors to the error-handling middleware
+//     next(err);
+//   }
+// };
 
 // The E of BREAD - Edit (Update) operation
 // This operation is not yet implemented
@@ -60,7 +60,7 @@ const add = async (req, res, next) => {
 // Ready to export the controller functions
 module.exports = {
   browse,
-  read,
+  // read,
   // edit,
   add,
   // destroy,

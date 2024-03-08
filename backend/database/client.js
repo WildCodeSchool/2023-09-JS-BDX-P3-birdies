@@ -16,7 +16,7 @@ const client = mysql.createPool({
 client
   .getConnection()
   .then((connection) => {
-    console.info(`Using database ${DB_NAME}`);
+    // console.info(`Using database ${DB_NAME}`);
 
     connection.release();
   })

@@ -1,4 +1,4 @@
--- Active: 1701095195024@@127.0.0.1@3306@birdies
+-- Active: 1708042613144@@127.0.0.1@3306@birdies
 -- SQLBook: Code
 -- SQLBook: Code
 create table IF NOT EXISTS `users` (
