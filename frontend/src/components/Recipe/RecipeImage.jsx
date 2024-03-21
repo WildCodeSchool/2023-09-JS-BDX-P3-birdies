@@ -1,11 +1,9 @@
 import PropTypes from "prop-types";
+import logo from "../../styles/icons/logo.svg";
+import { Useinfo } from "../../context/InfoContext";
 
-function RecipeImage({
-  id,
-  manageFavoriteRecipes,
-  favoriteRecipes,
-  recipePicture,
-}) {
+function RecipeImage({ id }) {
+  const { manageFavoriteRecipes, favoriteRecipes, recipePicture } = Useinfo();
   return (
     <div className="recipe-img-container">
       <button
@@ -17,8 +15,12 @@ function RecipeImage({
         {favoriteRecipes.includes(parseInt(id, 10)) ? "❤️" : "🤍"}
       </button>
       <img
-        src={`${import.meta.env.VITE_BACKEND_URL}/${recipePicture.url}`}
-        alt="recipe-img"
+        src={
+          recipePicture === ""
+            ? logo
+            : `${import.meta.env.VITE_BACKEND_URL}/${recipePicture.url}`
+        }
+        alt="Représentation visuelle de la recette"
       />
     </div>
   );
@@ -26,9 +28,6 @@ function RecipeImage({
 
 RecipeImage.propTypes = {
   id: PropTypes.string.isRequired,
-  manageFavoriteRecipes: PropTypes.func.isRequired,
-  favoriteRecipes: PropTypes.arrayOf.isRequired,
-  recipePicture: PropTypes.objectOf.isRequired,
 };
 
 export default RecipeImage;

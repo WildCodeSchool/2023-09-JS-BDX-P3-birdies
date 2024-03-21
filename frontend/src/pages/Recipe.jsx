@@ -19,17 +19,14 @@ import { Useinfo } from "../context/InfoContext";
 function Recipe() {
   const {
     Average,
-    favoriteRecipes,
     basicSuccess,
     setBasicSuccess,
     addCommentVisible,
-    manageFavoriteRecipes,
     setAddCommentVisible,
     showComments,
     setShowComments,
     setCurrentRecipeId,
     getRecipePicture,
-    recipePicture,
   } = Useinfo();
 
   const { id } = useParams();
@@ -79,15 +76,10 @@ function Recipe() {
       >
         Merci pour votre participation !
       </MDBAlert>
-      <div className="recipe-title">
-        <p>{recipe.name}</p>
+      <div className="recipe-title-area">
+        <p className="recipe-title">{recipe.name}</p>
       </div>
-      <RecipeImage
-        id={id}
-        manageFavoriteRecipes={manageFavoriteRecipes}
-        favoriteRecipes={favoriteRecipes}
-        recipePicture={recipePicture}
-      />
+      <RecipeImage id={id} recipeName={recipe.name} />
       <div className="recipe-body-container">
         <RecipeNutriVoteContainer
           recipe={recipe}

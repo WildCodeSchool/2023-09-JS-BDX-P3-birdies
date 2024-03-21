@@ -5,7 +5,7 @@ import { register } from "swiper/element/bundle";
 import slideone from "../../styles/img/slide1.jpg";
 import slidetwo from "../../styles/img/slide2.jpg";
 import slidethree from "../../styles/img/slide3.jpg";
-import logo from "../../styles/icons/logo.png";
+import logo from "../../styles/icons/logo.svg";
 // import RecipeHeader from "../components/Recipe/RecipeHeader";
 import "./_slideOne.scss";
 
@@ -48,7 +48,7 @@ function SlideOne() {
           </Link>
           <Link to="/login">
             <button id="btn-register" type="button">
-              S'incrire
+              Inscription / Connexion
             </button>
           </Link>
         </swiper-slide>

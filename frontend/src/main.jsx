@@ -7,6 +7,9 @@ import {
 import ReactDOM from "react-dom/client";
 import "./styles/app.scss";
 import axios from "axios";
+import sessionLoader from "./loaders/session.loader";
+import { AdminContextProvider } from "./context/AdminContext";
+import { InfoContextProvider } from "./context/InfoContext";
 import App from "./App";
 import Login from "./pages/Login";
 import Recipe from "./pages/Recipe";
@@ -15,16 +18,13 @@ import NewRecipe from "./pages/NewRecipe";
 import SlideOne from "./pages/slideOne page/SlideOne";
 import SlideTwo from "./pages/SlideTwo";
 import SlideThree from "./pages/SlideThree";
-import { InfoContextProvider } from "./context/InfoContext";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
-import { AdminContextProvider } from "./context/AdminContext";
 import ModifyRecipe from "./pages/ModifyRecipe";
 import ErrorPage from "./pages/errorPage";
 import UserSettings from "./pages/UserSettings";
 import ApiService from "./services/api.service";
 import LostPassword from "./pages/LostPassword";
-import sessionLoader from "./loaders/session.loader";
 // import AdminEditUser from "./pages/AdminEditUser";
 
 const apiService = new ApiService();
@@ -89,7 +89,7 @@ const router = createBrowserRouter([
               `${import.meta.env.VITE_BACKEND_URL}/api/users/me`
             );
             if (data.role === "user") {
-              return redirect("/user");
+              return redirect("/userpage");
             }
           } catch (err) {
             return redirect("/login");

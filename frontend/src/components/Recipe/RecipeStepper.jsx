@@ -1,7 +1,6 @@
 import { MDBStepper, MDBStepperStep } from "mdb-react-ui-kit";
 import PropTypes from "prop-types";
 import { useRef } from "react";
-import pdf from "../../styles/icons/Downloads Folder.png";
 
 function RecipeStepper({
   changeGuestsNumber,
@@ -59,9 +58,6 @@ function RecipeStepper({
         <div className="all-steps-container">
           <div className="steps-title-pdf-container">
             <div className="steps-title">Etapes</div>
-            <div className="printer-img-container">
-              <img className="printer" src={pdf} alt="printer" />
-            </div>
           </div>
           <swiper-container
             ref={swiperElRef}

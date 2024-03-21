@@ -1,11 +1,11 @@
-@font-face {
-  font-family: "latoB";
-  src: url("./fonts/Lato-Bold.ttf");
-}
-@font-face {
-  font-family: "latoL";
-  src: url("./fonts/Lato-Light.ttf");
-}
+// @font-face {
+//   font-family: "latoB";
+//   src: url("./fonts/Lato-Bold.ttf");
+// }
+// @font-face {
+//   font-family: "latoL";
+//   src: url("./fonts/Lato-Light.ttf");
+// }
 
 @mixin center {
   display: flex;
@@ -13,14 +13,45 @@
   justify-content: center;
 }
 * {
+  color: black;
   margin: 0;
-  font-family: "latoB";
+  // font-family: "latoB";
   padding: 0;
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
   // background: rgba(187, 116, 190, 0.913);
 }
+
 body {
   height: 100vh;
+  #root {
+    .recipe-body-container {
+      ul {
+        min-height: 400px;
+      }
+      .stepper {
+        .stepper-step {
+          .stepper-head {
+            .stepper-head-icon {
+              background-color: #97bf0d;
+            }
+            .stepper-head-text {
+              color: black;
+            }
+          }
+          .stepper-content {
+            span {
+              overflow: visible;
+            }
+          }
+          &.stepper-active {
+            .stepper-head-icon {
+              background-color: #d56c06;
+            }
+          }
+        }
+      }
+    }
+  }
 }

@@ -120,9 +120,6 @@ const recipeByUser = async (req, res) => {
   try {
     const id = +req.params.id;
 
-    // if (!user) {
-    //   return res.status(404).json({ error: "User not found" });
-    // }
     const [recipes] = await models.recipe.findAllByUserId(id);
 
     return res.status(200).json(recipes);

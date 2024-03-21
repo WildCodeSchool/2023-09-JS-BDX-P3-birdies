@@ -32,6 +32,14 @@ create table IF NOT EXISTS `recipes` (
     FOREIGN KEY (picture) REFERENCES upload(id)
 );
 
+ALTER Table `recipes`
+MODIFY COLUMN `name` VARCHAR(255) NULL,
+MODIFY COLUMN `publicationDate` VARCHAR(255) NULL,
+MODIFY COLUMN `peopleNumber` INT NULL,
+MODIFY COLUMN `difficulty` VARCHAR(255) NULL,
+MODIFY COLUMN `prepTime` VARCHAR(255) NULL;
+
+
 CREATE table IF NOT EXISTS `ingredients` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `ingredientName` VARCHAR(255) NOT NULL

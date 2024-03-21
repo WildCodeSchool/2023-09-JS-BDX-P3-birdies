@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import replyArrow from "../../styles/icons/Reply Arrow.png";
-import logo from "../../styles/icons/logo.png";
+import replyArrow from "../../styles/icons/Reply Arrow.svg";
+import logo from "../../styles/icons/logo.svg";
 
 function RecipeHeader() {
   const navigate = useNavigate();

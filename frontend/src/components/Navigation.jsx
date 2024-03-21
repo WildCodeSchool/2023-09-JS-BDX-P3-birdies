@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { DebounceInput } from "react-debounce-input";
 import menu from "../assets/Menu.png";
-import logo from "../styles/icons/logo.png";
+import logo from "../styles/icons/logo.svg";
 import BoxLogin from "./BoxLogin";
 import search from "../styles/icons/Search.png";
 import { Useinfo } from "../context/InfoContext";

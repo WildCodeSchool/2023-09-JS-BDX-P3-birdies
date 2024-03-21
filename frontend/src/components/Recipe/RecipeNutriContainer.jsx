@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import star from "../../styles/icons/Star.png";
+import star from "../../styles/icons/Star.svg";
 
 function RecipeNutriVoteContainer({ recipe, averageNote, totalVotes }) {
   return (
@@ -7,7 +7,7 @@ function RecipeNutriVoteContainer({ recipe, averageNote, totalVotes }) {
       <p>{recipe.energyPerPerson} kcal/portion</p>
       <div className="rate-container">
         <div className="stars">
-          <img src={star} alt="star-img" />
+          <img src={star} alt="voting stars" />
           <div>{averageNote}/5</div>
         </div>
         <div className="votes">
@@ -20,7 +20,7 @@ function RecipeNutriVoteContainer({ recipe, averageNote, totalVotes }) {
 
 RecipeNutriVoteContainer.propTypes = {
   recipe: PropTypes.objectOf.isRequired,
-  averageNote: PropTypes.number.isRequired,
+  averageNote: PropTypes.string.isRequired,
   totalVotes: PropTypes.number.isRequired,
 };
 export default RecipeNutriVoteContainer;

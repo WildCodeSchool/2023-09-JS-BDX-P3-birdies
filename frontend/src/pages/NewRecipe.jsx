@@ -33,8 +33,9 @@ function NewRecipe() {
   const [ingreds, setIngreds] = useState([]);
   const [recipeName, setRecipeName] = useState(null);
   const [image, setImage] = useState(); // ---> IMAGE A RECUPERER
-  const [duration, setDuration] = useState(""); // ---> TEMPS A RECUPERER
-  const [difficultyEvaluation, setDifficultyEvaluation] = useState([]); // ---> DIFFICULTE A RECUPERER
+  const [duration, setDuration] = useState("0"); // ---> TEMPS A RECUPERER
+  const [difficultyEvaluation, setDifficultyEvaluation] =
+    useState("Très facile"); // ---> DIFFICULTE A RECUPERER
   const [ingredientSearch, setIngredientSearch] = useState(""); // !!! ce que l'on tape dans la recherche NE PAS UTILISER POUR RECUPERER LA VALEUR
   const [ingredientSelected, setIngredientSelected] = useState(null); // chaine de caracteres
   const [ingredientsFound, setIngredientsFound] = useState([]);
@@ -42,13 +43,12 @@ function NewRecipe() {
   const [quantityValues, setQuantityValues] = useState([]);
   const [uniteValues, setUniteValues] = useState([]); // --- > UNITES A RECUPERER
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
-  const [guestsNumber, setGuestsNumber] = useState(0);
+  const [guestsNumber, setGuestsNumber] = useState(1);
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
   const [isLoading, setIsLoading] = useState(false);
   const stepsInfos = [];
   const filtersInfo = [];
   const ingredientsInfos = [];
-
   const navigate = useNavigate();
 
   const newApiCall = async (ingredient) => {
@@ -215,6 +215,7 @@ function NewRecipe() {
       };
       stepsInfos.push(stepLine);
     }
+
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < chosenFilters.length; i++) {
       const filtersLine = {
@@ -236,7 +237,12 @@ function NewRecipe() {
     setBasicSuccess((prev) => !prev);
     try {
       const response = await handleRecipeSubmit(recipe);
-      const answer = await handleSubmitSteps(response, stepsInfos);
+      const answer = await handleSubmitSteps(
+        response,
+        stepsInfos[0].description[0] === undefined
+          ? [{ description: "rien", position: 1 }]
+          : stepsInfos
+      );
       const formData = new FormData();
       formData.append("picture", image);
 
@@ -418,18 +424,9 @@ function NewRecipe() {
             </div>
           ))}
         </div>
-        {/* <FilterBar
-          chosenFilters={chosenFilters}
-          setChosenFilters={setChosenFilters}
-        />
-        {/* <Link to="/"> */}
         <MDBBtn color="dark" type="submit" className="col-8 mx-auto mt-4">
           ENVOYER
         </MDBBtn>
-        {/* <button className="send-recipe-btn" type="button" onClick={showAll}>
-          ENVOYER
-        </button> */}
-        {/* </Link> */}
       </form>
     </div>
   );

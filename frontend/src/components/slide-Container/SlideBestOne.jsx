@@ -1,21 +1,11 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-// import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
-// import img from "../../styles/img/slide2.jpg";
+import logo from "../../styles/icons/logo.svg";
 
 function SlideBestOne() {
   const { lastRecipes, favoriteRecipes, manageFavoriteRecipes } = Useinfo();
-  // const [apiBoites, setApiBoites] = useState([]);
-  // const [likeBoites, setLikeBoites] = useState(new Map());
-
-  // async function toogleFavorite(name) {
-  //   likeBoites.set(name, likeBoites.has(name) ? !likeBoites.get(name) : true); // fonction favorite
-
-  //   setLikeBoites(likeBoites);
-  // setApiBoites(apiBoites);
-  // }
 
   return (
     <div className="slide-one-container">
@@ -24,25 +14,19 @@ function SlideBestOne() {
           <Link to={`/recipes/${recipe.id}`}>
             <div className="card-container">
               <div className="content-container">
-                <h1>{recipe.name}</h1>
-                <div className="note-container">
-                  {/* <img className="star-picture" src={star} alt="star-img" /> */}
-                  {/* <div className="average">{Average(recipe.notes)}/5</div> */}
-                </div>
-                {/* <div className="votes-container">
-                <p id="votes-content">Date{recipe.publicationDate}</p>
-              </div> */}
+                <h1 style={{ color: "white" }}>{recipe.name}</h1>
               </div>
-              <img
-                className="content-container-picture"
-                src={`${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`}
-                alt="picture recipe"
-              />
-
-              {/* <img
-                src={`${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`}
-                alt={recipe.name}
-              /> */}
+              <div className="content-container-picture">
+                <img
+                  className="recipe-image"
+                  src={
+                    recipe.url === null
+                      ? logo
+                      : `${import.meta.env.VITE_BACKEND_URL}/${recipe.url}`
+                  }
+                  alt="représentation de la recette"
+                />
+              </div>
             </div>
           </Link>
           <div className="container-icon-recipe">

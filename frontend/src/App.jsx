@@ -17,6 +17,7 @@ function App() {
     infoLogin,
     setInfoLogin,
     foodDifficulty,
+    getData,
   } = Useinfo();
   return (
     <>
@@ -55,11 +56,18 @@ function App() {
         {`Bienvenue ${user.pseudo} !`}
       </MDBAlert>
       <Filter />
+      {/* eslint-disable-next-line no-nested-ternary */}
       {inputSearchValue !== "" || foodDifficulty ? (
-        <SearchedRecipes />
+        getData.length === 0 ? (
+          <div style={{ textAlign: "center", paddingTop: "3rem" }}>
+            Oops, il n'y a pas de recette
+          </div>
+        ) : (
+          <SearchedRecipes />
+        )
       ) : (
         <Slides />
-      )}{" "}
+      )}
     </>
   );
 }

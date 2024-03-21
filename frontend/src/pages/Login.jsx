@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "reactjs-popup/dist/index.css";
 import { MDBInput } from "mdb-react-ui-kit";
 import cookies from "../styles/icons/cookies.jpg";
-import logo from "../styles/icons/logo.png";
+import logo from "../styles/icons/logo.svg";
 import Popup from "../components/alerts/Popup";
 import { Useinfo } from "../context/InfoContext";
 // import { Useinfo } from "../context/InfoContext";

@@ -420,7 +420,7 @@ export function InfoContextProvider({ apiService }) {
       setFavoriteRecipes([...favoriteRecipes, e.target.value]);
     }
   };
-  // gere les recettes favorites (ajout/suppression/stock en states)
+  // manage the user favorites recipes array
   const manageFavoriteRecipes = async (e) => {
     const answer = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/user/${

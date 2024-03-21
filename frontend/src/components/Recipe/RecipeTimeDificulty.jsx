@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import chefHat from "../../styles/icons/Chef Hat.png";
-import deliveryTime from "../../styles/icons/Delivery Time.png";
+import chefHat from "../../styles/icons/Chef-Hat-svg.svg";
+import deliveryTime from "../../styles/icons/Delivery Time.svg";
 import { Useinfo } from "../../context/InfoContext";
 
 function TimeDifficulty({ recipe }) {

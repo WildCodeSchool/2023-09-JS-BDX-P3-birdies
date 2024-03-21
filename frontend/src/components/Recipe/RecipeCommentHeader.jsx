@@ -1,4 +1,4 @@
-import logo from "../../styles/icons/logo.png";
+import logo from "../../styles/icons/logo.svg";
 
 function RecipeCommentHeader() {
   return (

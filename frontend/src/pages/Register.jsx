@@ -1,7 +1,7 @@
 import { MDBBtn, MDBInput } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import cookies from "../styles/icons/cookies.jpg";
-import logo from "../styles/icons/logo.png";
+import logo from "../styles/icons/logo.svg";
 import { Useinfo } from "../context/InfoContext";
 
 function Register() {
@@ -142,7 +142,7 @@ function Register() {
                     : "error-format-pseudo checked"
                 }
               >
-                doit contenir 1 caractere spé
+                doit contenir 1 caractere spécial
               </p>
             </div>
             <div className="input">
@@ -175,7 +175,16 @@ function Register() {
             </div>
           </div>
           <div className="submit">
-            <MDBBtn outline rounded color="warning" type="submit">
+            <MDBBtn
+              outline
+              rounded
+              style={{
+                backgroundColor: "#d56c06",
+                color: "white",
+                border: "none",
+              }}
+              type="submit"
+            >
               S'enregistrer
             </MDBBtn>
           </div>
@@ -184,7 +193,7 @@ function Register() {
         <div className="not-connected not-connected-registration">
           <div className="not-member">
             <Link to="/login" className="link">
-              <span>Oups, j'ai déjà un compte!</span>
+              <span style={{ color: "blue" }}>Oups, j'ai déjà un compte!</span>
             </Link>
           </div>
           {/* <p className="CGV">Conditions générales d'utilisation</p> */}
