@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `cathegories` (
 CREATE TABLE IF NOT EXISTS `recipes_cathegories` (
     `recipe_id` INT NOT NULL,
     `cathegory_id` INT NOT NULL,
-    Foreign Key (`recipe_id`) REFERENCES recipes(id) ON DELETE CASCADE,
+    Foreign Key (`recipe_id`) REFERENCES recipes(id),
     Foreign Key (`cathegory_id`) REFERENCES cathegories(id)
 );
 
@@ -95,3 +95,21 @@ VALUES
     (4, "Difficile"),
     (5, "-30 minutes"),
     (6, "-1 heure");
+
+ALTER TABLE `recipes_ingredients` DROP FOREIGN KEY `recipes_ingredients_ibfk_1`;
+ALTER TABLE `recipes_ingredients` ADD CONSTRAINT `recipes_ingredients_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `recipes_cathegories` DROP FOREIGN KEY `recipes_cathegories_ibfk_1`;
+ALTER TABLE `recipes_cathegories` ADD CONSTRAINT `recipes_cathegories_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `favorite_recipes` DROP FOREIGN KEY `favorite_recipes_ibfk_1`;
+ALTER TABLE `favorite_recipes` ADD CONSTRAINT `favorite_recipes_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `evaluations` DROP FOREIGN KEY `evaluations_ibfk_2`;
+ALTER TABLE `evaluations` ADD CONSTRAINT `evaluations_ibfk_2` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `steps` DROP FOREIGN KEY `steps_ibfk_1`;
+ALTER TABLE `steps` ADD CONSTRAINT `steps_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `evaluations` DROP FOREIGN KEY `evaluations_ibfk_1`;
+ALTER TABLE `evaluations` ADD CONSTRAINT `evaluations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
