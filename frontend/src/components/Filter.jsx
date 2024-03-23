@@ -3,35 +3,56 @@ import imgflower from "../styles/img/flower.png";
 import { Useinfo } from "../context/InfoContext";
 
 function Filter() {
-  const { difficultyListModify, filterListModify, displayFilter } = Useinfo();
-
+  const {
+    difficultyListModify,
+    filterListModify,
+    displayFilter,
+    foodDifficulty,
+    foodFilter,
+  } = Useinfo();
   return (
     <>
       <div className="container-filter">
         <div className="scroll-bar">
           <button
-            className="button-filter"
+            className={
+              foodDifficulty === "Très facile"
+                ? "button-filter active"
+                : "button-filter"
+            }
             type="button"
             onClick={difficultyListModify}
           >
             Très facile
           </button>
           <button
-            className="button-filter"
+            className={
+              foodDifficulty === "Facile"
+                ? "button-filter active"
+                : "button-filter"
+            }
             type="button"
             onClick={difficultyListModify}
           >
             Facile
           </button>
           <button
-            className="button-filter"
+            className={
+              foodDifficulty === "Moyen"
+                ? "button-filter active"
+                : "button-filter"
+            }
             type="button"
             onClick={difficultyListModify}
           >
             Moyen
           </button>
           <button
-            className="button-filter"
+            className={
+              foodDifficulty === "Difficile"
+                ? "button-filter active"
+                : "button-filter"
+            }
             type="button"
             onClick={difficultyListModify}
           >
@@ -42,7 +63,9 @@ function Filter() {
       <div className="container-filter">
         <div className="scroll-bar">
           <button
-            className="button-filter"
+            className={
+              foodFilter === "30" ? "button-filter active" : "button-filter"
+            }
             type="button"
             value="30"
             onClick={filterListModify}
@@ -50,7 +73,9 @@ function Filter() {
             - 30 minutes
           </button>
           <button
-            className="button-filter"
+            className={
+              foodFilter === "60" ? "button-filter active" : "button-filter"
+            }
             type="button"
             value="60"
             onClick={filterListModify}
@@ -58,7 +83,9 @@ function Filter() {
             - 1 heure
           </button>
           <button
-            className="button-filter"
+            className={
+              foodFilter === "120" ? "button-filter active" : "button-filter"
+            }
             type="button"
             value="120"
             onClick={filterListModify}
@@ -66,7 +93,9 @@ function Filter() {
             - 2 heures
           </button>
           <button
-            className="button-filter"
+            className={
+              foodFilter === "121" ? "button-filter active" : "button-filter"
+            }
             type="button"
             value="121"
             onClick={filterListModify}

@@ -8,7 +8,6 @@ function AllUsers() {
   const { showUserList } = Useinfo();
   const [dbUsers, setDbUsers] = useState([]);
   const navigate = useNavigate();
-
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/users`)
@@ -21,7 +20,9 @@ function AllUsers() {
     } catch (err) {
       console.error(err);
     }
-    return alert("Utilisateur supprimé"); // eslint-disable-line no-alert
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/users`)
+      .then((res) => setDbUsers(res?.data));
   };
 
   return (

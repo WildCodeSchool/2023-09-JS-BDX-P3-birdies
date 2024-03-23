@@ -51,7 +51,7 @@ export function InfoContextProvider({ apiService }) {
   const [getDataName, setGetDataName] = useState([]);
   const [getDataDifficulty, setGetDataDifficulty] = useState([]);
   const [valueDifficulty, setValueDifficulty] = useState([]);
-  const [foodFilter, setFoodFilter] = useState([]);
+  const [foodFilter, setFoodFilter] = useState("");
   const [foodDifficulty, setFoodDiddiculty] = useState("");
   // const [cathegories, setCathegories] = useState([]);
   const [displayFilter, setDisplayFilter] = useState(false);
@@ -364,7 +364,6 @@ export function InfoContextProvider({ apiService }) {
       setFoodFilter(targetedFilter);
     }
   }
-
   // donne la liste de toutes les recettes favorites de l'utilisateur
   useEffect(() => {
     if (user?.email) {
@@ -495,6 +494,7 @@ export function InfoContextProvider({ apiService }) {
       favoriteRecipes,
       favoriteRecipesComplete,
       setFavoriteRecipesComplete,
+      foodFilter,
       filterListModify,
       foodDifficulty,
       formValue,
@@ -597,6 +597,7 @@ export function InfoContextProvider({ apiService }) {
       setFavoriteRecipesComplete,
       filterListModify,
       foodDifficulty,
+      foodFilter,
       formValue,
       formatError,
       getData,

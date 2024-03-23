@@ -7,7 +7,11 @@
   .scroll-bar {
     display: flex;
     width: 100%;
+    padding: 5px 0;
+    margin: 10px 0;
     max-height: 50px;
+    border-radius: 20px;
+    background-color: #e2d9b7;
     overflow-x: auto;
     &::-webkit-scrollbar {
       width: 6px;
@@ -22,19 +26,23 @@
 
     .button-filter {
       text-align: center;
-      padding: 5px 10px;
+      padding: 2px;
+      margin: 0 10px;
       font-size: 0.8rem;
       width: 20%;
-      min-width: 200px;
+      min-width: 90px;
       border: none;
+      background-color: #e2d9b7;
 
       &.active {
-        background: black;
+        background: #d56c06;
         color: black;
+        border-radius: 20px;
       }
     }
   }
 }
+
 .boxFilter {
   margin: 10px 20%;
   border: none;

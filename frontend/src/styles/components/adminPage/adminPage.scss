@@ -64,24 +64,21 @@
   padding-bottom: 0.2rem;
   position: relative;
   text-decoration: none;
-  transition: all 100ms;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: baseline;
   width: auto;
+  &.active {
+    padding: 0.5rem;
+    font-size: large;
+  }
 }
 
 .every-recipes-list:hover,
 .every-recipes-list:focus {
   background-color: #97bf0d;
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
-}
-
-.every-recipes-list:active {
-  background-color: #607808;
-  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
-  transform: translateY(0);
 }
 
 .users-list {
@@ -111,24 +108,21 @@
   padding-bottom: 0.2rem;
   position: relative;
   text-decoration: none;
-  transition: all 100ms;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: baseline;
   width: auto;
+  &.active {
+    padding: 0.5rem;
+    font-size: large;
+  }
 }
 
 .users-list:hover,
 .users-list:focus {
   background-color: #d56c06;
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
-}
-
-.users-list:active {
-  background-color: #c85000;
-  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
-  transform: translateY(0);
 }
 
 .delete-user-button {

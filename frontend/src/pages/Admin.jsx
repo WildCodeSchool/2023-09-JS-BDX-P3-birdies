@@ -47,17 +47,21 @@ function AdminPage() {
         <div className="recipes-favs recipes-favs-admin">
           <button
             type="button"
-            className="every-recipes-list"
-            onClick={handleShowLists}
-          >
-            Recettes
-          </button>
-          <button
-            type="button"
-            className="users-list"
+            className={showUserList ? "users-list active" : "users-list"}
             onClick={handleShowLists}
           >
             Utilisateurs
+          </button>
+          <button
+            type="button"
+            className={
+              showAllRecipes
+                ? "every-recipes-list active"
+                : "every-recipes-list"
+            }
+            onClick={handleShowLists}
+          >
+            Recettes
           </button>
         </div>
       </div>

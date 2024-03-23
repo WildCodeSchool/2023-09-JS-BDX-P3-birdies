@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-bind */
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { MDBBtn, MDBAlert, MDBInput } from "mdb-react-ui-kit";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ export default function UserSettings() {
     password: "", // ou toute autre valeur par défaut pertinente pour le mot de passe
     role: "",
   });
-
+  const navigate = useNavigate();
   const [test, setTest] = useState();
 
   const { id } = useParams();
@@ -33,13 +33,18 @@ export default function UserSettings() {
     fetchData(id);
   }, []);
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   const sendChanges = async () => {
     try {
       await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/api/users/${id}`,
         everyInfo
       );
-      setTest(true);
+      navigate(-1);
+      // setTest(true);
     } catch (error) {
       console.error("Error saving changes:", error);
     }
@@ -68,9 +73,9 @@ export default function UserSettings() {
       {everyInfo ? (
         <>
           <div className="info-parameters">
-            <Link className="back-arrow" to="/userpage">
+            <button type="button" onClick={goBack} className="return-btn">
               <img src={replyArrow} alt="Retour" />
-            </Link>
+            </button>
           </div>
           <div className="user-settings-container">
             <MDBInput
@@ -136,6 +141,7 @@ export default function UserSettings() {
               type="submit"
               className="accept-modifications"
               onClick={sendChanges}
+              style={{ backgroundColor: "#d56c06", fontSize: "medium" }}
             >
               Modifier
             </MDBBtn>

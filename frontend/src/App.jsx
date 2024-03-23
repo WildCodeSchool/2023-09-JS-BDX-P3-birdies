@@ -17,6 +17,7 @@ function App() {
     infoLogin,
     setInfoLogin,
     foodDifficulty,
+    foodFilter,
     getData,
   } = Useinfo();
   return (
@@ -57,7 +58,7 @@ function App() {
       </MDBAlert>
       <Filter />
       {/* eslint-disable-next-line no-nested-ternary */}
-      {inputSearchValue !== "" || foodDifficulty ? (
+      {inputSearchValue !== "" || foodDifficulty || foodFilter ? (
         getData.length === 0 ? (
           <div style={{ textAlign: "center", paddingTop: "3rem" }}>
             Oops, il n'y a pas de recette
