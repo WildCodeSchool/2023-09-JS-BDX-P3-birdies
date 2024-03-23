@@ -77,7 +77,7 @@ function Recipe() {
         Merci pour votre participation !
       </MDBAlert>
       <div className="recipe-title-area">
-        <p className="recipe-title">{recipe.name}</p>
+        <h1 className="recipe-title">{recipe.name}</h1>
       </div>
       <RecipeImage id={id} recipeName={recipe.name} />
       <div className="recipe-body-container">

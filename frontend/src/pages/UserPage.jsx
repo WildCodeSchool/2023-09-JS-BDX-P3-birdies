@@ -15,8 +15,8 @@ function UserPage() {
   const [rotateWheel, setRotateWheel] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileVisible, setFileVisible] = useState(false); // eslint-disable-line
-  const [favoriteRecipesVisible, setFavoriteRecipesVisible] = useState(false);
-  const [userRecipesVisible, setUserRecipesVisible] = useState(true);
+  const [favoriteRecipesVisible, setFavoriteRecipesVisible] = useState(true);
+  const [userRecipesVisible, setUserRecipesVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [onOff, setOnOff] = useState(false);
 
@@ -147,14 +147,20 @@ function UserPage() {
         <div className="recipes-favs">
           <button
             type="button"
-            className="coups-de-coeur"
+            className={
+              favoriteRecipesVisible
+                ? "coups-de-coeur selected"
+                : "coups-de-coeur"
+            }
             onClick={handleToggleFavoriteRecipes}
           >
             Mes coup de coeur
           </button>
           <button
             type="button"
-            className="mes-recettes"
+            className={
+              userRecipesVisible ? "mes-recettes selected" : "mes-recettes"
+            }
             onClick={handleToggleUserRecipes}
           >
             Mes recettes

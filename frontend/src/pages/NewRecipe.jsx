@@ -45,14 +45,12 @@ function NewRecipe() {
   const [essai, setEssai] = useState([]); // ce que nous renvoie l'API
   const [guestsNumber, setGuestsNumber] = useState(1);
   const [inputs, setInputs] = useState([[]]); // ---> ETAPES A RECUPERER
-  const [isLoading, setIsLoading] = useState(false);
   const stepsInfos = [];
   const filtersInfo = [];
   const ingredientsInfos = [];
   const navigate = useNavigate();
 
   const newApiCall = async (ingredient) => {
-    setIsLoading(true);
     const response = await axios.get(
       `https://france.openfoodfacts.net/api/v2/search?categories_tags_fr=${ingredient}&fields=product_name_fr,nutriments`
     );
@@ -60,7 +58,6 @@ function NewRecipe() {
       (products) => products.nutriments.energy_unit === "kJ"
     );
     setIngredientsFound(productsList);
-    setIsLoading(false);
   };
   const handleRecipeSubmit = async (credentials) => {
     try {
@@ -298,7 +295,7 @@ function NewRecipe() {
         />
         <div className="persons-minutes">
           <label className="label-container">
-            <h4 className="title-persons-number">Nombre de personnes :</h4>
+            <h4 className="title-persons-number">Nombre de personnes</h4>
             {/*  */}
             <div className="people-number-selection">
               <MDBBtn
@@ -344,7 +341,6 @@ function NewRecipe() {
           <div className="search-area">
             <MDBAutocomplete
               noResults=""
-              isLoading={isLoading}
               data={ingredientsFound} // valeur retour de l'appel d'API utiliséé pour le display value
               label="Ingrédient"
               value={ingredientSearch} // affiche le texte écrit dans onSearch
@@ -374,12 +370,7 @@ function NewRecipe() {
           />
         </div>
         <div className="new-steps-container container-fluid">
-          <h2
-            className="recipe-step-title step-margin"
-            style={{ marginTop: 10 }}
-          >
-            Étapes:
-          </h2>
+          <h2 className="recipe-step-title step3">Étapes</h2>
           <MDBBtn
             className="mt-2"
             outline

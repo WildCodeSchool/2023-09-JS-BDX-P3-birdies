@@ -9,7 +9,6 @@ class UploadManager extends AbstractManager {
   }
 
   create(data) {
-    console.info(data);
     const filename = `${data.destination}${data.filename}.${data.originalname
       .split(".")
       .slice(-1)}`;
@@ -22,7 +21,6 @@ class UploadManager extends AbstractManager {
           `insert into ${this.table} (url) values (?)`,
           [filename.replace("public/", "")]
         );
-        console.info(result);
         resolve({
           id: result.insertId,
           url: filename.replace("public/", ""),

@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { MDBAutocomplete } from "mdb-react-ui-kit";
+import {
+  MDBAutocomplete,
+  MDBBtn,
+  MDBIcon,
+  MDBInput,
+  MDBTextArea,
+} from "mdb-react-ui-kit";
 import { MDBFileUpload } from "mdb-react-file-upload";
 import { Link, useLoaderData, useParams } from "react-router-dom";
 import RecipeHeader from "../components/Recipe/RecipeHeader";
@@ -54,7 +60,6 @@ function ModifyRecipe() {
   const [guestsNumber, setGuestsNumber] = useState(recipeToModify.peopleNumber);
   const [inputs, setInputs] = useState(actualSteps); // ---> ETAPES A RECUPERER
   const stepsInfos = [];
-
   // Appel de l'API selon l'ingrédient et filtrer si contient un nutritin grade
   const apiCall = async (ingredient) => {
     const response = await axios.get(
@@ -75,14 +80,14 @@ function ModifyRecipe() {
   const handleNameChange = (e) => {
     setRecipeName(e.target.value);
   };
-  // change le nombre de personnes pour lequel est prévue la recette
-  function changeGuestsNumber(e) {
-    if (e.target.innerHTML === "+") {
-      setGuestsNumber(guestsNumber + 1);
-    } else if (e.target.innerHTML === "-" && guestsNumber > 1) {
-      setGuestsNumber(guestsNumber - 1);
-    }
-  }
+  // // change le nombre de personnes pour lequel est prévue la recette
+  // function changeGuestsNumber(e) {
+  //   if (e.target.innerHTML === "+") {
+  //     setGuestsNumber(guestsNumber + 1);
+  //   } else if (e.target.innerHTML === "-" && guestsNumber > 1) {
+  //     setGuestsNumber(guestsNumber - 1);
+  //   }
+  // }
   // definit le temps de préparation de la recete
   const handleChangeTime = (e) => {
     const timeInNumeric = e.target.value.replace(/[^0-9]/g, "");
@@ -251,45 +256,74 @@ function ModifyRecipe() {
     }
   };
   return (
-    <div className="page">
+    <div className="page pb-4">
       <RecipeHeader />
-      <form className="new-recipe-form" action="">
-        <input
-          type="text"
-          className="new-recipe-title"
-          placeholder="Votre titre de recette"
-          value={recipeName}
-          onChange={handleNameChange}
-        />
+      <form
+        className="new-recipe-form col-sm-12 col-md-8 col-lg-6"
+        onSubmit={showAll}
+      >
+        <div className="new-recipe-form-input w-100 p-3">
+          <MDBInput
+            type="text"
+            className="new-recipe-title "
+            label="Votre titre de recette"
+            value={recipeName}
+            onChange={handleNameChange}
+          />
+        </div>
         <MDBFileUpload
           getInputFiles={(file) => setImage(file)}
           defaultFile={`${import.meta.env.VITE_BACKEND_URL}/${
             recipeToModify.url
           }`}
         />
-        <label>
-          Nombre de personnes :{/*  */}
-          <div className="people-number-selection">
-            <button type="button" onClick={changeGuestsNumber}>
-              -
-            </button>
-            <p className="people-number">{guestsNumber}</p>
-            <button type="button" onClick={changeGuestsNumber}>
-              +
-            </button>
-          </div>
-        </label>
-        <PreparationTime
-          handleChangeTime={handleChangeTime}
-          duration={duration}
-        />
+
+        <div className="persons-minutes">
+          <label className="label-container">
+            <h4 className="title-persons-number">Nombre de personnes :</h4>
+            {/*  */}
+            <div className="people-number-selection">
+              <MDBBtn
+                outline
+                rounded
+                floating
+                tag="a"
+                color="dark"
+                onClick={() =>
+                  setGuestsNumber(
+                    guestsNumber >= 2 ? guestsNumber - 1 : guestsNumber
+                  )
+                }
+                size="sm"
+              >
+                <MDBIcon fas icon="minus" />
+              </MDBBtn>
+              <p className="people-number">{guestsNumber}</p>
+              <MDBBtn
+                outline
+                rounded
+                floating
+                tag="a"
+                color="dark"
+                onClick={() => setGuestsNumber(guestsNumber + 1)}
+                size="sm"
+              >
+                <MDBIcon fas icon="plus" />
+              </MDBBtn>
+            </div>
+          </label>
+          <PreparationTime
+            handleChangeTime={handleChangeTime}
+            duration={duration}
+          />
+        </div>
 
         <DifficultiesList
           handleChangeDifficulty={handleChangeDifficulty}
           difficultyEvaluation={difficultyEvaluation}
         />
 
-        <div className="new-ingredients-container">
+        <div className="new-ingredients-container container-fluid">
           <h2 className="recipe-part">Ingrédients</h2>
           <div className="search-area">
             <MDBAutocomplete
@@ -300,13 +334,17 @@ function ModifyRecipe() {
               displayValue={(ingredient) => `${ingredient.product_name_fr}`} // affiche les différents ingrédient possibles
               onSelect={handleSelect} // stock le nom de l'ingredient dans <ingredientSelected>
             />
-            <button
-              className="add-remove-button"
+            <MDBBtn
+              className="mt-2"
+              outline
+              rounded
+              color="warning"
               type="button"
               onClick={createIngredientLine}
+              size="sm"
             >
-              +
-            </button>
+              Ajouter
+            </MDBBtn>
           </div>
           <IngredientsList
             ingreds={ingreds}
@@ -317,40 +355,60 @@ function ModifyRecipe() {
             uniteValues={uniteValues}
           />
         </div>
-        <div className="new-steps-container">
+        <div className="new-steps-container container-flui">
           <h2 className="recipe-part step3">Étapes</h2>
-          <button
-            className="add-remove-button"
+          <MDBBtn
+            className="mt-2"
+            outline
+            rounded
+            color="warning"
             type="button"
-            onClick={() => handleAdd()}
+            onClick={handleAdd}
+            size="sm"
           >
-            +
-          </button>
+            Ajouter
+          </MDBBtn>
           {inputs.map((input, i) => (
             <div className="recipe-step">
               <h5>Etape {i + 1}</h5>
-              <textarea
-                name=""
-                id=""
-                cols="38"
-                rows="2"
-                value={input}
-                onChange={(e) => handleChange(e, i)}
-              />
-              <button
-                className="delete-button"
-                type="button"
-                onClick={() => handleDelete(i)}
-              >
-                supprimer
-              </button>
+
+              <div className="d-flex justify-content-between">
+                <div className="col-10">
+                  <MDBTextArea
+                    name=""
+                    label="Message"
+                    id="textAreaExample"
+                    cols="38"
+                    rows={2}
+                    value={input}
+                    onChange={(e) => handleChange(e, i)}
+                  />
+                </div>
+                <div className="col-1 d-flex justify-content-end">
+                  <MDBBtn
+                    className="my-auto"
+                    color="danger"
+                    outline
+                    floating
+                    size="sm"
+                    onClick={() => handleDelete(i)}
+                  >
+                    <MDBIcon fas icon="minus" />
+                  </MDBBtn>
+                </div>
+              </div>
             </div>
           ))}
         </div>
         <Link to="/">
-          <button className="send-recipe-btn" type="button" onClick={showAll}>
+          <MDBBtn
+            color="dark"
+            type="submit"
+            className="col-8 mx-auto mt-4"
+            onClick={showAll}
+          >
             ENVOYER
-          </button>
+          </MDBBtn>
         </Link>
       </form>
     </div>

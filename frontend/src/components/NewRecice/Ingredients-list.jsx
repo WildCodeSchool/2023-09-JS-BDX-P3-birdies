@@ -35,7 +35,7 @@ function IngredientsList({
                 { text: "-", value: "-" },
                 { text: "gr", value: "gr" },
                 { text: "cl", value: "cl" },
-                { text: "piece", value: "piece" },
+                { text: "pce", value: "pce" },
               ]}
               onValueChange={(e) => handleChangeUnite({ target: e }, i)}
             />

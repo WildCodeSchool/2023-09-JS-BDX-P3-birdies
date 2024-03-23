@@ -49,10 +49,20 @@
 
 .mes-recettes {
   color: #d56c06;
+  font-size: smaller;
+  &.selected {
+    font-size: large;
+    font-weight: bolder;
+  }
 }
 
 .coups-de-coeur {
   color: #97bf0d;
+  font-size: smaller;
+  &.selected {
+    font-size: large;
+    font-weight: bold;
+  }
 }
 
 .flowerFiltre {
@@ -60,10 +70,17 @@
 }
 
 .user-recipe-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   margin: 1rem;
   padding: 1rem;
+
+  .link-to {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+  }
 }
 #card {
   z-index: -2;

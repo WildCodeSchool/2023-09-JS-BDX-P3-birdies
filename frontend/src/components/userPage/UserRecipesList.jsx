@@ -9,6 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import { Useinfo } from "../../context/InfoContext";
 import logo from "../../styles/icons/logo.svg";
+import pen from "../../styles/icons/edit-pen-icon.svg";
 
 function UserRecipesList() {
   const { userByRecipe } = Useinfo();
@@ -16,7 +17,17 @@ function UserRecipesList() {
     <div>
       {userByRecipe?.map((recipe) => (
         <div className="user-recipe-container" key={recipe.id}>
-          <Link to={`/modifyrecipes/${recipe.id}/`}>X</Link>
+          <Link
+            style={{ width: "20px" }}
+            to={`/modifyrecipes/${recipe.id}/`}
+            className="link-to"
+          >
+            <img
+              style={{ width: "20px" }}
+              src={pen}
+              alt="lien vers modification"
+            />
+          </Link>
           <Link to={`/recipes/${recipe.id}`}>
             <MDBCard id="card" className="w-100 p-3">
               <MDBCardImage
