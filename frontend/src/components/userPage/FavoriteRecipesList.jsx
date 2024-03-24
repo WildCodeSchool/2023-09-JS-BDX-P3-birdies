@@ -15,7 +15,6 @@ function FavoriteRecipesList() {
   }
 
   favoriteRecipesComplete.sort(compareDates);
-  console.info(favoriteRecipesComplete);
 
   return (
     <div>

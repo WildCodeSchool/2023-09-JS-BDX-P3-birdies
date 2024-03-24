@@ -244,8 +244,6 @@ function ModifyRecipe() {
       const ingredientsAnswer =
         // eslint-disable-next-line no-await-in-loop
         await handleSubmitIngredients(ingredientChecked);
-      // console.info(ingredient);
-      // console.info(ingredientsInfos);
       // eslint-disable-next-line no-await-in-loop
       const recipeIngredient = await handleSubmitRecipeIngredients(
         id,
@@ -404,7 +402,7 @@ function ModifyRecipe() {
           <MDBBtn
             color="dark"
             type="submit"
-            className="col-8 mx-auto mt-4"
+            className="col-8 mx-auto mt-4 d-flex justify-content-center"
             onClick={showAll}
           >
             ENVOYER

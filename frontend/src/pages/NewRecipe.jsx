@@ -349,7 +349,7 @@ function NewRecipe() {
               onSelect={handleSelect} // stock le nom de l'ingredient dans <ingredientSelected>
             />
             <MDBBtn
-              className="mt-2"
+              className="mt-3"
               outline
               rounded
               color="warning"
@@ -415,6 +415,7 @@ function NewRecipe() {
             </div>
           ))}
         </div>
+
         <MDBBtn color="dark" type="submit" className="col-8 mx-auto mt-4">
           ENVOYER
         </MDBBtn>
